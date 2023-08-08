@@ -15,11 +15,12 @@ type ValidateType = {
     company: string
     jwt: string
 }
+const url = import.meta.env.VITE_BASE_URL as string
 
 export const apiSlice = createApi({
     reducerPath: "api",
     baseQuery: fetchBaseQuery({
-        baseUrl: "http://localhost:42069/api",
+        baseUrl: `${url}/api`,
         prepareHeaders(headers) {
             return headers
         },
