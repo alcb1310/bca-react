@@ -1,40 +1,67 @@
-import { Link, Outlet } from 'react-router-dom'
+import { Box, CssBaseline, Divider, Drawer, Toolbar } from '@mui/material'
+import { Outlet } from 'react-router-dom'
+import TitleBar from '../components/titlebar/titlebar.component'
+import NavBar from '../components/navbar/navbar.component';
 
 export default function RootLayout() {
+    const drawerWidth = 240
+
+    const drawer = (
+        <div>
+            <Toolbar />
+            <Divider />
+            <NavBar />
+        </div>
+    );
+
     return (
         <>
-            <div id="sidebar">
-                <h1>React Router Contacts</h1>
-                <div>
-                    <form id="search-form" role="search">
-                        <input
-                            id="q"
-                            aria-label="Search contacts"
-                            placeholder="Search"
-                            type="search"
-                            name="q"
-                        />
-                        <div id="search-spinner" aria-hidden hidden={true} />
-                        <div className="sr-only" aria-live="polite"></div>
-                    </form>
-                    <form method="post">
-                        <button type="submit">New</button>
-                    </form>
-                </div>
-                <nav>
-                    <ul>
-                        <li>
-                            <Link to={`/contacts/1`}>Your Name</Link>
-                        </li>
-                        <li>
-                            <Link to={`/contacts/2`}>Your Friend</Link>
-                        </li>
-                    </ul>
-                </nav>
-            </div>
-            <div id="detail">
-                <Outlet />
-            </div>
+            <CssBaseline />
+            <Box sx={{ display: "flex" }}>
+                <TitleBar drawerWidth={drawerWidth} />
+                <Box
+                    component="nav"
+                    sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
+                    aria-label="mailbox folders"
+                >
+                    <Drawer
+                        variant="temporary"
+                        sx={{
+                            display: { xs: "block", sm: "none" },
+                            "& .MuiDrawer-paper": {
+                                boxSizing: "border-box",
+                                width: drawerWidth,
+                            },
+                        }}
+                    >
+                        {drawer}
+                    </Drawer>
+                    <Drawer
+                        variant="permanent"
+                        sx={{
+                            display: { xs: "none", sm: "block" },
+                            "& .MuiDrawer-paper": {
+                                boxSizing: "border-box",
+                                width: drawerWidth,
+                            },
+                        }}
+                        open
+                    >
+                        {drawer}
+                    </Drawer>
+                </Box>
+                <Box
+                    component="main"
+                    sx={{
+                        flexGrow: 1,
+                        p: 3,
+                        width: { sm: `calc(100% - ${drawerWidth}px)` },
+                    }}
+                >
+                    <Toolbar />
+                    <Outlet />
+                </Box>
+            </Box>
         </>
     )
 }

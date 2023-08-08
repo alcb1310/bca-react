@@ -7,6 +7,7 @@ import { useLoginMutation } from '../../api/login/bca-api-slice'
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
 import { logIn } from '../../store/login/loginSlice'
 import { Navigate } from 'react-router-dom'
+import { useCookies } from 'react-cookie'
 
 export default function Login() {
     const formMethods = useLoginForm()
@@ -14,6 +15,7 @@ export default function Login() {
     const [error, setError] = useState<string | undefined>(undefined)
     const isAuthenticated = useAppSelector(state => state.login.isLoggedIn)
     const dispatch = useAppDispatch()
+    const [cookies, setCookie] = useCookies(["BCAAuth"])
 
     async function handleLogin(data: LoginSchemaType) {
         setError(undefined)
@@ -21,6 +23,7 @@ export default function Login() {
         if ('error' in response) {
             if ("error" in response.error) {
                 setError(response.error.error)
+                console.error(cookies)
                 return
             } else {
                 const msg: { data: { error: string } } = response.error as { data: { error: string } }
@@ -33,7 +36,9 @@ export default function Login() {
                 return
             }
         }
-        dispatch(logIn())
+        localStorage.setItem("BCAToken", response.data.jwt)
+        setCookie("BCAAuth", response.data.jwt)
+        dispatch(logIn(response.data.jwt))
     }
 
     if (isAuthenticated) {
