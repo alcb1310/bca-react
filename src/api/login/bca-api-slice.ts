@@ -21,9 +21,9 @@ export const apiSlice = createApi({
     reducerPath: "api",
     baseQuery: fetchBaseQuery({
         baseUrl: `${url}/api`,
-        prepareHeaders(headers) {
-            return headers
-        },
+        // prepareHeaders(headers) {
+        // return headers
+        // },
     }),
     endpoints(build) {
         return {
