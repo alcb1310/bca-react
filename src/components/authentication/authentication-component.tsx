@@ -1,27 +1,21 @@
-import { useCookies } from 'react-cookie'
 import { useValidateQuery } from '../../api/login/bca-api-slice'
-import { useAppSelector } from '../../store/hooks'
+import { useAppDispatch } from '../../store/hooks'
 import { Navigate, Outlet, useLocation } from "react-router-dom"
+import { logIn, logOut } from '../../store/login/loginSlice'
 
 export default function Authenticated() {
-    const isAuthenticated = useAppSelector(state => state.login.isLoggedIn)
-    const [cookies, setCookie] = useCookies(["BCAAuth"])
-    const validate = useValidateQuery(1)
+    const validate = useValidateQuery(undefined)
     const location = useLocation()
+    const dispatch = useAppDispatch()
 
     // TODO: change the console log
-    if (!validate.isLoading) {
-        if (validate.isError) {
-            console.log({ validate })
-        }
-        let savedJWT = cookies.BCAAuth
-
-        if (validate.data?.jwt !== cookies.BCAAuth) {
-            savedJWT = validate.data?.jwt ? validate.data.jwt : ""
-            setCookie("BCAAuth", savedJWT)
-        }
-
+    if (validate.isError) {
+        dispatch(logOut())
+        return <Navigate to="/login" state={{ from: location }} replace />
     }
 
-    return isAuthenticated ? <Outlet /> : <Navigate to="/login" state={{ from: location }} replace />
+    if (validate.isSuccess) {
+        dispatch(logIn(validate.data.jwt))
+        return <Outlet />
+    }
 }

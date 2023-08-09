@@ -15,7 +15,7 @@ export default function Login() {
     const [error, setError] = useState<string | undefined>(undefined)
     const isAuthenticated = useAppSelector(state => state.login.isLoggedIn)
     const dispatch = useAppDispatch()
-    const [cookies, setCookie] = useCookies(["BCAAuth"])
+    const [cookies, setCookie] = useCookies(["BCA"])
 
     async function handleLogin(data: LoginSchemaType) {
         setError(undefined)
@@ -36,8 +36,7 @@ export default function Login() {
                 return
             }
         }
-        localStorage.setItem("BCAToken", response.data.jwt)
-        setCookie("BCAAuth", response.data.jwt)
+        setCookie("BCA", response.data.jwt)
         dispatch(logIn(response.data.jwt))
     }
 

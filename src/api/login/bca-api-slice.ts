@@ -21,6 +21,7 @@ export const apiSlice = createApi({
     reducerPath: "api",
     baseQuery: fetchBaseQuery({
         baseUrl: `${url}/api`,
+        credentials: 'include'
         // prepareHeaders(headers) {
         // return headers
         // },
@@ -37,7 +38,7 @@ export const apiSlice = createApi({
                 },
             }),
 
-            validate: build.query<ValidateType, number>({
+            validate: build.query<ValidateType, undefined>({
                 query() {
                     return {
                         url: '/validate',
