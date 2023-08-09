@@ -12,7 +12,9 @@ export default function Authenticated() {
     const location = useLocation()
     // console.log(cookies)
 
+    console.log("validate", validate)
     if (!validate.isLoading) {
+        console.log("validate", validate)
         if (validate.isError) {
             dispatch(logOut())
             return <Navigate to="/login" state={{ from: location }} replace />
