@@ -18,14 +18,13 @@ export default function Authenticated() {
             return <Navigate to="/login" state={{ from: location }} replace />
         }
         let savedJWT = cookies.BCAAuth
-        console.debug(savedJWT)
+        console.log(savedJWT)
 
         if (validate.data?.jwt !== cookies.BCAAuth) {
             savedJWT = validate.data?.jwt ? validate.data.jwt : ""
+            setCookie("BCAAuth", savedJWT)
         }
-        console.debug(savedJWT)
 
-        setCookie("BCAAuth", savedJWT)
     }
 
     return isAuthenticated ? <Outlet /> : <Navigate to="/login" state={{ from: location }} replace />
