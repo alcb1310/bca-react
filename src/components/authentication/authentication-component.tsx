@@ -26,6 +26,7 @@ export default function Authenticated() {
         }
 
     }
+    console.log(isAuthenticated)
 
     return isAuthenticated ? <Outlet /> : <Navigate to="/login" state={{ from: location }} replace />
 }
