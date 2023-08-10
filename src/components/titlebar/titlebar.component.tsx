@@ -1,6 +1,7 @@
 import { AppBar, Button, Stack, Toolbar, Typography } from "@mui/material"
 import { useAppDispatch } from '../../store/hooks'
 import { logOut } from "../../store/login/loginSlice"
+import { useNavigate } from "react-router-dom"
 
 type TitleBarProps = {
     drawerWidth: number
@@ -8,6 +9,13 @@ type TitleBarProps = {
 
 export default function TitleBar({ drawerWidth }: TitleBarProps) {
     const dispatch = useAppDispatch()
+    const navigate = useNavigate()
+
+    function handleLogOut() {
+        dispatch(logOut())
+        navigate("/login")
+        return
+    }
 
     return (
         <AppBar
@@ -26,7 +34,7 @@ export default function TitleBar({ drawerWidth }: TitleBarProps) {
                     <Typography component="h1" variant="h6">
                         Budget Control Appliction
                     </Typography>
-                    <Button sx={{ color: "white" }} variant="text" onClick={() => dispatch(logOut())}>Sign Out</Button>
+                    <Button sx={{ color: "white" }} variant="text" onClick={handleLogOut}>Sign Out</Button>
                 </Stack>
             </Toolbar>
         </AppBar >

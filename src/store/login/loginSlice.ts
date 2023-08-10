@@ -15,10 +15,12 @@ export const loginSlice = createSlice({
     initialState,
     reducers: {
         logIn: (state, action: PayloadAction<string>) => {
+            localStorage.setItem("BCAToken", action.payload)
             state.isLoggedIn = true
             state.jwt = action.payload
         },
         logOut: (state) => {
+            localStorage.removeItem("BCAToken")
             state.isLoggedIn = false
         }
     }

@@ -11,7 +11,6 @@ export default function Authenticated() {
     const location = useLocation()
     const dispatch = useAppDispatch()
 
-    // TODO: change the console log
     if (validate.isError) {
         dispatch(logOut())
         return <Navigate to="/login" state={{ from: location }} replace />
