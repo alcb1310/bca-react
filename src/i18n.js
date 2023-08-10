@@ -17,6 +17,7 @@ i18n.use(Backend).use(LanguageDetector).use(initReactI18next).init({
         formatSeparator: ","
     },
     supportedLngs: ['es', 'en'],
+    lowerCaseLng: true,
     nonExplicitSupportedLngs: true,
     react: {
         wait: true

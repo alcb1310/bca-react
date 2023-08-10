@@ -18,7 +18,7 @@
             "spent": "Gastado Por Partida"
         },
         "settings": {
-            "title": "Usuarios",
+            "title": "Parámetros",
             "suppliers": "Proveedores",
             "budgetItems": "Partidas",
             "projects": "Proyectos"

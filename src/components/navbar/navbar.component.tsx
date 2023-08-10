@@ -1,8 +1,11 @@
 import { AssessmentOutlined, DomainOutlined, PeopleOutlined, SettingsOutlined } from "@mui/icons-material";
 import { Box, Divider, Typography } from "@mui/material";
 import { MenuSection, MenuItem } from "../menusection/menusection.component";
+import { useTranslation } from "react-i18next";
 
 export default function NavBar() {
+    const { t } = useTranslation()
+
     return (
         <>
             <Box mb={2}>
@@ -16,65 +19,71 @@ export default function NavBar() {
             </Box>
 
             <MenuSection
-                title="Transactions"
+                title={t('menu.transactions.title')}
                 icon={<DomainOutlined />}
             >
                 <MenuItem
                     to="/bca/transactions/budget"
-                    text="Presupuesto"
+                    text={t('menu.transactions.budget')}
                 />
                 <MenuItem
                     to="/bca/transactions/invoices"
-                    text="Facturas"
+                    text={t('menu.transactions.invoices')}
                 />
                 <MenuItem
                     to="/bca/transactions/closure"
-                    text="Cierre mensual"
+                    text={t('menu.transactions.closure')}
                 />
             </MenuSection>
 
             <MenuSection
-                title="Reportes"
+                title={t('menu.reports.title')}
                 icon={<AssessmentOutlined />}
             >
                 <MenuItem
                     to="/bca/reports/actual"
-                    text="Presupuesto Actual"
+                    text={t('menu.reports.actual')}
                 />
                 <MenuItem
                     to="/bca/reports/balance"
-                    text="Cuadre"
+                    text={t('menu.reports.balance')}
                 />
                 <MenuItem
                     to="/bca/reports/historic"
-                    text="Presupuesto Histórico"
+                    text={t('menu.reports.historic')}
                 />
                 <MenuItem
                     to="/bca/reports/spend-by-item"
-                    text="Gastado Por Partida"
+                    text={t('menu.reports.spent')}
                 />
             </MenuSection>
 
-            <MenuSection title="Parametros" icon={<SettingsOutlined />}>
+            <MenuSection
+                title={t('menu.settings.title')}
+                icon={<SettingsOutlined />}
+            >
                 <MenuItem
                     to="/bca/settings/suppliers"
-                    text="Proveedores"
+                    text={t('menu.settings.suppliers')}
                 />
                 <MenuItem
                     to="/bca/settings/budget-item"
-                    text="Partidas"
+                    text={t('menu.settings.budgetItems')}
                 />
                 <MenuItem
                     to="/bca/settings/projects"
-                    text="Proyectos"
+                    text={t('menu.settings.projects')}
                 />
             </MenuSection>
 
-            <MenuSection title="Usuarios" icon={<PeopleOutlined />}>
-                <MenuItem to="/bca/users/list" text="Listar" />
+            <MenuSection
+                title={t('menu.users.title')}
+                icon={<PeopleOutlined />}
+            >
+                <MenuItem to="/bca/users/list" text={t('menu.users.list')} />
                 <MenuItem
                     to="/bca/users/change-password"
-                    text="Cambiar Contraseña"
+                    text={t('menu.users.change')}
                 />
             </MenuSection>
         </>

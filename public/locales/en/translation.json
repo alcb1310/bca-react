@@ -1,5 +1,32 @@
 {
     "layout": {
         "title": "Budget Control Application"
+        "logout": "Log out"
+    },
+    "menu": {
+        "transactions": {
+            "title":  "Transactions",
+            "budget": "Budget",
+            "invoices": "Invoices",
+            "closure": "Monthly Closure"
+        },
+        "reports": {
+            "title": "Reports",
+            "actual": "Actual Budget",
+            "balance": "Balance",
+            "historic": "Historic Budget",
+            "spent": "Spent By Budget Item"
+        },
+        "settings": {
+            "title": "Settings",
+            "suppliers": "Suppliers",
+            "budgetItems": "Budget Items",
+            "projects": "Projects"
+        },
+        "users": {
+            "title": "Users",
+            "list": "List",
+            "change": "Change Password"
+        }
     }
 }
