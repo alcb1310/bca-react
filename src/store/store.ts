@@ -1,15 +1,15 @@
 import { configureStore } from '@reduxjs/toolkit'
-import { apiSlice as loginApiSlice } from "../api/login/bca-api-slice"
 import loginReducer from './login/loginSlice'
+import { apiSlice } from '../api/api/bca-api-slice'
 
 export const store = configureStore({
     reducer: {
         login: loginReducer,
-        [loginApiSlice.reducerPath]: loginApiSlice.reducer,
+        [apiSlice.reducerPath]: apiSlice.reducer,
     },
 
     middleware(getDefaultMiddleware) {
-        return getDefaultMiddleware().concat(loginApiSlice.middleware)
+        return getDefaultMiddleware().concat(apiSlice.middleware)
     },
 })
 

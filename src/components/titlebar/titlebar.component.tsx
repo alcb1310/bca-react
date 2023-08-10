@@ -53,14 +53,18 @@ export default function TitleBar({ drawerWidth }: TitleBarProps) {
                     <Stack direction="row">
                         <Select
                             size="small"
+                            variant="standard"
                             sx={{
                                 color: "#fafafa",
                             }}
                             onChange={handleLanguageChange}
                             value={localStorage.getItem("i18nextLng") ?? "es"}
                         >
-                            <MenuItem value="en">English</MenuItem>
-                            <MenuItem value="es">Español</MenuItem>
+                            <MenuItem value="es">
+                                <Typography variant="caption">
+                                    Español
+                                </Typography>
+                            </MenuItem>
                         </Select>
                         <Button sx={{ color: "white" }} variant="text" onClick={handleLogOut}>{t('layout.logout')}</Button>
                     </Stack>

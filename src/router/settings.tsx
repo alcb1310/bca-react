@@ -1,9 +1,10 @@
 import { RouteObject } from "react-router-dom";
+import Suppliers from "../pages/settings/suppliers/suppliers.component";
 
 export const settings: RouteObject[] = [
     {
         path: "suppliers",
-        element: <p>Proveedores</p>
+        element: <Suppliers />
     },
     {
         path: "budget-items",

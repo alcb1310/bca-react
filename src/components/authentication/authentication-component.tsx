@@ -1,7 +1,7 @@
-import { useValidateQuery } from '../../api/login/bca-api-slice'
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
 import { Navigate, Outlet, useLocation } from "react-router-dom"
 import { logIn, logOut } from '../../store/login/loginSlice'
+import { useValidateQuery } from '../../api/api/bca-api-slice'
 
 export default function Authenticated() {
     const jwtToken = useAppSelector(state => state.login.jwt)
