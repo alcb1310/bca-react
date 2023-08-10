@@ -12,9 +12,6 @@ export default function NavBar() {
                 <Typography component="h4" variant="h2" align="center">
                     BCA
                 </Typography>
-                <Typography component="p" pl={1}>
-                    Bienvenido
-                </Typography>
                 <Divider />
             </Box>
 
@@ -23,15 +20,15 @@ export default function NavBar() {
                 icon={<DomainOutlined />}
             >
                 <MenuItem
-                    to="/bca/transactions/budget"
+                    to="/transactions/budget"
                     text={t('menu.transactions.budget')}
                 />
                 <MenuItem
-                    to="/bca/transactions/invoices"
+                    to="/transactions/invoices"
                     text={t('menu.transactions.invoices')}
                 />
                 <MenuItem
-                    to="/bca/transactions/closure"
+                    to="/transactions/closure"
                     text={t('menu.transactions.closure')}
                 />
             </MenuSection>
@@ -41,19 +38,19 @@ export default function NavBar() {
                 icon={<AssessmentOutlined />}
             >
                 <MenuItem
-                    to="/bca/reports/actual"
+                    to="/reports/actual"
                     text={t('menu.reports.actual')}
                 />
                 <MenuItem
-                    to="/bca/reports/balance"
+                    to="/reports/balance"
                     text={t('menu.reports.balance')}
                 />
                 <MenuItem
-                    to="/bca/reports/historic"
+                    to="/reports/historic"
                     text={t('menu.reports.historic')}
                 />
                 <MenuItem
-                    to="/bca/reports/spend-by-item"
+                    to="/reports/spend-by-item"
                     text={t('menu.reports.spent')}
                 />
             </MenuSection>
@@ -63,15 +60,15 @@ export default function NavBar() {
                 icon={<SettingsOutlined />}
             >
                 <MenuItem
-                    to="/bca/settings/suppliers"
+                    to="/settings/suppliers"
                     text={t('menu.settings.suppliers')}
                 />
                 <MenuItem
-                    to="/bca/settings/budget-item"
+                    to="/settings/budget-items"
                     text={t('menu.settings.budgetItems')}
                 />
                 <MenuItem
-                    to="/bca/settings/projects"
+                    to="/settings/projects"
                     text={t('menu.settings.projects')}
                 />
             </MenuSection>
@@ -80,9 +77,9 @@ export default function NavBar() {
                 title={t('menu.users.title')}
                 icon={<PeopleOutlined />}
             >
-                <MenuItem to="/bca/users/list" text={t('menu.users.list')} />
+                <MenuItem to="/users/list" text={t('menu.users.list')} />
                 <MenuItem
-                    to="/bca/users/change-password"
+                    to="/users/change-password"
                     text={t('menu.users.change')}
                 />
             </MenuSection>

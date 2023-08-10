@@ -1,9 +1,12 @@
 import RootLayout from '../routes/root'
-import Contact from '../routes/contact'
 import { RouteObject } from 'react-router-dom'
 import Login from '../pages/login/login-component'
 import Authenticated from '../components/authentication/authentication-component'
-import { Typography } from '@mui/material'
+import { transactions } from './transactions'
+import { reports } from './reports'
+import { settings } from './settings'
+import { users } from './users'
+import LandingPage from '../pages/landing/landing.component'
 
 export const routes: RouteObject[] = [
     {
@@ -14,14 +17,26 @@ export const routes: RouteObject[] = [
                 children: [
                     {
                         path: '/',
-                        element: <Typography>Welcome</Typography>
+                        element: <LandingPage />
 
                     },
                     {
-                        path: 'contacts/:contactId',
-                        element: <Contact />,
-                    }
-                ]
+                        path: "reports",
+                        children: reports
+                    },
+                    {
+                        path: "settings",
+                        children: settings
+                    },
+                    {
+                        path: "transactions",
+                        children: transactions
+                    },
+                    {
+                        path: "users",
+                        children: users
+                    },
+                ],
             },
         ],
     },

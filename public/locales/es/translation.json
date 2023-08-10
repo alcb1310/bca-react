@@ -28,5 +28,10 @@
             "list": "Listar",
             "change": "Cambiar Contraseña"
         }
+    },
+    "pages": {
+        "landing": {
+            "title": "Bienvenido"
+        }
     }
 }
