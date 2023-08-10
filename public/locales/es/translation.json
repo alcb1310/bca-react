@@ -1,0 +1,32 @@
+{
+    "layout": {
+        "title": "Sistema de control presupuestario",
+        "logout": "Salir"
+    },
+    "menu": {
+        "transactions": {
+            "title":  "Transacciones",
+            "budget": "Presupuesto",
+            "invoices": "Facturas",
+            "closure": "Cierre mensual"
+        },
+        "reports": {
+            "title": "Reportes",
+            "actual": "Presupuesto Actual",
+            "balance": "Cuadre",
+            "historic": "Presupuesto Histórico",
+            "spent": "Gastado Por Partida"
+        },
+        "settings": {
+            "title": "Usuarios",
+            "suppliers": "Proveedores",
+            "budgetItems": "Partidas",
+            "projects": "Proyectos"
+        },
+        "users": {
+            "title": "Usuarios",
+            "list": "Listar",
+            "change": "Cambiar Contraseña"
+        }
+    }
+}
