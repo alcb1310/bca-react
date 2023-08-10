@@ -1,0 +1,13 @@
+import { Typography } from "@mui/material";
+import { useGetAllSuppliersQuery } from "../../../api/api/bca-api-slice";
+
+export default function Suppliers() {
+    const { data } = useGetAllSuppliersQuery({ jwt: "" })
+
+    return (
+        <>
+            <Typography>Proveedores</Typography>
+            <pre>{JSON.stringify(data)}</pre>
+        </>
+    )
+}
