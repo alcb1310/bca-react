@@ -10,7 +10,10 @@
         "preview": "vite preview",
         "start": "vite",
         "test": "cypress run",
-        "cy:open": "cypress open"
+        "cy:run": "cypress run --e2e",
+        "ct:run": "cypress run --component",
+        "cy:open": "cypress open --e2e",
+        "ct:open": "cypress open --component"
     },
     "dependencies": {
         "@emotion/react": "^11.11.1",

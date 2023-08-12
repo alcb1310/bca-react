@@ -12,8 +12,10 @@ jobs:
       # Install NPM dependencies, chace them correctly
       # and run all cypress tests
       - name: Cypress run
-        uses: cypress-io/github-action@v5
-        with:
-          build: npm run build
-          start: npm start
-          browser: chrome
+        uses: actions/setup-node@v3
+        -run: yarn cy:run
+        # uses: cypress-io/github-action@v5
+        # with:
+        #   build: npm run build
+        #   start: npm start
+        #   browser: chrome
