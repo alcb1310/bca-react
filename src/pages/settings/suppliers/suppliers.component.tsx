@@ -7,7 +7,7 @@ export default function Suppliers() {
 
     return (
         <>
-            <Typography>Proveedores</Typography>
+            <Typography data-testid="page.title">Proveedores</Typography>
             {
                 data ? <SupplierDataGrid suppliers={data} /> : null
             }
