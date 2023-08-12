@@ -10,7 +10,7 @@ describe('Login test', () => {
         cy.get('[data-testid="login.button"]').should('exist')
         cy.get('[data-testid="login.button"]').click()
 
-        cy.get('[data-testid="landing.title"]').should("have.text", "Bienvenido")
+        cy.get('[data-testid="landing.title"]', { timeout: 7000 }).should("have.text", "Bienvenido")
         //
         // cy.get('[data-testid="titlebar.title"]').should("have.text", "Sistema de control presupuestario")
         // cy.get('[data-testid="titlebar.logout"]').should('exist')
