@@ -1,6 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
 import { RootState } from "../../store/store"
 import { GetRequest } from "../../types/query"
+import { Supplier } from "../../types/supplier"
 
 type LoginResponse = {
     data: string,
@@ -16,14 +17,6 @@ type ValidateType = {
     name: string
     company: string
     jwt: string
-}
-
-type Supplier = {
-    ruc: string,
-    name: string,
-    contactName: string | undefined | null,
-    contactEmail: string | undefined | null,
-    contactPhone: string | undefined | null
 }
 
 const url = import.meta.env.VITE_BASE_URL as string

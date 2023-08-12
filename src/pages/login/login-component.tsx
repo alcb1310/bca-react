@@ -57,15 +57,15 @@ export default function Login() {
                 }}
                 elevation={8}
             >
-                <Typography align="center" variant='h5' component="h1">
+                <Typography data-testid="login.title" align="center" variant='h5' component="h1">
                     Login
                 </Typography>
                 {error !== undefined ? <Typography color="red">{error}</Typography> : null}
                 <FormProvider {...formMethods}>
                     <form onSubmit={formMethods.handleSubmit(handleLogin)}>
                         <Stack spacing={3} mt={3}>
-                            <TextField size='small' {...formMethods.register("email")} type='email' />
-                            <TextField size='small' {...formMethods.register("password")} type='password' />
+                            <TextField size='small' {...formMethods.register("email")} type='email' label="Email" data-testid="login.email" />
+                            <TextField size='small' {...formMethods.register("password")} type='password' label="Password" data-testid="login.password" />
                             <Button size='small' type='submit' variant='contained'>Login</Button>
                         </Stack>
                     </form>

@@ -1,5 +1,6 @@
 import { Typography } from "@mui/material";
 import { useGetAllSuppliersQuery } from "../../../api/api/bca-api-slice";
+import SupplierDataGrid from "./datagrid/suppliers.datagrid";
 
 export default function Suppliers() {
     const { data } = useGetAllSuppliersQuery({ jwt: "" })
@@ -7,7 +8,9 @@ export default function Suppliers() {
     return (
         <>
             <Typography>Proveedores</Typography>
-            <pre>{JSON.stringify(data)}</pre>
+            {
+                data ? <SupplierDataGrid suppliers={data} /> : null
+            }
         </>
     )
 }
