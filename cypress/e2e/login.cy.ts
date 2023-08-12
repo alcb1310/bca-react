@@ -7,7 +7,7 @@ describe('Login test', () => {
 
         cy.get('[data-testid="login.email"]').type('andres@andrescourt.com')
         cy.get('[data-testid="login.password"]').type('password123')
-        // cy.get('[data-testid="login.button"]').click()
+        cy.get('[data-testid="login.button"]').click()
         //
         // cy.get('[data-testid="landing.title"]').should("have.text", "Bienvenido")
         //
