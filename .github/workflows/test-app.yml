@@ -12,7 +12,7 @@ jobs:
       # Install NPM dependencies, chace them correctly
       # and run all cypress tests
       - name: Cypress run
-        uses: cypress-io/github-action@v2
+        uses: cypress-io/github-action
         with:
-          build: yarn run build
-          start: yarn start
+          build: npm run build
+          start: npm start
