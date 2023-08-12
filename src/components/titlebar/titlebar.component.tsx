@@ -47,7 +47,7 @@ export default function TitleBar({ drawerWidth }: TitleBarProps) {
                     alignItems="center"
                     width="100%"
                 >
-                    <Typography component="h1" variant="h6">
+                    <Typography component="h1" variant="h6" data-testid="site.title">
                         {t('layout.title')}
                     </Typography>
                     <Stack direction="row">
@@ -66,7 +66,9 @@ export default function TitleBar({ drawerWidth }: TitleBarProps) {
                                 </Typography>
                             </MenuItem>
                         </Select>
-                        <Button sx={{ color: "white" }} variant="text" onClick={handleLogOut}>{t('layout.logout')}</Button>
+                        <Button data-testid="site.logout" sx={{ color: "white" }} variant="text" onClick={handleLogOut}>
+                            {t('layout.logout')}
+                        </Button>
                     </Stack>
                 </Stack>
             </Toolbar>

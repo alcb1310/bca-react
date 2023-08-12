@@ -66,7 +66,7 @@ export default function Login() {
                         <Stack spacing={3} mt={3}>
                             <TextField size='small' {...formMethods.register("email")} type='email' label="Email" data-testid="login.email" />
                             <TextField size='small' {...formMethods.register("password")} type='password' label="Password" data-testid="login.password" />
-                            <Button size='small' type='submit' variant='contained'>Login</Button>
+                            <Button size='small' type='submit' variant='contained' data-testid="login.button">Login</Button>
                         </Stack>
                     </form>
                 </FormProvider>
