@@ -15,4 +15,4 @@ jobs:
         uses: cypress-io/github-action@v5
         with:
           component: false
-          e2e: true
+          # e2e: true
