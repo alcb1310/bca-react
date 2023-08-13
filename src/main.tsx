@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client'
 import App from './App.tsx'
 
 import "./i18n"
-const dev = import.meta.env.VITE_RUNMODE as string
+const dev = import.meta.env.NODE_ENV as string
 
 async function dynImports() {
     console.log(dev)

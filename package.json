@@ -9,8 +9,8 @@
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "start": "vite",
-    "test": "cross-env VITE_RUNMODE=test cypress run",
-    "cy:open": "cross-env VITE_RUNMODE=test cypress open"
+    "test": "cross-env NODE_ENV=test cypress run",
+    "cy:open": "cross-env NODE_ENV=test cypress open"
   },
   "dependencies": {
     "@emotion/react": "^11.11.1",
