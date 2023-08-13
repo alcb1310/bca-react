@@ -4,5 +4,5 @@ import { useTranslation } from "react-i18next";
 export default function LandingPage() {
     const { t } = useTranslation()
 
-    return <Typography>{t('pages.landing.title')}</Typography>
+    return <Typography data-testid="landing.title">{t('pages.landing.title')}</Typography>
 }
