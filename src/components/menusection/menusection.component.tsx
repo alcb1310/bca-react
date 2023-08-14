@@ -6,14 +6,16 @@ type MenuSectionProps = {
     title: string;
     children: ReactNode;
     icon?: ReactNode;
+    "data-testid"?: string
 };
 
 type MenuItemProps = {
     text: string;
     to: string;
+    "data-testid"?: string
 };
 
-export function MenuSection({ title, children, icon }: MenuSectionProps) {
+export function MenuSection({ title, children, icon, "data-testid": testid }: MenuSectionProps) {
     const [open, setOpen] = useState(false);
 
     function handleClick() {
@@ -22,10 +24,10 @@ export function MenuSection({ title, children, icon }: MenuSectionProps) {
 
     return (
         <Box mb={1}>
-            <ListItemButton onClick={handleClick}>
+            <ListItemButton onClick={handleClick} >
                 {icon ?? <ListItemIcon>{icon}</ListItemIcon>}
                 &nbsp;
-                <ListItemText>{title}</ListItemText>
+                <ListItemText data-testid={testid}>{title}</ListItemText>
                 {open ? <ExpandLess /> : <ExpandMore />}
             </ListItemButton>
             <Collapse in={open}>
@@ -37,10 +39,10 @@ export function MenuSection({ title, children, icon }: MenuSectionProps) {
     );
 }
 
-export function MenuItem({ text, to }: MenuItemProps) {
+export function MenuItem({ text, to, "data-testid": testid }: MenuItemProps) {
     return (
         <Box>
-            <Link href={to} underline="none">
+            <Link href={to} underline="none" data-testid={testid}>
                 {text}
             </Link>
         </Box>
