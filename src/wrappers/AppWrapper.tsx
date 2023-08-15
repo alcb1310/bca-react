@@ -1,8 +1,8 @@
 import { ReactNode, Suspense } from 'react'
 import { Provider } from 'react-redux'
-import { store } from '../store/store'
 import { CookiesProvider } from 'react-cookie'
-import Loading from '../components/loading/loading.component'
+import Loading from '@/components/loading/loading.component'
+import { store } from '@/store/store'
 
 type AppWrapperProps = {
     children: ReactNode

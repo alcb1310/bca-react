@@ -1,5 +1,5 @@
+import Suppliers from "@/pages/settings/suppliers/suppliers.component";
 import { RouteObject } from "react-router-dom";
-import Suppliers from "../pages/settings/suppliers/suppliers.component";
 
 export const settings: RouteObject[] = [
     {

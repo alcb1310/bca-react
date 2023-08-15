@@ -1,6 +1,6 @@
 import { DataGrid, GridActionsCellItem, type GridColDef } from "@mui/x-data-grid";
-import { Supplier } from "../../../../types/supplier";
 import { EditOutlined } from "@mui/icons-material";
+import { Supplier } from "@/types/supplier";
 
 type SupplierDataGridType = {
     suppliers: Supplier[]
@@ -11,7 +11,7 @@ export default function SupplierDataGrid({ suppliers }: SupplierDataGridType) {
             field: 'ruc',
             headerName: 'RUC',
             sortable: true,
-            minWidth: 150
+            minWidth: 150,
         },
         {
             field: 'name',

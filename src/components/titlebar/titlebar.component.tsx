@@ -1,9 +1,9 @@
 import { AppBar, Button, MenuItem, Select, SelectChangeEvent, Stack, Toolbar, Typography } from "@mui/material"
-import { useAppDispatch } from '../../store/hooks'
-import { logOut } from "../../store/login/loginSlice"
+import { useAppDispatch } from '@/store/hooks'
 import { useNavigate } from "react-router-dom"
 import { useTranslation } from "react-i18next"
 import { useEffect } from "react"
+import { logOut } from "@/store/login/loginSlice"
 
 type TitleBarProps = {
     drawerWidth: number

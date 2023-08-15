@@ -1,12 +1,12 @@
 import { Button, Paper, Stack, TextField, Typography } from '@mui/material'
-import useLoginForm from './useLoginForm'
 import { FormProvider } from 'react-hook-form'
-import { LoginSchemaType } from './loginSchema'
 import { useState } from 'react'
-import { useAppDispatch, useAppSelector } from '../../store/hooks'
-import { logIn } from '../../store/login/loginSlice'
+import { useAppDispatch, useAppSelector } from '@/store/hooks'
+import { logIn } from '@/store/login/loginSlice'
 import { Navigate } from 'react-router-dom'
-import { useLoginMutation } from '../../api/api/bca-api-slice'
+import { useLoginMutation } from '@/api/api/bca-api-slice'
+import { LoginSchemaType } from './loginSchema'
+import useLoginForm from './useLoginForm'
 
 export default function Login() {
     const formMethods = useLoginForm()

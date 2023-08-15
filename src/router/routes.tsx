@@ -1,12 +1,12 @@
-import RootLayout from '../routes/root'
 import { RouteObject } from 'react-router-dom'
-import Login from '../pages/login/login-component'
-import Authenticated from '../components/authentication/authentication-component'
 import { transactions } from './transactions'
 import { reports } from './reports'
 import { settings } from './settings'
 import { users } from './users'
-import LandingPage from '../pages/landing/landing.component'
+import RootLayout from '@/routes/root'
+import Login from '@/pages/login/login-component'
+import Authenticated from '@/components/authentication/authentication-component'
+import LandingPage from '@/pages/landing/landing.component'
 
 export const routes: RouteObject[] = [
     {

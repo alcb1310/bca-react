@@ -1,0 +1,20 @@
+[
+    {
+        "uuid": "0eae6df9-2df3-4b28-8dc0-2318d1bc272b",
+        "ruc": "1791838300001",
+        "name": "Incogres",
+        "contactName": "",
+        "contactEmail": "",
+        "contactPhone": "",
+        "companyId": "2dfe67cc-8575-4e01-89fa-d49d5d992900"
+    },
+    {
+        "uuid": "86175b11-e192-4a26-8d4c-cf3671ea975a",
+        "ruc": "1704749652",
+        "name": "Andres",
+        "contactName": "Andres Court B",
+        "contactEmail": "andres@andrescourt.com",
+        "contactPhone": "022435108",
+        "companyId": "2dfe67cc-8575-4e01-89fa-d49d5d992900"
+    }
+]

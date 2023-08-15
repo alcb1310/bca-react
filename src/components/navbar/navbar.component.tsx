@@ -1,7 +1,7 @@
 import { AssessmentOutlined, DomainOutlined, PeopleOutlined, SettingsOutlined } from "@mui/icons-material";
 import { Box, Divider, Typography } from "@mui/material";
-import { MenuSection, MenuItem } from "../menusection/menusection.component";
 import { useTranslation } from "react-i18next";
+import { MenuItem, MenuSection } from "../menusection/menusection.component";
 
 export default function NavBar() {
     const { t } = useTranslation()
