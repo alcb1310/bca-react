@@ -10,5 +10,7 @@ module.exports = {
   ignorePatterns: ["dist", ".eslintrc.cjs"],
   parser: "@typescript-eslint/parser",
   plugins: ["react"],
-  rules: {},
+  rules: {
+    "@typescript-eslint/no-namespace": "off",
+  },
 };
