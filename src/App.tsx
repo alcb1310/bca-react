@@ -6,6 +6,7 @@ import { getHomePage } from "./query/home";
 import { useForm } from "@tanstack/react-form";
 import { z } from "zod";
 import { zodValidator } from "@tanstack/zod-form-adapter";
+import { twMerge } from "tailwind-merge";
 
 export default function App() {
   const [showPassword, setShowPassword] = useState(false);
@@ -27,6 +28,8 @@ export default function App() {
 
   if (isPending) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
+
+  const passIcon = showPassword ? "text-red-500" : "text-base"
 
   return (
     <>
@@ -96,7 +99,7 @@ export default function App() {
               error={field.state.meta.isTouched && field.state.meta.errors.length > 0}
               helperText={field.state.meta.isTouched && field.state.meta.errors}
               InputProps={{
-                endAdornment: <VisibilityOutlined className="hover:cursor-pointer" onClick={() => setShowPassword(!showPassword)} />,
+                endAdornment: <VisibilityOutlined className={twMerge(passIcon, "hover:cursor-pointer")} onClick={() => setShowPassword(!showPassword)} />,
               }}
             />
           )}
