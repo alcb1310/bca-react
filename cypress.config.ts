@@ -8,4 +8,7 @@ export default defineConfig({
       bundler: "vite",
     },
   },
+  env: {
+    VITE_API_BASE_URL:"https://test.andrescourt.com"
+  }
 });
