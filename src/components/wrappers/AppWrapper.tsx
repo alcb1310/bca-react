@@ -2,18 +2,14 @@ import { Provider } from "react-redux"
 import { store } from "../../redux/store"
 import Theme from "../theme/Theme"
 import { CssBaseline } from "@mui/material"
+import AppRouter from "../router/Router"
 
-type AppWrapperProps = {
-  children: React.ReactNode
-}
-
-
-export default function AppWrapper({ children }: AppWrapperProps) {
+export default function AppWrapper() {
   return (
     <Provider store={store}>
       <Theme>
         <CssBaseline />
-        {children}
+        <AppRouter />
       </Theme>
     </Provider>
   )
