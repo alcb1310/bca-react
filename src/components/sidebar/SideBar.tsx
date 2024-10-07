@@ -2,6 +2,7 @@ import { Box, Drawer } from "@mui/material";
 import TransactionsMenu from "../menu/Transactions";
 import ReportsMenu from "../menu/Reports";
 import ParametersMenu from "../menu/Parameters";
+import AnalysisMenu from "../menu/Analysis";
 
 export default function Sidebar() {
   return (
@@ -32,6 +33,7 @@ export default function Sidebar() {
           <TransactionsMenu />
           <ReportsMenu />
           <ParametersMenu />
+          <AnalysisMenu />
         </Box>
       </Drawer>
     </Box>
