@@ -21,7 +21,7 @@ export default function TransactionsMenu() {
 
   return (
     <Box>
-      <ListItemButton onClick={() => setOpen(prev => !prev)}>
+      <ListItemButton onClick={() => setOpen(prev => !prev)} >
         <ListItemText
           primary="Transacciones"
           primaryTypographyProps={{
