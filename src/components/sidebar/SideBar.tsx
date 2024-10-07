@@ -22,7 +22,9 @@ export default function Sidebar() {
           }
         }}
       >
-        <Box sx={{ mr: 1, height: '65px', borderBottom: '1px solid #ccc' }} />
+        <Box sx={{ mr: 1, height: '65px', borderBottom: '1px solid #ccc' }} >
+          <img src="/favicon.ico" alt="logo" height={50} className="mx-auto py-2 " />
+        </Box>
         <Box py={1} sx={{ overflow: 'auto' }}>
           <p className="text-right"> MenuItems</p>
         </Box>
