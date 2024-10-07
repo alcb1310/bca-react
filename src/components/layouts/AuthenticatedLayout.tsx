@@ -1,23 +1,35 @@
-import { Box, Typography } from "@mui/material";
-import { Outlet } from "react-router-dom";
+import { Box } from "@mui/material"
+import Sidebar from "../sidebar/SideBar"
+import ApplicationBar from "../appbar/AppBar"
+import { Outlet } from "react-router-dom"
 
 function AuthenticatedLayout() {
   return (
-    <>
-      <Box component="main" sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-        bgcolor: 'background.default',
-        minHeight: '100vh',
-      }}>
-        <Typography variant="h5" component="h5" textTransform="uppercase" sx={{ textAlign: 'center' }}>
-          Aqui va el menu
-        </Typography>
-        <Outlet />
+    <Box display="flex" width='100%' height='100%'>
+      <Sidebar />
+      <Box
+        flexGrow={1}
+        height="100%"
+        display="flex"
+        flexDirection="column"
+        sx={{ overflowX: 'auto' }}
+      >
+        <ApplicationBar />
+
+        <Box
+          component="main"
+          flexGrow={1}
+          display="flex"
+          flexDirection="column"
+          sx={{ overflowY: 'auto', scrollBehavior: 'smooth' }}
+          id='main'
+          px={3}
+          py={1}
+        >
+          <Outlet />
+        </Box>
       </Box>
-    </>
+    </Box>
   )
 }
 

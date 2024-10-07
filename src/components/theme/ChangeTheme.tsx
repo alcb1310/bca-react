@@ -1,5 +1,6 @@
-import { Box, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup } from "@mui/material";
+import { IconButton, Tooltip } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { DarkModeOutlined, LightModeOutlined } from "@mui/icons-material";
 import { setMode } from "../../redux/features/theme/theme-slice";
 
 export default function ChangeTheme() {
@@ -7,34 +8,20 @@ export default function ChangeTheme() {
   const dispatch = useAppDispatch()
 
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        width: '100%',
-        alignItems: 'center',
-        justifyContent: 'center',
-        bgcolor: 'background.default',
-        color: 'text.primary',
-        borderRadius: 1,
-        p: 3,
-        minHeight: '56px',
-      }}
+    <Tooltip
+      title={th === 'light' ? 'Modo oscuro' : 'Modo Claro'}
+      placement="bottom"
+      arrow
     >
-      <FormControl>
-        <FormLabel id="demo-theme-toggle">Theme</FormLabel>
-        <RadioGroup
-          aria-labelledby="demo-theme-toggle"
-          name="theme-toggle"
-          row
-          value={th}
-          onChange={(event) =>
-            dispatch(setMode(event.target.value as 'light' | 'dark'))
-          }
-        >
-          <FormControlLabel value="light" control={<Radio />} label="Light" />
-          <FormControlLabel value="dark" control={<Radio />} label="Dark" />
-        </RadioGroup>
-      </FormControl>
-    </Box>
+      <IconButton
+        size="medium"
+        onClick={() => dispatch(setMode(th === 'light' ? 'dark' : 'light'))}
+        sx={{
+          color: 'white',
+        }}
+      >
+        {th === 'light' ? <DarkModeOutlined /> : <LightModeOutlined />}
+      </IconButton>
+    </Tooltip>
   );
 }
