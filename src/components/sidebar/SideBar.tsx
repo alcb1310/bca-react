@@ -1,4 +1,5 @@
 import { Box, Drawer } from "@mui/material";
+import TransactionsMenu from "../menu/Transactions";
 
 export default function Sidebar() {
   return (
@@ -26,7 +27,7 @@ export default function Sidebar() {
           <img src="/favicon.ico" alt="logo" height={50} className="mx-auto py-2 " />
         </Box>
         <Box py={1} sx={{ overflow: 'auto' }}>
-          <p className="text-right"> MenuItems</p>
+          <TransactionsMenu />
         </Box>
       </Drawer>
     </Box>
