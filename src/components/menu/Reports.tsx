@@ -1,29 +1,16 @@
-import {
-  AccountBalanceOutlined,
-  ChevronRightOutlined,
-  ExpandMoreOutlined,
-  PointOfSaleOutlined,
-  ReceiptOutlined
-} from "@mui/icons-material";
-import {
-  Box,
-  Collapse,
-  List,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText
-} from "@mui/material";
 import { useState } from "react";
+import { Box, Collapse, List, ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
+import { AddchartOutlined, BalanceOutlined, ChevronRightOutlined, ExpandMoreOutlined, LocalAtmOutlined, WorkHistoryOutlined } from "@mui/icons-material";
 import { NavLink } from "react-router-dom";
 
-export default function TransactionsMenu() {
+export default function ReportsMenu() {
   const [open, setOpen] = useState<boolean>(true)
 
   return (
     <Box>
       <ListItemButton onClick={() => setOpen(prev => !prev)}>
         <ListItemText
-          primary="Transacciones"
+          primary="Reportes"
           primaryTypographyProps={{
             fontWeight: 'bold',
             fontSize: 8,
@@ -36,15 +23,15 @@ export default function TransactionsMenu() {
         <List component="div" disablePadding dense>
           <ListItemButton
             component={NavLink}
-            to="/transacciones/presupuesto"
+            to="/reportes/actual"
             sx={{ mb: 1, borderRadius: 2 }}
           >
             <ListItemIcon>
-              <PointOfSaleOutlined sx={{ fontSize: 12 }} />
+              <AddchartOutlined sx={{ fontSize: 12 }} />
             </ListItemIcon>
 
             <ListItemText
-              primary="Presupuesto"
+              primary="Actual"
               primaryTypographyProps={{
                 fontWeight: 'bold',
                 fontSize: 8,
@@ -55,15 +42,15 @@ export default function TransactionsMenu() {
 
           <ListItemButton
             component={NavLink}
-            to="/transacciones/factura"
+            to="/reportes/cuadre"
             sx={{ mb: 1, borderRadius: 2 }}
           >
             <ListItemIcon>
-              <ReceiptOutlined sx={{ fontSize: 12 }} />
+              <BalanceOutlined sx={{ fontSize: 12 }} />
             </ListItemIcon>
 
             <ListItemText
-              primary="Facturas"
+              primary="Cuadre"
               primaryTypographyProps={{
                 fontWeight: 'bold',
                 fontSize: 8,
@@ -74,15 +61,34 @@ export default function TransactionsMenu() {
 
           <ListItemButton
             component={NavLink}
-            to="/transacciones/cierre"
+            to="/reportes/gastado-por-partida"
             sx={{ mb: 1, borderRadius: 2 }}
           >
             <ListItemIcon>
-              <AccountBalanceOutlined sx={{ fontSize: 12 }} />
+              <LocalAtmOutlined sx={{ fontSize: 12 }} />
             </ListItemIcon>
 
             <ListItemText
-              primary="Cierre Mensual"
+              primary="Gastado por Partida"
+              primaryTypographyProps={{
+                fontWeight: 'bold',
+                fontSize: 8,
+                textTransform: 'uppercase'
+              }}
+            />
+          </ListItemButton>
+
+          <ListItemButton
+            component={NavLink}
+            to="/reportes/historico"
+            sx={{ mb: 1, borderRadius: 2 }}
+          >
+            <ListItemIcon>
+              <WorkHistoryOutlined sx={{ fontSize: 12 }} />
+            </ListItemIcon>
+
+            <ListItemText
+              primary="Historico"
               primaryTypographyProps={{
                 fontWeight: 'bold',
                 fontSize: 8,

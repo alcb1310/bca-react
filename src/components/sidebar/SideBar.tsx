@@ -1,5 +1,6 @@
 import { Box, Drawer } from "@mui/material";
 import TransactionsMenu from "../menu/Transactions";
+import ReportsMenu from "../menu/Reports";
 
 export default function Sidebar() {
   return (
@@ -28,6 +29,7 @@ export default function Sidebar() {
         </Box>
         <Box py={1} sx={{ overflow: 'auto' }}>
           <TransactionsMenu />
+          <ReportsMenu />
         </Box>
       </Drawer>
     </Box>
