@@ -1,6 +1,7 @@
 import { AppBar, Box, IconButton, Stack, Toolbar, Tooltip, Typography } from "@mui/material";
 import ChangeTheme from "../theme/ChangeTheme";
-import { LogoutOutlined, PersonOutline } from "@mui/icons-material";
+import { LogoutOutlined } from "@mui/icons-material";
+import UserMenu from "../menu/User";
 
 export default function ApplicationBar() {
   return (
@@ -21,14 +22,7 @@ export default function ApplicationBar() {
 
         <Box sx={{ flexGrow: 1 }} />
         <Stack direction="row" spacing={2}>
-          <Tooltip
-            title="Usuarios"
-          >
-            <IconButton size="large" sx={{ color: 'white' }}>
-              <PersonOutline />
-            </IconButton>
-          </Tooltip>
-
+          <UserMenu />
           <ChangeTheme />
 
           <Tooltip
