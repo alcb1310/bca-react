@@ -1,11 +1,9 @@
-import { Typography } from "@mui/material";
+import PageTitle from "../../../components/titles/PageTitle";
 
 export default function ChangePassword() {
   return (
     <>
-      <Typography variant="h5" component="h5" textTransform="uppercase" sx={{ textAlign: 'center' }}>
-        Cambiar contraseña
-      </Typography>
+      <PageTitle title="Cambiar Contraseña" />
     </>
   )
 }

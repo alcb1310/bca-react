@@ -1,11 +1,9 @@
-import { Typography } from "@mui/material";
+import PageTitle from "../../../components/titles/PageTitle";
 
 export default function Balance() {
   return (
     <>
-      <Typography variant="h5" component="h5" textTransform="uppercase" sx={{ textAlign: 'center' }}>
-        Cuadre
-      </Typography>
+      <PageTitle title="Cuadre" />
     </>
   )
 }
