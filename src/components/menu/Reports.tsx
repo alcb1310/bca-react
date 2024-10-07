@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { Box, Collapse, List, ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
 import { AddchartOutlined, BalanceOutlined, ChevronRightOutlined, ExpandMoreOutlined, LocalAtmOutlined, WorkHistoryOutlined } from "@mui/icons-material";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 
 export default function ReportsMenu() {
   const [open, setOpen] = useState<boolean>(true)
+  const str = useLocation().pathname
 
   return (
     <Box>
@@ -13,7 +14,7 @@ export default function ReportsMenu() {
           primary="Reportes"
           primaryTypographyProps={{
             fontWeight: 'bold',
-            fontSize: 8,
+            fontSize: 12,
             textTransform: 'uppercase'
           }}
         />
@@ -25,8 +26,9 @@ export default function ReportsMenu() {
             component={NavLink}
             to="/reportes/actual"
             sx={{ mb: 1, borderRadius: 2 }}
+            selected={str.toLowerCase() === '/reportes/actual'}
           >
-            <ListItemIcon>
+            <ListItemIcon sx={{ minWidth: 30 }}>
               <AddchartOutlined sx={{ fontSize: 12 }} />
             </ListItemIcon>
 
@@ -34,7 +36,7 @@ export default function ReportsMenu() {
               primary="Actual"
               primaryTypographyProps={{
                 fontWeight: 'bold',
-                fontSize: 8,
+                fontSize: 12,
                 textTransform: 'uppercase'
               }}
             />
@@ -44,8 +46,9 @@ export default function ReportsMenu() {
             component={NavLink}
             to="/reportes/cuadre"
             sx={{ mb: 1, borderRadius: 2 }}
+            selected={str.toLowerCase() === '/reportes/cuadre'}
           >
-            <ListItemIcon>
+            <ListItemIcon sx={{ minWidth: 30 }}>
               <BalanceOutlined sx={{ fontSize: 12 }} />
             </ListItemIcon>
 
@@ -53,7 +56,7 @@ export default function ReportsMenu() {
               primary="Cuadre"
               primaryTypographyProps={{
                 fontWeight: 'bold',
-                fontSize: 8,
+                fontSize: 12,
                 textTransform: 'uppercase'
               }}
             />
@@ -63,8 +66,9 @@ export default function ReportsMenu() {
             component={NavLink}
             to="/reportes/gastado-por-partida"
             sx={{ mb: 1, borderRadius: 2 }}
+            selected={str.toLowerCase() === '/reportes/gastado-por-partida'}
           >
-            <ListItemIcon>
+            <ListItemIcon sx={{ minWidth: 30 }}>
               <LocalAtmOutlined sx={{ fontSize: 12 }} />
             </ListItemIcon>
 
@@ -72,7 +76,7 @@ export default function ReportsMenu() {
               primary="Gastado por Partida"
               primaryTypographyProps={{
                 fontWeight: 'bold',
-                fontSize: 8,
+                fontSize: 12,
                 textTransform: 'uppercase'
               }}
             />
@@ -82,8 +86,9 @@ export default function ReportsMenu() {
             component={NavLink}
             to="/reportes/historico"
             sx={{ mb: 1, borderRadius: 2 }}
+            selected={str.toLowerCase() === '/reportes/historico'}
           >
-            <ListItemIcon>
+            <ListItemIcon sx={{ minWidth: 30 }}>
               <WorkHistoryOutlined sx={{ fontSize: 12 }} />
             </ListItemIcon>
 
@@ -91,7 +96,7 @@ export default function ReportsMenu() {
               primary="Historico"
               primaryTypographyProps={{
                 fontWeight: 'bold',
-                fontSize: 8,
+                fontSize: 12,
                 textTransform: 'uppercase'
               }}
             />

@@ -7,15 +7,14 @@ export default function ParametersMenu() {
   const [open, setOpen] = useState<boolean>(true)
   const str = useLocation().pathname
 
-
   return (
     <Box>
       <ListItemButton onClick={() => setOpen(prev => !prev)}>
         <ListItemText
-          primary="Transacciones"
+          primary="Parametros"
           primaryTypographyProps={{
             fontWeight: 'bold',
-            fontSize: 8,
+            fontSize: 12,
             textTransform: 'uppercase'
           }}
         />
@@ -29,7 +28,7 @@ export default function ParametersMenu() {
             sx={{ mb: 1, borderRadius: 2 }}
             selected={str.toLowerCase() === '/parametros/partidas'}
           >
-            <ListItemIcon>
+            <ListItemIcon sx={{ minWidth: 30 }}>
               <ViewKanbanOutlined sx={{ fontSize: 12 }} />
             </ListItemIcon>
 
@@ -37,7 +36,7 @@ export default function ParametersMenu() {
               primary="Partidas"
               primaryTypographyProps={{
                 fontWeight: 'bold',
-                fontSize: 8,
+                fontSize: 12,
                 textTransform: 'uppercase'
               }}
             />
@@ -49,7 +48,7 @@ export default function ParametersMenu() {
             sx={{ mb: 1, borderRadius: 2 }}
             selected={str.toLowerCase() === '/parametros/categorias'}
           >
-            <ListItemIcon>
+            <ListItemIcon sx={{ minWidth: 30 }}>
               <CategoryOutlined sx={{ fontSize: 12 }} />
             </ListItemIcon>
 
@@ -57,7 +56,7 @@ export default function ParametersMenu() {
               primary="Categorias"
               primaryTypographyProps={{
                 fontWeight: 'bold',
-                fontSize: 8,
+                fontSize: 12,
                 textTransform: 'uppercase'
               }}
             />
@@ -69,7 +68,7 @@ export default function ParametersMenu() {
             sx={{ mb: 1, borderRadius: 2 }}
             selected={str.toLowerCase() === '/parametros/materiales'}
           >
-            <ListItemIcon>
+            <ListItemIcon sx={{ minWidth: 30 }}>
               <InventoryOutlined sx={{ fontSize: 12 }} />
             </ListItemIcon>
 
@@ -77,7 +76,7 @@ export default function ParametersMenu() {
               primary="Materiales"
               primaryTypographyProps={{
                 fontWeight: 'bold',
-                fontSize: 8,
+                fontSize: 12,
                 textTransform: 'uppercase'
               }}
             />
@@ -89,7 +88,7 @@ export default function ParametersMenu() {
             sx={{ mb: 1, borderRadius: 2 }}
             selected={str.toLowerCase() === '/parametros/proyectos'}
           >
-            <ListItemIcon>
+            <ListItemIcon sx={{ minWidth: 30 }}>
               <AccountTreeOutlined sx={{ fontSize: 12 }} />
             </ListItemIcon>
 
@@ -97,7 +96,7 @@ export default function ParametersMenu() {
               primary="Proyectos"
               primaryTypographyProps={{
                 fontWeight: 'bold',
-                fontSize: 8,
+                fontSize: 12,
                 textTransform: 'uppercase'
               }}
             />
@@ -109,7 +108,7 @@ export default function ParametersMenu() {
             sx={{ mb: 1, borderRadius: 2 }}
             selected={str.toLowerCase() === '/parametros/proveedores'}
           >
-            <ListItemIcon>
+            <ListItemIcon sx={{ minWidth: 30 }}>
               <FactoryOutlined sx={{ fontSize: 12 }} />
             </ListItemIcon>
 
@@ -117,7 +116,7 @@ export default function ParametersMenu() {
               primary="Proveedores"
               primaryTypographyProps={{
                 fontWeight: 'bold',
-                fontSize: 8,
+                fontSize: 12,
                 textTransform: 'uppercase'
               }}
             />
@@ -129,7 +128,7 @@ export default function ParametersMenu() {
             sx={{ mb: 1, borderRadius: 2 }}
             selected={str.toLowerCase() === '/parametros/rubros'}
           >
-            <ListItemIcon>
+            <ListItemIcon sx={{ minWidth: 30 }}>
               <FactoryOutlined sx={{ fontSize: 12 }} />
             </ListItemIcon>
 
@@ -137,7 +136,7 @@ export default function ParametersMenu() {
               primary="Rubros"
               primaryTypographyProps={{
                 fontWeight: 'bold',
-                fontSize: 8,
+                fontSize: 12,
                 textTransform: 'uppercase'
               }}
             />
