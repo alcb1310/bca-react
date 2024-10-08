@@ -37,6 +37,7 @@ export default function Login() {
       console.log(error)
     }
   }
+  console.log(import.meta.env.VITE_BACKEND_SERVER)
 
   if (isLoggedIn) {
     const dir = window.history.state?.usr?.from?.pathname
