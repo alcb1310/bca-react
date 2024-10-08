@@ -1,12 +1,7 @@
-import { Button, Typography } from "@mui/material"
-import { incrementBy } from "./redux/features/counter/counterSlice"
-import { useAppDispatch, useAppSelector } from "./redux/hooks"
+import { Typography } from "@mui/material"
 import { useFetchBreedsQuery } from "./redux/features/dogs/dogs-api-slice"
-import ChangeTheme from "./components/theme/ChangeTheme"
 
 function App() {
-  const count = useAppSelector((state) => state.counter.value)
-  const dispatch = useAppDispatch()
 
   const { data = [], isFetching, isError } = useFetchBreedsQuery()
   if (isError) {
@@ -19,11 +14,6 @@ function App() {
 
   return (
     <div className="w-screen h-screen">
-      <ChangeTheme />
-      <Button
-        onClick={() => dispatch(incrementBy(10))}
-        variant="contained" color="primary"
-      >count is: {count}</Button>
 
       <Typography variant="h1">Hello World</Typography>
 

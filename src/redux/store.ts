@@ -1,12 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
-import counterReducer from "./features/counter/counterSlice";
+
 import { dogsApiSlice } from "./features/dogs/dogs-api-slice";
 import { themeSlice } from "./features/theme/themeSlice";
 import { loginSlice } from "./features/login/loginSlice";
 
 export const store = configureStore({
   reducer: {
-    counter: counterReducer,
     theme: themeSlice.reducer,
     login: loginSlice.reducer,
     [dogsApiSlice.reducerPath]: dogsApiSlice.reducer,
