@@ -1,11 +1,16 @@
+import { useState } from "react";
 import { Box, Button, FormControl, TextField, Typography } from "@mui/material";
 import { Controller, useForm } from "react-hook-form";
 import { LoginInput } from "../../types/login";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { login } from "../../redux/features/login/loginSlice";
 import { Navigate } from "react-router-dom";
+import { useLoginMutation } from "../../redux/api/bca-backend/bcaSlice";
+import { UserResponse } from "../../types/user";
 
 export default function Login() {
+  const [error, setError] = useState<string | null>(null)
+
   // TODO: Handle form errors
   const {
     control,
@@ -16,10 +21,21 @@ export default function Login() {
   const isLoggedIn = useAppSelector(state => state.login.isLoggedIn)
   const dispatch = useAppDispatch()
 
-  function onSubmit(data: LoginInput) {
-    console.log(data)
-    // TODO: Authenticate the login information with the server
-    dispatch(login())
+  const [loginInfo] = useLoginMutation()
+
+  async function onSubmit(data: LoginInput) {
+    try {
+      const res = await loginInfo(data)
+
+      if (!("error" in res)) {
+        dispatch(login(res.data as UserResponse))
+      } else {
+        // @ts-ignore
+        setError(res.error.error.error)
+      }
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   if (isLoggedIn) {
@@ -39,6 +55,8 @@ export default function Login() {
         <Typography variant="h5" component="h5" textTransform="uppercase" sx={{ textAlign: 'center' }}>
           Login
         </Typography>
+
+        {error && <Typography color="error" variant="body2" component="p" sx={{ textAlign: 'left' }}> {error} </Typography>}
 
         <form className="w-full" onSubmit={handleSubmit(onSubmit)}>
           <FormControl
