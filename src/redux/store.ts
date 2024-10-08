@@ -1,7 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import counterReducer from "./features/counter/counterSlice";
 import { dogsApiSlice } from "./features/dogs/dogs-api-slice";
-import { themeSlice } from "./features/theme/theme-slice";
+import { themeSlice } from "./features/theme/themeSlice";
 
 export const store = configureStore({
   reducer: {
