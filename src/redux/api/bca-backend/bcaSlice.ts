@@ -5,14 +5,24 @@ import { LoginErrorResponse } from "../../../types/error"
 
 const SERVER_API_URL = import.meta.env.VITE_BACKEND_SERVER
 
+type loginResponse = {
+  user: UserResponse
+  token: string
+}
+
 export const bcaApiSlice = createApi({
   reducerPath: "bcaApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: SERVER_API_URL
+    baseUrl: SERVER_API_URL,
+
+    prepareHeaders(headers) {
+      headers.set("Content-Type", "application/json")
+      return headers
+    },
   }),
 
   endpoints: builder => ({
-    login: builder.mutation<UserResponse | LoginErrorResponse, LoginInput>({
+    login: builder.mutation<loginResponse, LoginInput>({
       query(body) {
         return {
           url: "/login",
@@ -21,9 +31,12 @@ export const bcaApiSlice = createApi({
         }
       },
 
-      transformErrorResponse(baseQueryReturnValue, _meta, _arg) {
+      transformErrorResponse(baseQueryReturnValue: {
+        data: LoginErrorResponse,
+        status: number
+      }) {
         return {
-          error: baseQueryReturnValue.data as LoginErrorResponse,
+          error: baseQueryReturnValue.data.error,
           status: baseQueryReturnValue.status
         }
       },
