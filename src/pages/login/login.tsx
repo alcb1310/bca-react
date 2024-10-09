@@ -6,7 +6,6 @@ import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { login } from "../../redux/features/login/loginSlice";
 import { Navigate } from "react-router-dom";
 import { useLoginMutation } from "../../redux/api/bca-backend/bcaSlice";
-import { UserResponse } from "../../types/user";
 
 export default function Login() {
   const [error, setError] = useState<string | null>(null)
@@ -16,6 +15,10 @@ export default function Login() {
     control,
     handleSubmit,
   } = useForm<LoginInput>({
+    defaultValues: {
+      email: '',
+      password: ''
+    }
     // TODO: Add validation using zodResolver
   })
   const isLoggedIn = useAppSelector(state => state.login.isLoggedIn)
@@ -24,20 +27,16 @@ export default function Login() {
   const [loginInfo] = useLoginMutation()
 
   async function onSubmit(data: LoginInput) {
-    try {
-      const res = await loginInfo(data)
+    const res = await loginInfo(data)
 
-      if (!("error" in res)) {
-        dispatch(login(res.data as UserResponse))
-      } else {
-        // @ts-ignore
-        setError(res.error.error.error)
-      }
-    } catch (error) {
-      console.log(error)
+
+    if (!("error" in res)) {
+      dispatch(login(res.data))
+    } else {
+      // @ts-ignore
+      setError(res.error.error)
     }
   }
-  console.log(import.meta.env.VITE_BACKEND_SERVER)
 
   if (isLoggedIn) {
     const dir = window.history.state?.usr?.from?.pathname
