@@ -30,7 +30,7 @@ export default function Login() {
     const res = await loginInfo(data)
 
     if (!("error" in res)) {
-      dispatch(login(res.data))
+      dispatch(login(res.data.token))
     } else {
       // @ts-ignore
       setError(res.error.error)

@@ -1,36 +1,33 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
-import { UserResponse } from "../../../types/user"
 
-type PayloadResponse = {
-  user: UserResponse
-  token: string
-}
+const cookie = document.cookie.split(';').find(cookie => cookie.includes('BCA-TOKEN'))?.split('=')[1] || ''
 
 type LoginType = {
   isLoggedIn: boolean
-  loggedInUser: UserResponse | null
   token: string
 }
 
 const initialState: LoginType = {
-  isLoggedIn: false,
-  loggedInUser: null,
-  token: '',
+  isLoggedIn: cookie ? true : false,
+  token: cookie,
 }
 
 export const loginSlice = createSlice({
   name: "login",
   initialState,
   reducers: {
-    login: (state, user: PayloadAction<PayloadResponse>) => {
+    login: (state, user: PayloadAction<string>) => {
       state.isLoggedIn = true
-      state.loggedInUser = user.payload.user
-      state.token = user.payload.token
+      state.token = user.payload
+
+      document.cookie = `BCA-TOKEN=${user.payload}; expires=1 day; path=/`
     },
 
     logout: (state) => {
       state.isLoggedIn = false
-      state.loggedInUser = null
+      state.token = ''
+
+      document.cookie = 'BCA-TOKEN=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/;'
     }
   }
 })
