@@ -28,7 +28,6 @@ export default function Login() {
 
   async function onSubmit(data: LoginInput) {
     const res = await loginInfo(data)
-    console.dir(res)
 
     if (!("error" in res)) {
       dispatch(login(res.data))
