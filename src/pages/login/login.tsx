@@ -5,7 +5,7 @@ import { LoginInput } from "../../types/login";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { login } from "../../redux/features/login/loginSlice";
 import { Navigate } from "react-router-dom";
-import { useLoginMutation } from "../../redux/api/bca-backend/bcaSlice";
+import { useLoginMutation } from "../../redux/api/bca-backend/auth/authentication";
 
 export default function Login() {
   const [error, setError] = useState<string | null>(null)

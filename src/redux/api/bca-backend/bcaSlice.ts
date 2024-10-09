@@ -1,15 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
-import { UserResponse } from "../../../types/user"
-import { LoginInput } from "../../../types/login"
-import { LoginErrorResponse } from "../../../types/error"
 import { RootState } from "../../store"
 
 const SERVER_API_URL = import.meta.env.VITE_BACKEND_SERVER
-
-type loginResponse = {
-  user: UserResponse
-  token: string
-}
 
 export const bcaApiSlice = createApi({
   reducerPath: "bcaApi",
@@ -27,27 +19,6 @@ export const bcaApiSlice = createApi({
     },
   }),
 
-  endpoints: builder => ({
-    login: builder.mutation<loginResponse, LoginInput>({
-      query(body) {
-        return {
-          url: "/login",
-          method: "POST",
-          body
-        }
-      },
-
-      transformErrorResponse(baseQueryReturnValue: {
-        data: LoginErrorResponse,
-        status: number
-      }) {
-        return {
-          error: baseQueryReturnValue.data.error,
-          status: baseQueryReturnValue.status
-        }
-      },
-    }),
-  })
+  endpoints: () => ({}),
 })
 
-export const { useLoginMutation } = bcaApiSlice
