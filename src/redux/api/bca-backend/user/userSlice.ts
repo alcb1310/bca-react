@@ -12,8 +12,17 @@ const userEndPoints = bcaApiSlice.injectEndpoints({
           method: "GET"
         }
       },
+    }),
+
+    allUsers: builder.query<UserResponse[], void>({
+      query() {
+        return {
+          url: "/users",
+          method: "GET"
+        }
+      },
     })
   })
 })
 
-export const { useMeQuery } = userEndPoints
+export const { useMeQuery, useAllUsersQuery } = userEndPoints
