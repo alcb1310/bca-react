@@ -9,3 +9,11 @@ export const userResponseSchema = z.object({
 });
 
 export type UserResponse = z.infer<typeof userResponseSchema>;
+
+export const userCreateSchema = z.object({
+  name: z.string(),
+  email: z.string(),
+  password: z.string(),
+})
+
+export type UserCreate = z.infer<typeof userCreateSchema>;
