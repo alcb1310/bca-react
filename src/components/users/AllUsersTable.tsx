@@ -43,6 +43,7 @@ export default function AllUsersTable() {
       <DataGrid
         rows={data || []}
         columns={cols}
+        rowHeight={25}
         sx={{ '&, [class^=MuiDataGrid]': { border: 'none' } }}
         disableColumnFilter
         disableColumnResize
