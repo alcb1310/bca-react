@@ -1,10 +1,14 @@
 import { DeleteOutline, EditOutlined } from "@mui/icons-material";
-import { useAllUsersQuery, useMeQuery } from "../../redux/api/bca-backend/user/userSlice"
 import { DataGrid, GridColDef, GridActionsCellItem } from '@mui/x-data-grid';
+
+import { useAllUsersQuery, useDeleteUserMutation, useMeQuery } from "../../redux/api/bca-backend/user/userSlice"
+
+// TODO: Add confirmation message when deleting a user
 
 export default function AllUsersTable() {
   const { data, isLoading } = useAllUsersQuery()
   const { data: me } = useMeQuery()
+  const [deleteUser] = useDeleteUserMutation()
 
   if (isLoading) {
     return <div>Loading...</div>
@@ -30,9 +34,7 @@ export default function AllUsersTable() {
           disabled={me?.id === params.row.id}
           icon=<DeleteOutline className={me?.id === params.row.id ? "text-red-200" : "text-red-500"} />
           label="Delete"
-          onClick={() => {
-            console.log(params)
-          }}
+          onClick={() => { deleteUser(params.row.id) }}
         />,
       ]
     },
