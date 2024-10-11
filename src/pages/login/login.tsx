@@ -55,7 +55,7 @@ export default function Login() {
           Login
         </Typography>
 
-        {error && <Typography color="error" variant="body2" component="p" sx={{ textAlign: 'left' }}> {error} </Typography>}
+        {error && <Typography color="error" variant="body2" component="p" sx={{ textAlign: 'left', width: '100%' }}> {error} </Typography>}
 
         <form className="w-full" onSubmit={handleSubmit(onSubmit)}>
           <FormControl
