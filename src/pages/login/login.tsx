@@ -1,25 +1,26 @@
 import { useState } from "react";
-import { Box, Button, FormControl, TextField, Typography } from "@mui/material";
+import { Box, Button, FormControl, FormHelperText, TextField, Typography } from "@mui/material";
 import { Controller, useForm } from "react-hook-form";
-import { LoginInput } from "../../types/login";
+import { LoginInput, loginSchema } from "../../types/login";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { login } from "../../redux/features/login/loginSlice";
 import { Navigate } from "react-router-dom";
 import { useLoginMutation } from "../../redux/api/bca-backend/auth/authentication";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 export default function Login() {
   const [error, setError] = useState<string | null>(null)
 
-  // TODO: Handle form errors
   const {
     control,
     handleSubmit,
+    formState: { errors },
   } = useForm<LoginInput>({
     defaultValues: {
       email: '',
       password: ''
-    }
-    // TODO: Add validation using zodResolver
+    },
+    resolver: zodResolver(loginSchema),
   })
   const isLoggedIn = useAppSelector(state => state.login.isLoggedIn)
   const dispatch = useAppDispatch()
@@ -71,12 +72,14 @@ export default function Login() {
               control={control}
               render={({ field }) => <TextField {...field} label="Email" variant="outlined" />}
             />
+            {errors.email && <FormHelperText error>{errors.email?.message}</FormHelperText>}
 
             <Controller
               name="password"
               control={control}
               render={({ field }) => <TextField {...field} label="Contraseña" type="password" variant="outlined" />}
             />
+            {errors.password && <FormHelperText error>{errors.password?.message}</FormHelperText>}
 
             <Button
               variant="contained"
