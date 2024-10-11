@@ -19,6 +19,10 @@ export const bcaApiSlice = createApi({
     },
   }),
 
+  tagTypes: [
+    "users",
+  ],
+
   endpoints: () => ({}),
 })
 

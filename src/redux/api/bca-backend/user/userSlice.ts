@@ -1,4 +1,4 @@
-import { UserResponse } from "../../../../types/user";
+import { UserCreate, UserResponse } from "../../../../types/user";
 import { bcaApiSlice } from "../bcaSlice";
 
 const userEndPoints = bcaApiSlice.injectEndpoints({
@@ -12,6 +12,8 @@ const userEndPoints = bcaApiSlice.injectEndpoints({
           method: "GET"
         }
       },
+
+      providesTags: ["users"],
     }),
 
     allUsers: builder.query<UserResponse[], void>({
@@ -21,8 +23,26 @@ const userEndPoints = bcaApiSlice.injectEndpoints({
           method: "GET"
         }
       },
+
+      providesTags: ["users"],
+    }),
+
+    createUser: builder.mutation<UserResponse, UserCreate>({
+      query(body) {
+        return {
+          url: "/users",
+          method: "POST",
+          body
+        }
+      },
+
+      invalidatesTags: ["users"],
     })
   })
 })
 
-export const { useMeQuery, useAllUsersQuery } = userEndPoints
+export const {
+  useMeQuery,
+  useAllUsersQuery,
+  useCreateUserMutation,
+} = userEndPoints
