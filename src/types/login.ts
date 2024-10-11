@@ -3,13 +3,12 @@ import { z } from "zod";
 export const loginSchema = z.object({
   email: z
     .string()
-    .min(1, "Email is required")
-    .email("Email is invalid"),
+    .min(1, "Email es obligatorio")
+    .email("Email no es valido"),
   password: z
     .string()
-    .min(1, "Password is required")
-    .min(8, "Password must be more than 8 characters")
-    .max(32, "Password must be less than 32 characters"),
+    .min(1, "Contraseña es obligatoria")
+    .min(8, "Contraseña debe ser mayor a 8 caracteres"),
 });
 
 
