@@ -9,7 +9,7 @@ export const userResponseSchema = z.object({
   role_id: z.string(),
 });
 
-export type UserResponse = z.infer<typeof userResponseSchema>;
+export type UserResponse = z.infer<typeof userResponseSchema>
 
 export const userCreateSchema = z.object({
   name: z.string()
@@ -22,4 +22,12 @@ export const userCreateSchema = z.object({
     .min(8, "Contraseña debe ser mayor a 8 caracteres"),
 })
 
-export type UserCreate = z.infer<typeof userCreateSchema>;
+export type UserCreate = z.infer<typeof userCreateSchema>
+
+export const passwordSchema = z.object({
+  password: z.string()
+    .min(1, "Contraseña es obligatoria")
+    .min(8, "Contraseña debe ser mayor a 8 caracteres"),
+})
+
+export type PasswordType = z.infer<typeof passwordSchema>
