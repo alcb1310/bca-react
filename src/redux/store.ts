@@ -1,16 +1,17 @@
 import { configureStore } from "@reduxjs/toolkit";
-import counterReducer from "./features/counter/counterSlice";
-import { dogsApiSlice } from "./features/dogs/dogs-api-slice";
-import { themeSlice } from "./features/theme/theme-slice";
+
+import { bcaApiSlice } from "./api/bca-backend/bcaSlice";
+import { themeSlice } from "./features/theme/themeSlice";
+import { loginSlice } from "./features/login/loginSlice";
 
 export const store = configureStore({
   reducer: {
-    counter: counterReducer,
     theme: themeSlice.reducer,
-    [dogsApiSlice.reducerPath]: dogsApiSlice.reducer,
+    login: loginSlice.reducer,
+    [bcaApiSlice.reducerPath]: bcaApiSlice.reducer
   },
   middleware: (getDefaultMiddleware) => {
-    return getDefaultMiddleware().concat(dogsApiSlice.middleware)
+    return getDefaultMiddleware().concat(bcaApiSlice.middleware)
   }
 });
 

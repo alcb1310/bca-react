@@ -3,6 +3,7 @@ import TransactionsMenu from "../menu/Transactions";
 import ReportsMenu from "../menu/Reports";
 import ParametersMenu from "../menu/Parameters";
 import AnalysisMenu from "../menu/Analysis";
+import { Link } from "react-router-dom";
 
 export default function Sidebar() {
   return (
@@ -27,8 +28,11 @@ export default function Sidebar() {
         }}
       >
         <Box sx={{ mr: 1, height: '65px', borderBottom: '1px solid #ccc' }} >
-          <img src="/favicon.ico" alt="logo" height={50} className="mx-auto py-2 " />
+          <Link to="/">
+            <img src="/favicon.ico" alt="logo" height={50} className="mx-auto py-2 " />
+          </Link>
         </Box>
+
         <Box py={1} sx={{ overflow: 'auto' }}>
           <TransactionsMenu />
           <ReportsMenu />

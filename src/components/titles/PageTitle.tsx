@@ -11,6 +11,7 @@ export default function PageTitle(props: PageTitleProps) {
       component="h2"
       textAlign="left"
       py={2}
+      mb={2}
       sx={{
         display: "block",
         borderBottom: "1px solid black"

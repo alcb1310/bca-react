@@ -2,8 +2,16 @@ import { AppBar, Box, IconButton, Stack, Toolbar, Tooltip, Typography } from "@m
 import ChangeTheme from "../theme/ChangeTheme";
 import { LogoutOutlined } from "@mui/icons-material";
 import UserMenu from "../menu/User";
+import { useAppDispatch } from "../../redux/hooks";
+import { logout } from "../../redux/features/login/loginSlice";
 
 export default function ApplicationBar() {
+  const dispatch = useAppDispatch()
+
+  function handleLogout() {
+    dispatch(logout())
+  }
+
   return (
     <AppBar
       position="sticky"
@@ -28,7 +36,11 @@ export default function ApplicationBar() {
           <Tooltip
             title="Cerrar sesión"
           >
-            <IconButton size="large" sx={{ color: 'white' }}>
+            <IconButton
+              size="large"
+              onClick={handleLogout}
+              sx={{ color: 'white' }}
+            >
               <LogoutOutlined />
             </IconButton>
           </Tooltip>

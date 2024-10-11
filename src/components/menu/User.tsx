@@ -1,11 +1,14 @@
 import { useState, MouseEvent } from "react"
 import { PersonOutline } from "@mui/icons-material"
-import { IconButton, Menu, MenuItem, Tooltip } from "@mui/material"
-import { Link } from "react-router-dom"
+import { Button, IconButton, Menu, MenuItem, Tooltip } from "@mui/material"
+import { useNavigate } from "react-router-dom"
+import ChangePassword from "../../pages/users/password"
 
 function UserMenu() {
   const [open, setOpen] = useState(false)
+  const [showPassword, setShowPassword] = useState(false)
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
+  const navigate = useNavigate()
 
   function handleClick(event: MouseEvent<HTMLElement>) {
     setOpen(prev => !prev)
@@ -15,6 +18,16 @@ function UserMenu() {
     } else {
       setAnchorEl(event.currentTarget)
     }
+  }
+
+  function userNavigation(route: string) {
+    setOpen(prev => !prev)
+    navigate(route)
+  }
+
+  function openPasswordDrawer() {
+    setOpen(prev => !prev)
+    setShowPassword(prev => !prev)
   }
 
   return (
@@ -37,21 +50,49 @@ function UserMenu() {
         onClose={handleClick}
       >
         <MenuItem>
-          <Link to='/usuarios' onClick={handleClick}>
+          <Button
+            variant="text"
+            sx={{
+              justifyContent: "start",
+              color: "black",
+              padding: 0,
+              textTransform: "none"
+            }}
+            onClick={() => userNavigation("/usuarios")}
+          >
             Mi Perfil
-          </Link>
+          </Button>
         </MenuItem>
         <MenuItem>
-          <Link to='/usuarios/admin' onClick={handleClick}>
+          <Button
+            variant="text"
+            sx={{
+              justifyContent: "start",
+              color: "black",
+              padding: 0,
+              textTransform: "none"
+            }}
+            onClick={() => userNavigation("/usuarios/admin")}
+          >
             Administrar
-          </Link>
+          </Button>
         </MenuItem>
         <MenuItem>
-          <Link to='/usuarios/contrasena' onClick={handleClick}>
+          <Button
+            variant="text"
+            sx={{
+              justifyContent: "start",
+              color: "black",
+              padding: 0,
+              textTransform: "none"
+            }}
+            onClick={() => openPasswordDrawer()}
+          >
             Cambiar Contraseña
-          </Link>
+          </Button>
         </MenuItem>
       </Menu>
+      {showPassword && <ChangePassword onClose={() => setShowPassword(prev => !prev)} />}
     </>
   )
 }
