@@ -61,6 +61,19 @@ const userEndPoints = bcaApiSlice.injectEndpoints({
 
       invalidatesTags: ["users"],
     }),
+
+    updatePassword: builder.mutation<void, { password: string }>({
+      query(body) {
+        return {
+          url: `/users`,
+          method: "PUT",
+          body
+        }
+      },
+
+      invalidatesTags: ["users"],
+    }),
+
   })
 })
 
@@ -70,4 +83,5 @@ export const {
   useCreateUserMutation,
   useDeleteUserMutation,
   useUpdateUserMutation,
+  useUpdatePasswordMutation
 } = userEndPoints
