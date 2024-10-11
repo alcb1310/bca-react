@@ -1,14 +1,19 @@
 import { useState } from "react";
 import { DeleteOutline, EditOutlined } from "@mui/icons-material";
-import { DataGrid, GridColDef, GridActionsCellItem } from '@mui/x-data-grid';
+import { DataGrid, GridColDef, GridActionsCellItem, GridRowParams } from '@mui/x-data-grid';
 
 import { useAllUsersQuery, useDeleteUserMutation, useMeQuery } from "../../redux/api/bca-backend/user/userSlice"
 import ConfirmationDialog from "../dialog/ConfirmationDialog";
+import UsersDrawer from "../drawers/Users/UsersDrawer";
+import { UserResponse } from "../../types/user";
 
 export default function AllUsersTable() {
   const [confirmationDialogOpen, setConfirmationDialogOpen] = useState<boolean>(false)
   const [userIdToDelete, setUserIdToDelete] = useState<string>("")
   const [message, setMessage] = useState<string>("")
+  const [openUserDrawer, setOpenUserDrawer] = useState<boolean>(false)
+  const [userData, setUserData] = useState<UserResponse | null>(null)
+
 
   const { data, isLoading } = useAllUsersQuery()
   const { data: me } = useMeQuery()
@@ -20,34 +25,40 @@ export default function AllUsersTable() {
     setMessage(`Seguro que quieres borrar al usuario ${name}?`)
   }
 
+  function setOpenUserDrawerWindow(open: boolean, userData: UserResponse) {
+    setUserData(userData)
+    setOpenUserDrawer(open)
+  }
+
   if (isLoading) {
     return <div>Loading...</div>
   }
 
   const cols: GridColDef[] = [
-    { field: "name", headerName: "Name", width: 300, resizable: true },
-    { field: "email", headerName: "Email", width: 300, resizable: false },
+    { field: "name", headerName: "Name", width: 300 },
+    { field: "email", headerName: "Email", width: 300 },
     {
       field: "actions",
       type: "actions",
       width: 10,
-      resizable: false,
-      getActions: (params) => [
+      getActions: (params: GridRowParams<UserResponse>) => [
         <GridActionsCellItem
           icon=<EditOutlined color="warning" />
-          showInMenu
           label="Edit"
-          onClick={() => { console.log(params.row) }}
+          onClick={() => { setOpenUserDrawerWindow(true, params.row) }}
+          showInMenu
         />,
-
 
         <GridActionsCellItem
           disabled={me?.id === params.row.id}
-          icon=<DeleteOutline className={me?.id === params.row.id ? "text-red-200" : "text-red-500"} />
-          label="Delete"
+          icon=<DeleteOutline className="text-red-500" />
           showInMenu
+          label="Delete"
           onClick={() => { setOpenConfirmationDialog(true, params.row.id, params.row.name) }}
-        />,
+          sx={{
+            visibility: me?.id === params.row.id ? 'hidden' : 'visible',
+          }}
+        />
       ]
     },
   ]
@@ -66,6 +77,7 @@ export default function AllUsersTable() {
         disableMultipleRowSelection
       />
       {confirmationDialogOpen && <ConfirmationDialog message={message} confirm={() => { deleteUser(userIdToDelete) }} />}
+      {openUserDrawer && <UsersDrawer open={openUserDrawer} onClose={() => setOpenUserDrawer(false)} userData={userData!} />}
     </>
   )
 }

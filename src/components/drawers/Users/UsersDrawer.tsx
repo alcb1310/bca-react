@@ -6,7 +6,7 @@ import BcaDrawer from "../BcaDrawer/BcaDrawer";
 import { UserCreate, UserResponse } from "../../../types/user";
 import DrawerTitle from "../../titles/DrawerTitle";
 import ButtonGroup from "../../buttons/button-group";
-import { useCreateUserMutation } from "../../../redux/api/bca-backend/user/userSlice";
+import { useCreateUserMutation, useUpdateUserMutation } from "../../../redux/api/bca-backend/user/userSlice";
 import BcaTextField from "../../input/BcaTextField";
 
 type UsersDrawerProps = {
@@ -14,7 +14,6 @@ type UsersDrawerProps = {
   onClose: () => void
   userData: UserResponse | UserCreate
 }
-// TODO: add user edit
 
 export default function UsersDrawer({
   open,
@@ -22,13 +21,14 @@ export default function UsersDrawer({
   userData,
 }: UsersDrawerProps) {
   const [createUser] = useCreateUserMutation()
+  const [updateUser] = useUpdateUserMutation()
   const [conflictError, setConflictError] = useState<string>('')
 
   // TODO: add form validation
   const { control, reset, handleSubmit } = useForm<UserCreate | UserResponse>({
     defaultValues: {
       ...userData
-    }
+    },
   })
 
   useEffect(() => {
@@ -45,10 +45,16 @@ export default function UsersDrawer({
         reset()
         return
       }
-
-      // @ts-ignore
-      setConflictError(res.error.data.error)
+    } else {
+      const res = await updateUser(data)
+      if ('data' in res) {
+        onClose()
+        reset()
+        return
+      }
     }
+    // @ts-ignore
+    setConflictError(res.error.data.error)
   }
 
   return (
@@ -69,13 +75,7 @@ export default function UsersDrawer({
             name="email"
             type="email"
             control={control}
-          />
-
-          <BcaTextField
-            name="password"
-            type="password"
             disabled={'id' in userData}
-            control={control}
           />
 
           <BcaTextField
@@ -83,6 +83,13 @@ export default function UsersDrawer({
             type="text"
             control={control}
           />
+
+          {'password' in userData && <BcaTextField
+            name="password"
+            type="password"
+            disabled={'id' in userData}
+            control={control}
+          />}
 
           <ButtonGroup
             saveFunction={() => { }}
