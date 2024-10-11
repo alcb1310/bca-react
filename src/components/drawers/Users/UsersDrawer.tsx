@@ -3,11 +3,12 @@ import { useForm } from "react-hook-form";
 import { Box, Typography } from "@mui/material";
 
 import BcaDrawer from "../BcaDrawer/BcaDrawer";
-import { UserCreate, UserResponse } from "../../../types/user";
+import { UserCreate, userCreateSchema, UserResponse, userResponseSchema } from "../../../types/user";
 import DrawerTitle from "../../titles/DrawerTitle";
 import ButtonGroup from "../../buttons/button-group";
 import { useCreateUserMutation, useUpdateUserMutation } from "../../../redux/api/bca-backend/user/userSlice";
 import BcaTextField from "../../input/BcaTextField";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 type UsersDrawerProps = {
   open: boolean
@@ -24,11 +25,14 @@ export default function UsersDrawer({
   const [updateUser] = useUpdateUserMutation()
   const [conflictError, setConflictError] = useState<string>('')
 
+  const resolver = 'id' in userData ? zodResolver(userResponseSchema) : zodResolver(userCreateSchema)
+
   // TODO: add form validation
   const { control, reset, handleSubmit } = useForm<UserCreate | UserResponse>({
     defaultValues: {
       ...userData
     },
+    resolver,
   })
 
   useEffect(() => {
@@ -37,6 +41,7 @@ export default function UsersDrawer({
   }, [userData])
 
   async function hadleSubmit(data: UserCreate | UserResponse) {
+    console.log("data", data)
     setConflictError('')
     if ('password' in data) {
       const res = await createUser(data)
@@ -45,6 +50,9 @@ export default function UsersDrawer({
         reset()
         return
       }
+
+      // @ts-ignore
+      setConflictError(res.error.data.error)
     } else {
       const res = await updateUser(data)
       if ('data' in res) {
@@ -53,8 +61,6 @@ export default function UsersDrawer({
         return
       }
     }
-    // @ts-ignore
-    setConflictError(res.error.data.error)
   }
 
   return (
