@@ -15,7 +15,6 @@ export default function ButtonGroup({
       direction="row"
       justifyContent="space-between"
       alignItems="center"
-      mt={3}
     >
       <Button
         variant="contained"
