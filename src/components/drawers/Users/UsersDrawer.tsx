@@ -27,7 +27,6 @@ export default function UsersDrawer({
 
   const resolver = 'id' in userData ? zodResolver(userResponseSchema) : zodResolver(userCreateSchema)
 
-  // TODO: add form validation
   const { control, reset, handleSubmit } = useForm<UserCreate | UserResponse>({
     defaultValues: {
       ...userData
@@ -41,7 +40,6 @@ export default function UsersDrawer({
   }, [userData])
 
   async function hadleSubmit(data: UserCreate | UserResponse) {
-    console.log("data", data)
     setConflictError('')
     if ('password' in data) {
       const res = await createUser(data)
@@ -79,6 +77,7 @@ export default function UsersDrawer({
 
           <BcaTextField
             name="email"
+            label="Email"
             type="email"
             control={control}
             disabled={'id' in userData}
@@ -86,6 +85,7 @@ export default function UsersDrawer({
 
           <BcaTextField
             name="name"
+            label="Nombre"
             type="text"
             control={control}
           />
@@ -93,6 +93,7 @@ export default function UsersDrawer({
           {'password' in userData && <BcaTextField
             name="password"
             type="password"
+            label="Contraseña"
             disabled={'id' in userData}
             control={control}
           />}
