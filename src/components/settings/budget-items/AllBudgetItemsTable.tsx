@@ -33,6 +33,13 @@ export default function AllBudgetItemsTable({
       },
     },
     {
+      field: "parent_id",
+      headerName: "Padre",
+      valueGetter: (_value, row) => {
+        return row.parent?.id
+      }
+    },
+    {
       field: "actions",
       type: "actions",
       width: 10,
@@ -61,7 +68,18 @@ export default function AllBudgetItemsTable({
         disableMultipleRowSelection
         sx={{ '&, [class^=MuiDataGrid]': { border: 'none' } }}
         pagination
-        initialState={{ pagination: { paginationModel: { pageSize: 25 } } }}
+        initialState={{
+          pagination: {
+            paginationModel: {
+              pageSize: 25
+            }
+          },
+          columns: {
+            columnVisibilityModel:{
+              parent_id: false
+            }
+          }
+        }}
       />
     </>
   )

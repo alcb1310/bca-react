@@ -46,6 +46,13 @@ export default function BudgetItems() {
       <BudgetItemDrawer
         open={open}
         onClose={handleClick}
+        defaultValues={{
+          id: "",
+          code: "",
+          name: "",
+          accumulate: false,
+          parent_id: "",
+        }}
       />
     </>
   )

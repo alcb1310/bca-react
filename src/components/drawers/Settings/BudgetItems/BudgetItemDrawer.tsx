@@ -1,4 +1,4 @@
-import { Box, FormControlLabel, MenuItem } from "@mui/material";
+import { Box, CircularProgress, FormControlLabel, MenuItem } from "@mui/material";
 import DrawerTitle from "../../../titles/DrawerTitle";
 import BcaDrawer from "../../BcaDrawer/BcaDrawer";
 import ButtonGroup from "../../../buttons/button-group";
@@ -8,31 +8,34 @@ import { BudgetItem } from "../../../../types/partidas";
 import { useEffect } from "react";
 import { RhfSwitch } from "mui-rhf-integration";
 import BcaSelect from "../../../input/BcaSelect";
+import { DevTool } from "@hookform/devtools";
+import { useCreateBudgetItemMutation, useGetAllBudgetItemsByAccumulateQuery } from "../../../../redux/api/bca-backend/parametros/budgetItemSlice";
 
 type BudgetItemDrawerProps = {
   open: boolean;
   onClose: () => void;
+  defaultValues: BudgetItem
 };
 
 export default function BudgetItemDrawer({
   open,
   onClose,
+  defaultValues,
 }: BudgetItemDrawerProps) {
   const { control, reset, handleSubmit } = useForm<BudgetItem>({
-    defaultValues: {
-      code: "",
-      name: "",
-      parentId: "",
-      accumulates: false,
-    },
+    defaultValues,
   });
 
+  const [createBudgetItem] = useCreateBudgetItemMutation()
+  const { data, isLoading } = useGetAllBudgetItemsByAccumulateQuery({ accumulate: true })
+
   useEffect(() => {
-    reset();
-  }, []);
+    reset(defaultValues);
+  }, [defaultValues]);
 
   function hadleSubmit(data: BudgetItem) {
-    console.log(data);
+    createBudgetItem(data)
+    onClose()
   }
 
   return (
@@ -44,15 +47,19 @@ export default function BudgetItemDrawer({
           className="w-full flex flex-col gap-5"
           onSubmit={handleSubmit(hadleSubmit)}
         >
+          {isLoading && <CircularProgress />}
+
           <BcaTextField name="code" label="Código" control={control} />
 
           <BcaTextField name="name" label="Nombre" control={control} />
 
-          <BcaSelect name="parentId" label="Padre" control={control}>
+          <BcaSelect name="parent_id" label="Padre" control={control}>
             <MenuItem value={""}>---Seleccione---</MenuItem>
-            <MenuItem value="b3fcdc7f-dc62-470d-8a17-71ac2f470432b3fcdc7f-dc62-470d-8a17-71ac2f470432">
-              Partida 1
-            </MenuItem>
+            {
+              data?.map(budgetItem => (
+                <MenuItem key={budgetItem.id} value={budgetItem.id}>{budgetItem.name}</MenuItem>
+              ))
+            }
           </BcaSelect>
 
           <FormControlLabel
@@ -60,7 +67,7 @@ export default function BudgetItemDrawer({
             labelPlacement="end"
             label="Acumula"
             control={
-              <RhfSwitch name="accumulates" control={control} size="small" />
+              <RhfSwitch name="accumulate" control={control} size="small" />
             }
           />
 
@@ -70,6 +77,7 @@ export default function BudgetItemDrawer({
           />
         </form>
       </Box>
+      <DevTool control={control} />
     </BcaDrawer>
   );
 }
