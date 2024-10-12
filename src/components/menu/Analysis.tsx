@@ -14,7 +14,8 @@ export default function AnalysisMenu() {
           primary="Analisis"
           primaryTypographyProps={{
             fontWeight: 'bold',
-            fontSize: 12,
+            fontSize: "0.85rem",
+            lineHeight: "1rem",
             textTransform: 'uppercase'
           }}
         />
@@ -29,14 +30,13 @@ export default function AnalysisMenu() {
             selected={str.toLowerCase() === '/analisis/cantidad'}
           >
             <ListItemIcon sx={{ minWidth: 30 }}>
-              <ProductionQuantityLimitsOutlined sx={{ fontSize: 12 }} />
+              <ProductionQuantityLimitsOutlined sx={{ fontSize: "0.75rem" }} />
             </ListItemIcon>
 
             <ListItemText
               primary="Cantidades"
               primaryTypographyProps={{
-                fontWeight: 'bold',
-                fontSize: 12,
+                fontSize: "0.75rem",
                 textTransform: 'uppercase'
               }}
             />
@@ -49,14 +49,13 @@ export default function AnalysisMenu() {
             selected={str.toLowerCase() === '/analisis/analisis'}
           >
             <ListItemIcon sx={{ minWidth: 30 }}>
-              <AnalyticsOutlined sx={{ fontSize: 12 }} />
+              <AnalyticsOutlined sx={{ fontSize: "0.75rem" }} />
             </ListItemIcon>
 
             <ListItemText
               primary="analisis"
               primaryTypographyProps={{
-                fontWeight: 'bold',
-                fontSize: 12,
+                fontSize: "0.75rem",
                 textTransform: 'uppercase'
               }}
             />

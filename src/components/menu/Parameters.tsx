@@ -14,7 +14,8 @@ export default function ParametersMenu() {
           primary="Parametros"
           primaryTypographyProps={{
             fontWeight: 'bold',
-            fontSize: 12,
+            fontSize: "0.85rem",
+            lineHeight: "1rem",
             textTransform: 'uppercase'
           }}
         />
@@ -25,18 +26,17 @@ export default function ParametersMenu() {
           <ListItemButton
             component={NavLink}
             to="/parametros/partidas"
-            sx={{ mb: 1, borderRadius: 2 }}
+            sx={{ borderRadius: 2 }}
             selected={str.toLowerCase() === '/parametros/partidas'}
           >
             <ListItemIcon sx={{ minWidth: 30 }}>
-              <ViewKanbanOutlined sx={{ fontSize: 12 }} />
+              <ViewKanbanOutlined sx={{ fontSize: "0.75rem" }} />
             </ListItemIcon>
 
             <ListItemText
               primary="Partidas"
               primaryTypographyProps={{
-                fontWeight: 'bold',
-                fontSize: 12,
+                fontSize: "0.75rem",
                 textTransform: 'uppercase'
               }}
             />
@@ -45,18 +45,17 @@ export default function ParametersMenu() {
           <ListItemButton
             component={NavLink}
             to="/parametros/categorias"
-            sx={{ mb: 1, borderRadius: 2 }}
+            sx={{ borderRadius: 2 }}
             selected={str.toLowerCase() === '/parametros/categorias'}
           >
             <ListItemIcon sx={{ minWidth: 30 }}>
-              <CategoryOutlined sx={{ fontSize: 12 }} />
+              <CategoryOutlined sx={{ fontSize: "0.75rem" }} />
             </ListItemIcon>
 
             <ListItemText
               primary="Categorias"
               primaryTypographyProps={{
-                fontWeight: 'bold',
-                fontSize: 12,
+                fontSize: "0.75rem",
                 textTransform: 'uppercase'
               }}
             />
@@ -65,18 +64,17 @@ export default function ParametersMenu() {
           <ListItemButton
             component={NavLink}
             to="/parametros/materiales"
-            sx={{ mb: 1, borderRadius: 2 }}
+            sx={{ borderRadius: 2 }}
             selected={str.toLowerCase() === '/parametros/materiales'}
           >
             <ListItemIcon sx={{ minWidth: 30 }}>
-              <InventoryOutlined sx={{ fontSize: 12 }} />
+              <InventoryOutlined sx={{ fontSize: "0.75rem" }} />
             </ListItemIcon>
 
             <ListItemText
               primary="Materiales"
               primaryTypographyProps={{
-                fontWeight: 'bold',
-                fontSize: 12,
+                fontSize: "0.75rem",
                 textTransform: 'uppercase'
               }}
             />
@@ -85,18 +83,17 @@ export default function ParametersMenu() {
           <ListItemButton
             component={NavLink}
             to="/parametros/proyectos"
-            sx={{ mb: 1, borderRadius: 2 }}
+            sx={{ borderRadius: 2 }}
             selected={str.toLowerCase() === '/parametros/proyectos'}
           >
             <ListItemIcon sx={{ minWidth: 30 }}>
-              <AccountTreeOutlined sx={{ fontSize: 12 }} />
+              <AccountTreeOutlined sx={{ fontSize: "0.75rem" }} />
             </ListItemIcon>
 
             <ListItemText
               primary="Proyectos"
               primaryTypographyProps={{
-                fontWeight: 'bold',
-                fontSize: 12,
+                fontSize: "0.75rem",
                 textTransform: 'uppercase'
               }}
             />
@@ -105,18 +102,17 @@ export default function ParametersMenu() {
           <ListItemButton
             component={NavLink}
             to="/parametros/proveedores"
-            sx={{ mb: 1, borderRadius: 2 }}
+            sx={{ borderRadius: 2 }}
             selected={str.toLowerCase() === '/parametros/proveedores'}
           >
             <ListItemIcon sx={{ minWidth: 30 }}>
-              <FactoryOutlined sx={{ fontSize: 12 }} />
+              <FactoryOutlined sx={{ fontSize: "0.75rem" }} />
             </ListItemIcon>
 
             <ListItemText
               primary="Proveedores"
               primaryTypographyProps={{
-                fontWeight: 'bold',
-                fontSize: 12,
+                fontSize: "0.75rem",
                 textTransform: 'uppercase'
               }}
             />
@@ -125,18 +121,17 @@ export default function ParametersMenu() {
           <ListItemButton
             component={NavLink}
             to="/parametros/rubros"
-            sx={{ mb: 1, borderRadius: 2 }}
+            sx={{ borderRadius: 2 }}
             selected={str.toLowerCase() === '/parametros/rubros'}
           >
             <ListItemIcon sx={{ minWidth: 30 }}>
-              <FactoryOutlined sx={{ fontSize: 12 }} />
+              <FactoryOutlined sx={{ fontSize: "0.75rem" }} />
             </ListItemIcon>
 
             <ListItemText
               primary="Rubros"
               primaryTypographyProps={{
-                fontWeight: 'bold',
-                fontSize: 12,
+                fontSize: "0.75rem",
                 textTransform: 'uppercase'
               }}
             />

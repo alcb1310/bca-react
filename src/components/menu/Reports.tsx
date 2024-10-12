@@ -14,7 +14,8 @@ export default function ReportsMenu() {
           primary="Reportes"
           primaryTypographyProps={{
             fontWeight: 'bold',
-            fontSize: 12,
+            fontSize: "0.85rem",
+            lineHeight: "1rem",
             textTransform: 'uppercase'
           }}
         />
@@ -25,18 +26,17 @@ export default function ReportsMenu() {
           <ListItemButton
             component={NavLink}
             to="/reportes/actual"
-            sx={{ mb: 1, borderRadius: 2 }}
+            sx={{ borderRadius: 2 }}
             selected={str.toLowerCase() === '/reportes/actual'}
           >
             <ListItemIcon sx={{ minWidth: 30 }}>
-              <AddchartOutlined sx={{ fontSize: 12 }} />
+              <AddchartOutlined sx={{ fontSize: "0.75rem" }} />
             </ListItemIcon>
 
             <ListItemText
               primary="Actual"
               primaryTypographyProps={{
-                fontWeight: 'bold',
-                fontSize: 12,
+                fontSize: "0.75rem",
                 textTransform: 'uppercase'
               }}
             />
@@ -45,18 +45,17 @@ export default function ReportsMenu() {
           <ListItemButton
             component={NavLink}
             to="/reportes/cuadre"
-            sx={{ mb: 1, borderRadius: 2 }}
+            sx={{ borderRadius: 2 }}
             selected={str.toLowerCase() === '/reportes/cuadre'}
           >
             <ListItemIcon sx={{ minWidth: 30 }}>
-              <BalanceOutlined sx={{ fontSize: 12 }} />
+              <BalanceOutlined sx={{ fontSize: "0.75rem" }} />
             </ListItemIcon>
 
             <ListItemText
               primary="Cuadre"
               primaryTypographyProps={{
-                fontWeight: 'bold',
-                fontSize: 12,
+                fontSize: "0.75rem",
                 textTransform: 'uppercase'
               }}
             />
@@ -65,18 +64,17 @@ export default function ReportsMenu() {
           <ListItemButton
             component={NavLink}
             to="/reportes/gastado-por-partida"
-            sx={{ mb: 1, borderRadius: 2 }}
+            sx={{ borderRadius: 2 }}
             selected={str.toLowerCase() === '/reportes/gastado-por-partida'}
           >
             <ListItemIcon sx={{ minWidth: 30 }}>
-              <LocalAtmOutlined sx={{ fontSize: 12 }} />
+              <LocalAtmOutlined sx={{ fontSize: "0.75rem" }} />
             </ListItemIcon>
 
             <ListItemText
               primary="Gastado por Partida"
               primaryTypographyProps={{
-                fontWeight: 'bold',
-                fontSize: 12,
+                fontSize: "0.75rem",
                 textTransform: 'uppercase'
               }}
             />
@@ -85,18 +83,17 @@ export default function ReportsMenu() {
           <ListItemButton
             component={NavLink}
             to="/reportes/historico"
-            sx={{ mb: 1, borderRadius: 2 }}
+            sx={{ borderRadius: 2 }}
             selected={str.toLowerCase() === '/reportes/historico'}
           >
             <ListItemIcon sx={{ minWidth: 30 }}>
-              <WorkHistoryOutlined sx={{ fontSize: 12 }} />
+              <WorkHistoryOutlined sx={{ fontSize: "0.75rem" }} />
             </ListItemIcon>
 
             <ListItemText
               primary="Historico"
               primaryTypographyProps={{
-                fontWeight: 'bold',
-                fontSize: 12,
+                fontSize: "0.75rem",
                 textTransform: 'uppercase'
               }}
             />
