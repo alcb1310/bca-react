@@ -1,11 +1,11 @@
-import { BudgetItem } from "../../../../types/partidas";
+import { BudgetItem, BudgetItemResponse } from "../../../../types/partidas";
 import { bcaApiSlice } from "../bcaSlice";
 
 const partidasEndpoints = bcaApiSlice.injectEndpoints({
   overrideExisting: true,
 
   endpoints: builder => ({
-    getAllBudgetItems: builder.query<BudgetItem[], {
+    getAllBudgetItems: builder.query<BudgetItemResponse[], {
       query: string,
     }>({
       query(body) {
