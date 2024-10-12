@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 export const budgetItemSchema = z.object({
-  id: z.string().uuid(),
+  id: z.string().optional(),
   code: z.string()
     .min(1, "Código es obligatorio"),
   name: z.string()

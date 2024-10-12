@@ -1,20 +1,30 @@
-import { Box, CircularProgress, FormControlLabel, MenuItem } from "@mui/material";
+import {
+  Box,
+  CircularProgress,
+  FormControlLabel,
+  MenuItem,
+} from "@mui/material";
 import DrawerTitle from "../../../titles/DrawerTitle";
 import BcaDrawer from "../../BcaDrawer/BcaDrawer";
 import ButtonGroup from "../../../buttons/button-group";
 import BcaTextField from "../../../input/BcaTextField";
 import { useForm } from "react-hook-form";
-import { BudgetItem } from "../../../../types/partidas";
+import { BudgetItem, budgetItemSchema } from "../../../../types/partidas";
 import { useEffect } from "react";
 import { RhfSwitch } from "mui-rhf-integration";
 import BcaSelect from "../../../input/BcaSelect";
 import { DevTool } from "@hookform/devtools";
-import { useCreateBudgetItemMutation, useGetAllBudgetItemsByAccumulateQuery, useUpdateBudgetItemMutation } from "../../../../redux/api/bca-backend/parametros/budgetItemSlice";
+import {
+  useCreateBudgetItemMutation,
+  useGetAllBudgetItemsByAccumulateQuery,
+  useUpdateBudgetItemMutation,
+} from "../../../../redux/api/bca-backend/parametros/budgetItemSlice";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 type BudgetItemDrawerProps = {
   open: boolean;
   onClose: () => void;
-  defaultValues: BudgetItem
+  defaultValues: BudgetItem;
 };
 
 export default function BudgetItemDrawer({
@@ -24,24 +34,28 @@ export default function BudgetItemDrawer({
 }: BudgetItemDrawerProps) {
   const { control, reset, handleSubmit } = useForm<BudgetItem>({
     defaultValues,
+    resolver: zodResolver(budgetItemSchema),
   });
 
-  const [createBudgetItem] = useCreateBudgetItemMutation()
-  const [updateBudgetItem] = useUpdateBudgetItemMutation()
-  const { data, isLoading } = useGetAllBudgetItemsByAccumulateQuery({ accumulate: true })
+  const [createBudgetItem] = useCreateBudgetItemMutation();
+  const [updateBudgetItem] = useUpdateBudgetItemMutation();
+  const { data, isLoading } = useGetAllBudgetItemsByAccumulateQuery({
+    accumulate: true,
+  });
 
   useEffect(() => {
     reset(defaultValues);
   }, [defaultValues]);
 
-  function hadleSubmit(data: BudgetItem) {
+  async function hadleSubmit(data: BudgetItem) {
+    // TODO: Handle server errors
     if (defaultValues.id) {
-      updateBudgetItem(data)
-      onClose()
-      return
+      await updateBudgetItem(data);
+      onClose();
+      return;
     }
-    createBudgetItem(data)
-    onClose()
+    const res = await createBudgetItem(data);
+    onClose();
   }
 
   return (
@@ -66,11 +80,11 @@ export default function BudgetItemDrawer({
             disabled={defaultValues.id ? true : false}
           >
             <MenuItem value={""}>---Seleccione---</MenuItem>
-            {
-              data?.map(budgetItem => (
-                <MenuItem key={budgetItem.id} value={budgetItem.id}>{budgetItem.name}</MenuItem>
-              ))
-            }
+            {data?.map((budgetItem) => (
+              <MenuItem key={budgetItem.id} value={budgetItem.id}>
+                {budgetItem.name}
+              </MenuItem>
+            ))}
           </BcaSelect>
 
           <FormControlLabel
