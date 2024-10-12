@@ -48,6 +48,18 @@ const partidasEndpoints = bcaApiSlice.injectEndpoints({
 
       invalidatesTags: ["partidas"],
     }),
+
+    updateBudgetItem: builder.mutation<BudgetItem, BudgetItem>({
+      query(body) {
+        return {
+          url: `/parametros/partidas/${body.id}`,
+          method: "PUT",
+          body
+        }
+      },
+
+      invalidatesTags: ["partidas"],
+    })
   })
 })
 
@@ -55,4 +67,5 @@ export const {
   useGetAllBudgetItemsQuery,
   useGetAllBudgetItemsByAccumulateQuery,
   useCreateBudgetItemMutation,
+  useUpdateBudgetItemMutation,
 } = partidasEndpoints

@@ -9,7 +9,7 @@ import { useEffect } from "react";
 import { RhfSwitch } from "mui-rhf-integration";
 import BcaSelect from "../../../input/BcaSelect";
 import { DevTool } from "@hookform/devtools";
-import { useCreateBudgetItemMutation, useGetAllBudgetItemsByAccumulateQuery } from "../../../../redux/api/bca-backend/parametros/budgetItemSlice";
+import { useCreateBudgetItemMutation, useGetAllBudgetItemsByAccumulateQuery, useUpdateBudgetItemMutation } from "../../../../redux/api/bca-backend/parametros/budgetItemSlice";
 
 type BudgetItemDrawerProps = {
   open: boolean;
@@ -27,6 +27,7 @@ export default function BudgetItemDrawer({
   });
 
   const [createBudgetItem] = useCreateBudgetItemMutation()
+  const [updateBudgetItem] = useUpdateBudgetItemMutation()
   const { data, isLoading } = useGetAllBudgetItemsByAccumulateQuery({ accumulate: true })
 
   useEffect(() => {
@@ -34,6 +35,11 @@ export default function BudgetItemDrawer({
   }, [defaultValues]);
 
   function hadleSubmit(data: BudgetItem) {
+    if (defaultValues.id) {
+      updateBudgetItem(data)
+      onClose()
+      return
+    }
     createBudgetItem(data)
     onClose()
   }
