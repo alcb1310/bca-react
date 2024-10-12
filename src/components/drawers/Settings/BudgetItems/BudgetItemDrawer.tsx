@@ -7,62 +7,52 @@ import { useForm } from "react-hook-form";
 import { BudgetItem } from "../../../../types/partidas";
 import { useEffect } from "react";
 import { RhfSwitch } from "mui-rhf-integration";
-import BcaSwitch from "../../../input/BcaSwitch";
 import BcaSelect from "../../../input/BcaSelect";
-// import BcaSwitch from "../../../input/BcaSwitch";
 
 type BudgetItemDrawerProps = {
-  open: boolean
-  onClose: () => void
-}
+  open: boolean;
+  onClose: () => void;
+};
 
 export default function BudgetItemDrawer({
   open,
   onClose,
 }: BudgetItemDrawerProps) {
-  const { control, reset, handleSubmit } = useForm<BudgetItem>({})
+  const { control, reset, handleSubmit } = useForm<BudgetItem>({
+    defaultValues: {
+      code: "",
+      name: "",
+      parentId: "",
+      accumulates: false,
+    },
+  });
 
   useEffect(() => {
-    reset()
-  }, [])
+    reset();
+  }, []);
 
   function hadleSubmit(data: BudgetItem) {
-    console.log(data)
+    console.log(data);
   }
 
   return (
-    <BcaDrawer
-      open={open}
-      onClose={onClose}
-    >
-      <DrawerTitle
-        title="Crear Partida"
-        close={onClose}
-      />
+    <BcaDrawer open={open} onClose={onClose}>
+      <DrawerTitle title="Crear Partida" close={onClose} />
 
       <Box mt={2}>
         <form
           className="w-full flex flex-col gap-5"
           onSubmit={handleSubmit(hadleSubmit)}
         >
-          <BcaTextField
-            name="code"
-            label="Código"
-            control={control}
-          />
+          <BcaTextField name="code" label="Código" control={control} />
 
-          <BcaTextField
-            name="name"
-            label="Nombre"
-            control={control}
-          />
+          <BcaTextField name="name" label="Nombre" control={control} />
 
-          <BcaSelect
-            name="parent"
-            label="Padre"
-            control={control}
-          >
-            <MenuItem value="">---Seleccione---</MenuItem>
+          <BcaSelect name="parentId" label="Padre" control={control}>
+            <MenuItem value={""}>---Seleccione---</MenuItem>
+            <MenuItem value="b3fcdc7f-dc62-470d-8a17-71ac2f470432b3fcdc7f-dc62-470d-8a17-71ac2f470432">
+              Partida 1
+            </MenuItem>
           </BcaSelect>
 
           <FormControlLabel
@@ -70,16 +60,9 @@ export default function BudgetItemDrawer({
             labelPlacement="end"
             label="Acumula"
             control={
-              <RhfSwitch
-                name="accumulates"
-                control={control}
-                size="small"
-              />
-
+              <RhfSwitch name="accumulates" control={control} size="small" />
             }
           />
-
-
 
           <ButtonGroup
             saveFunction={handleSubmit(hadleSubmit)}
@@ -88,5 +71,5 @@ export default function BudgetItemDrawer({
         </form>
       </Box>
     </BcaDrawer>
-  )
+  );
 }
