@@ -6,7 +6,8 @@ export const budgetItemSchema = z.object({
     .min(1, "Código es obligatorio"),
   name: z.string()
     .min(1, "Nombre es obligatorio"),
-  accumulates: z.boolean(),
+  accumulate: z.boolean(),
+  parent_id: z.string().optional(),
 })
 
 export type BudgetItem = z.infer<typeof budgetItemSchema>;
