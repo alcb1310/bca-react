@@ -35,7 +35,7 @@ export default function AllUsersTable() {
   }
 
   const cols: GridColDef[] = [
-    { field: "name", headerName: "Name", width: 300 },
+    { field: "name", headerName: "Nombre", width: 300 },
     { field: "email", headerName: "Email", width: 300 },
     {
       field: "actions",

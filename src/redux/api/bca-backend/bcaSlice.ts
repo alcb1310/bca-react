@@ -20,6 +20,7 @@ export const bcaApiSlice = createApi({
   }),
 
   tagTypes: [
+    "partidas",
     "users",
   ],
 
