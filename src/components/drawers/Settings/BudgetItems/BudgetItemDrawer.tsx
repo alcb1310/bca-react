@@ -53,7 +53,12 @@ export default function BudgetItemDrawer({
 
           <BcaTextField name="name" label="Nombre" control={control} />
 
-          <BcaSelect name="parent_id" label="Padre" control={control}>
+          <BcaSelect
+            name="parent_id"
+            label="Padre"
+            control={control}
+            disabled={defaultValues.id ? true : false}
+          >
             <MenuItem value={""}>---Seleccione---</MenuItem>
             {
               data?.map(budgetItem => (
