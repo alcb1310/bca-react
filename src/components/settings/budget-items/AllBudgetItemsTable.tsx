@@ -1,4 +1,4 @@
-import { EditOutlined } from "@mui/icons-material";
+import { ClearOutlined, Done, EditOutlined } from "@mui/icons-material";
 import { DataGrid, GridActionsCellItem, GridColDef, GridRowParams } from "@mui/x-data-grid";
 import { BudgetItem } from "../../../types/partidas";
 
@@ -13,9 +13,25 @@ export default function AllBudgetItemsTable({
   const cols: GridColDef[] = [
     { field: "code", headerName: "Código", width: 120 },
     { field: "name", headerName: "Nombre", width: 500 },
-    { field: "level", headerName: "Nivel", width: 70, disableColumnMenu: true },
-    { field: "accumulates", headerName: "Acumula", width: 90, disableColumnMenu: true },
-    { field: "parent", headerName: "Padre", width: 120 },
+    { field: "level", headerName: "Nivel", width: 70, disableColumnMenu: true, align: "center" },
+    {
+      field: "accumulate",
+      headerName: "Acumula",
+      width: 90,
+      disableColumnMenu: true,
+      align: "center",
+      renderCell: (params) => {
+        return params.row.accumulate ? <Done sx={{ fontSize: "0.95rem" }} /> : <ClearOutlined sx={{ fontSize: "0.95rem" }} />
+      },
+    },
+    {
+      field: "parent_code",
+      headerName: "Padre",
+      width: 120,
+      valueGetter: (_value, row) => {
+        return row.parent?.code
+      },
+    },
     {
       field: "actions",
       type: "actions",
@@ -37,6 +53,7 @@ export default function AllBudgetItemsTable({
       <DataGrid
         rows={allBudgetItems}
         rowHeight={25}
+        getRowId={(row) => row.id}
         columns={cols}
         disableColumnFilter
         disableColumnResize

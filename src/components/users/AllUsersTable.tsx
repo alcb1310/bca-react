@@ -67,6 +67,7 @@ export default function AllUsersTable() {
     <>
       <DataGrid
         rows={data || []}
+        getRowId={(row) => row.id}
         columns={cols}
         rowHeight={25}
         sx={{ '&, [class^=MuiDataGrid]': { border: 'none' } }}
