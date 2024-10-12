@@ -99,7 +99,7 @@ export default function UsersDrawer({
           />}
 
           <ButtonGroup
-            saveFunction={() => { }}
+            saveFunction={handleSubmit(hadleSubmit)}
             cancelFunction={onClose}
           />
         </form>
