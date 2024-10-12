@@ -1,6 +1,9 @@
+import { useState } from "react";
 import { ClearOutlined, Done, EditOutlined } from "@mui/icons-material";
 import { DataGrid, GridActionsCellItem, GridColDef, GridRowParams } from "@mui/x-data-grid";
-import { BudgetItem } from "../../../types/partidas";
+
+import { BudgetItem, BudgetItemResponse } from "../../../types/partidas";
+import BudgetItemDrawer from "../../drawers/Settings/BudgetItems/BudgetItemDrawer";
 
 type AllBudgetItemsTableProps = {
   allBudgetItems: BudgetItem[]
@@ -9,6 +12,20 @@ type AllBudgetItemsTableProps = {
 export default function AllBudgetItemsTable({
   allBudgetItems,
 }: AllBudgetItemsTableProps) {
+  const [open, setOpen] = useState<boolean>(false)
+  const [selectedBudgetItem, setSelectedBudgetItem] = useState<BudgetItem | null>(null)
+
+  function EditBudgetItem(params: BudgetItemResponse) {
+    const bi: BudgetItem = {
+      id: params.id,
+      code: params.code,
+      name: params.name,
+      accumulate: params.accumulate,
+      parent_id: params.parent?.id,
+    }
+    setSelectedBudgetItem(bi)
+    setOpen(true)
+  }
 
   const cols: GridColDef[] = [
     { field: "code", headerName: "Código", width: 120 },
@@ -47,9 +64,11 @@ export default function AllBudgetItemsTable({
         <GridActionsCellItem
           icon=<EditOutlined color="warning" />
           label="Edit"
-          onClick={() => { console.dir(params.row) }}
+          onClick={() => {
+            EditBudgetItem(params.row)
+          }}
           sx={{
-            visibility: params.row.id === 0 ? 'hidden' : 'visible'
+            visibility: params.row.id === "" ? 'hidden' : 'visible'
           }}
         />,
       ]
@@ -75,12 +94,14 @@ export default function AllBudgetItemsTable({
             }
           },
           columns: {
-            columnVisibilityModel:{
+            columnVisibilityModel: {
               parent_id: false
             }
           }
         }}
       />
+
+      {open && <BudgetItemDrawer open={open} onClose={() => setOpen(false)} defaultValues={selectedBudgetItem!} />}
     </>
   )
 }
