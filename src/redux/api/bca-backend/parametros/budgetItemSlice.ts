@@ -6,12 +6,31 @@ const partidasEndpoints = bcaApiSlice.injectEndpoints({
 
   endpoints: builder => ({
     getAllBudgetItems: builder.query<BudgetItem[], {
-      query: string
+      query: string,
     }>({
       query(body) {
         return {
-          url: `/parametros/partidas?query=${body.query}`,
+          url: `/parametros/partidas`,
           method: "GET",
+          params: {
+            query: body.query,
+          }
+        }
+      },
+
+      providesTags: ["partidas"],
+    }),
+
+    getAllBudgetItemsByAccumulate: builder.query<BudgetItem[], {
+      accumulate: boolean,
+    }>({
+      query(body) {
+        return {
+          url: `/parametros/partidas`,
+          method: "GET",
+          params: {
+            accumulate: body.accumulate,
+          }
         }
       },
 
@@ -34,5 +53,6 @@ const partidasEndpoints = bcaApiSlice.injectEndpoints({
 
 export const {
   useGetAllBudgetItemsQuery,
+  useGetAllBudgetItemsByAccumulateQuery,
   useCreateBudgetItemMutation,
 } = partidasEndpoints
