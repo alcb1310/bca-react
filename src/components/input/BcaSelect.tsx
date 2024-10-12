@@ -1,40 +1,34 @@
-import { FormControl, FormHelperText, InputLabel, Select, SelectProps } from "@mui/material"
+import { FormControl, InputLabel, Select, SelectProps } from "@mui/material";
 import { BcaField } from "../../types/fields"
-import { Controller } from "react-hook-form"
+import { Controller } from "react-hook-form";
 
 type BcaSelectProps = BcaField<SelectProps>
 
 export default function BcaSelect({
   name,
-  control,
   label,
+  control,
   children,
   ...rest
 }: BcaSelectProps) {
-  const labelId = `${name}-name`
+  const labelId = `${name}-label`;
   return (
-    <FormControl size="small">
-      <InputLabel id={labelId}>{label}</InputLabel>
-      <Controller
-        name={name}
-        control={control}
-        render={({
-          fieldState: { error },
-        }) => (
-          <>
-            <Select labelId={labelId} label={label} {...rest}>
-              {children}
-            </Select>
-            <FormHelperText
-                error={!!error}
-                component="span"
-                variant="standard"
-            >
-              {error?.message}
-            </FormHelperText>
-          </>
-        )}
-      />
-    </FormControl>
-  )
+    <Controller
+      name={name}
+      control={control}
+      render={({ field }) => (
+        <FormControl size="small" fullWidth>
+          <InputLabel id={labelId}>{label}</InputLabel>
+          <Select
+            labelId={labelId}
+            label={label}
+            {...field}
+            {...rest}
+          >
+            {children}
+          </Select>
+        </FormControl>
+      )}
+    />
+  );
 }
