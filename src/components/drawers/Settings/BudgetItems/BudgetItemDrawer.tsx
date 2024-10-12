@@ -1,31 +1,33 @@
+import { useEffect, useState } from "react"
+import { useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
 import {
   Box,
   CircularProgress,
   FormControlLabel,
   MenuItem,
-} from "@mui/material";
-import DrawerTitle from "../../../titles/DrawerTitle";
-import BcaDrawer from "../../BcaDrawer/BcaDrawer";
-import ButtonGroup from "../../../buttons/button-group";
-import BcaTextField from "../../../input/BcaTextField";
-import { useForm } from "react-hook-form";
-import { BudgetItem, budgetItemSchema } from "../../../../types/partidas";
-import { useEffect } from "react";
-import { RhfSwitch } from "mui-rhf-integration";
-import BcaSelect from "../../../input/BcaSelect";
-import { DevTool } from "@hookform/devtools";
+  Typography,
+} from "@mui/material"
+import { DevTool } from "@hookform/devtools"
+
+import DrawerTitle from "../../../titles/DrawerTitle"
+import BcaDrawer from "../../BcaDrawer/BcaDrawer"
+import ButtonGroup from "../../../buttons/button-group"
+import BcaTextField from "../../../input/BcaTextField"
+import { BudgetItem, budgetItemSchema } from "../../../../types/partidas"
+import { RhfSwitch } from "mui-rhf-integration"
+import BcaSelect from "../../../input/BcaSelect"
 import {
   useCreateBudgetItemMutation,
   useGetAllBudgetItemsByAccumulateQuery,
   useUpdateBudgetItemMutation,
-} from "../../../../redux/api/bca-backend/parametros/budgetItemSlice";
-import { zodResolver } from "@hookform/resolvers/zod";
+} from "../../../../redux/api/bca-backend/parametros/budgetItemSlice"
 
 type BudgetItemDrawerProps = {
-  open: boolean;
-  onClose: () => void;
-  defaultValues: BudgetItem;
-};
+  open: boolean
+  onClose: () => void
+  defaultValues: BudgetItem
+}
 
 export default function BudgetItemDrawer({
   open,
@@ -35,27 +37,35 @@ export default function BudgetItemDrawer({
   const { control, reset, handleSubmit } = useForm<BudgetItem>({
     defaultValues,
     resolver: zodResolver(budgetItemSchema),
-  });
+  })
+  const [conflictError, setConflictError] = useState<string>('')
 
-  const [createBudgetItem] = useCreateBudgetItemMutation();
-  const [updateBudgetItem] = useUpdateBudgetItemMutation();
+  const [createBudgetItem] = useCreateBudgetItemMutation()
+  const [updateBudgetItem] = useUpdateBudgetItemMutation()
   const { data, isLoading } = useGetAllBudgetItemsByAccumulateQuery({
     accumulate: true,
-  });
+  })
 
   useEffect(() => {
-    reset(defaultValues);
-  }, [defaultValues]);
+    setConflictError('')
+    reset(defaultValues)
+  }, [open])
 
   async function hadleSubmit(data: BudgetItem) {
-    // TODO: Handle server errors
+    setConflictError('')
     if (defaultValues.id) {
-      await updateBudgetItem(data);
-      onClose();
-      return;
+      await updateBudgetItem(data)
+      onClose()
+      return
     }
-    const res = await createBudgetItem(data);
-    onClose();
+    const res = await createBudgetItem(data)
+    if ('data' in res) {
+      onClose()
+      return
+    }
+
+    // @ts-ignore
+    setConflictError(res.error.data.error)
   }
 
   return (
@@ -68,6 +78,7 @@ export default function BudgetItemDrawer({
           onSubmit={handleSubmit(hadleSubmit)}
         >
           {isLoading && <CircularProgress />}
+          {conflictError && <Typography color="error" sx={{ fontSize: "0.85rem" }}>{conflictError}</Typography>}
 
           <BcaTextField name="code" label="Código" control={control} />
 
@@ -104,5 +115,5 @@ export default function BudgetItemDrawer({
       </Box>
       <DevTool control={control} />
     </BcaDrawer>
-  );
+  )
 }
