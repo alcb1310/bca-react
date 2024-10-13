@@ -1,5 +1,4 @@
 import { z } from "zod";
-import { categorySchema } from "./categories";
 
 export const materialSchema = z.object({
   id: z.string().uuid().optional(),
@@ -12,7 +11,9 @@ export const materialSchema = z.object({
   unit: z
     .string()
     .min(1, "Unidad es obligatorio"),
-  category: categorySchema,
+  category: z.object({
+    id: z.string().uuid("Seleccione una categoría"),
+  }),
 })
 
 export type MaterialType = z.infer<typeof materialSchema>;

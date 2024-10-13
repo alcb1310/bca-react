@@ -13,8 +13,23 @@ const materialsApi = bcaApiSlice.injectEndpoints({
       },
 
       providesTags: ["materiales"],
+    }),
+
+    createMaterial: builder.mutation<MaterialType, MaterialType>({
+      query(data) {
+        return {
+          url: "/parametros/materiales",
+          method: "POST",
+          body: data,
+        }
+      },
+
+      invalidatesTags: ["materiales"],
     })
   })
 })
 
-export const { useGetAllMaterialsQuery } = materialsApi
+export const {
+  useGetAllMaterialsQuery,
+  useCreateMaterialMutation
+} = materialsApi
