@@ -1,5 +1,5 @@
-import { CircularProgress, Typography } from "@mui/material";
-import { useMeQuery } from "../../redux/api/bca-backend/user/userSlice";
+import { CircularProgress, Typography } from "@mui/material"
+import { useMeQuery } from "../../redux/api/bca-backend/user/userSlice"
 
 export default function Home() {
   const { data, isLoading } = useMeQuery()

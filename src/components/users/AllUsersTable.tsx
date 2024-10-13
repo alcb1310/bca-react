@@ -1,11 +1,11 @@
-import { useState } from "react";
-import { DeleteOutline, EditOutlined } from "@mui/icons-material";
-import { DataGrid, GridColDef, GridActionsCellItem, GridRowParams } from '@mui/x-data-grid';
+import { useState } from "react"
+import { DeleteOutline, EditOutlined } from "@mui/icons-material"
+import { DataGrid, GridColDef, GridActionsCellItem, GridRowParams } from '@mui/x-data-grid'
 
 import { useAllUsersQuery, useDeleteUserMutation, useMeQuery } from "../../redux/api/bca-backend/user/userSlice"
-import ConfirmationDialog from "../dialog/ConfirmationDialog";
-import UsersDrawer from "../drawers/Users/UsersDrawer";
-import { UserResponse } from "../../types/user";
+import ConfirmationDialog from "../dialog/ConfirmationDialog"
+import UsersDrawer from "../drawers/Users/UsersDrawer"
+import { UserResponse } from "../../types/user"
 
 export default function AllUsersTable() {
   const [confirmationDialogOpen, setConfirmationDialogOpen] = useState<boolean>(false)

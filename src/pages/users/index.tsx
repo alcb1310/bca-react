@@ -1,6 +1,6 @@
-import { Box, CircularProgress, Typography } from "@mui/material";
-import PageTitle from "../../components/titles/PageTitle";
-import { useMeQuery } from "../../redux/api/bca-backend/user/userSlice";
+import { Box, CircularProgress, Typography } from "@mui/material"
+import PageTitle from "../../components/titles/PageTitle"
+import { useMeQuery } from "../../redux/api/bca-backend/user/userSlice"
 
 export default function UsersHome() {
   const { data, isLoading } = useMeQuery()

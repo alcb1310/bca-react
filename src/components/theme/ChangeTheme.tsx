@@ -1,7 +1,7 @@
-import { IconButton, Tooltip } from "@mui/material";
-import { useAppDispatch, useAppSelector } from "../../redux/hooks";
-import { DarkModeOutlined, LightModeOutlined } from "@mui/icons-material";
-import { setMode } from "../../redux/features/theme/themeSlice";
+import { IconButton, Tooltip } from "@mui/material"
+import { useAppDispatch, useAppSelector } from "../../redux/hooks"
+import { DarkModeOutlined, LightModeOutlined } from "@mui/icons-material"
+import { setMode } from "../../redux/features/theme/themeSlice"
 
 export default function ChangeTheme() {
   const th = useAppSelector(state => state.theme.mode)
@@ -23,5 +23,5 @@ export default function ChangeTheme() {
         {th === 'light' ? <DarkModeOutlined /> : <LightModeOutlined />}
       </IconButton>
     </Tooltip>
-  );
+  )
 }

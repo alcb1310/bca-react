@@ -1,6 +1,6 @@
-import { FormControl, InputLabel, Select, SelectProps } from "@mui/material";
+import { FormControl, InputLabel, Select, SelectProps } from "@mui/material"
 import { BcaField } from "../../types/fields"
-import { Controller } from "react-hook-form";
+import { Controller } from "react-hook-form"
 
 type BcaSelectProps = BcaField<SelectProps>
 
@@ -11,7 +11,7 @@ export default function BcaSelect({
   children,
   ...rest
 }: BcaSelectProps) {
-  const labelId = `${name}-label`;
+  const labelId = `${name}-label`
   return (
     <Controller
       name={name}
@@ -30,5 +30,5 @@ export default function BcaSelect({
         </FormControl>
       )}
     />
-  );
+  )
 }

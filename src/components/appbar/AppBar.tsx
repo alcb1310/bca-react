@@ -1,9 +1,9 @@
-import { AppBar, Box, IconButton, Stack, Toolbar, Tooltip, Typography } from "@mui/material";
-import ChangeTheme from "../theme/ChangeTheme";
-import { LogoutOutlined } from "@mui/icons-material";
-import UserMenu from "../menu/User";
-import { useAppDispatch } from "../../redux/hooks";
-import { logout } from "../../redux/features/login/loginSlice";
+import { AppBar, Box, IconButton, Stack, Toolbar, Tooltip, Typography } from "@mui/material"
+import ChangeTheme from "../theme/ChangeTheme"
+import { LogoutOutlined } from "@mui/icons-material"
+import UserMenu from "../menu/User"
+import { useAppDispatch } from "../../redux/hooks"
+import { logout } from "../../redux/features/login/loginSlice"
 
 export default function ApplicationBar() {
   const dispatch = useAppDispatch()

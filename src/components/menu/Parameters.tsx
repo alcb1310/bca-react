@@ -1,7 +1,7 @@
-import { AccountTreeOutlined, CategoryOutlined, ChevronRightOutlined, ExpandMoreOutlined, FactoryOutlined, InventoryOutlined, ViewKanbanOutlined } from "@mui/icons-material";
-import { Box, Collapse, List, ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
-import { useState } from "react";
-import { NavLink, useLocation } from "react-router-dom";
+import { AccountTreeOutlined, CategoryOutlined, ChevronRightOutlined, ExpandMoreOutlined, FactoryOutlined, InventoryOutlined, ViewKanbanOutlined } from "@mui/icons-material"
+import { Box, Collapse, List, ListItemButton, ListItemIcon, ListItemText } from "@mui/material"
+import { useState } from "react"
+import { NavLink, useLocation } from "react-router-dom"
 
 export default function ParametersMenu() {
   const [open, setOpen] = useState<boolean>(true)

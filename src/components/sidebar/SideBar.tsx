@@ -1,9 +1,9 @@
-import { Box, Drawer } from "@mui/material";
-import TransactionsMenu from "../menu/Transactions";
-import ReportsMenu from "../menu/Reports";
-import ParametersMenu from "../menu/Parameters";
-import AnalysisMenu from "../menu/Analysis";
-import { Link } from "react-router-dom";
+import { Box, Drawer } from "@mui/material"
+import TransactionsMenu from "../menu/Transactions"
+import ReportsMenu from "../menu/Reports"
+import ParametersMenu from "../menu/Parameters"
+import AnalysisMenu from "../menu/Analysis"
+import { Link } from "react-router-dom"
 
 export default function Sidebar() {
   return (

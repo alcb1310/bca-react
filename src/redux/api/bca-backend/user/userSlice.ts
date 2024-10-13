@@ -1,5 +1,5 @@
-import { UserCreate, UserResponse } from "../../../../types/user";
-import { bcaApiSlice } from "../bcaSlice";
+import { UserCreate, UserResponse } from "../../../../types/user"
+import { bcaApiSlice } from "../bcaSlice"
 
 const userEndPoints = bcaApiSlice.injectEndpoints({
   overrideExisting: true,

@@ -1,7 +1,7 @@
-import { useState } from "react";
-import { Box, Collapse, List, ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
-import { NavLink, useLocation } from "react-router-dom";
-import { AnalyticsOutlined, ChevronRightOutlined, ExpandMoreOutlined, ProductionQuantityLimitsOutlined } from "@mui/icons-material";
+import { useState } from "react"
+import { Box, Collapse, List, ListItemButton, ListItemIcon, ListItemText } from "@mui/material"
+import { NavLink, useLocation } from "react-router-dom"
+import { AnalyticsOutlined, ChevronRightOutlined, ExpandMoreOutlined, ProductionQuantityLimitsOutlined } from "@mui/icons-material"
 
 export default function AnalysisMenu() {
   const [open, setOpen] = useState<boolean>(true)

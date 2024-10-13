@@ -49,6 +49,7 @@ export default function BudgetItemDrawer({
   useEffect(() => {
     setConflictError('')
     reset(defaultValues)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open])
 
   async function hadleSubmit(data: BudgetItem) {
@@ -64,7 +65,7 @@ export default function BudgetItemDrawer({
       return
     }
 
-    // @ts-ignore
+    // @ts-expect-error data property is part of the res.error object
     setConflictError(res.error.data.error)
   }
 

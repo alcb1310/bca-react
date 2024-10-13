@@ -1,9 +1,9 @@
-import { useState } from "react";
-import { ClearOutlined, Done, EditOutlined } from "@mui/icons-material";
-import { DataGrid, GridActionsCellItem, GridColDef, GridRowParams } from "@mui/x-data-grid";
+import { useState } from "react"
+import { ClearOutlined, Done, EditOutlined } from "@mui/icons-material"
+import { DataGrid, GridActionsCellItem, GridColDef, GridRowParams } from "@mui/x-data-grid"
 
-import { BudgetItem, BudgetItemResponse } from "../../../types/partidas";
-import BudgetItemDrawer from "../../drawers/Settings/BudgetItems/BudgetItemDrawer";
+import { BudgetItem, BudgetItemResponse } from "../../../types/partidas"
+import BudgetItemDrawer from "../../drawers/Settings/BudgetItems/BudgetItemDrawer"
 
 type AllBudgetItemsTableProps = {
   allBudgetItems: BudgetItem[]

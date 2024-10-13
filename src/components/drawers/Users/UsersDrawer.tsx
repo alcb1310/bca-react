@@ -1,14 +1,14 @@
-import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
-import { Box, Typography } from "@mui/material";
+import { useEffect, useState } from "react"
+import { useForm } from "react-hook-form"
+import { Box, Typography } from "@mui/material"
 
-import BcaDrawer from "../BcaDrawer/BcaDrawer";
-import { UserCreate, userCreateSchema, UserResponse, userResponseSchema } from "../../../types/user";
-import DrawerTitle from "../../titles/DrawerTitle";
-import ButtonGroup from "../../buttons/button-group";
-import { useCreateUserMutation, useUpdateUserMutation } from "../../../redux/api/bca-backend/user/userSlice";
-import BcaTextField from "../../input/BcaTextField";
-import { zodResolver } from "@hookform/resolvers/zod";
+import BcaDrawer from "../BcaDrawer/BcaDrawer"
+import { UserCreate, userCreateSchema, UserResponse, userResponseSchema } from "../../../types/user"
+import DrawerTitle from "../../titles/DrawerTitle"
+import ButtonGroup from "../../buttons/button-group"
+import { useCreateUserMutation, useUpdateUserMutation } from "../../../redux/api/bca-backend/user/userSlice"
+import BcaTextField from "../../input/BcaTextField"
+import { zodResolver } from "@hookform/resolvers/zod"
 
 type UsersDrawerProps = {
   open: boolean
@@ -37,6 +37,7 @@ export default function UsersDrawer({
   useEffect(() => {
     setConflictError('')
     reset(userData)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userData])
 
   async function hadleSubmit(data: UserCreate | UserResponse) {
@@ -49,7 +50,7 @@ export default function UsersDrawer({
         return
       }
 
-      // @ts-ignore
+      // @ts-expect-error data property is part of the res.error object
       setConflictError(res.error.data.error)
     } else {
       const res = await updateUser(data)

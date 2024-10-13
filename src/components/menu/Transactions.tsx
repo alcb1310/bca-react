@@ -4,7 +4,7 @@ import {
   ExpandMoreOutlined,
   PointOfSaleOutlined,
   ReceiptOutlined
-} from "@mui/icons-material";
+} from "@mui/icons-material"
 import {
   Box,
   Collapse,
@@ -12,9 +12,9 @@ import {
   ListItemButton,
   ListItemIcon,
   ListItemText
-} from "@mui/material";
-import { useState } from "react";
-import { NavLink, useLocation } from "react-router-dom";
+} from "@mui/material"
+import { useState } from "react"
+import { NavLink, useLocation } from "react-router-dom"
 
 export default function TransactionsMenu() {
   const [open, setOpen] = useState<boolean>(true)

@@ -1,12 +1,12 @@
-import { useState } from "react";
-import { Box, Button, FormControl, FormHelperText, TextField, Typography } from "@mui/material";
-import { Controller, useForm } from "react-hook-form";
-import { LoginInput, loginSchema } from "../../types/login";
-import { useAppDispatch, useAppSelector } from "../../redux/hooks";
-import { login } from "../../redux/features/login/loginSlice";
-import { Navigate } from "react-router-dom";
-import { useLoginMutation } from "../../redux/api/bca-backend/auth/authentication";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { useState } from "react"
+import { Box, Button, FormControl, FormHelperText, TextField, Typography } from "@mui/material"
+import { Controller, useForm } from "react-hook-form"
+import { LoginInput, loginSchema } from "../../types/login"
+import { useAppDispatch, useAppSelector } from "../../redux/hooks"
+import { login } from "../../redux/features/login/loginSlice"
+import { Navigate } from "react-router-dom"
+import { useLoginMutation } from "../../redux/api/bca-backend/auth/authentication"
+import { zodResolver } from "@hookform/resolvers/zod"
 
 export default function Login() {
   const [error, setError] = useState<string | null>(null)
@@ -33,7 +33,7 @@ export default function Login() {
     if (!("error" in res)) {
       dispatch(login(res.data.token))
     } else {
-      // @ts-ignore
+      // @ts-expect-error error property is part of the res.error object
       setError(res.error.error)
     }
   }

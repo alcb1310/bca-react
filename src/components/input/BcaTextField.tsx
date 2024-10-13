@@ -1,12 +1,11 @@
-import { FormHelperText, TextField, TextFieldProps } from "@mui/material";
-import { BcaField } from "../../types/fields";
-import { Controller } from "react-hook-form";
+import { FormHelperText, TextField, TextFieldProps } from "@mui/material"
+import { BcaField } from "../../types/fields"
+import { Controller } from "react-hook-form"
 
 type BcaTextFieldProps = BcaField<TextFieldProps>
 
 export default function BcaTextField({
   name,
-  helperText,
   defaultValue,
   control,
   ...rest

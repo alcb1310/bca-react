@@ -1,5 +1,5 @@
-import { CloseOutlined } from "@mui/icons-material";
-import { Button, Stack, Typography } from "@mui/material";
+import { CloseOutlined } from "@mui/icons-material"
+import { Button, Stack, Typography } from "@mui/material"
 
 type DrawerTitleProps = {
   title: string

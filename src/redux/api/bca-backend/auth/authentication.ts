@@ -1,7 +1,7 @@
-import { bcaApiSlice } from "../bcaSlice";
+import { bcaApiSlice } from "../bcaSlice"
 import { LoginErrorResponse } from "../../../../types/error"
 import { LoginInput } from "../../../../types/login"
-import { UserResponse } from "../../../../types/user";
+import { UserResponse } from "../../../../types/user"
 
 type loginResponse = {
   user: UserResponse

@@ -1,5 +1,5 @@
-import { CancelOutlined, SaveOutlined } from "@mui/icons-material";
-import { Button, Stack } from "@mui/material";
+import { CancelOutlined, SaveOutlined } from "@mui/icons-material"
+import { Button, Stack } from "@mui/material"
 
 type ButtonGroupProps = {
   saveFunction: () => void

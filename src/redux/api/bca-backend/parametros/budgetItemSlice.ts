@@ -1,5 +1,5 @@
-import { BudgetItem, BudgetItemResponse } from "../../../../types/partidas";
-import { bcaApiSlice } from "../bcaSlice";
+import { BudgetItem, BudgetItemResponse } from "../../../../types/partidas"
+import { bcaApiSlice } from "../bcaSlice"
 
 const partidasEndpoints = bcaApiSlice.injectEndpoints({
   overrideExisting: true,

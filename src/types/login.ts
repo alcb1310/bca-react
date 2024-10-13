@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from "zod"
 
 export const loginSchema = z.object({
   email: z
@@ -9,7 +9,7 @@ export const loginSchema = z.object({
     .string()
     .min(1, "Contraseña es obligatoria")
     .min(8, "Contraseña debe ser mayor a 8 caracteres"),
-});
+})
 
 
 

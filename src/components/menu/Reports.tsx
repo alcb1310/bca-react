@@ -1,7 +1,7 @@
-import { useState } from "react";
-import { Box, Collapse, List, ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
-import { AddchartOutlined, BalanceOutlined, ChevronRightOutlined, ExpandMoreOutlined, LocalAtmOutlined, WorkHistoryOutlined } from "@mui/icons-material";
-import { NavLink, useLocation } from "react-router-dom";
+import { useState } from "react"
+import { Box, Collapse, List, ListItemButton, ListItemIcon, ListItemText } from "@mui/material"
+import { AddchartOutlined, BalanceOutlined, ChevronRightOutlined, ExpandMoreOutlined, LocalAtmOutlined, WorkHistoryOutlined } from "@mui/icons-material"
+import { NavLink, useLocation } from "react-router-dom"
 
 export default function ReportsMenu() {
   const [open, setOpen] = useState<boolean>(true)
