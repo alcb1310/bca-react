@@ -1,7 +1,17 @@
 import { EditOutlined } from "@mui/icons-material";
-import { DataGrid, GridActionsCellItem, GridColDef, GridRowParams } from "@mui/x-data-grid";
+import {
+  DataGrid,
+  GridActionsCellItem,
+  GridColDef,
+  GridRowParams,
+} from "@mui/x-data-grid";
+import { CategoryType } from "../../../types/categories";
 
-export default function AllCategoriesTable() {
+type AllCategoriesTableProps = {
+  data: CategoryType[];
+};
+
+export default function AllCategoriesTable({ data }: AllCategoriesTableProps) {
   const cols: GridColDef[] = [
     {
       field: "name",
@@ -16,32 +26,35 @@ export default function AllCategoriesTable() {
         <GridActionsCellItem
           icon=<EditOutlined color="warning" />
           label="Edit"
-          onClick={() => {console.log(params.row)}}
+          onClick={() => {
+            console.log(params.row);
+          }}
         />,
       ],
-    }
-  ]
+    },
+  ];
 
   return (
     <>
       <DataGrid
-        rows={[]}
+        rows={data}
         columns={cols}
+        getRowId={(row) =>  row.id }
         rowHeight={25}
         disableColumnFilter
         disableColumnResize
         disableRowSelectionOnClick
         disableMultipleRowSelection
-        sx={{ '&, [class^=MuiDataGrid]': { border: 'none' } }}
+        sx={{ "&, [class^=MuiDataGrid]": { border: "none" } }}
         pagination
         initialState={{
           pagination: {
             paginationModel: {
-              pageSize: 25
-            }
+              pageSize: 25,
+            },
           },
         }}
       />
     </>
-  )
+  );
 }

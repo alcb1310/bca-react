@@ -1,3 +1,4 @@
+import { CategoryType } from "../../../../types/categories";
 import { bcaApiSlice } from "../bcaSlice";
 
 const categorySlice = bcaApiSlice.injectEndpoints({
@@ -5,7 +6,7 @@ const categorySlice = bcaApiSlice.injectEndpoints({
 
   endpoints(builder){
     return {
-      getAllCategories: builder.query<any, void>({
+      getAllCategories: builder.query<CategoryType[], void>({
         query() {
           return {
             url: "/parametros/categorias",
