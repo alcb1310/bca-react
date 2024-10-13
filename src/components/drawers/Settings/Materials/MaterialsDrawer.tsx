@@ -10,7 +10,7 @@ import BcaDrawer from "../../BcaDrawer/BcaDrawer";
 import BcaTextField from "../../../input/BcaTextField";
 import BcaSelect from "../../../input/BcaSelect";
 import { useGetAllCategoriesQuery } from "../../../../redux/api/bca-backend/parametros/categoriesSlice";
-import { useCreateMaterialMutation } from "../../../../redux/api/bca-backend/parametros/materialsSlice";
+import { useCreateMaterialMutation, useUpdateMaterialMutation } from "../../../../redux/api/bca-backend/parametros/materialsSlice";
 
 type MaterialsDrawerProps = {
   open: boolean
@@ -32,6 +32,7 @@ export default function MaterialsDrawer({
 
   const { data: categories, isLoading } = useGetAllCategoriesQuery()
   const [createMaterial] = useCreateMaterialMutation()
+  const [updateMaterial] = useUpdateMaterialMutation()
 
   useEffect(() => {
     reset(defaultValues)
@@ -50,6 +51,15 @@ export default function MaterialsDrawer({
       setConflictError(res.error.data.message)
       return
     }
+
+    const res = await updateMaterial(data)
+    if ('data' in res) {
+      onClose()
+      return
+    }
+
+    // @ts-expect-error data is part of the response
+    setConflictError(res.error.data.message)
   }
 
   return (

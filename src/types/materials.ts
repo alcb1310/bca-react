@@ -13,6 +13,7 @@ export const materialSchema = z.object({
     .min(1, "Unidad es obligatorio"),
   category: z.object({
     id: z.string().uuid("Seleccione una categoría"),
+    name: z.string().optional()
   }),
 })
 
