@@ -7,7 +7,7 @@ import BcaTextField from '../../../input/BcaTextField'
 import { useForm } from 'react-hook-form'
 import { CategoryType } from '../../../../types/categories'
 import ButtonGroup from '../../../buttons/button-group'
-import { useCreateCategoryMutation } from '../../../../redux/api/bca-backend/parametros/categoriesSlice'
+import { useCreateCategoryMutation, useUpdateCategoryMutation } from '../../../../redux/api/bca-backend/parametros/categoriesSlice'
 
 type CategoriesDrawerProps = {
   open: boolean
@@ -27,6 +27,7 @@ export default function CategoriesDrawer({
   })
 
   const [createCategory] = useCreateCategoryMutation()
+  const [updateCategory] = useUpdateCategoryMutation()
 
   useEffect(() => {
     reset(defaultValues)
@@ -36,7 +37,6 @@ export default function CategoriesDrawer({
   async function hadleSubmit(data: CategoryType) {
     if (!defaultValues.id) {
       const res = await createCategory(data)
-      console.log(res)
       if ('data' in res) {
         onClose()
         return
@@ -47,6 +47,18 @@ export default function CategoriesDrawer({
         setConflictError(res.error.data.error)
         return
       }
+    }
+
+    const res = await updateCategory(data)
+    if ('data' in res) {
+      onClose()
+      return
+    }
+
+    if ('error' in res) {
+      // @ts-expect-error data property is part of the res.error object
+      setConflictError(res.error.data.error)
+      return
     }
   }
 

@@ -6,12 +6,23 @@ import {
   GridRowParams,
 } from "@mui/x-data-grid"
 import { CategoryType } from "../../../types/categories"
+import { useState } from "react";
+import CategoriesDrawer from "../../drawers/Settings/Categories/CategoriesDrawer";
 
 type AllCategoriesTableProps = {
   data: CategoryType[];
 };
 
 export default function AllCategoriesTable({ data }: AllCategoriesTableProps) {
+  const [open, setOpen] = useState<boolean>(false)
+  const [selectedCategory, setSelectedCategory] = useState<CategoryType | null>(null)
+
+  function handleEditCategory(category: CategoryType) {
+    setSelectedCategory(category)
+    setOpen(true)
+
+  }
+
   const cols: GridColDef<CategoryType>[] = [
     {
       field: "name",
@@ -27,12 +38,12 @@ export default function AllCategoriesTable({ data }: AllCategoriesTableProps) {
           icon=<EditOutlined color="warning" />
           label="Edit"
           onClick={() => {
-            console.log(params.row);
+            handleEditCategory(params.row)
           }}
         />,
       ],
     },
-  ];
+  ]
 
   return (
     <>
@@ -55,6 +66,14 @@ export default function AllCategoriesTable({ data }: AllCategoriesTableProps) {
           },
         }}
       />
+
+      {
+        open &&
+        <CategoriesDrawer
+          open={open}
+          onClose={() => setOpen(false)}
+          defaultValues={selectedCategory!} />
+      }
     </>
-  );
+  )
 }
