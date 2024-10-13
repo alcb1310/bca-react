@@ -27,7 +27,8 @@ export default function TransactionsMenu() {
           primary="Transacciones"
           primaryTypographyProps={{
             fontWeight: 'bold',
-            fontSize: 12,
+            fontSize: "0.85rem",
+            lineHeight: "1rem",
             textTransform: 'uppercase'
           }}
         />
@@ -38,18 +39,17 @@ export default function TransactionsMenu() {
           <ListItemButton
             component={NavLink}
             to="/transacciones/presupuesto"
-            sx={{ mb: 1, borderRadius: 2 }}
+            sx={{ borderRadius: 2 }}
             selected={str.toLowerCase() === '/transacciones/presupuesto'}
           >
             <ListItemIcon sx={{ minWidth: 30 }}>
-              <PointOfSaleOutlined sx={{ fontSize: 12 }} />
+              <PointOfSaleOutlined sx={{ fontSize: "0.75rem" }} />
             </ListItemIcon>
 
             <ListItemText
               primary="Presupuesto"
               primaryTypographyProps={{
-                fontWeight: 'bold',
-                fontSize: 12,
+                fontSize: "0.75rem",
                 textTransform: 'uppercase'
               }}
             />
@@ -58,18 +58,17 @@ export default function TransactionsMenu() {
           <ListItemButton
             component={NavLink}
             to="/transacciones/factura"
-            sx={{ mb: 1, borderRadius: 2 }}
+            sx={{ borderRadius: 2 }}
             selected={str.toLowerCase() === '/transacciones/factura'}
           >
             <ListItemIcon sx={{ minWidth: 30 }}>
-              <ReceiptOutlined sx={{ fontSize: 12 }} />
+              <ReceiptOutlined sx={{ fontSize: "0.75rem" }} />
             </ListItemIcon>
 
             <ListItemText
               primary="Facturas"
               primaryTypographyProps={{
-                fontWeight: 'bold',
-                fontSize: 12,
+                fontSize: "0.75rem",
                 textTransform: 'uppercase'
               }}
             />
@@ -78,18 +77,17 @@ export default function TransactionsMenu() {
           <ListItemButton
             component={NavLink}
             to="/transacciones/cierre"
-            sx={{ mb: 1, borderRadius: 2 }}
+            sx={{ borderRadius: 2 }}
             selected={str.toLowerCase() === '/transacciones/cierre'}
           >
             <ListItemIcon sx={{ minWidth: 30 }}>
-              <AccountBalanceOutlined sx={{ fontSize: 12 }} />
+              <AccountBalanceOutlined sx={{ fontSize: "0.75rem" }} />
             </ListItemIcon>
 
             <ListItemText
               primary="Cierre Mensual"
               primaryTypographyProps={{
-                fontWeight: 'bold',
-                fontSize: 12,
+                fontSize: "0.75rem",
                 textTransform: 'uppercase'
               }}
             />

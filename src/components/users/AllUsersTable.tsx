@@ -35,7 +35,7 @@ export default function AllUsersTable() {
   }
 
   const cols: GridColDef[] = [
-    { field: "name", headerName: "Name", width: 300 },
+    { field: "name", headerName: "Nombre", width: 300 },
     { field: "email", headerName: "Email", width: 300 },
     {
       field: "actions",
@@ -67,6 +67,7 @@ export default function AllUsersTable() {
     <>
       <DataGrid
         rows={data || []}
+        getRowId={(row) => row.id}
         columns={cols}
         rowHeight={25}
         sx={{ '&, [class^=MuiDataGrid]': { border: 'none' } }}
