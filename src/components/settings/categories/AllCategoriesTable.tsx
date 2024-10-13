@@ -1,18 +1,18 @@
-import { EditOutlined } from "@mui/icons-material";
+import { EditOutlined } from "@mui/icons-material"
 import {
   DataGrid,
   GridActionsCellItem,
   GridColDef,
   GridRowParams,
-} from "@mui/x-data-grid";
-import { CategoryType } from "../../../types/categories";
+} from "@mui/x-data-grid"
+import { CategoryType } from "../../../types/categories"
 
 type AllCategoriesTableProps = {
   data: CategoryType[];
 };
 
 export default function AllCategoriesTable({ data }: AllCategoriesTableProps) {
-  const cols: GridColDef[] = [
+  const cols: GridColDef<CategoryType>[] = [
     {
       field: "name",
       headerName: "Categoría",
@@ -39,7 +39,7 @@ export default function AllCategoriesTable({ data }: AllCategoriesTableProps) {
       <DataGrid
         rows={data}
         columns={cols}
-        getRowId={(row) =>  row.id }
+        getRowId={(row) => row.id!}
         rowHeight={25}
         disableColumnFilter
         disableColumnResize

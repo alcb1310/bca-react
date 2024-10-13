@@ -1,25 +1,38 @@
-import { CategoryType } from "../../../../types/categories";
-import { bcaApiSlice } from "../bcaSlice";
+import { CategoryType } from "../../../../types/categories"
+import { bcaApiSlice } from "../bcaSlice"
 
 const categorySlice = bcaApiSlice.injectEndpoints({
   overrideExisting: true,
 
-  endpoints(builder){
+  endpoints(builder) {
     return {
       getAllCategories: builder.query<CategoryType[], void>({
         query() {
           return {
             url: "/parametros/categorias",
-            method: "GET"
+            method: "GET",
           }
         },
 
         providesTags: ["categorias"],
       }),
+
+      createCategory: builder.mutation<CategoryType, CategoryType>({
+        query(data) {
+          return {
+            url: "/parametros/categorias",
+            method: "POST",
+            body: data,
+          }
+        },
+
+        invalidatesTags: ["categorias"],
+      }),
     }
-  }
+  },
 })
 
 export const {
-  useGetAllCategoriesQuery
+  useGetAllCategoriesQuery,
+  useCreateCategoryMutation,
 } = categorySlice
