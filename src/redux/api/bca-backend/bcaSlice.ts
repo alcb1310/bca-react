@@ -24,8 +24,9 @@ export const bcaApiSlice = createApi({
     'materiales',
     'partidas',
     'proyectos',
-    'users',
     'suppliers',
+    'rubros',
+    'users',
   ],
 
   endpoints: () => ({}),
