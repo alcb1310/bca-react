@@ -13,7 +13,16 @@ const rubrosApiSlice = bcaApiSlice.injectEndpoints({
 
       providesTags: ['rubros'],
     }),
+
+    getOneRubro: builder.query<RubrosType, string>({
+      query: (rubroId) => ({
+        url: `/parametros/rubros/${rubroId}`,
+        method: 'GET',
+      }),
+
+      providesTags: ['rubros'],
+    }),
   }),
 })
 
-export const { useGetAllRubrosQuery } = rubrosApiSlice
+export const { useGetAllRubrosQuery, useGetOneRubroQuery } = rubrosApiSlice

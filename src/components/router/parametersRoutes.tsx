@@ -6,6 +6,7 @@ import Items from '../../pages/parametros/items'
 import Materials from '../../pages/parametros/materials'
 import Projects from '../../pages/parametros/projects'
 import Suppliers from '../../pages/parametros/suppliers'
+import IndividualItem from '../../pages/parametros/items/detail'
 
 export const parametersRoutes: RouteObject = {
   path: 'parametros',
@@ -36,7 +37,16 @@ export const parametersRoutes: RouteObject = {
     },
     {
       path: 'rubros',
-      element: <Items />,
+      children: [
+        {
+          index: true,
+          element: <Items />,
+        },
+        {
+          path: ':rubroId',
+          element: <IndividualItem />,
+        },
+      ],
     },
   ],
 }
