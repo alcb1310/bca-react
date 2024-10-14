@@ -9,6 +9,7 @@ import BcaTextField from '../../../input/BcaTextField'
 import ButtonGroup from '../../../buttons/button-group'
 import {
   useCreateSupplierMutation,
+  useUpdateSupplierMutation,
 } from '../../../../redux/api/bca-backend/parametros/supplierSlice'
 import { Typography } from '@mui/material'
 
@@ -30,6 +31,7 @@ export default function SupplierDrawer({
   })
 
   const [createSupplier] = useCreateSupplierMutation()
+  const [updateSupplier] = useUpdateSupplierMutation()
 
   useEffect(() => {
     reset(defaultValues)
@@ -47,6 +49,14 @@ export default function SupplierDrawer({
       setConflictError(res.error.data.error)
       return
     }
+    const res = await updateSupplier(data)
+    if ('data' in res) {
+      onClose()
+      return
+    }
+
+    // @ts-expect-error data is a property of the error message
+    setConflictError(res.error.data.error)
   }
 
   return (

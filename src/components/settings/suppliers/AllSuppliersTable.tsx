@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import {
   DataGrid,
   GridActionsCellItem,
@@ -14,6 +15,11 @@ type AllSuppliersTableProps = {
 }
 
 export default function AllSuppliersTable({ data }: AllSuppliersTableProps) {
+  const [open, setOpen] = useState<boolean>(false)
+  const [selectedSupplier, setSelectedSupplier] = useState<SupplierType | null>(
+    null
+  )
+
   const cols: GridColDef<SupplierType>[] = [
     { field: 'supplier_id', headerName: 'RUC', width: 130 },
     { field: 'name', headerName: 'Nombre', width: 270 },
@@ -54,6 +60,23 @@ export default function AllSuppliersTable({ data }: AllSuppliersTableProps) {
     },
   ]
 
+  function EditSupplier(params: SupplierType) {
+    const data: SupplierType = {
+      id: params.id,
+      supplier_id: params.supplier_id,
+      name: params.name,
+    }
+    // @ts-expect-error String is a property of the object
+    data.contact_name = params.contact_name.String
+    // @ts-expect-error String is a property of the object
+    data.contact_email = params.contact_email.String
+    // @ts-expect-error String is a property of the object
+    data.contact_phone = params.contact_phone.String
+
+    setSelectedSupplier(data)
+    setOpen(true)
+  }
+
   return (
     <>
       <DataGrid
@@ -75,6 +98,14 @@ export default function AllSuppliersTable({ data }: AllSuppliersTableProps) {
           },
         }}
       />
+
+      {open && (
+        <SupplierDrawer
+          open={open}
+          onClose={() => setOpen(false)}
+          defaultValues={selectedSupplier!}
+        />
+      )}
     </>
   )
 }

@@ -26,9 +26,21 @@ const supplierSlice = bcaApiSlice.injectEndpoints({
 
       invalidatesTags: ['suppliers'],
     }),
+
+    updateSupplier: builder.mutation<SupplierType, SupplierType>({
+      query: (supplier) => ({
+        url: `/parametros/proveedores/${supplier.id}`,
+        method: 'PUT',
+        body: supplier,
+      }),
+
+      invalidatesTags: ['suppliers'],
+    }),
+  }),
 })
 
 export const {
   useGetAllSuppliersQuery,
   useCreateSupplierMutation,
+  useUpdateSupplierMutation,
 } = supplierSlice
