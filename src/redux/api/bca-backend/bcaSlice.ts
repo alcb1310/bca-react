@@ -23,6 +23,7 @@ export const bcaApiSlice = createApi({
     "categorias",
     "materiales",
     "partidas",
+    "proyectos",
     "users",
   ],
 
