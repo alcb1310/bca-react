@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { ClearOutlined, Done, EditOutlined } from '@mui/icons-material'
 import {
   DataGrid,
@@ -6,12 +7,18 @@ import {
   GridRowParams,
 } from '@mui/x-data-grid'
 import { ProjectType } from '../../../types/project'
+import ProjectDrawer from '../../drawers/Settings/Projects/ProjectDrawer'
 
 type AllProjectsTableProps = {
   data: ProjectType[]
 }
 
 export default function AllProjectsTable({ data }: AllProjectsTableProps) {
+  const [selectedProject, setSelectedProject] = useState<ProjectType | null>(
+    null
+  )
+  const [open, setOpen] = useState<boolean>(false)
+
   const cols: GridColDef<ProjectType>[] = [
     { field: 'name', headerName: 'Nombre', width: 300 },
     {
@@ -57,12 +64,17 @@ export default function AllProjectsTable({ data }: AllProjectsTableProps) {
           icon=<EditOutlined color='warning' />
           label='Edit'
           onClick={() => {
-            console.log(params.row)
+            EditProject(params.row)
           }}
         />,
       ],
     },
   ]
+
+  function EditProject(params: ProjectType) {
+    setSelectedProject(params)
+    setOpen(true)
+  }
 
   return (
     <>
@@ -85,6 +97,14 @@ export default function AllProjectsTable({ data }: AllProjectsTableProps) {
           },
         }}
       />
+
+      {open && (
+        <ProjectDrawer
+          open={open}
+          onClose={() => setOpen(false)}
+          defaultValues={selectedProject!}
+        />
+      )}
     </>
   )
 }

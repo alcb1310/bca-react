@@ -26,8 +26,23 @@ const projectApiSlice = bcaApiSlice.injectEndpoints({
 
       invalidatesTags: ['proyectos'],
     }),
+
+    updateProject: builder.mutation<ProjectType, ProjectType>({
+      query: (project) => {
+        return {
+          url: `/parametros/proyectos/${project.id}`,
+          method: 'PUT',
+          body: project,
+        }
+      },
+
+      invalidatesTags: ['proyectos'],
+    }),
   }),
 })
 
-export const { useGetAllProjectsQuery, useCreateProjectMutation } =
-  projectApiSlice
+export const {
+  useGetAllProjectsQuery,
+  useCreateProjectMutation,
+  useUpdateProjectMutation,
+} = projectApiSlice
