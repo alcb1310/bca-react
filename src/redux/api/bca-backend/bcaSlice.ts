@@ -19,7 +19,14 @@ export const bcaApiSlice = createApi({
     },
   }),
 
-  tagTypes: ['categorias', 'materiales', 'partidas', 'proyectos', 'users'],
+  tagTypes: [
+    'categorias',
+    'materiales',
+    'partidas',
+    'proyectos',
+    'users',
+    'suppliers',
+  ],
 
   endpoints: () => ({}),
 })
