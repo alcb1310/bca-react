@@ -1,16 +1,23 @@
-import { useState } from "react";
-import { DataGrid, GridActionsCellItem, GridColDef, GridRowParams } from "@mui/x-data-grid";
-import { MaterialType } from "../../../types/materials";
-import { EditOutlined } from "@mui/icons-material";
-import MaterialsDrawer from "../../drawers/Settings/Materials/MaterialsDrawer";
+import { useState } from 'react'
+import {
+  DataGrid,
+  GridActionsCellItem,
+  GridColDef,
+  GridRowParams,
+} from '@mui/x-data-grid'
+import { MaterialType } from '../../../types/materials'
+import { EditOutlined } from '@mui/icons-material'
+import MaterialsDrawer from '../../drawers/Settings/Materials/MaterialsDrawer'
 
 type AllMaterialsTableProps = {
-  data: MaterialType[];
-};
+  data: MaterialType[]
+}
 
 export default function AllMaterialsTable({ data }: AllMaterialsTableProps) {
   const [open, setOpen] = useState<boolean>(false)
-  const [selectedMaterial, setSelectedMaterial] = useState<MaterialType | null>(null)
+  const [selectedMaterial, setSelectedMaterial] = useState<MaterialType | null>(
+    null
+  )
 
   function handleEditMaterial(material: MaterialType) {
     setSelectedMaterial(material)
@@ -18,30 +25,30 @@ export default function AllMaterialsTable({ data }: AllMaterialsTableProps) {
   }
 
   const cols: GridColDef<MaterialType>[] = [
-    { field: "code", headerName: "Código", width: 100 },
-    { field: "name", headerName: "Nombre", width: 400 },
-    { field: "unit", headerName: "Unidad", width: 150 },
+    { field: 'code', headerName: 'Código', width: 100 },
+    { field: 'name', headerName: 'Nombre', width: 400 },
+    { field: 'unit', headerName: 'Unidad', width: 150 },
     {
-      field: "category",
-      headerName: "Categoría",
+      field: 'category',
+      headerName: 'Categoría',
       width: 400,
       valueGetter: (_value, row) => {
         return row.category?.name
-      }
+      },
     },
     {
-      field: "actions",
-      type: "actions",
+      field: 'actions',
+      type: 'actions',
       width: 10,
       getActions: (params: GridRowParams) => [
         <GridActionsCellItem
-          icon=<EditOutlined color="warning" />
-          label="Edit"
+          icon=<EditOutlined color='warning' />
+          label='Edit'
           onClick={() => {
             handleEditMaterial(params.row)
           }}
-        />
-      ]
+        />,
+      ],
     },
   ]
 
@@ -56,7 +63,7 @@ export default function AllMaterialsTable({ data }: AllMaterialsTableProps) {
         disableColumnResize
         disableRowSelectionOnClick
         disableMultipleRowSelection
-        sx={{ "&, [class^=MuiDataGrid]": { border: "none" } }}
+        sx={{ '&, [class^=MuiDataGrid]': { border: 'none' } }}
         pagination
         initialState={{
           pagination: {
@@ -65,9 +72,13 @@ export default function AllMaterialsTable({ data }: AllMaterialsTableProps) {
         }}
       />
 
-      {
-        open && <MaterialsDrawer open={open} onClose={() => setOpen(false)} defaultValues={selectedMaterial!} />
-      }
+      {open && (
+        <MaterialsDrawer
+          open={open}
+          onClose={() => setOpen(false)}
+          defaultValues={selectedMaterial!}
+        />
+      )}
     </>
   )
 }

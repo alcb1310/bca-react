@@ -24,7 +24,12 @@ export default function Projects() {
         </Grid>
 
         <Grid size={10}>
-          <TextField label='Buscar' name='query' size='small' className='w-full' />
+          <TextField
+            label='Buscar'
+            name='query'
+            size='small'
+            className='w-full'
+          />
         </Grid>
       </Grid>
 
@@ -34,8 +39,9 @@ export default function Projects() {
         onClose={() => setOpen(false)}
         defaultValues={{
           name: '',
-          is_active: false
-        }} />
+          is_active: false,
+        }}
+      />
     </>
   )
 }

@@ -7,7 +7,10 @@ import BcaTextField from '../../../input/BcaTextField'
 import { useForm } from 'react-hook-form'
 import { CategoryType } from '../../../../types/categories'
 import ButtonGroup from '../../../buttons/button-group'
-import { useCreateCategoryMutation, useUpdateCategoryMutation } from '../../../../redux/api/bca-backend/parametros/categoriesSlice'
+import {
+  useCreateCategoryMutation,
+  useUpdateCategoryMutation,
+} from '../../../../redux/api/bca-backend/parametros/categoriesSlice'
 
 type CategoriesDrawerProps = {
   open: boolean
@@ -64,23 +67,23 @@ export default function CategoriesDrawer({
 
   return (
     <BcaDrawer open={open} onClose={onClose}>
-      <DrawerTitle title="Crear Categorias" close={onClose} />
+      <DrawerTitle title='Crear Categorias' close={onClose} />
 
       <Box mt={2}>
         <form
-          className="w-full flex flex-col gap-5"
+          className='w-full flex flex-col gap-5'
           onSubmit={handleSubmit(hadleSubmit)}
         >
           {conflictError && (
-            <Typography color="error" sx={{ fontSize: '0.85rem' }}>
+            <Typography color='error' sx={{ fontSize: '0.85rem' }}>
               {conflictError}
             </Typography>
           )}
 
           <BcaTextField
-            name="name"
-            label="Categoría"
-            type="text"
+            name='name'
+            label='Categoría'
+            type='text'
             control={control}
           />
 

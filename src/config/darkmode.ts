@@ -1,5 +1,5 @@
-import { ThemeOptions } from "@mui/material/styles"
-import { blueGrey, green } from "@mui/material/colors"
+import { ThemeOptions } from '@mui/material/styles'
+import { blueGrey, green } from '@mui/material/colors'
 
 export const darkTheme: ThemeOptions = {
   palette: {
@@ -17,15 +17,15 @@ export const darkTheme: ThemeOptions = {
       main: green[500],
       light: '#eceff1',
       dark: '#eceff1',
-    }
+    },
   },
   components: {
     MuiTextField: {
       styleOverrides: {
         root: {
           color: '#eceff1',
-        }
-      }
-    }
-  }
+        },
+      },
+    },
+  },
 }

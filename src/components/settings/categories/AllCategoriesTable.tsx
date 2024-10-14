@@ -1,42 +1,43 @@
-import { EditOutlined } from "@mui/icons-material"
+import { EditOutlined } from '@mui/icons-material'
 import {
   DataGrid,
   GridActionsCellItem,
   GridColDef,
   GridRowParams,
-} from "@mui/x-data-grid"
-import { CategoryType } from "../../../types/categories"
-import { useState } from "react";
-import CategoriesDrawer from "../../drawers/Settings/Categories/CategoriesDrawer";
+} from '@mui/x-data-grid'
+import { CategoryType } from '../../../types/categories'
+import { useState } from 'react'
+import CategoriesDrawer from '../../drawers/Settings/Categories/CategoriesDrawer'
 
 type AllCategoriesTableProps = {
-  data: CategoryType[];
-};
+  data: CategoryType[]
+}
 
 export default function AllCategoriesTable({ data }: AllCategoriesTableProps) {
   const [open, setOpen] = useState<boolean>(false)
-  const [selectedCategory, setSelectedCategory] = useState<CategoryType | null>(null)
+  const [selectedCategory, setSelectedCategory] = useState<CategoryType | null>(
+    null
+  )
 
   function handleEditCategory(category: CategoryType) {
     setSelectedCategory(category)
     setOpen(true)
-
   }
 
   const cols: GridColDef<CategoryType>[] = [
     {
-      field: "name",
-      headerName: "Categoría",
+      field: 'name',
+      headerName: 'Categoría',
       width: 300,
     },
     {
-      field: "actions",
-      type: "actions",
+      field: 'actions',
+      type: 'actions',
       width: 10,
       getActions: (params: GridRowParams) => [
         <GridActionsCellItem
-          icon=<EditOutlined color="warning" />
-          label="Edit"
+          icon=<EditOutlined color='warning' />
+          label='Edit'
           onClick={() => {
             handleEditCategory(params.row)
           }}
@@ -56,7 +57,7 @@ export default function AllCategoriesTable({ data }: AllCategoriesTableProps) {
         disableColumnResize
         disableRowSelectionOnClick
         disableMultipleRowSelection
-        sx={{ "&, [class^=MuiDataGrid]": { border: "none" } }}
+        sx={{ '&, [class^=MuiDataGrid]': { border: 'none' } }}
         pagination
         initialState={{
           pagination: {
@@ -67,13 +68,13 @@ export default function AllCategoriesTable({ data }: AllCategoriesTableProps) {
         }}
       />
 
-      {
-        open &&
+      {open && (
         <CategoriesDrawer
           open={open}
           onClose={() => setOpen(false)}
-          defaultValues={selectedCategory!} />
-      }
+          defaultValues={selectedCategory!}
+        />
+      )}
     </>
   )
 }

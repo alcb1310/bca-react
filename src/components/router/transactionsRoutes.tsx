@@ -1,37 +1,37 @@
-import { RouteObject } from "react-router-dom"
-import Transacciones from "../../pages/transacciones"
-import Presupuesto from "../../pages/transacciones/presupuesto"
-import Factura from "../../pages/transacciones/factura"
-import IndividualInvoice from "../../pages/transacciones/factura/detail"
-import Cierre from "../../pages/transacciones/cierre"
+import { RouteObject } from 'react-router-dom'
+import Transacciones from '../../pages/transacciones'
+import Presupuesto from '../../pages/transacciones/presupuesto'
+import Factura from '../../pages/transacciones/factura'
+import IndividualInvoice from '../../pages/transacciones/factura/detail'
+import Cierre from '../../pages/transacciones/cierre'
 
 export const transactionsRoute: RouteObject = {
-  path: "transacciones",
+  path: 'transacciones',
   children: [
     {
       index: true,
-      element: <Transacciones />
+      element: <Transacciones />,
     },
     {
-      path: "presupuesto",
-      element: <Presupuesto />
+      path: 'presupuesto',
+      element: <Presupuesto />,
     },
     {
-      path: "factura",
+      path: 'factura',
       children: [
         {
           index: true,
-          element: <Factura />
+          element: <Factura />,
         },
         {
-          path: ":invoiceId",
-          element: <IndividualInvoice />
-        }
-      ]
+          path: ':invoiceId',
+          element: <IndividualInvoice />,
+        },
+      ],
     },
     {
-      path: "cierre",
-      element: <Cierre />
+      path: 'cierre',
+      element: <Cierre />,
     },
-  ]
+  ],
 }

@@ -1,5 +1,5 @@
-import { CategoryType } from "../../../../types/categories"
-import { bcaApiSlice } from "../bcaSlice"
+import { CategoryType } from '../../../../types/categories'
+import { bcaApiSlice } from '../bcaSlice'
 
 const categorySlice = bcaApiSlice.injectEndpoints({
   overrideExisting: true,
@@ -9,36 +9,36 @@ const categorySlice = bcaApiSlice.injectEndpoints({
       getAllCategories: builder.query<CategoryType[], void>({
         query() {
           return {
-            url: "/parametros/categorias",
-            method: "GET",
+            url: '/parametros/categorias',
+            method: 'GET',
           }
         },
 
-        providesTags: ["categorias"],
+        providesTags: ['categorias'],
       }),
 
       createCategory: builder.mutation<CategoryType, CategoryType>({
         query(data) {
           return {
-            url: "/parametros/categorias",
-            method: "POST",
+            url: '/parametros/categorias',
+            method: 'POST',
             body: data,
           }
         },
 
-        invalidatesTags: ["categorias"],
+        invalidatesTags: ['categorias'],
       }),
 
       updateCategory: builder.mutation<CategoryType, CategoryType>({
         query(data) {
           return {
             url: `/parametros/categorias/${data.id}`,
-            method: "PUT",
+            method: 'PUT',
             body: data,
           }
         },
 
-        invalidatesTags: ["categorias"],
+        invalidatesTags: ['categorias'],
       }),
     }
   },

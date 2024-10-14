@@ -1,5 +1,5 @@
-import { CancelOutlined, SaveOutlined } from "@mui/icons-material"
-import { Button, Stack } from "@mui/material"
+import { CancelOutlined, SaveOutlined } from '@mui/icons-material'
+import { Button, Stack } from '@mui/material'
 
 type ButtonGroupProps = {
   saveFunction: () => void
@@ -11,28 +11,24 @@ export default function ButtonGroup({
   cancelFunction,
 }: ButtonGroupProps) {
   return (
-    <Stack
-      direction="row"
-      justifyContent="space-between"
-      alignItems="center"
-    >
+    <Stack direction='row' justifyContent='space-between' alignItems='center'>
       <Button
-        variant="contained"
+        variant='contained'
         startIcon={<SaveOutlined />}
-        color="primary"
+        color='primary'
         onClick={saveFunction}
-        type="submit"
-        size="small"
+        type='submit'
+        size='small'
       >
         Guardar
       </Button>
 
       <Button
-        variant="outlined"
+        variant='outlined'
         startIcon={<CancelOutlined />}
-        color="primary"
+        color='primary'
         onClick={cancelFunction}
-        size="small"
+        size='small'
       >
         Cancelar
       </Button>

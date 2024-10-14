@@ -1,9 +1,17 @@
-import { AppBar, Box, IconButton, Stack, Toolbar, Tooltip, Typography } from "@mui/material"
-import ChangeTheme from "../theme/ChangeTheme"
-import { LogoutOutlined } from "@mui/icons-material"
-import UserMenu from "../menu/User"
-import { useAppDispatch } from "../../redux/hooks"
-import { logout } from "../../redux/features/login/loginSlice"
+import {
+  AppBar,
+  Box,
+  IconButton,
+  Stack,
+  Toolbar,
+  Tooltip,
+  Typography,
+} from '@mui/material'
+import ChangeTheme from '../theme/ChangeTheme'
+import { LogoutOutlined } from '@mui/icons-material'
+import UserMenu from '../menu/User'
+import { useAppDispatch } from '../../redux/hooks'
+import { logout } from '../../redux/features/login/loginSlice'
 
 export default function ApplicationBar() {
   const dispatch = useAppDispatch()
@@ -13,14 +21,12 @@ export default function ApplicationBar() {
   }
 
   return (
-    <AppBar
-      position="sticky"
-    >
+    <AppBar position='sticky'>
       <Toolbar>
         <Typography
-          variant="h6"
+          variant='h6'
           noWrap
-          component="h6"
+          component='h6'
           textTransform='uppercase'
           fontWeight={700}
           sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
@@ -29,15 +35,13 @@ export default function ApplicationBar() {
         </Typography>
 
         <Box sx={{ flexGrow: 1 }} />
-        <Stack direction="row" spacing={2}>
+        <Stack direction='row' spacing={2}>
           <UserMenu />
           <ChangeTheme />
 
-          <Tooltip
-            title="Cerrar sesión"
-          >
+          <Tooltip title='Cerrar sesión'>
             <IconButton
-              size="large"
+              size='large'
               onClick={handleLogout}
               sx={{ color: 'white' }}
             >
@@ -46,6 +50,6 @@ export default function ApplicationBar() {
           </Tooltip>
         </Stack>
       </Toolbar>
-    </AppBar >
+    </AppBar>
   )
 }

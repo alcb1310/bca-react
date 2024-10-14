@@ -1,44 +1,44 @@
-import { MaterialType } from "../../../../types/materials";
-import { bcaApiSlice } from "../bcaSlice";
+import { MaterialType } from '../../../../types/materials'
+import { bcaApiSlice } from '../bcaSlice'
 
 const materialsApi = bcaApiSlice.injectEndpoints({
   overrideExisting: true,
-  endpoints: builder => ({
+  endpoints: (builder) => ({
     getAllMaterials: builder.query<MaterialType[], void>({
       query() {
         return {
-          url: "/parametros/materiales",
-          method: "GET",
+          url: '/parametros/materiales',
+          method: 'GET',
         }
       },
 
-      providesTags: ["materiales"],
+      providesTags: ['materiales'],
     }),
 
     createMaterial: builder.mutation<MaterialType, MaterialType>({
       query(data) {
         return {
-          url: "/parametros/materiales",
-          method: "POST",
+          url: '/parametros/materiales',
+          method: 'POST',
           body: data,
         }
       },
 
-      invalidatesTags: ["materiales"],
+      invalidatesTags: ['materiales'],
     }),
 
     updateMaterial: builder.mutation<MaterialType, MaterialType>({
       query(data) {
         return {
           url: `/parametros/materiales/${data.id}`,
-          method: "PUT",
+          method: 'PUT',
           body: data,
         }
       },
 
-      invalidatesTags: ["materiales"],
-    })
-  })
+      invalidatesTags: ['materiales'],
+    }),
+  }),
 })
 
 export const {

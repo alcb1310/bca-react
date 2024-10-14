@@ -1,5 +1,5 @@
-import { AddOutlined, FileDownloadOutlined } from "@mui/icons-material"
-import { Button, Stack } from "@mui/material"
+import { AddOutlined, FileDownloadOutlined } from '@mui/icons-material'
+import { Button, Stack } from '@mui/material'
 
 type EditToolbarProps = {
   title: string
@@ -15,27 +15,26 @@ export default function EditToolbar({
   exportClick = undefined,
 }: EditToolbarProps) {
   return (
-    <Stack direction="row" spacing={2}>
+    <Stack direction='row' spacing={2}>
       <Button
-        variant="text"
+        variant='text'
         startIcon={<AddOutlined />}
         onClick={onClick}
-        size="small"
+        size='small'
       >
         {title}
       </Button>
 
       {hasExportButton && (
         <Button
-          variant="text"
+          variant='text'
           startIcon={<FileDownloadOutlined />}
           onClick={exportClick}
-          size="small"
+          size='small'
         >
           Exportar
         </Button>
       )}
-
     </Stack>
   )
 }

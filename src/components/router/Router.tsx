@@ -1,23 +1,23 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom"
-import UnauthenticatedLayout from "../layouts/UnauthenticatedLayout"
-import Login from "../../pages/login/login"
-import ValidateAuthentication from "../auth/Authentication"
-import Home from "../../pages/home/Home"
-import AuthenticatedLayout from "../layouts/AuthenticatedLayout"
-import { analysisRoutes } from "./analysisRoutes"
-import { parametersRoutes } from "./parametersRoutes"
-import { reportsRoutes } from "./reportsRoutes"
-import { transactionsRoute } from "./transactionsRoutes"
-import { usersRoutes } from "./usersRoutes"
+import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import UnauthenticatedLayout from '../layouts/UnauthenticatedLayout'
+import Login from '../../pages/login/login'
+import ValidateAuthentication from '../auth/Authentication'
+import Home from '../../pages/home/Home'
+import AuthenticatedLayout from '../layouts/AuthenticatedLayout'
+import { analysisRoutes } from './analysisRoutes'
+import { parametersRoutes } from './parametersRoutes'
+import { reportsRoutes } from './reportsRoutes'
+import { transactionsRoute } from './transactionsRoutes'
+import { usersRoutes } from './usersRoutes'
 
 export default function AppRouter() {
   const router = createBrowserRouter([
     {
       element: <ValidateAuthentication />,
       children: [
-        { path: "*", element: <div>404 Not found</div> },
+        { path: '*', element: <div>404 Not found</div> },
         {
-          path: "/",
+          path: '/',
           element: <AuthenticatedLayout />,
           children: [
             {
@@ -29,15 +29,15 @@ export default function AppRouter() {
             reportsRoutes,
             transactionsRoute,
             usersRoutes,
-          ]
+          ],
         },
-      ]
+      ],
     },
     {
       element: <UnauthenticatedLayout />,
       children: [
         {
-          path: "/login",
+          path: '/login',
           element: <Login />,
         },
       ],

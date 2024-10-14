@@ -1,80 +1,79 @@
-import { UserCreate, UserResponse } from "../../../../types/user"
-import { bcaApiSlice } from "../bcaSlice"
+import { UserCreate, UserResponse } from '../../../../types/user'
+import { bcaApiSlice } from '../bcaSlice'
 
 const userEndPoints = bcaApiSlice.injectEndpoints({
   overrideExisting: true,
 
-  endpoints: builder => ({
+  endpoints: (builder) => ({
     me: builder.query<UserResponse, void>({
       query() {
         return {
-          url: "/users/me",
-          method: "GET"
+          url: '/users/me',
+          method: 'GET',
         }
       },
 
-      providesTags: ["users"],
+      providesTags: ['users'],
     }),
 
     allUsers: builder.query<UserResponse[], void>({
       query() {
         return {
-          url: "/users",
-          method: "GET"
+          url: '/users',
+          method: 'GET',
         }
       },
 
-      providesTags: ["users"],
+      providesTags: ['users'],
     }),
 
     createUser: builder.mutation<UserResponse, UserCreate>({
       query(body) {
         return {
-          url: "/users",
-          method: "POST",
-          body
+          url: '/users',
+          method: 'POST',
+          body,
         }
       },
 
-      invalidatesTags: ["users"],
+      invalidatesTags: ['users'],
     }),
 
     deleteUser: builder.mutation<UserResponse, string>({
       query(id) {
         return {
           url: `/users/${id}`,
-          method: "DELETE"
+          method: 'DELETE',
         }
       },
 
-      invalidatesTags: ["users"],
+      invalidatesTags: ['users'],
     }),
 
     updateUser: builder.mutation<UserResponse, UserResponse>({
       query(body) {
         return {
           url: `/users/${body.id}`,
-          method: "PUT",
-          body
+          method: 'PUT',
+          body,
         }
       },
 
-      invalidatesTags: ["users"],
+      invalidatesTags: ['users'],
     }),
 
     updatePassword: builder.mutation<void, { password: string }>({
       query(body) {
         return {
           url: `/users`,
-          method: "PUT",
-          body
+          method: 'PUT',
+          body,
         }
       },
 
-      invalidatesTags: ["users"],
+      invalidatesTags: ['users'],
     }),
-
-  })
+  }),
 })
 
 export const {
@@ -83,5 +82,5 @@ export const {
   useCreateUserMutation,
   useDeleteUserMutation,
   useUpdateUserMutation,
-  useUpdatePasswordMutation
+  useUpdatePasswordMutation,
 } = userEndPoints

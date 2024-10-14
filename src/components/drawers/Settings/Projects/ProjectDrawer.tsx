@@ -17,7 +17,11 @@ type ProjectDrawerProps = {
   defaultValues: ProjectType
 }
 
-export default function ProjectDrawer({ open, onClose, defaultValues }: ProjectDrawerProps) {
+export default function ProjectDrawer({
+  open,
+  onClose,
+  defaultValues,
+}: ProjectDrawerProps) {
   const { control, reset, handleSubmit } = useForm<ProjectType>({
     defaultValues,
     resolver: zodResolver(projectSchema),
@@ -47,7 +51,10 @@ export default function ProjectDrawer({ open, onClose, defaultValues }: ProjectD
     <BcaDrawer open={open} onClose={onClose}>
       <DrawerTitle title='Proyectos' close={onClose} />
 
-      <form className='mt-5 flex flex-col gap-5' onSubmit={handleSubmit(hadleSubmit)}>
+      <form
+        className='mt-5 flex flex-col gap-5'
+        onSubmit={handleSubmit(hadleSubmit)}
+      >
         <BcaTextField name='name' label='Nombre' control={control} />
         <BcaTextField name='net_area' label='Area Bruta' control={control} />
         <BcaTextField name='gross_area' label='Area Util' control={control} />
@@ -56,10 +63,15 @@ export default function ProjectDrawer({ open, onClose, defaultValues }: ProjectD
           name='is_active'
           labelPlacement='end'
           label='Activo'
-          control={<RhfSwitch name='is_active' control={control} size='small' />}
+          control={
+            <RhfSwitch name='is_active' control={control} size='small' />
+          }
         />
 
-        <ButtonGroup saveFunction={handleSubmit(hadleSubmit)} cancelFunction={onClose} />
+        <ButtonGroup
+          saveFunction={handleSubmit(hadleSubmit)}
+          cancelFunction={onClose}
+        />
       </form>
     </BcaDrawer>
   )

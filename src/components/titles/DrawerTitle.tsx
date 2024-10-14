@@ -1,5 +1,5 @@
-import { CloseOutlined } from "@mui/icons-material"
-import { Button, Stack, Typography } from "@mui/material"
+import { CloseOutlined } from '@mui/icons-material'
+import { Button, Stack, Typography } from '@mui/material'
 
 type DrawerTitleProps = {
   title: string
@@ -9,29 +9,29 @@ type DrawerTitleProps = {
 export default function DrawerTitle(props: DrawerTitleProps) {
   return (
     <Stack
-      direction="row"
-      justifyContent="space-between"
-      alignItems="center"
+      direction='row'
+      justifyContent='space-between'
+      alignItems='center'
       sx={{
-        borderBottom: "1px solid black"
+        borderBottom: '1px solid black',
       }}
     >
       <Typography
-        variant="h5"
-        component="h5"
-        textAlign="left"
+        variant='h5'
+        component='h5'
+        textAlign='left'
         sx={{
-          display: "block",
+          display: 'block',
         }}
       >
         {props.title}
       </Typography>
 
       <Button
-        variant="text"
+        variant='text'
         startIcon={<CloseOutlined />}
         onClick={props.close}
-        color="inherit"
+        color='inherit'
       ></Button>
     </Stack>
   )

@@ -29,4 +29,5 @@ const projectApiSlice = bcaApiSlice.injectEndpoints({
   }),
 })
 
-export const { useGetAllProjectsQuery, useCreateProjectMutation } = projectApiSlice
+export const { useGetAllProjectsQuery, useCreateProjectMutation } =
+  projectApiSlice
