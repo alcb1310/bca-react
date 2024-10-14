@@ -1,22 +1,32 @@
-import { ProjectType } from "../../../../types/project";
-import { bcaApiSlice } from "../bcaSlice";
+import { ProjectType } from '../../../../types/project'
+import { bcaApiSlice } from '../bcaSlice'
 
 const projectApiSlice = bcaApiSlice.injectEndpoints({
   overrideExisting: true,
-  endpoints: builder => ({
+  endpoints: (builder) => ({
     getAllProjects: builder.query<ProjectType[], void>({
       query: () => {
         return {
-          url: "/parametros/proyectos",
-          method: "GET",
+          url: '/parametros/proyectos',
+          method: 'GET',
         }
       },
 
-      providesTags: ["proyectos"],
+      providesTags: ['proyectos'],
     }),
 
+    createProject: builder.mutation<ProjectType, ProjectType>({
+      query: (project) => {
+        return {
+          url: '/parametros/proyectos',
+          method: 'POST',
+          body: project,
+        }
+      },
 
+      invalidatesTags: ['proyectos'],
+    }),
   }),
 })
 
-export const { useGetAllProjectsQuery } = projectApiSlice
+export const { useGetAllProjectsQuery, useCreateProjectMutation } = projectApiSlice
