@@ -10,7 +10,8 @@ import ProjectDrawer from '../../../components/drawers/Settings/Projects/Project
 
 export default function Projects() {
   const [open, setOpen] = useState<boolean>(false)
-  const { data, isLoading } = useGetAllProjectsQuery()
+  const [query, setQuery] = useState<string>('')
+  const { data, isLoading } = useGetAllProjectsQuery({ query })
 
   return (
     <>
@@ -29,6 +30,7 @@ export default function Projects() {
             name='query'
             size='small'
             className='w-full'
+            onChange={(e) => setQuery(e.target.value)}
           />
         </Grid>
       </Grid>

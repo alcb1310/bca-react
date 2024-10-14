@@ -4,11 +4,14 @@ import { bcaApiSlice } from '../bcaSlice'
 const projectApiSlice = bcaApiSlice.injectEndpoints({
   overrideExisting: true,
   endpoints: (builder) => ({
-    getAllProjects: builder.query<ProjectType[], void>({
-      query: () => {
+    getAllProjects: builder.query<ProjectType[], { query: string }>({
+      query: (body) => {
         return {
           url: '/parametros/proyectos',
           method: 'GET',
+          params: {
+            query: body.query,
+          },
         }
       },
 

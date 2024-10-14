@@ -13,10 +13,6 @@ export default function BudgetItems() {
   const [query, setQuery] = useState<string>('')
   const { data, isLoading } = useGetAllBudgetItemsQuery({ query })
 
-  if (isLoading) {
-    return <CircularProgress />
-  }
-
   function handleClick() {
     setOpen((prev) => !prev)
   }
@@ -24,6 +20,7 @@ export default function BudgetItems() {
   return (
     <>
       <PageTitle title='Partidas' />
+      {isLoading && <CircularProgress />}
       <Grid container spacing={2}>
         <Grid size={2}>
           <EditToolbar title='Crear Partida' onClick={handleClick} />
