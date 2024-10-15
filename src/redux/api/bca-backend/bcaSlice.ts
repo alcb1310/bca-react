@@ -25,6 +25,7 @@ export const bcaApiSlice = createApi({
     'partidas',
     'proyectos',
     'suppliers',
+    'rubro-material',
     'rubros',
     'users',
   ],

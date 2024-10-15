@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Box, Button, CircularProgress, Stack, Typography } from '@mui/material'
 import { useNavigate, useParams } from 'react-router-dom'
+import { zodResolver } from '@hookform/resolvers/zod'
 
 import {
   useCreateRubroMutation,
@@ -11,12 +12,13 @@ import { useForm } from 'react-hook-form'
 import { rubrosSchema, RubrosType } from '../../../../types/rubros'
 import BcaTextField from '../../../../components/input/BcaTextField'
 import PageTitle from '../../../../components/titles/PageTitle'
-import { AddOutlined, CancelOutlined, SaveOutlined } from '@mui/icons-material'
-import { zodResolver } from '@hookform/resolvers/zod'
+import { CancelOutlined, SaveOutlined } from '@mui/icons-material'
 import EditToolbar from '../../../../components/table/headers/toolbar'
 import AllRubrosMaterialsTable from '../../../../components/settings/rubros/AllRubrosMaterialsTable'
+import RubroMaterialsDrawer from '../../../../components/drawers/Settings/RubroMaterial/RubroMaterialsDrawer'
 
 export default function IndividualItem() {
+  const [open, setOpen] = useState<boolean>(false)
   const [conflictError, setConflictError] = useState<string>('')
   const { rubroId } = useParams()
   const { data: rubro, isLoading } = useGetOneRubroQuery(rubroId!)
@@ -26,8 +28,8 @@ export default function IndividualItem() {
     resolver: zodResolver(rubrosSchema),
   })
   const navigate = useNavigate()
-  const [createRubro, { isLoading: isLoadingCreate }] = useCreateRubroMutation()
-  const [updateRubro, { isLoading: isLoadingUpdate }] = useUpdateRubroMutation()
+  const [createRubro] = useCreateRubroMutation()
+  const [updateRubro] = useUpdateRubroMutation()
 
   useEffect(() => {
     reset(rubro)
@@ -68,7 +70,9 @@ export default function IndividualItem() {
       <Box sx={{ width: '50%', mx: 'auto', mt: 2 }}>
         <form onSubmit={handleSubmit(hadleSubmit)}>
           <Stack direction={'column'} spacing={2}>
-            {conflictError && <Typography color='error'>{conflictError}</Typography>}
+            {conflictError && (
+              <Typography color='error'>{conflictError}</Typography>
+            )}
             <BcaTextField control={control} name='code' label='Código' />
             <BcaTextField control={control} name='name' label='Nombre' />
             <BcaTextField control={control} name='unit' label='Unidad' />
@@ -98,14 +102,25 @@ export default function IndividualItem() {
         </form>
       </Box>
 
-
       {rubroId?.toLowerCase() !== 'crear' && (
         <Box sx={{ mt: 2 }}>
-          <EditToolbar title='Material' onClick={() => { }} color='success' />
-          <AllRubrosMaterialsTable />
+          <EditToolbar
+            title='Agregar Material'
+            onClick={() => setOpen(true)}
+            color='success'
+          />
+          <AllRubrosMaterialsTable rubroId={rubroId!} />
+          <RubroMaterialsDrawer
+            open={open}
+            onClose={() => setOpen(false)}
+            defaultValues={{
+              item_id: rubroId!,
+              material_id: '',
+              quantity: 0,
+            }}
+          />
         </Box>
       )}
-
     </>
   )
 }
