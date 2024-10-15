@@ -13,6 +13,8 @@ import BcaTextField from '../../../../components/input/BcaTextField'
 import PageTitle from '../../../../components/titles/PageTitle'
 import { AddOutlined, CancelOutlined, SaveOutlined } from '@mui/icons-material'
 import { zodResolver } from '@hookform/resolvers/zod'
+import EditToolbar from '../../../../components/table/headers/toolbar'
+import AllRubrosMaterialsTable from '../../../../components/settings/rubros/AllRubrosMaterialsTable'
 
 export default function IndividualItem() {
   const [conflictError, setConflictError] = useState<string>('')
@@ -82,19 +84,6 @@ export default function IndividualItem() {
               >
                 Guardar
               </Button>
-
-              {rubroId?.toLowerCase() !== 'crear' && (
-                <Button
-                  variant='contained'
-                  size='small'
-                  color='success'
-                  disabled = {isLoadingUpdate || isLoadingCreate}
-                  startIcon={isLoadingUpdate || isLoadingCreate ? <CircularProgress /> : <AddOutlined />}
-                >
-                  Material
-                </Button>
-              )}
-
               <Button
                 variant='outlined'
                 size='small'
@@ -108,6 +97,15 @@ export default function IndividualItem() {
           </Stack>
         </form>
       </Box>
+
+
+      {rubroId?.toLowerCase() !== 'crear' && (
+        <Box sx={{ mt: 2 }}>
+          <EditToolbar title='Material' onClick={() => { }} color='success' />
+          <AllRubrosMaterialsTable />
+        </Box>
+      )}
+
     </>
   )
 }

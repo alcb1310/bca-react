@@ -62,7 +62,7 @@ export default function AllUsersTable() {
 
         <GridActionsCellItem
           disabled={me?.id === params.row.id}
-          icon=<DeleteOutline className='text-red-500' />
+          icon=<DeleteOutline color='error' />
           showInMenu
           label='Delete'
           onClick={() => {
