@@ -2,12 +2,13 @@ import { useEffect } from 'react'
 import { Box, Button, CircularProgress, Stack } from '@mui/material'
 import { useNavigate, useParams } from 'react-router-dom'
 
-import { useGetOneRubroQuery } from '../../../../redux/api/bca-backend/parametros/rubrosSlice'
+import { useCreateRubroMutation, useGetOneRubroQuery } from '../../../../redux/api/bca-backend/parametros/rubrosSlice'
 import { useForm } from 'react-hook-form'
-import { RubrosType } from '../../../../types/rubros'
+import { rubrosSchema, RubrosType } from '../../../../types/rubros'
 import BcaTextField from '../../../../components/input/BcaTextField'
 import PageTitle from '../../../../components/titles/PageTitle'
 import { AddOutlined, CancelOutlined, SaveOutlined } from '@mui/icons-material'
+import { zodResolver } from '@hookform/resolvers/zod'
 
 export default function IndividualItem() {
   const { rubroId } = useParams()
@@ -15,15 +16,27 @@ export default function IndividualItem() {
 
   const { control, reset, handleSubmit } = useForm<RubrosType>({
     defaultValues: rubro,
+    resolver: zodResolver(rubrosSchema)
   })
   const navigate = useNavigate()
+  const [createRubro] = useCreateRubroMutation()
 
   useEffect(() => {
     reset(rubro)
   }, [rubro, reset])
 
-  function hadleSubmit(data: RubrosType) {
-    console.log(data)
+  async function hadleSubmit(data: RubrosType) {
+    if (rubroId?.toLowerCase() === 'crear'){
+      // INFO: we are creating a new rubro
+      const res = await createRubro(data)
+      if ('data' in res) {
+        navigate(`/parametros/rubros/${res.data?.id}`)
+        return
+      }
+      return
+    }
+
+    // INFO: we are updating a rubro
   }
 
   return (

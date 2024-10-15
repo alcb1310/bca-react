@@ -22,7 +22,19 @@ const rubrosApiSlice = bcaApiSlice.injectEndpoints({
 
       providesTags: ['rubros'],
     }),
+
+    createRubro: builder.mutation<RubrosType, RubrosType>({
+      query: (rubro) => {
+        return {
+          url: '/parametros/rubros',
+          method: 'POST',
+          body: rubro
+        }
+      },
+
+      invalidatesTags: ['rubros']
+    }),
   }),
 })
 
-export const { useGetAllRubrosQuery, useGetOneRubroQuery } = rubrosApiSlice
+export const { useGetAllRubrosQuery, useGetOneRubroQuery, useCreateRubroMutation } = rubrosApiSlice
