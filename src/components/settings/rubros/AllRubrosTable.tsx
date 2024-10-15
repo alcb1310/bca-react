@@ -6,12 +6,15 @@ import {
 } from '@mui/x-data-grid'
 import { RubrosType } from '../../../types/rubros'
 import { EditOutlined } from '@mui/icons-material'
+import { useNavigate } from 'react-router-dom'
 
 type AllRubrosTableProps = {
   data: RubrosType[]
 }
 
 export default function AllRubrosTable({ data }: AllRubrosTableProps) {
+  const navigate = useNavigate()
+
   const cols: GridColDef<RubrosType>[] = [
     { field: 'code', headerName: 'Código', width: 200 },
     { field: 'name', headerName: 'Nombre', width: 400 },
@@ -24,7 +27,7 @@ export default function AllRubrosTable({ data }: AllRubrosTableProps) {
         <GridActionsCellItem
           icon=<EditOutlined color='warning' />
           label='Edit'
-          onClick={() => console.log(params.row)}
+          onClick={() => navigate(`/parametros/rubros/${params.row.id}`)}
         />,
       ],
     },

@@ -28,13 +28,30 @@ const rubrosApiSlice = bcaApiSlice.injectEndpoints({
         return {
           url: '/parametros/rubros',
           method: 'POST',
-          body: rubro
+          body: rubro,
         }
       },
 
-      invalidatesTags: ['rubros']
+      invalidatesTags: ['rubros'],
+    }),
+
+    updateRubro: builder.mutation<RubrosType, RubrosType>({
+      query: (rubro) => {
+        return {
+          url: `/parametros/rubros/${rubro.id}`,
+          method: 'PUT',
+          body: rubro,
+        }
+      },
+
+      invalidatesTags: ['rubros'],
     }),
   }),
 })
 
-export const { useGetAllRubrosQuery, useGetOneRubroQuery, useCreateRubroMutation } = rubrosApiSlice
+export const {
+  useGetAllRubrosQuery,
+  useGetOneRubroQuery,
+  useCreateRubroMutation,
+  useUpdateRubroMutation,
+} = rubrosApiSlice

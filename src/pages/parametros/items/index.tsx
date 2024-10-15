@@ -14,7 +14,10 @@ export default function Items() {
       <PageTitle title='Rubros' />
 
       {isLoading && <CircularProgress />}
-      <EditToolbar title='Crear Rubro' onClick={() => navigate('/parametros/rubros/crear')} />
+      <EditToolbar
+        title='Crear Rubro'
+        onClick={() => navigate('/parametros/rubros/crear')}
+      />
 
       <AllRubrosTable data={data!} />
     </>

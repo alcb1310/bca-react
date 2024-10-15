@@ -1,8 +1,12 @@
-import { useEffect } from 'react'
-import { Box, Button, CircularProgress, Stack } from '@mui/material'
+import { useEffect, useState } from 'react'
+import { Box, Button, CircularProgress, Stack, Typography } from '@mui/material'
 import { useNavigate, useParams } from 'react-router-dom'
 
-import { useCreateRubroMutation, useGetOneRubroQuery } from '../../../../redux/api/bca-backend/parametros/rubrosSlice'
+import {
+  useCreateRubroMutation,
+  useGetOneRubroQuery,
+  useUpdateRubroMutation,
+} from '../../../../redux/api/bca-backend/parametros/rubrosSlice'
 import { useForm } from 'react-hook-form'
 import { rubrosSchema, RubrosType } from '../../../../types/rubros'
 import BcaTextField from '../../../../components/input/BcaTextField'
@@ -11,32 +15,43 @@ import { AddOutlined, CancelOutlined, SaveOutlined } from '@mui/icons-material'
 import { zodResolver } from '@hookform/resolvers/zod'
 
 export default function IndividualItem() {
+  const [conflictError, setConflictError] = useState<string>('')
   const { rubroId } = useParams()
   const { data: rubro, isLoading } = useGetOneRubroQuery(rubroId!)
 
   const { control, reset, handleSubmit } = useForm<RubrosType>({
     defaultValues: rubro,
-    resolver: zodResolver(rubrosSchema)
+    resolver: zodResolver(rubrosSchema),
   })
   const navigate = useNavigate()
-  const [createRubro] = useCreateRubroMutation()
+  const [createRubro, { isLoading: isLoadingCreate }] = useCreateRubroMutation()
+  const [updateRubro, { isLoading: isLoadingUpdate }] = useUpdateRubroMutation()
 
   useEffect(() => {
     reset(rubro)
-  }, [rubro, reset])
+  }, [rubro])
 
   async function hadleSubmit(data: RubrosType) {
-    if (rubroId?.toLowerCase() === 'crear'){
-      // INFO: we are creating a new rubro
+    setConflictError('')
+    if (rubroId?.toLowerCase() === 'crear') {
+      // INFO: we are creating a new rubr
       const res = await createRubro(data)
       if ('data' in res) {
         navigate(`/parametros/rubros/${res.data?.id}`)
         return
       }
+
+      // @ts-expect-error data is a property of the error object
+      setConflictError(res.error.data.error)
       return
     }
 
     // INFO: we are updating a rubro
+    const res = await updateRubro(data)
+    if ('error' in res) {
+      // @ts-expect-error data is a property of the error object
+      setConflictError(res.error.data.error)
+    }
   }
 
   return (
@@ -51,6 +66,7 @@ export default function IndividualItem() {
       <Box sx={{ width: '50%', mx: 'auto', mt: 2 }}>
         <form onSubmit={handleSubmit(hadleSubmit)}>
           <Stack direction={'column'} spacing={2}>
+            {conflictError && <Typography color='error'>{conflictError}</Typography>}
             <BcaTextField control={control} name='code' label='Código' />
             <BcaTextField control={control} name='name' label='Nombre' />
             <BcaTextField control={control} name='unit' label='Unidad' />
@@ -72,7 +88,8 @@ export default function IndividualItem() {
                   variant='contained'
                   size='small'
                   color='success'
-                  startIcon={<AddOutlined />}
+                  disabled = {isLoadingUpdate || isLoadingCreate}
+                  startIcon={isLoadingUpdate || isLoadingCreate ? <CircularProgress /> : <AddOutlined />}
                 >
                   Material
                 </Button>
