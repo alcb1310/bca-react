@@ -27,7 +27,21 @@ const rubroMaterialApilice = bcaApiSlice.injectEndpoints({
         return {
           url: `/parametros/rubros/${data.item_id}/materiales`,
           method: 'POST',
-          body: data
+          body: data,
+        }
+      },
+
+      invalidatesTags: ['rubro-material'],
+    }),
+
+    deleteRubrosMaterial: builder.mutation<
+      void,
+      { rubroId: string; materialId: string }
+    >({
+      query: (data) => {
+        return {
+          url: `/parametros/rubros/${data.rubroId}/materiales/${data.materialId}`,
+          method: 'DELETE',
         }
       },
 
@@ -39,4 +53,5 @@ const rubroMaterialApilice = bcaApiSlice.injectEndpoints({
 export const {
   useGetAllRubrosMaterialsQuery,
   useCreateRubrosMaterialMutation,
+  useDeleteRubrosMaterialMutation,
 } = rubroMaterialApilice

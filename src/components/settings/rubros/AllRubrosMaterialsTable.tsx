@@ -5,7 +5,10 @@ import {
   GridColDef,
   GridRowParams,
 } from '@mui/x-data-grid'
-import { useGetAllRubrosMaterialsQuery } from '../../../redux/api/bca-backend/parametros/rubroMaterialSlice'
+import {
+  useDeleteRubrosMaterialMutation,
+  useGetAllRubrosMaterialsQuery,
+} from '../../../redux/api/bca-backend/parametros/rubroMaterialSlice'
 import { RubroMaterialResponseTye } from '../../../types/rubro-material'
 
 type AllRubrosMaterialsTableProps = {
@@ -16,6 +19,8 @@ export default function AllRubrosMaterialsTable({
   rubroId,
 }: AllRubrosMaterialsTableProps) {
   const { data: materials } = useGetAllRubrosMaterialsQuery(rubroId!)
+  const [deleteRubroMaterial] = useDeleteRubrosMaterialMutation()
+
   const cols: GridColDef<RubroMaterialResponseTye>[] = [
     {
       field: 'code',
@@ -53,7 +58,12 @@ export default function AllRubrosMaterialsTable({
           icon=<DeleteOutline color='error' />
           label='Borrar'
           showInMenu
-          onClick={() => console.log(params.row)}
+          onClick={() => {
+            deleteRubroMaterial({
+              rubroId: params.row.item.id,
+              materialId: params.row.material.id,
+            })
+          }}
         />,
       ],
     },
