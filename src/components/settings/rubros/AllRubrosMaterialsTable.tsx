@@ -6,6 +6,7 @@ import {
   GridRowParams,
 } from '@mui/x-data-grid'
 import { useGetAllRubrosMaterialsQuery } from '../../../redux/api/bca-backend/parametros/rubroMaterialSlice'
+import { RubroMaterialResponseTye } from '../../../types/rubro-material'
 
 type AllRubrosMaterialsTableProps = {
   rubroId: string
@@ -15,11 +16,27 @@ export default function AllRubrosMaterialsTable({
   rubroId,
 }: AllRubrosMaterialsTableProps) {
   const { data: materials } = useGetAllRubrosMaterialsQuery(rubroId!)
-  const cols: GridColDef[] = [
-    { field: 'code', headerName: 'Código', width: 100 },
-    { field: 'name', headerName: 'Nombre', width: 400 },
-    { field: 'unit', headerName: 'Unidad', width: 100 },
-    { field: 'quantity', headerName: 'Cantidad', width: 200 },
+  const cols: GridColDef<RubroMaterialResponseTye>[] = [
+    {
+      field: 'code',
+      headerName: 'Código',
+      width: 100,
+      valueGetter: (_value, row) => row.material.code,
+    },
+    {
+      field: 'name',
+      headerName: 'Nombre',
+      width: 400,
+      valueGetter: (_value, row) => row.material.name,
+    },
+    {
+      field: 'unit',
+      headerName: 'Unidad',
+      width: 100,
+      align: 'center',
+      valueGetter: (_value, row) => row.material.unit,
+    },
+    { field: 'quantity', headerName: 'Cantidad', width: 200, align: 'right' },
     {
       field: 'actions',
       type: 'actions',
@@ -46,7 +63,7 @@ export default function AllRubrosMaterialsTable({
     <DataGrid
       columns={cols}
       rows={materials!}
-      getRowId={(row) => row.id!}
+      getRowId={(row) => row.material.id!}
       rowHeight={25}
       disableColumnFilter
       disableColumnResize

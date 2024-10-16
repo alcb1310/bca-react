@@ -1,4 +1,7 @@
-import { RubroMaterialResponseTye } from '../../../../types/rubro-material'
+import {
+  RubroMaterialResponseTye,
+  RubroMaterialType,
+} from '../../../../types/rubro-material'
 import { bcaApiSlice } from '../bcaSlice'
 
 const rubroMaterialApilice = bcaApiSlice.injectEndpoints({
@@ -15,7 +18,25 @@ const rubroMaterialApilice = bcaApiSlice.injectEndpoints({
 
       providesTags: ['rubro-material'],
     }),
+
+    createRubrosMaterial: builder.mutation<
+      RubroMaterialResponseTye,
+      RubroMaterialType
+    >({
+      query: (data) => {
+        return {
+          url: `/parametros/rubros/${data.item_id}/materiales`,
+          method: 'POST',
+          body: data
+        }
+      },
+
+      invalidatesTags: ['rubro-material'],
+    }),
   }),
 })
 
-export const { useGetAllRubrosMaterialsQuery } = rubroMaterialApilice
+export const {
+  useGetAllRubrosMaterialsQuery,
+  useCreateRubrosMaterialMutation,
+} = rubroMaterialApilice

@@ -1,4 +1,7 @@
+import { useEffect, useState } from 'react'
+import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
+
 import {
   rubroMaterialSchema,
   RubroMaterialType,
@@ -6,11 +9,11 @@ import {
 import BcaDrawer from '../../BcaDrawer/BcaDrawer'
 import DrawerTitle from '../../../titles/DrawerTitle'
 import ButtonGroup from '../../../buttons/button-group'
-import { useEffect } from 'react'
 import BcaTextField from '../../../input/BcaTextField'
 import { useGetAllMaterialsQuery } from '../../../../redux/api/bca-backend/parametros/materialsSlice'
 import BcaSelect from '../../../input/BcaSelect'
-import { zodResolver } from '@hookform/resolvers/zod'
+import { useCreateRubrosMaterialMutation } from '../../../../redux/api/bca-backend/parametros/rubroMaterialSlice'
+import { Typography } from '@mui/material'
 
 type RubroMaterialsDrawerProps = {
   open: boolean
@@ -23,6 +26,7 @@ export default function RubroMaterialsDrawer({
   onClose,
   defaultValues,
 }: RubroMaterialsDrawerProps) {
+  const [confilctError, setConflictError] = useState<string>('')
   const { control, reset, handleSubmit, register } = useForm<RubroMaterialType>(
     {
       defaultValues,
@@ -31,13 +35,32 @@ export default function RubroMaterialsDrawer({
   )
 
   const { data: allMaterials } = useGetAllMaterialsQuery()
+  const [createRubroMaterial] = useCreateRubrosMaterialMutation()
 
   useEffect(() => {
     reset(defaultValues)
   }, [open])
 
-  function hadleSubmit(data: RubroMaterialType) {
-    console.log(data)
+  async function hadleSubmit(data: RubroMaterialType) {
+    const material: RubroMaterialType = {
+      item_id: data.item_id,
+      material_id: data.material_id,
+      quantity: parseFloat(data.quantity.toString()),
+    }
+
+    console.log(material)
+    setConflictError('')
+
+    if (!defaultValues.material_id) {
+      const res = await createRubroMaterial(material)
+      if ('data' in res) {
+        onClose()
+        return
+      }
+
+      // @ts-expect-error data is a property of the res.error object
+      setConflictError(res.error.data.error)
+    }
   }
 
   return (
@@ -48,6 +71,9 @@ export default function RubroMaterialsDrawer({
         className='mt-5 flex flex-col gap-5'
         onSubmit={handleSubmit(hadleSubmit)}
       >
+        {confilctError && (
+          <Typography color='error'>{confilctError}</Typography>
+        )}
         <input type='hidden' {...register('item_id')} />
 
         <BcaSelect name='material_id' label='Material' control={control}>
