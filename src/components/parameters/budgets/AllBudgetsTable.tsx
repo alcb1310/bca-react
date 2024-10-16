@@ -38,9 +38,9 @@ export default function AllBudgetsTable({
 
   const groupingModel: GridColumnGroupingModel = [
     { groupId: 'global', headerName: '', children: [{ field: 'project_id' }, { field: 'budget_item_id' }] },
-    { groupId: 'Iniciales', children: [{ field: 'initial_quantity' }, { field: 'initial_cost' }, { field: 'initial_total' }] },
-    { groupId: 'Gastados', children: [{ field: 'spent_quantity' }, { field: 'spent_total' }] },
-    { groupId: 'Por Gastar', children: [{ field: 'remaining_quantity' }, { field: 'remaining_cost' }, { field: 'remaining_total' }] },
+    { groupId: 'Iniciales', headerAlign: 'center', children: [{ field: 'initial_quantity' }, { field: 'initial_cost' }, { field: 'initial_total' }] },
+    { groupId: 'Gastados', headerAlign: 'center', children: [{ field: 'spent_quantity' }, { field: 'spent_total' }] },
+    { groupId: 'Por Gastar', headerAlign: 'center', children: [{ field: 'remaining_quantity' }, { field: 'remaining_cost' }, { field: 'remaining_total' }] },
     { groupId: 'Presupuesto Actualizado', headerName: '', children: [{ field: 'updated_budget' }] },
   ]
 

@@ -1,12 +1,14 @@
 import { ChangeEvent, useState } from 'react'
-import { Stack, TextField } from '@mui/material'
+import { CircularProgress, Stack, TextField } from '@mui/material'
 
 import EditToolbar from '../../../components/table/headers/toolbar'
 import PageTitle from '../../../components/titles/PageTitle'
 import AllBudgetsTable from '../../../components/parameters/budgets/AllBudgetsTable'
+import { useGetAllBudgetsQuery } from '../../../redux/api/bca-backend/transacciones/budgetSlice'
 
 export default function Presupuesto() {
   const [search, setSearch] = useState<string>('')
+  const { data, isLoading } = useGetAllBudgetsQuery({ query: search })
 
   return (
     <>
@@ -14,6 +16,7 @@ export default function Presupuesto() {
 
       <Stack spacing={3} direction='row'>
         <EditToolbar title={'Agregar'} onClick={() => { }} />
+        {isLoading && <CircularProgress />}
         <TextField
           placeholder='Buscar'
           size='small'
@@ -23,7 +26,7 @@ export default function Presupuesto() {
         />
       </Stack>
 
-      <AllBudgetsTable data={[]} />
+      <AllBudgetsTable data={data!} />
     </>
   )
 }
