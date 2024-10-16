@@ -1,16 +1,17 @@
-import { FormHelperText, TextField, TextFieldProps } from "@mui/material";
-import { BcaField } from "../../types/fields";
-import { Controller } from "react-hook-form";
+import { FormHelperText, TextField, TextFieldProps } from '@mui/material'
+import { BcaField } from '../../types/fields'
+import { Controller } from 'react-hook-form'
 
 type BcaTextFieldProps = BcaField<TextFieldProps>
 
 export default function BcaTextField({
   name,
-  helperText,
   defaultValue,
   control,
+  disabled,
   ...rest
 }: BcaTextFieldProps) {
+  console.dir(disabled)
   return (
     <>
       <Controller
@@ -26,18 +27,19 @@ export default function BcaTextField({
             inputRef={rhfRef}
             label={name}
             error={!!error}
-            size="small"
+            disabled={disabled}
+            size='small'
             helperText={
               <FormHelperText
                 error={!!error}
-                component="span"
-                variant="standard"
+                component='span'
+                variant='standard'
               >
                 {error?.message}
               </FormHelperText>
             }
             sx={{
-              width: '100%'
+              width: '100%',
             }}
             {...rest}
           />

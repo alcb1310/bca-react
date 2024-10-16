@@ -1,27 +1,27 @@
-import { useEffect, useState } from "react"
-import { useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
+import { useEffect, useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
 import {
   Box,
   CircularProgress,
   FormControlLabel,
   MenuItem,
   Typography,
-} from "@mui/material"
-import { DevTool } from "@hookform/devtools"
+} from '@mui/material'
+import { DevTool } from '@hookform/devtools'
 
-import DrawerTitle from "../../../titles/DrawerTitle"
-import BcaDrawer from "../../BcaDrawer/BcaDrawer"
-import ButtonGroup from "../../../buttons/button-group"
-import BcaTextField from "../../../input/BcaTextField"
-import { BudgetItem, budgetItemSchema } from "../../../../types/partidas"
-import { RhfSwitch } from "mui-rhf-integration"
-import BcaSelect from "../../../input/BcaSelect"
+import DrawerTitle from '../../../titles/DrawerTitle'
+import BcaDrawer from '../../BcaDrawer/BcaDrawer'
+import ButtonGroup from '../../../buttons/button-group'
+import BcaTextField from '../../../input/BcaTextField'
+import { BudgetItem, budgetItemSchema } from '../../../../types/partidas'
+import { RhfSwitch } from 'mui-rhf-integration'
+import BcaSelect from '../../../input/BcaSelect'
 import {
   useCreateBudgetItemMutation,
   useGetAllBudgetItemsByAccumulateQuery,
   useUpdateBudgetItemMutation,
-} from "../../../../redux/api/bca-backend/parametros/budgetItemSlice"
+} from '../../../../redux/api/bca-backend/parametros/budgetItemSlice'
 
 type BudgetItemDrawerProps = {
   open: boolean
@@ -49,6 +49,7 @@ export default function BudgetItemDrawer({
   useEffect(() => {
     setConflictError('')
     reset(defaultValues)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open])
 
   async function hadleSubmit(data: BudgetItem) {
@@ -64,33 +65,37 @@ export default function BudgetItemDrawer({
       return
     }
 
-    // @ts-ignore
+    // @ts-expect-error data property is part of the res.error object
     setConflictError(res.error.data.error)
   }
 
   return (
     <BcaDrawer open={open} onClose={onClose}>
-      <DrawerTitle title="Crear Partida" close={onClose} />
+      <DrawerTitle title='Crear Partida' close={onClose} />
 
       <Box mt={2}>
         <form
-          className="w-full flex flex-col gap-5"
+          className='w-full flex flex-col gap-5'
           onSubmit={handleSubmit(hadleSubmit)}
         >
           {isLoading && <CircularProgress />}
-          {conflictError && <Typography color="error" sx={{ fontSize: "0.85rem" }}>{conflictError}</Typography>}
+          {conflictError && (
+            <Typography color='error' sx={{ fontSize: '0.85rem' }}>
+              {conflictError}
+            </Typography>
+          )}
 
-          <BcaTextField name="code" label="Código" control={control} />
+          <BcaTextField name='code' label='Código' control={control} />
 
-          <BcaTextField name="name" label="Nombre" control={control} />
+          <BcaTextField name='name' label='Nombre' control={control} />
 
           <BcaSelect
-            name="parent_id"
-            label="Padre"
+            name='parent_id'
+            label='Padre'
             control={control}
             disabled={defaultValues.id ? true : false}
           >
-            <MenuItem value={""}>---Seleccione---</MenuItem>
+            <MenuItem value={''}>---Seleccione---</MenuItem>
             {data?.map((budgetItem) => (
               <MenuItem key={budgetItem.id} value={budgetItem.id}>
                 {budgetItem.name}
@@ -99,11 +104,11 @@ export default function BudgetItemDrawer({
           </BcaSelect>
 
           <FormControlLabel
-            name="accumulates"
-            labelPlacement="end"
-            label="Acumula"
+            name='accumulates'
+            labelPlacement='end'
+            label='Acumula'
             control={
-              <RhfSwitch name="accumulate" control={control} size="small" />
+              <RhfSwitch name='accumulate' control={control} size='small' />
             }
           />
 
