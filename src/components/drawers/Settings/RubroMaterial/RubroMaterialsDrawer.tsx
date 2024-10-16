@@ -12,8 +12,8 @@ import ButtonGroup from '../../../buttons/button-group'
 import BcaTextField from '../../../input/BcaTextField'
 import { useGetAllMaterialsQuery } from '../../../../redux/api/bca-backend/parametros/materialsSlice'
 import BcaSelect from '../../../input/BcaSelect'
-import { useCreateRubrosMaterialMutation } from '../../../../redux/api/bca-backend/parametros/rubroMaterialSlice'
-import { Typography } from '@mui/material'
+import { useCreateRubrosMaterialMutation, useUpdateRubrosMaterialMutation } from '../../../../redux/api/bca-backend/parametros/rubroMaterialSlice'
+import { MenuItem, Typography } from '@mui/material'
 
 type RubroMaterialsDrawerProps = {
   open: boolean
@@ -36,6 +36,7 @@ export default function RubroMaterialsDrawer({
 
   const { data: allMaterials } = useGetAllMaterialsQuery()
   const [createRubroMaterial] = useCreateRubrosMaterialMutation()
+  const [updateRubroMaterial] = useUpdateRubrosMaterialMutation()
 
   useEffect(() => {
     reset(defaultValues)
@@ -47,8 +48,6 @@ export default function RubroMaterialsDrawer({
       material_id: data.material_id,
       quantity: parseFloat(data.quantity.toString()),
     }
-
-    console.log(material)
     setConflictError('')
 
     if (!defaultValues.material_id) {
@@ -61,6 +60,15 @@ export default function RubroMaterialsDrawer({
       // @ts-expect-error data is a property of the res.error object
       setConflictError(res.error.data.error)
     }
+
+    const res = await updateRubroMaterial(material)
+    if ('data' in res) {
+      onClose()
+      return
+    }
+
+    // @ts-expect-error data is a property of the res.error object
+    setConflictError(res.error.data.error)
   }
 
   return (
@@ -76,11 +84,16 @@ export default function RubroMaterialsDrawer({
         )}
         <input type='hidden' {...register('item_id')} />
 
-        <BcaSelect name='material_id' label='Material' control={control}>
+        <BcaSelect
+          name='material_id'
+          label='Material'
+          control={control}
+          disabled={defaultValues.material_id ? true : false}
+        >
           {allMaterials?.map((material) => (
-            <option key={material.id} value={material.id}>
+            <MenuItem key={material.id} value={material.id}>
               {material.name}
-            </option>
+            </MenuItem>
           ))}
         </BcaSelect>
 

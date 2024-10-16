@@ -9,10 +9,11 @@ export default function BcaSelect({
   name,
   label,
   control,
+  disabled,
   children,
 }: BcaSelectProps) {
   return (
-    <BcaTextField name={name} label={label} control={control} select>
+    <BcaTextField name={name} label={label} control={control} select disabled={disabled}>
       {children}
     </BcaTextField>
   )

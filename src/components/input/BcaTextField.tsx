@@ -8,8 +8,10 @@ export default function BcaTextField({
   name,
   defaultValue,
   control,
+  disabled,
   ...rest
 }: BcaTextFieldProps) {
+  console.dir(disabled)
   return (
     <>
       <Controller
@@ -25,6 +27,7 @@ export default function BcaTextField({
             inputRef={rhfRef}
             label={name}
             error={!!error}
+            disabled={disabled}
             size='small'
             helperText={
               <FormHelperText

@@ -47,6 +47,18 @@ const rubroMaterialApilice = bcaApiSlice.injectEndpoints({
 
       invalidatesTags: ['rubro-material'],
     }),
+
+    updateRubrosMaterial: builder.mutation<void, RubroMaterialType>({
+      query: (data) => {
+        return {
+          url: `/parametros/rubros/${data.item_id}/materiales/${data.material_id}`,
+          method: 'PUT',
+          body: data,
+        }
+      },
+
+      invalidatesTags: ['rubro-material'],
+    }),
   }),
 })
 
@@ -54,4 +66,5 @@ export const {
   useGetAllRubrosMaterialsQuery,
   useCreateRubrosMaterialMutation,
   useDeleteRubrosMaterialMutation,
+  useUpdateRubrosMaterialMutation,
 } = rubroMaterialApilice

@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { DeleteOutline, EditOutlined } from '@mui/icons-material'
 import {
   DataGrid,
@@ -9,7 +10,8 @@ import {
   useDeleteRubrosMaterialMutation,
   useGetAllRubrosMaterialsQuery,
 } from '../../../redux/api/bca-backend/parametros/rubroMaterialSlice'
-import { RubroMaterialResponseTye } from '../../../types/rubro-material'
+import { RubroMaterialResponseTye, RubroMaterialType } from '../../../types/rubro-material'
+import RubroMaterialsDrawer from '../../drawers/Settings/RubroMaterial/RubroMaterialsDrawer'
 
 type AllRubrosMaterialsTableProps = {
   rubroId: string
@@ -18,6 +20,8 @@ type AllRubrosMaterialsTableProps = {
 export default function AllRubrosMaterialsTable({
   rubroId,
 }: AllRubrosMaterialsTableProps) {
+  const [open, setOpen] = useState<boolean>(false)
+  const [selectedRubroMaterial, setSelectedRubroMaterial] = useState<RubroMaterialType | null>(null)
   const { data: materials } = useGetAllRubrosMaterialsQuery(rubroId!)
   const [deleteRubroMaterial] = useDeleteRubrosMaterialMutation()
 
@@ -41,7 +45,15 @@ export default function AllRubrosMaterialsTable({
       align: 'center',
       valueGetter: (_value, row) => row.material.unit,
     },
-    { field: 'quantity', headerName: 'Cantidad', width: 200, align: 'right' },
+    {
+      field: 'quantity',
+      headerName: 'Cantidad',
+      width: 200,
+      align: 'right',
+      valueFormatter: (params: number) => {
+        return params.toLocaleString('es-EC', { minimumFractionDigits: 2 })
+      },
+    },
     {
       field: 'actions',
       type: 'actions',
@@ -51,7 +63,16 @@ export default function AllRubrosMaterialsTable({
           icon=<EditOutlined color='warning' />
           label='Editar'
           showInMenu
-          onClick={() => console.log(params.row)}
+          onClick={() => {
+            const dataToEdit: RubroMaterialType = {
+              item_id: params.row.item.id,
+              material_id: params.row.material.id,
+              quantity: params.row.quantity
+            }
+
+            setSelectedRubroMaterial(dataToEdit)
+            setOpen(true)
+          }}
         />,
 
         <GridActionsCellItem
@@ -70,22 +91,34 @@ export default function AllRubrosMaterialsTable({
   ]
 
   return (
-    <DataGrid
-      columns={cols}
-      rows={materials!}
-      getRowId={(row) => row.material.id!}
-      rowHeight={25}
-      disableColumnFilter
-      disableColumnResize
-      disableRowSelectionOnClick
-      disableMultipleRowSelection
-      sx={{ '&, [class^=MuiDataGrid]': { border: 'none' } }}
-      pagination
-      initialState={{
-        pagination: {
-          paginationModel: { pageSize: 25 },
-        },
-      }}
-    />
+    <>
+      <DataGrid
+        columns={cols}
+        rows={materials!}
+        getRowId={(row) => row.material.id!}
+        rowHeight={25}
+        disableColumnFilter
+        disableColumnResize
+        disableRowSelectionOnClick
+        disableMultipleRowSelection
+        sx={{ '&, [class^=MuiDataGrid]': { border: 'none' } }}
+        pagination
+        initialState={{
+          pagination: {
+            paginationModel: { pageSize: 25 },
+          },
+        }}
+      />
+
+      {
+        open && (
+          <RubroMaterialsDrawer
+            open={open}
+            onClose={() => setOpen(false)}
+            defaultValues={selectedRubroMaterial!}
+          />
+        )
+      }
+    </>
   )
 }
