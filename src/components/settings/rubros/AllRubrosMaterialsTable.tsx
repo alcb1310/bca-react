@@ -51,7 +51,7 @@ export default function AllRubrosMaterialsTable({
       width: 200,
       align: 'right',
       valueFormatter: (params: number) => {
-        return params.toLocaleString('es-EC', { minimumFractionDigits: 2 })
+        return params.toLocaleString('es-EC', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
       },
     },
     {

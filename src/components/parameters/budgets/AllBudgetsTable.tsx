@@ -9,31 +9,124 @@ type AllBudgetsTableProps = {
 export default function AllBudgetsTable({
   data,
 }: AllBudgetsTableProps) {
-  const cols: GridColDef[] = [
-    { field: 'project_name', headerName: 'Proyecto', width: 180, hideable: false },
-    { field: 'budget_item_name', headerName: 'Partida', width: 380, hideable: false },
-    { field: 'initial_quantity', headerName: 'Cant. Inicial', width: 180 },
-    { field: 'initial_cost', headerName: 'Costo Inicial', width: 180 },
-    { field: 'initial_total', headerName: 'Total Inicial', width: 180 },
-    { field: 'spent_quantity', headerName: 'Cant. Gastada', width: 180 },
-    { field: 'spent_total', headerName: 'Total Gastado', width: 180 },
-    { field: 'remaining_quantity', headerName: 'Cant. Disponible', width: 180 },
-    { field: 'remaining_cost', headerName: 'Costo Disponible', width: 180 },
-    { field: 'remaining_total', headerName: 'Total Disponible', width: 180 },
-    { field: 'updated_budget', headerName: 'Presupuesto Actualizado', width: 180, hideable: false },
+  const cols: GridColDef<BudgetResponseType>[] = [
     {
       field: 'actions',
       type: 'actions',
       width: 10,
-      getActions: (params: GridRowParams<BudgetResponseType>) => [<GridActionsCellItem
-        icon=<EditOutlined color="warning" />
-        label="Editar"
-        onClick={() => {
-          console.log(params)
-        }}
-      />
+      getActions: (params: GridRowParams<BudgetResponseType>) => [
+        < GridActionsCellItem
+          icon=<EditOutlined color="warning" />
+          label="Editar"
+          onClick={() => {
+            console.log(params)
+          }}
+          sx={{
+            visibility: params.row.budget_item.accumulate ? 'hidden' : 'visible',
+          }}
+        />
       ]
-    }
+    },
+    {
+      field: 'project_name',
+      headerName: 'Proyecto',
+      width: 180,
+      hideable: false,
+      renderCell: (params) => {
+        return params.row.project.name
+      }
+    },
+    {
+      field: 'budget_item_name',
+      headerName: 'Partida',
+      width: 380,
+      hideable: false,
+      renderCell: (params) => {
+        return params.row.budget_item.name
+      }
+    },
+    {
+      field: 'initial_quantity',
+      headerName: 'Cant. Inicial',
+      width: 180,
+      align: 'right',
+      valueFormatter: (params: { Float64: number; Valid: boolean }) => {
+        return params.Valid ? params.Float64.toLocaleString('es-EC', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : ''
+      }
+    },
+    {
+      field: 'initial_cost',
+      headerName: 'Costo Inicial',
+      width: 180,
+      align: 'right',
+      valueFormatter: (params: { Float64: number; Valid: boolean }) => {
+        return params.Valid ? params.Float64.toLocaleString('es-EC', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : ''
+      }
+    },
+    {
+      field: 'initial_total',
+      headerName: 'Total Inicial',
+      width: 180,
+      align: 'right',
+      valueFormatter: (params: number) => {
+        return params.toLocaleString('es-EC', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+      }
+    },
+    {
+      field: 'spent_quantity',
+      headerName: 'Cant. Gastada',
+      width: 180,
+      align: 'right',
+      valueFormatter: (params: { Float64: number; Valid: boolean }) => {
+        return params.Valid ? params.Float64.toLocaleString('es-EC', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : ''
+      }
+    },
+    {
+      field: 'spent_total',
+      headerName: 'Total Gastado',
+      width: 180,
+      align: 'right',
+      valueFormatter: (params: number) => {
+        return params.toLocaleString('es-EC', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+      }
+    },
+    {
+      field: 'remaining_quantity',
+      headerName: 'Cant. Disponible',
+      width: 180,
+      align: 'right',
+      valueFormatter: (params: { Float64: number; Valid: boolean }) => {
+        return params.Valid ? params.Float64.toLocaleString('es-EC', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : ''
+      }
+    },
+    {
+      field: 'remaining_cost',
+      headerName: 'Costo Disponible',
+      width: 180,
+      align: 'right',
+      valueFormatter: (params: { Float64: number; Valid: boolean }) => {
+        return params.Valid ? params.Float64.toLocaleString('es-EC', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : ''
+      }
+    },
+    {
+      field: 'remaining_total',
+      headerName: 'Total Disponible',
+      width: 180,
+      align: 'right',
+      valueFormatter: (params: number) => {
+        return params.toLocaleString('es-EC', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+      }
+    },
+    {
+      field: 'updated_budget',
+      headerName: 'Presupuesto Actualizado',
+      width: 180,
+      hideable: false,
+      align: 'right',
+      valueFormatter: (params: number) => {
+        return params.toLocaleString('es-EC', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+      }
+    },
   ]
 
   const groupingModel: GridColumnGroupingModel = [
@@ -49,7 +142,9 @@ export default function AllBudgetsTable({
       <DataGrid
         columns={cols}
         rows={data}
-        getRowId={(row) => row.id}
+        getRowId={(row) => {
+          return `${row.project.id} - ${row.budget_item.id}`
+        }}
         rowHeight={25}
         disableColumnFilter
         disableColumnResize

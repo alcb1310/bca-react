@@ -8,7 +8,7 @@ const budgetApiSlice = bcaApiSlice.injectEndpoints({
     getAllBudgets: builder.query<BudgetResponseType[], { query: string }>({
       query(body) {
         return {
-          url: '/transacciones/presupuesto',
+          url: '/transacciones/presupuestos',
           method: 'GET',
           params: {
             query: body.query
