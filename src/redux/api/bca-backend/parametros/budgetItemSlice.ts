@@ -8,7 +8,8 @@ const partidasEndpoints = bcaApiSlice.injectEndpoints({
     getAllBudgetItems: builder.query<
       BudgetItemResponse[],
       {
-        query: string
+        query?: string
+        accum?: boolean
       }
     >({
       query(body) {
@@ -17,6 +18,7 @@ const partidasEndpoints = bcaApiSlice.injectEndpoints({
           method: 'GET',
           params: {
             query: body.query,
+            accum: body.accum,
           },
         }
       },
