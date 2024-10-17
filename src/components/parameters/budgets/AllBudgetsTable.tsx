@@ -1,31 +1,37 @@
-import { DataGrid, GridActionsCellItem, GridColDef, GridColumnGroupingModel, GridRowParams } from "@mui/x-data-grid";
-import { BudgetResponseType } from "../../../types/budget";
-import { EditOutlined } from "@mui/icons-material";
+import {
+  DataGrid,
+  GridActionsCellItem,
+  GridColDef,
+  GridColumnGroupingModel,
+  GridRowParams,
+} from '@mui/x-data-grid'
+import { BudgetResponseType } from '../../../types/budget'
+import { EditOutlined } from '@mui/icons-material'
 
 type AllBudgetsTableProps = {
   data: BudgetResponseType[]
 }
 
-export default function AllBudgetsTable({
-  data,
-}: AllBudgetsTableProps) {
+export default function AllBudgetsTable({ data }: AllBudgetsTableProps) {
   const cols: GridColDef<BudgetResponseType>[] = [
     {
       field: 'actions',
       type: 'actions',
       width: 10,
       getActions: (params: GridRowParams<BudgetResponseType>) => [
-        < GridActionsCellItem
-          icon=<EditOutlined color="warning" />
-          label="Editar"
+        <GridActionsCellItem
+          icon=<EditOutlined color='warning' />
+          label='Editar'
           onClick={() => {
             console.log(params)
           }}
           sx={{
-            visibility: params.row.budget_item.accumulate ? 'hidden' : 'visible',
+            visibility: params.row.budget_item.accumulate
+              ? 'hidden'
+              : 'visible',
           }}
-        />
-      ]
+        />,
+      ],
     },
     {
       field: 'project_name',
@@ -34,7 +40,7 @@ export default function AllBudgetsTable({
       hideable: false,
       renderCell: (params) => {
         return params.row.project.name
-      }
+      },
     },
     {
       field: 'budget_item_name',
@@ -43,7 +49,7 @@ export default function AllBudgetsTable({
       hideable: false,
       renderCell: (params) => {
         return params.row.budget_item.name
-      }
+      },
     },
     {
       field: 'initial_quantity',
@@ -51,8 +57,13 @@ export default function AllBudgetsTable({
       width: 180,
       align: 'right',
       valueFormatter: (params: { Float64: number; Valid: boolean }) => {
-        return params.Valid ? params.Float64.toLocaleString('es-EC', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : ''
-      }
+        return params.Valid
+          ? params.Float64.toLocaleString('es-EC', {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+            })
+          : ''
+      },
     },
     {
       field: 'initial_cost',
@@ -60,8 +71,13 @@ export default function AllBudgetsTable({
       width: 180,
       align: 'right',
       valueFormatter: (params: { Float64: number; Valid: boolean }) => {
-        return params.Valid ? params.Float64.toLocaleString('es-EC', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : ''
-      }
+        return params.Valid
+          ? params.Float64.toLocaleString('es-EC', {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+            })
+          : ''
+      },
     },
     {
       field: 'initial_total',
@@ -69,8 +85,11 @@ export default function AllBudgetsTable({
       width: 180,
       align: 'right',
       valueFormatter: (params: number) => {
-        return params.toLocaleString('es-EC', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
-      }
+        return params.toLocaleString('es-EC', {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2,
+        })
+      },
     },
     {
       field: 'spent_quantity',
@@ -78,8 +97,13 @@ export default function AllBudgetsTable({
       width: 180,
       align: 'right',
       valueFormatter: (params: { Float64: number; Valid: boolean }) => {
-        return params.Valid ? params.Float64.toLocaleString('es-EC', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : ''
-      }
+        return params.Valid
+          ? params.Float64.toLocaleString('es-EC', {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+            })
+          : ''
+      },
     },
     {
       field: 'spent_total',
@@ -87,8 +111,11 @@ export default function AllBudgetsTable({
       width: 180,
       align: 'right',
       valueFormatter: (params: number) => {
-        return params.toLocaleString('es-EC', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
-      }
+        return params.toLocaleString('es-EC', {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2,
+        })
+      },
     },
     {
       field: 'remaining_quantity',
@@ -96,8 +123,13 @@ export default function AllBudgetsTable({
       width: 180,
       align: 'right',
       valueFormatter: (params: { Float64: number; Valid: boolean }) => {
-        return params.Valid ? params.Float64.toLocaleString('es-EC', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : ''
-      }
+        return params.Valid
+          ? params.Float64.toLocaleString('es-EC', {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+            })
+          : ''
+      },
     },
     {
       field: 'remaining_cost',
@@ -105,8 +137,13 @@ export default function AllBudgetsTable({
       width: 180,
       align: 'right',
       valueFormatter: (params: { Float64: number; Valid: boolean }) => {
-        return params.Valid ? params.Float64.toLocaleString('es-EC', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : ''
-      }
+        return params.Valid
+          ? params.Float64.toLocaleString('es-EC', {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+            })
+          : ''
+      },
     },
     {
       field: 'remaining_total',
@@ -114,8 +151,11 @@ export default function AllBudgetsTable({
       width: 180,
       align: 'right',
       valueFormatter: (params: number) => {
-        return params.toLocaleString('es-EC', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
-      }
+        return params.toLocaleString('es-EC', {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2,
+        })
+      },
     },
     {
       field: 'updated_budget',
@@ -124,17 +164,48 @@ export default function AllBudgetsTable({
       hideable: false,
       align: 'right',
       valueFormatter: (params: number) => {
-        return params.toLocaleString('es-EC', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
-      }
+        return params.toLocaleString('es-EC', {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2,
+        })
+      },
     },
   ]
 
   const groupingModel: GridColumnGroupingModel = [
-    { groupId: 'global', headerName: '', children: [{ field: 'project_id' }, { field: 'budget_item_id' }] },
-    { groupId: 'Iniciales', headerAlign: 'center', children: [{ field: 'initial_quantity' }, { field: 'initial_cost' }, { field: 'initial_total' }] },
-    { groupId: 'Gastados', headerAlign: 'center', children: [{ field: 'spent_quantity' }, { field: 'spent_total' }] },
-    { groupId: 'Por Gastar', headerAlign: 'center', children: [{ field: 'remaining_quantity' }, { field: 'remaining_cost' }, { field: 'remaining_total' }] },
-    { groupId: 'Presupuesto Actualizado', headerName: '', children: [{ field: 'updated_budget' }] },
+    {
+      groupId: 'global',
+      headerName: '',
+      children: [{ field: 'project_id' }, { field: 'budget_item_id' }],
+    },
+    {
+      groupId: 'Iniciales',
+      headerAlign: 'center',
+      children: [
+        { field: 'initial_quantity' },
+        { field: 'initial_cost' },
+        { field: 'initial_total' },
+      ],
+    },
+    {
+      groupId: 'Gastados',
+      headerAlign: 'center',
+      children: [{ field: 'spent_quantity' }, { field: 'spent_total' }],
+    },
+    {
+      groupId: 'Por Gastar',
+      headerAlign: 'center',
+      children: [
+        { field: 'remaining_quantity' },
+        { field: 'remaining_cost' },
+        { field: 'remaining_total' },
+      ],
+    },
+    {
+      groupId: 'Presupuesto Actualizado',
+      headerName: '',
+      children: [{ field: 'updated_budget' }],
+    },
   ]
 
   return (
@@ -164,10 +235,9 @@ export default function AllBudgetsTable({
               initial_total: false,
               spent_quantity: false,
               spent_total: false,
-            }
-          }
+            },
+          },
         }}
-
       />
     </>
   )

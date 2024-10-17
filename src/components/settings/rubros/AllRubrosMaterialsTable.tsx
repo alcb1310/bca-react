@@ -10,7 +10,10 @@ import {
   useDeleteRubrosMaterialMutation,
   useGetAllRubrosMaterialsQuery,
 } from '../../../redux/api/bca-backend/parametros/rubroMaterialSlice'
-import { RubroMaterialResponseTye, RubroMaterialType } from '../../../types/rubro-material'
+import {
+  RubroMaterialResponseTye,
+  RubroMaterialType,
+} from '../../../types/rubro-material'
 import RubroMaterialsDrawer from '../../drawers/Settings/RubroMaterial/RubroMaterialsDrawer'
 
 type AllRubrosMaterialsTableProps = {
@@ -21,7 +24,8 @@ export default function AllRubrosMaterialsTable({
   rubroId,
 }: AllRubrosMaterialsTableProps) {
   const [open, setOpen] = useState<boolean>(false)
-  const [selectedRubroMaterial, setSelectedRubroMaterial] = useState<RubroMaterialType | null>(null)
+  const [selectedRubroMaterial, setSelectedRubroMaterial] =
+    useState<RubroMaterialType | null>(null)
   const { data: materials } = useGetAllRubrosMaterialsQuery(rubroId!)
   const [deleteRubroMaterial] = useDeleteRubrosMaterialMutation()
 
@@ -51,7 +55,10 @@ export default function AllRubrosMaterialsTable({
       width: 200,
       align: 'right',
       valueFormatter: (params: number) => {
-        return params.toLocaleString('es-EC', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+        return params.toLocaleString('es-EC', {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2,
+        })
       },
     },
     {
@@ -67,7 +74,7 @@ export default function AllRubrosMaterialsTable({
             const dataToEdit: RubroMaterialType = {
               item_id: params.row.item.id,
               material_id: params.row.material.id,
-              quantity: params.row.quantity
+              quantity: params.row.quantity,
             }
 
             setSelectedRubroMaterial(dataToEdit)
@@ -110,15 +117,13 @@ export default function AllRubrosMaterialsTable({
         }}
       />
 
-      {
-        open && (
-          <RubroMaterialsDrawer
-            open={open}
-            onClose={() => setOpen(false)}
-            defaultValues={selectedRubroMaterial!}
-          />
-        )
-      }
+      {open && (
+        <RubroMaterialsDrawer
+          open={open}
+          onClose={() => setOpen(false)}
+          defaultValues={selectedRubroMaterial!}
+        />
+      )}
     </>
   )
 }
