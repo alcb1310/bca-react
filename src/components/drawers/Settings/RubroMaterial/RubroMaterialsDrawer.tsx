@@ -24,7 +24,7 @@ type RubroMaterialsDrawerProps = {
   defaultValues: RubroMaterialType
 }
 
-export default function RubroMaterialsDrawer({
+function RubroMaterialsDrawer({
   open,
   onClose,
   defaultValues,
@@ -110,3 +110,5 @@ export default function RubroMaterialsDrawer({
     </BcaDrawer>
   )
 }
+
+export default RubroMaterialsDrawer
