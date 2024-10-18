@@ -12,7 +12,10 @@ import ButtonGroup from '../../../buttons/button-group'
 import BcaTextField from '../../../input/BcaTextField'
 import { useGetAllMaterialsQuery } from '../../../../redux/api/bca-backend/parametros/materialsSlice'
 import BcaSelect from '../../../input/BcaSelect'
-import { useCreateRubrosMaterialMutation, useUpdateRubrosMaterialMutation } from '../../../../redux/api/bca-backend/parametros/rubroMaterialSlice'
+import {
+  useCreateRubrosMaterialMutation,
+  useUpdateRubrosMaterialMutation,
+} from '../../../../redux/api/bca-backend/parametros/rubroMaterialSlice'
 import { MenuItem, Typography } from '@mui/material'
 
 type RubroMaterialsDrawerProps = {
@@ -21,7 +24,7 @@ type RubroMaterialsDrawerProps = {
   defaultValues: RubroMaterialType
 }
 
-export default function RubroMaterialsDrawer({
+function RubroMaterialsDrawer({
   open,
   onClose,
   defaultValues,
@@ -107,3 +110,5 @@ export default function RubroMaterialsDrawer({
     </BcaDrawer>
   )
 }
+
+export default RubroMaterialsDrawer

@@ -22,7 +22,14 @@ export default function TransactionsMenu() {
 
   return (
     <Box>
-      <ListItemButton onClick={() => setOpen((prev) => !prev)}>
+      <ListItemButton
+        onClick={() => setOpen((prev) => !prev)}
+        sx={{
+          backgroundColor: 'primary.main',
+          color: 'white',
+          borderRadius: 2,
+        }}
+      >
         <ListItemText
           primary='Transacciones'
           primaryTypographyProps={{
