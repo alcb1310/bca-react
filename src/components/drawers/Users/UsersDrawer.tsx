@@ -1,14 +1,22 @@
-import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
-import { Box, Typography } from "@mui/material";
+import { useEffect, useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { Box, Typography } from '@mui/material'
 
-import BcaDrawer from "../BcaDrawer/BcaDrawer";
-import { UserCreate, userCreateSchema, UserResponse, userResponseSchema } from "../../../types/user";
-import DrawerTitle from "../../titles/DrawerTitle";
-import ButtonGroup from "../../buttons/button-group";
-import { useCreateUserMutation, useUpdateUserMutation } from "../../../redux/api/bca-backend/user/userSlice";
-import BcaTextField from "../../input/BcaTextField";
-import { zodResolver } from "@hookform/resolvers/zod";
+import BcaDrawer from '../BcaDrawer/BcaDrawer'
+import {
+  UserCreate,
+  userCreateSchema,
+  UserResponse,
+  userResponseSchema,
+} from '../../../types/user'
+import DrawerTitle from '../../titles/DrawerTitle'
+import ButtonGroup from '../../buttons/button-group'
+import {
+  useCreateUserMutation,
+  useUpdateUserMutation,
+} from '../../../redux/api/bca-backend/user/userSlice'
+import BcaTextField from '../../input/BcaTextField'
+import { zodResolver } from '@hookform/resolvers/zod'
 
 type UsersDrawerProps = {
   open: boolean
@@ -25,11 +33,14 @@ export default function UsersDrawer({
   const [updateUser] = useUpdateUserMutation()
   const [conflictError, setConflictError] = useState<string>('')
 
-  const resolver = 'id' in userData ? zodResolver(userResponseSchema) : zodResolver(userCreateSchema)
+  const resolver =
+    'id' in userData
+      ? zodResolver(userResponseSchema)
+      : zodResolver(userCreateSchema)
 
   const { control, reset, handleSubmit } = useForm<UserCreate | UserResponse>({
     defaultValues: {
-      ...userData
+      ...userData,
     },
     resolver,
   })
@@ -37,6 +48,7 @@ export default function UsersDrawer({
   useEffect(() => {
     setConflictError('')
     reset(userData)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userData])
 
   async function hadleSubmit(data: UserCreate | UserResponse) {
@@ -49,7 +61,7 @@ export default function UsersDrawer({
         return
       }
 
-      // @ts-ignore
+      // @ts-expect-error data property is part of the res.error object
       setConflictError(res.error.data.error)
     } else {
       const res = await updateUser(data)
@@ -64,42 +76,48 @@ export default function UsersDrawer({
   return (
     <BcaDrawer open={open} onClose={onClose}>
       <DrawerTitle
-        title={'password' in userData ? "Crear usuario" : "Editar usuario"}
+        title={'password' in userData ? 'Crear usuario' : 'Editar usuario'}
         close={onClose}
       />
 
       <Box mt={2}>
         <form
-          className="w-full flex flex-col gap-5"
+          className='w-full flex flex-col gap-5'
           onSubmit={handleSubmit(hadleSubmit)}
         >
-          {conflictError && <Typography color="error" variant="body2">{conflictError}</Typography>}
+          {conflictError && (
+            <Typography color='error' variant='body2'>
+              {conflictError}
+            </Typography>
+          )}
 
           <BcaTextField
-            name="email"
-            label="Email"
-            type="email"
+            name='email'
+            label='Email'
+            type='email'
             control={control}
             disabled={'id' in userData}
           />
 
           <BcaTextField
-            name="name"
-            label="Nombre"
-            type="text"
+            name='name'
+            label='Nombre'
+            type='text'
             control={control}
           />
 
-          {'password' in userData && <BcaTextField
-            name="password"
-            type="password"
-            label="Contraseña"
-            disabled={'id' in userData}
-            control={control}
-          />}
+          {'password' in userData && (
+            <BcaTextField
+              name='password'
+              type='password'
+              label='Contraseña'
+              disabled={'id' in userData}
+              control={control}
+            />
+          )}
 
           <ButtonGroup
-            saveFunction={() => { }}
+            saveFunction={handleSubmit(hadleSubmit)}
             cancelFunction={onClose}
           />
         </form>

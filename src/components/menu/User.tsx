@@ -1,8 +1,8 @@
-import { useState, MouseEvent } from "react"
-import { PersonOutline } from "@mui/icons-material"
-import { Button, IconButton, Menu, MenuItem, Tooltip } from "@mui/material"
-import { useNavigate } from "react-router-dom"
-import ChangePassword from "../../pages/users/password"
+import { useState, MouseEvent } from 'react'
+import { PersonOutline } from '@mui/icons-material'
+import { Button, IconButton, Menu, MenuItem, Tooltip } from '@mui/material'
+import { useNavigate } from 'react-router-dom'
+import ChangePassword from '../../pages/users/password'
 
 function UserMenu() {
   const [open, setOpen] = useState(false)
@@ -11,7 +11,7 @@ function UserMenu() {
   const navigate = useNavigate()
 
   function handleClick(event: MouseEvent<HTMLElement>) {
-    setOpen(prev => !prev)
+    setOpen((prev) => !prev)
 
     if (open) {
       setAnchorEl(null)
@@ -21,70 +21,60 @@ function UserMenu() {
   }
 
   function userNavigation(route: string) {
-    setOpen(prev => !prev)
+    setOpen((prev) => !prev)
     navigate(route)
   }
 
   function openPasswordDrawer() {
-    setOpen(prev => !prev)
-    setShowPassword(prev => !prev)
+    setOpen((prev) => !prev)
+    setShowPassword((prev) => !prev)
   }
 
   return (
     <>
-      <Tooltip
-        title="Usuarios"
-      >
-        <IconButton
-          size="large"
-          sx={{ color: 'white' }}
-          onClick={handleClick}
-        >
+      <Tooltip title='Usuarios'>
+        <IconButton size='large' sx={{ color: 'white' }} onClick={handleClick}>
           <PersonOutline />
         </IconButton>
-      </Tooltip >
+      </Tooltip>
 
-      <Menu
-        open={open}
-        anchorEl={anchorEl}
-        onClose={handleClick}
-      >
+      <Menu open={open} anchorEl={anchorEl} onClose={handleClick}>
         <MenuItem>
           <Button
-            variant="text"
+            variant='text'
             sx={{
-              justifyContent: "start",
-              color: "black",
+              justifyContent: 'start',
+              color: 'black',
               padding: 0,
-              textTransform: "none"
+              textTransform: 'none',
             }}
-            onClick={() => userNavigation("/usuarios")}
+            onClick={() => userNavigation('/usuarios')}
           >
             Mi Perfil
           </Button>
         </MenuItem>
         <MenuItem>
           <Button
-            variant="text"
+            variant='text'
             sx={{
-              justifyContent: "start",
-              color: "black",
+              justifyContent: 'start',
+              color: 'black',
               padding: 0,
-              textTransform: "none"
+              textTransform: 'none',
             }}
-            onClick={() => userNavigation("/usuarios/admin")}
+            onClick={() => userNavigation('/usuarios/admin')}
           >
             Administrar
           </Button>
         </MenuItem>
         <MenuItem>
           <Button
-            variant="text"
+            variant='text'
             sx={{
-              justifyContent: "start",
-              color: "black",
+              justifyContent: 'start',
+              color: 'black',
               padding: 0,
-              textTransform: "none"
+              textTransform: 'none',
             }}
             onClick={() => openPasswordDrawer()}
           >
@@ -92,7 +82,9 @@ function UserMenu() {
           </Button>
         </MenuItem>
       </Menu>
-      {showPassword && <ChangePassword onClose={() => setShowPassword(prev => !prev)} />}
+      {showPassword && (
+        <ChangePassword onClose={() => setShowPassword((prev) => !prev)} />
+      )}
     </>
   )
 }

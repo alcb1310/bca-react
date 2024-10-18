@@ -1,7 +1,21 @@
-import { useState } from "react";
-import { Box, Collapse, List, ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
-import { AddchartOutlined, BalanceOutlined, ChevronRightOutlined, ExpandMoreOutlined, LocalAtmOutlined, WorkHistoryOutlined } from "@mui/icons-material";
-import { NavLink, useLocation } from "react-router-dom";
+import { useState } from 'react'
+import {
+  Box,
+  Collapse,
+  List,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+} from '@mui/material'
+import {
+  AddchartOutlined,
+  BalanceOutlined,
+  ChevronRightOutlined,
+  ExpandMoreOutlined,
+  LocalAtmOutlined,
+  WorkHistoryOutlined,
+} from '@mui/icons-material'
+import { NavLink, useLocation } from 'react-router-dom'
 
 export default function ReportsMenu() {
   const [open, setOpen] = useState<boolean>(true)
@@ -9,95 +23,92 @@ export default function ReportsMenu() {
 
   return (
     <Box>
-      <ListItemButton onClick={() => setOpen(prev => !prev)}>
+      <ListItemButton onClick={() => setOpen((prev) => !prev)}>
         <ListItemText
-          primary="Reportes"
+          primary='Reportes'
           primaryTypographyProps={{
             fontWeight: 'bold',
-            fontSize: 12,
-            textTransform: 'uppercase'
+            fontSize: '0.85rem',
+            lineHeight: '1rem',
+            textTransform: 'uppercase',
           }}
         />
         {open ? <ExpandMoreOutlined /> : <ChevronRightOutlined />}
       </ListItemButton>
-      <Collapse in={open} timeout="auto" unmountOnExit>
-        <List component="div" disablePadding dense>
+      <Collapse in={open} timeout='auto' unmountOnExit>
+        <List component='div' disablePadding dense>
           <ListItemButton
             component={NavLink}
-            to="/reportes/actual"
-            sx={{ mb: 1, borderRadius: 2 }}
+            to='/reportes/actual'
+            sx={{ borderRadius: 2 }}
             selected={str.toLowerCase() === '/reportes/actual'}
           >
             <ListItemIcon sx={{ minWidth: 30 }}>
-              <AddchartOutlined sx={{ fontSize: 12 }} />
+              <AddchartOutlined sx={{ fontSize: '0.75rem' }} />
             </ListItemIcon>
 
             <ListItemText
-              primary="Actual"
+              primary='Actual'
               primaryTypographyProps={{
-                fontWeight: 'bold',
-                fontSize: 12,
-                textTransform: 'uppercase'
+                fontSize: '0.75rem',
+                textTransform: 'uppercase',
               }}
             />
           </ListItemButton>
 
           <ListItemButton
             component={NavLink}
-            to="/reportes/cuadre"
-            sx={{ mb: 1, borderRadius: 2 }}
+            to='/reportes/cuadre'
+            sx={{ borderRadius: 2 }}
             selected={str.toLowerCase() === '/reportes/cuadre'}
           >
             <ListItemIcon sx={{ minWidth: 30 }}>
-              <BalanceOutlined sx={{ fontSize: 12 }} />
+              <BalanceOutlined sx={{ fontSize: '0.75rem' }} />
             </ListItemIcon>
 
             <ListItemText
-              primary="Cuadre"
+              primary='Cuadre'
               primaryTypographyProps={{
-                fontWeight: 'bold',
-                fontSize: 12,
-                textTransform: 'uppercase'
+                fontSize: '0.75rem',
+                textTransform: 'uppercase',
               }}
             />
           </ListItemButton>
 
           <ListItemButton
             component={NavLink}
-            to="/reportes/gastado-por-partida"
-            sx={{ mb: 1, borderRadius: 2 }}
+            to='/reportes/gastado-por-partida'
+            sx={{ borderRadius: 2 }}
             selected={str.toLowerCase() === '/reportes/gastado-por-partida'}
           >
             <ListItemIcon sx={{ minWidth: 30 }}>
-              <LocalAtmOutlined sx={{ fontSize: 12 }} />
+              <LocalAtmOutlined sx={{ fontSize: '0.75rem' }} />
             </ListItemIcon>
 
             <ListItemText
-              primary="Gastado por Partida"
+              primary='Gastado por Partida'
               primaryTypographyProps={{
-                fontWeight: 'bold',
-                fontSize: 12,
-                textTransform: 'uppercase'
+                fontSize: '0.75rem',
+                textTransform: 'uppercase',
               }}
             />
           </ListItemButton>
 
           <ListItemButton
             component={NavLink}
-            to="/reportes/historico"
-            sx={{ mb: 1, borderRadius: 2 }}
+            to='/reportes/historico'
+            sx={{ borderRadius: 2 }}
             selected={str.toLowerCase() === '/reportes/historico'}
           >
             <ListItemIcon sx={{ minWidth: 30 }}>
-              <WorkHistoryOutlined sx={{ fontSize: 12 }} />
+              <WorkHistoryOutlined sx={{ fontSize: '0.75rem' }} />
             </ListItemIcon>
 
             <ListItemText
-              primary="Historico"
+              primary='Historico'
               primaryTypographyProps={{
-                fontWeight: 'bold',
-                fontSize: 12,
-                textTransform: 'uppercase'
+                fontSize: '0.75rem',
+                textTransform: 'uppercase',
               }}
             />
           </ListItemButton>
