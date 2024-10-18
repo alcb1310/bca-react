@@ -10,7 +10,7 @@ import BcaSelect from '../../input/BcaSelect'
 import { useGetAllBudgetItemsQuery } from '../../../redux/api/bca-backend/parametros/budgetItemSlice'
 import BcaTextField from '../../input/BcaTextField'
 import { DevTool } from '@hookform/devtools'
-import { useCreateBudgetMutation } from '../../../redux/api/bca-backend/transacciones/budgetSlice'
+import { useCreateBudgetMutation, useUpdateBudgetMutation } from '../../../redux/api/bca-backend/transacciones/budgetSlice'
 import { zodResolver } from '@hookform/resolvers/zod'
 
 type BudgetDrawerProps = {
@@ -39,12 +39,13 @@ export default function BudgetDrawer({
   })
 
   const [createBudget] = useCreateBudgetMutation()
+  const [updateBudget] = useUpdateBudgetMutation()
 
   useEffect(() => {
     reset(defaultValues)
   }, [open])
 
-  function hadleSubmit(data: BudgetEditType) {
+  async function hadleSubmit(data: BudgetEditType) {
     // TODO: update budget
     const costo = parseFloat(data.cost?.toString() || '0')
     const cantidad = parseFloat(data.quantity?.toString() || '0')
@@ -58,7 +59,7 @@ export default function BudgetDrawer({
     }
 
     if (!defaultValues.project_id) {
-      const res = createBudget(dataToSave)
+      const res = await createBudget(dataToSave)
       if ('data' in res) {
         onClose()
         return
@@ -68,6 +69,15 @@ export default function BudgetDrawer({
       setConflictError(res.error.data.error)
       return
     }
+
+    const res = await updateBudget(dataToSave)
+    if ('data' in res) {
+      onClose()
+      return
+    }
+
+    // @ts-expect-error data property is part of the res.error object
+    setConflictError(res.error.data.erro)
   }
 
   return (
@@ -110,7 +120,10 @@ export default function BudgetDrawer({
                     'total',
                     getValues('cost') * parseFloat(e.target.value)
                   )
+                } else {
+                  console.log(e.target.value)
                 }
+
               }}
             />
             <BcaTextField

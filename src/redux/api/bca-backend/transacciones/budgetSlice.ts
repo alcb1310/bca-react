@@ -31,7 +31,23 @@ const budgetApiSlice = bcaApiSlice.injectEndpoints({
 
       invalidatesTags: ['presupuesto'],
     }),
+
+    updateBudget: builder.mutation<BudgetResponseType, BudgetEditType>({
+      query(body) {
+        return {
+          url: `/transacciones/presupuestos/${body.project_id}/${body.budget_item_id}`,
+          method: 'PUT',
+          body,
+        }
+      },
+
+      invalidatesTags: ['presupuesto'],
+    })
   }),
 })
 
-export const { useGetAllBudgetsQuery, useCreateBudgetMutation } = budgetApiSlice
+export const {
+  useGetAllBudgetsQuery,
+  useCreateBudgetMutation,
+  useUpdateBudgetMutation
+} = budgetApiSlice

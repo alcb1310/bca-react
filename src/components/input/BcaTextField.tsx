@@ -11,7 +11,6 @@ export default function BcaTextField({
   disabled,
   ...rest
 }: BcaTextFieldProps) {
-  console.dir(disabled)
   return (
     <>
       <Controller

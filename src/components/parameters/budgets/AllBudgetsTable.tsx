@@ -5,14 +5,19 @@ import {
   GridColumnGroupingModel,
   GridRowParams,
 } from '@mui/x-data-grid'
-import { BudgetResponseType } from '../../../types/budget'
+import { BudgetEditType, BudgetResponseType } from '../../../types/budget'
 import { EditOutlined } from '@mui/icons-material'
+import { useState } from 'react'
+import BudgetDrawer from '../../drawers/Transactions/BudgetDrawer'
 
 type AllBudgetsTableProps = {
   data: BudgetResponseType[]
 }
 
 export default function AllBudgetsTable({ data }: AllBudgetsTableProps) {
+  const [selectedBudget, setSelectedBudget] = useState<BudgetEditType | null>(null)
+  const [open, setOpen] = useState<boolean>(false)
+
   const cols: GridColDef<BudgetResponseType>[] = [
     {
       field: 'actions',
@@ -23,7 +28,18 @@ export default function AllBudgetsTable({ data }: AllBudgetsTableProps) {
           icon=<EditOutlined color='warning' />
           label='Editar'
           onClick={() => {
-            console.log(params)
+            const budgetToEdit: BudgetEditType = {
+              project_id: params.row.project.id!,
+              budget_item_id: params.row.budget_item.id!,
+              // @ts-expect-error Float64 is member of property quantity
+              quantity: params.row.remaining_quantity!.Float64,
+              // @ts-expect-error Float64 is member of property cost
+              cost: params.row.remaining_cost!.Float64,
+              total: params.row.remaining_total
+            }
+
+            setSelectedBudget(budgetToEdit)
+            setOpen(true)
           }}
           sx={{
             visibility: params.row.budget_item.accumulate
@@ -59,9 +75,9 @@ export default function AllBudgetsTable({ data }: AllBudgetsTableProps) {
       valueFormatter: (params: { Float64: number; Valid: boolean }) => {
         return params.Valid
           ? params.Float64.toLocaleString('es-EC', {
-              minimumFractionDigits: 2,
-              maximumFractionDigits: 2,
-            })
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          })
           : ''
       },
     },
@@ -73,9 +89,9 @@ export default function AllBudgetsTable({ data }: AllBudgetsTableProps) {
       valueFormatter: (params: { Float64: number; Valid: boolean }) => {
         return params.Valid
           ? params.Float64.toLocaleString('es-EC', {
-              minimumFractionDigits: 2,
-              maximumFractionDigits: 2,
-            })
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          })
           : ''
       },
     },
@@ -99,9 +115,9 @@ export default function AllBudgetsTable({ data }: AllBudgetsTableProps) {
       valueFormatter: (params: { Float64: number; Valid: boolean }) => {
         return params.Valid
           ? params.Float64.toLocaleString('es-EC', {
-              minimumFractionDigits: 2,
-              maximumFractionDigits: 2,
-            })
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          })
           : ''
       },
     },
@@ -125,9 +141,9 @@ export default function AllBudgetsTable({ data }: AllBudgetsTableProps) {
       valueFormatter: (params: { Float64: number; Valid: boolean }) => {
         return params.Valid
           ? params.Float64.toLocaleString('es-EC', {
-              minimumFractionDigits: 2,
-              maximumFractionDigits: 2,
-            })
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          })
           : ''
       },
     },
@@ -139,9 +155,9 @@ export default function AllBudgetsTable({ data }: AllBudgetsTableProps) {
       valueFormatter: (params: { Float64: number; Valid: boolean }) => {
         return params.Valid
           ? params.Float64.toLocaleString('es-EC', {
-              minimumFractionDigits: 2,
-              maximumFractionDigits: 2,
-            })
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          })
           : ''
       },
     },
@@ -238,6 +254,15 @@ export default function AllBudgetsTable({ data }: AllBudgetsTableProps) {
             },
           },
         }}
+      />
+
+      <BudgetDrawer
+        open={open}
+        onClose={() => {
+          setOpen(false)
+          setSelectedBudget(null)
+        }}
+        defaultValues={selectedBudget!}
       />
     </>
   )

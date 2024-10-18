@@ -30,7 +30,6 @@ export default function Presupuesto() {
             className='w-full'
             value={selectedProject}
             onChange={(e: SelectChangeEvent<string>) => {
-              console.log("Changing")
               setSelectedProject(e.target.value)
             }}
           >
