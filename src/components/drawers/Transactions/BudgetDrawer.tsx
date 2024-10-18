@@ -45,7 +45,6 @@ export default function BudgetDrawer({
   }, [open])
 
   function hadleSubmit(data: BudgetEditType) {
-    // TODO: create a budget
     // TODO: update budget
     const costo = parseFloat(data.cost?.toString() || '0')
     const cantidad = parseFloat(data.quantity?.toString() || '0')

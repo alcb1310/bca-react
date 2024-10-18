@@ -5,13 +5,14 @@ const budgetApiSlice = bcaApiSlice.injectEndpoints({
   overrideExisting: true,
 
   endpoints: (builder) => ({
-    getAllBudgets: builder.query<BudgetResponseType[], { query?: string }>({
-      query(body) {
+    getAllBudgets: builder.query<BudgetResponseType[], { query?: string; project?:string }>({
+      query(params) {
         return {
           url: '/transacciones/presupuestos',
           method: 'GET',
           params: {
-            query: body.query,
+            query: params.query,
+            project: params.project
           },
         }
       },
