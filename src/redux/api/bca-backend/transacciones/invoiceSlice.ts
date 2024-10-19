@@ -1,4 +1,3 @@
-import dayjs from 'dayjs'
 import {
   InvoiceCreateType,
   InvoiceResponseType,
@@ -28,20 +27,6 @@ const invoiceApiSlice = bcaApiSlice.injectEndpoints({
         }
       },
 
-      // @ts-expect-error response type is InvoiceCreateType
-      transformResponse: (response: InvoiceCreateType) => {
-        if (!response.project_id) {
-          return {
-            project_id: '',
-            supplier_id: '',
-            invoice_number: '',
-            invoice_date: '',
-            invoice_total: 0,
-          }
-        }
-        return response
-      },
-
       providesTags: ['facturas', 'partidas', 'suppliers'],
     }),
 
@@ -56,6 +41,18 @@ const invoiceApiSlice = bcaApiSlice.injectEndpoints({
 
       invalidatesTags: ['facturas'],
     }),
+
+    updateInvoice: builder.mutation<InvoiceCreateType, InvoiceCreateType>({
+      query: (body) => {
+        return {
+          url: `/transacciones/facturas/${body.id}`,
+          method: 'PUT',
+          body,
+        }
+      },
+
+      invalidatesTags: ['facturas'],
+    }),
   }),
 })
 
@@ -63,4 +60,5 @@ export const {
   useGetAllInvoicesQuery,
   useGetOneInvoiceQuery,
   useCreateInvoiceMutation,
+  useUpdateInvoiceMutation,
 } = invoiceApiSlice

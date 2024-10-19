@@ -11,7 +11,10 @@ import ButtonGroup from '../buttons/button-group'
 import { useGetAllSuppliersQuery } from '../../redux/api/bca-backend/parametros/supplierSlice'
 import BcaTextField from '../input/BcaTextField'
 import BcaDateTextField from '../input/BcaDateTextField'
-import { useCreateInvoiceMutation } from '../../redux/api/bca-backend/transacciones/invoiceSlice'
+import {
+  useCreateInvoiceMutation,
+  useUpdateInvoiceMutation,
+} from '../../redux/api/bca-backend/transacciones/invoiceSlice'
 
 type InvoiceFormProps = {
   invoiceId: string
@@ -29,6 +32,7 @@ function InvoiceForm({ invoiceId, invoice }: InvoiceFormProps) {
   const { data: projects } = useGetAllProjectsQuery({ active: true })
   const { data: suppliers } = useGetAllSuppliersQuery({ search: '' })
   const [createInvoice] = useCreateInvoiceMutation()
+  const [updateInvoice] = useUpdateInvoiceMutation()
 
   async function hadleSubmit(data: InvoiceCreateType) {
     setConflictError('')
@@ -38,6 +42,12 @@ function InvoiceForm({ invoiceId, invoice }: InvoiceFormProps) {
         // @ts-expect-error error type is string
         setConflictError(res.error.data.error)
       }
+    }
+
+    const res = await updateInvoice(data)
+    if ('error' in res) {
+      // @ts-expect-error error type is string
+      setConflictError(res.error.data.error)
     }
   }
 
