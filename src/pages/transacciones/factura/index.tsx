@@ -15,7 +15,7 @@ export default function Factura() {
 
       <EditToolbar
         title='Agregar'
-        onClick={() => navigate('/transacciones/factura/crear')}
+        onClick={() => navigate('/transacciones/facturas/crear')}
       />
       {isLoading && <CircularProgress />}
 

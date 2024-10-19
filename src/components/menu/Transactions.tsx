@@ -45,7 +45,7 @@ export default function TransactionsMenu() {
         <List component='div' disablePadding dense>
           <ListItemButton
             component={NavLink}
-            to='/transacciones/presupuesto'
+            to='/transacciones/presupuestos'
             sx={{ borderRadius: 2 }}
             selected={str.toLowerCase() === '/transacciones/presupuesto'}
           >
@@ -64,7 +64,7 @@ export default function TransactionsMenu() {
 
           <ListItemButton
             component={NavLink}
-            to='/transacciones/factura'
+            to='/transacciones/facturas'
             sx={{ borderRadius: 2 }}
             selected={str.toLowerCase() === '/transacciones/factura'}
           >
