@@ -1,50 +1,82 @@
-import { MenuItem, Stack } from "@mui/material"
-import { InvocieCreateType } from "../../types/invoice"
-import { useForm } from "react-hook-form"
-import { useGetAllProjectsQuery } from "../../redux/api/bca-backend/parametros/projectsSlice"
-import BcaSelect from "../input/BcaSelect"
-import ButtonGroup from "../buttons/button-group"
-import { useGetAllSuppliersQuery } from "../../redux/api/bca-backend/parametros/supplierSlice"
-import BcaTextField from "../input/BcaTextField"
-import { DatePicker } from "@mui/x-date-pickers"
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { MenuItem, Stack, Typography } from '@mui/material'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useForm } from 'react-hook-form'
+
+import { invoiceCreateSchema, InvoiceCreateType } from '../../types/invoice'
+import { useGetAllProjectsQuery } from '../../redux/api/bca-backend/parametros/projectsSlice'
+import BcaSelect from '../input/BcaSelect'
+import ButtonGroup from '../buttons/button-group'
+import { useGetAllSuppliersQuery } from '../../redux/api/bca-backend/parametros/supplierSlice'
+import BcaTextField from '../input/BcaTextField'
+import BcaDateTextField from '../input/BcaDateTextField'
+import { useCreateInvoiceMutation } from '../../redux/api/bca-backend/transacciones/invoiceSlice'
 
 type InvoiceFormProps = {
   invoiceId: string
-  invoice: InvocieCreateType
+  invoice: InvoiceCreateType
 }
 
-function InvoiceForm({
-  invoiceId,
-  invoice,
-}: InvoiceFormProps) {
-  const { control } = useForm<InvocieCreateType>({
-    defaultValues: invoice
+function InvoiceForm({ invoiceId, invoice }: InvoiceFormProps) {
+  const [conflictError, setConflictError] = useState<string>('')
+  const navigate = useNavigate()
+  const { control, handleSubmit } = useForm<InvoiceCreateType>({
+    defaultValues: invoice,
+    resolver: zodResolver(invoiceCreateSchema),
   })
 
   const { data: projects } = useGetAllProjectsQuery({ active: true })
   const { data: suppliers } = useGetAllSuppliersQuery({ search: '' })
+  const [createInvoice] = useCreateInvoiceMutation()
+
+  async function hadleSubmit(data: InvoiceCreateType) {
+    setConflictError('')
+    if (invoiceId?.toLowerCase() === 'crear') {
+      const res = await createInvoice(data)
+      if ('error' in res) {
+        // @ts-expect-error error type is string
+        setConflictError(res.error.data.error)
+      }
+    }
+  }
 
   return (
     <>
-      <form>
+      <form onSubmit={handleSubmit(hadleSubmit)}>
         <Stack direction={'column'} spacing={2}>
-          <BcaSelect
-            control={control}
-            name={'project_id'}
-            label={'Proyecto'}
-            disabled={invoiceId?.toLowerCase() !== 'crear'}
-          >
-            {projects?.map(project => <MenuItem key={project.id} value={project.id}>{project.name}</MenuItem>)}
-          </BcaSelect>
+          {conflictError && (
+            <Typography color={'error'}>{conflictError}</Typography>
+          )}
+          {projects && (
+            <BcaSelect
+              control={control}
+              name={'project_id'}
+              label={'Proyecto'}
+              disabled={invoiceId?.toLowerCase() !== 'crear'}
+            >
+              {projects?.map((project) => (
+                <MenuItem key={project.id} value={project.id}>
+                  {project.name}
+                </MenuItem>
+              ))}
+            </BcaSelect>
+          )}
 
-          <BcaSelect
-            control={control}
-            name='supplier_id'
-            label='Proveedoredor'
-            disabled={invoiceId?.toLowerCase() !== 'crear'}
-          >
-            {suppliers?.map(supplier => <MenuItem key={supplier.id} value={supplier.id}>{supplier.name}</MenuItem>)}
-          </BcaSelect>
+          {suppliers && (
+            <BcaSelect
+              control={control}
+              name='supplier_id'
+              label='Proveedoredor'
+              disabled={invoiceId?.toLowerCase() !== 'crear'}
+            >
+              {suppliers?.map((supplier) => (
+                <MenuItem key={supplier.id} value={supplier.id}>
+                  {supplier.name}
+                </MenuItem>
+              ))}
+            </BcaSelect>
+          )}
 
           <BcaTextField
             control={control}
@@ -52,16 +84,26 @@ function InvoiceForm({
             label='Número de Factura'
           />
 
-          <Stack direction={'row'} justifyContent='space-between'>
-            <DatePicker
+          <Stack direction={'row'} justifyContent='space-between' spacing={2}>
+            <BcaDateTextField
+              control={control}
+              name='invoice_date'
               label='Fecha de Factura'
-              slotProps={{
-                textField: { size: 'small' }
-              }}
+            />
+
+            <BcaTextField
+              control={control}
+              name='invoice_total'
+              label='Total'
+              disabled
+              sx={{ textAlign: 'right' }}
             />
           </Stack>
 
-          <ButtonGroup saveFunction={() => { }} cancelFunction={() => { }} />
+          <ButtonGroup
+            saveFunction={handleSubmit(hadleSubmit)}
+            cancelFunction={() => navigate('/transacciones/facturas')}
+          />
         </Stack>
       </form>
     </>

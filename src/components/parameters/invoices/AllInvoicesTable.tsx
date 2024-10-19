@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { DataGrid, GridActionsCellItem, GridColDef, GridRowParams } from "@mui/x-data-grid";
 import { InvoiceResponseType } from "../../../types/invoice";
 import { DeleteOutlined, EditOutlined } from "@mui/icons-material";
@@ -9,6 +10,8 @@ type AllInvoicesTableProps = {
 export default function AllInvoicesTable({
   data
 }: AllInvoicesTableProps) {
+  const navigate = useNavigate()
+
   const cols: GridColDef<InvoiceResponseType>[] = [
     {
       field: 'invoice_date',
@@ -52,7 +55,7 @@ export default function AllInvoicesTable({
           icon={<EditOutlined color="warning" />}
           label="Editar"
           showInMenu
-          onClick={() => console.log(params)}
+          onClick={() => navigate(`/transacciones/facturas/${params.id}`)}
         />,
 
         <GridActionsCellItem

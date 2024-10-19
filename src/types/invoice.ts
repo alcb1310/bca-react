@@ -1,6 +1,6 @@
-import { z } from "zod";
-import { supplierSchema } from "./supplier";
-import { projectSchema } from "./project";
+import { z } from 'zod'
+import { supplierSchema } from './supplier'
+import { projectSchema } from './project'
 
 export const invoiceResponseSchema = z.object({
   id: z.string().uuid(),
@@ -17,10 +17,12 @@ export type InvoiceResponseType = z.infer<typeof invoiceResponseSchema>
 
 export const invoiceCreateSchema = z.object({
   id: z.string().uuid().optional(),
-  supplier_id: z.string().uuid().optional(),
-  project_id: z.string().uuid().optional(),
-  invoice_number: z.string().optional(),
-  invoice_date: z.date().optional(),
+  supplier_id: z.string().uuid('Seleccione un proveedor'),
+  project_id: z.string().uuid('Seleccione un proyecto'),
+  invoice_number: z.string().min(1, 'Ingrese el numero de la Factura'),
+  invoice_date: z.coerce.date({
+    message: 'Ingrese una fecha',
+  }),
 })
 
-export type InvocieCreateType = z.infer<typeof invoiceCreateSchema>
+export type InvoiceCreateType = z.infer<typeof invoiceCreateSchema>
