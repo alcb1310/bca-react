@@ -1,16 +1,21 @@
-import { useNavigate } from "react-router-dom";
-import { DataGrid, GridActionsCellItem, GridColDef, GridRowParams } from "@mui/x-data-grid";
-import { InvoiceResponseType } from "../../../types/invoice";
-import { DeleteOutlined, EditOutlined } from "@mui/icons-material";
+import { useNavigate } from 'react-router-dom'
+import {
+  DataGrid,
+  GridActionsCellItem,
+  GridColDef,
+  GridRowParams,
+} from '@mui/x-data-grid'
+import { InvoiceResponseType } from '../../../types/invoice'
+import { DeleteOutlined, EditOutlined } from '@mui/icons-material'
+import { useDeleteInvoiceMutation } from '../../../redux/api/bca-backend/transacciones/invoiceSlice'
 
 type AllInvoicesTableProps = {
   data: InvoiceResponseType[]
 }
 
-export default function AllInvoicesTable({
-  data
-}: AllInvoicesTableProps) {
+export default function AllInvoicesTable({ data }: AllInvoicesTableProps) {
   const navigate = useNavigate()
+  const [deletInvoice] = useDeleteInvoiceMutation()
 
   const cols: GridColDef<InvoiceResponseType>[] = [
     {
@@ -19,20 +24,24 @@ export default function AllInvoicesTable({
       width: 100,
       valueGetter: (_value, row) => {
         const dt = new Date(row.invoice_date)
-        return dt.toLocaleDateString("es-EC", { year: 'numeric', month: '2-digit', day: '2-digit' })
-      }
+        return dt.toLocaleDateString('es-EC', {
+          year: 'numeric',
+          month: '2-digit',
+          day: '2-digit',
+        })
+      },
     },
     {
       field: 'project_name',
       headerName: 'Proyecto',
       width: 200,
-      renderCell: params => params.row.project.name
+      renderCell: (params) => params.row.project.name,
     },
     {
       field: 'supplier_name',
       headerName: 'Proveedor',
       width: 300,
-      renderCell: params => params.row.supplier.name
+      renderCell: (params) => params.row.supplier.name,
     },
     {
       field: 'invoice_number',
@@ -40,11 +49,11 @@ export default function AllInvoicesTable({
       width: 200,
     },
     {
-      field: "invoice_total",
-      headerName: "Total",
+      field: 'invoice_total',
+      headerName: 'Total',
       width: 200,
       align: 'right',
-      renderCell: params => params.row.invoice_total.toLocaleString("es-EC")
+      renderCell: (params) => params.row.invoice_total.toLocaleString('es-EC'),
     },
     {
       field: 'actions',
@@ -52,27 +61,31 @@ export default function AllInvoicesTable({
       width: 10,
       getActions: (params: GridRowParams<InvoiceResponseType>) => [
         <GridActionsCellItem
-          icon={<EditOutlined color="warning" />}
-          label="Editar"
+          icon={<EditOutlined color='warning' />}
+          label='Editar'
           showInMenu
           onClick={() => navigate(`/transacciones/facturas/${params.id}`)}
         />,
 
         <GridActionsCellItem
-          icon=<DeleteOutlined color="error" />
-          label="Borrar"
+          icon=<DeleteOutlined color='error' />
+          label='Borrar'
           showInMenu
-          onClick={() => console.log(params)}
-        />
-      ]
-    }
+          onClick={() =>
+            deletInvoice({
+              id: params.id as string,
+            })
+          }
+        />,
+      ],
+    },
   ]
 
   return (
     <DataGrid
       rows={data}
       columns={cols}
-      getRowId={row => row.id}
+      getRowId={(row) => row.id}
       rowHeight={25}
       disableColumnFilter
       disableColumnResize

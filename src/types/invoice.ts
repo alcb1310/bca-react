@@ -23,6 +23,10 @@ export const invoiceCreateSchema = z.object({
   invoice_date: z.coerce.date({
     message: 'Ingrese una fecha',
   }),
+  invoice_total: z.custom<number>((val) => {
+    const num = parseFloat(val)
+    return !isNaN(num)
+  }, 'El total deber ser un  número'),
 })
 
 export type InvoiceCreateType = z.infer<typeof invoiceCreateSchema>

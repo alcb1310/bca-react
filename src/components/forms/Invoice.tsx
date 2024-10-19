@@ -42,6 +42,10 @@ function InvoiceForm({ invoiceId, invoice }: InvoiceFormProps) {
         // @ts-expect-error error type is string
         setConflictError(res.error.data.error)
       }
+
+      console.log(res)
+      navigate(`/transacciones/facturas/${res.data?.id}`)
+      return
     }
 
     const res = await updateInvoice(data)

@@ -1,6 +1,5 @@
 import { useState } from 'react'
-import { Button, Stack, Typography } from '@mui/material'
-import { CancelOutlined, SaveOutlined } from '@mui/icons-material'
+import { Stack, Typography } from '@mui/material'
 import BcaTextField from '../input/BcaTextField'
 import { rubrosSchema, RubrosType } from '../../types/rubros'
 import { useNavigate } from 'react-router-dom'
@@ -60,7 +59,10 @@ function RubrosForm({ rubroId, rubro }: RubrosFromProps) {
           <BcaTextField control={control} name='name' label='Nombre' />
           <BcaTextField control={control} name='unit' label='Unidad' />
 
-          <ButtonGroup saveFunction={handleSubmit(hadleSubmit)} cancelFunction={() => navigate('/parametros/rubros')} />
+          <ButtonGroup
+            saveFunction={handleSubmit(hadleSubmit)}
+            cancelFunction={() => navigate('/parametros/rubros')}
+          />
         </Stack>
       </form>
     </>
