@@ -21,13 +21,14 @@ export const bcaApiSlice = createApi({
 
   tagTypes: [
     'categorias',
+    'facturas',
     'materiales',
     'partidas',
+    'presupuesto',
     'proyectos',
-    'suppliers',
     'rubro-material',
     'rubros',
-    'presupuesto',
+    'suppliers',
     'users',
   ],
 
