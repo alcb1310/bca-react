@@ -34,10 +34,24 @@ const invoiceDetailsApiSlice = bcaApiSlice.injectEndpoints({
         }
       },
 
-      invalidatesTags: ['detalle'],
+      invalidatesTags: ['detalle', 'facturas'],
+    }),
+
+    deleteInvoiceDetails: builder.mutation<void, {invoiceId: string, detailId: string}>({
+      query: ({invoiceId, detailId}) => {
+        return {
+          url: `/transacciones/facturas/${invoiceId}/detalle/${detailId}`,
+          method: 'DELETE',
+        }
+      },
+
+      invalidatesTags: ['detalle', 'facturas'],
     }),
   }),
 })
 
-export const { useGetAllInvoiceDetailsQuery, useCreateIvoiceDetailsMutation } =
-  invoiceDetailsApiSlice
+export const {
+  useGetAllInvoiceDetailsQuery,
+  useCreateIvoiceDetailsMutation,
+  useDeleteInvoiceDetailsMutation,
+} = invoiceDetailsApiSlice

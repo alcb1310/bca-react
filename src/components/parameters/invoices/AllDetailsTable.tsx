@@ -1,12 +1,19 @@
 import { DataGrid, GridActionsCellItem, GridColDef } from '@mui/x-data-grid'
 import { InvoiceDetailsResponseType } from '../../../types/invoiceDetails'
 import { DeleteOutlined } from '@mui/icons-material'
+import { useDeleteInvoiceDetailsMutation } from '../../../redux/api/bca-backend/transacciones/invoiceDetailsSlice'
 
 type AllDetailsTableProps = {
-  data: any
+  data: InvoiceDetailsResponseType[]
+  invoiceId: string
 }
 
-export default function AllDetailsTable({ data }: AllDetailsTableProps) {
+export default function AllDetailsTable({
+  data,
+  invoiceId,
+}: AllDetailsTableProps) {
+  const [deleteDetail] = useDeleteInvoiceDetailsMutation()
+
   const cols: GridColDef<InvoiceDetailsResponseType>[] = [
     {
       field: 'budget_item_code',
@@ -62,7 +69,12 @@ export default function AllDetailsTable({ data }: AllDetailsTableProps) {
         <GridActionsCellItem
           icon={<DeleteOutlined color='error' />}
           label='Borrar'
-          onClick={() => console.log(params)}
+          onClick={() =>
+            deleteDetail({
+              invoiceId,
+              detailId: params.row.budget_item_id,
+            })
+          }
         />,
       ],
     },

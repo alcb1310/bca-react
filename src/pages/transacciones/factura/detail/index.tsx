@@ -35,7 +35,7 @@ export default function IndividualInvoice() {
           </Box>
 
           <EditToolbar title='Agregar Detalle' onClick={() => setOpen(true)} />
-          <AllDetailsTable data={data!} />
+          <AllDetailsTable data={data!} invoiceId={invoiceId!} />
           <InvoiceDetailsDrawer
             open={open}
             onClose={() => setOpen(false)}
