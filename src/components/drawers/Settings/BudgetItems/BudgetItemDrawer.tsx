@@ -19,7 +19,7 @@ import { RhfSwitch } from 'mui-rhf-integration'
 import BcaSelect from '../../../input/BcaSelect'
 import {
   useCreateBudgetItemMutation,
-  useGetAllBudgetItemsByAccumulateQuery,
+  useGetAllBudgetItemsQuery,
   useUpdateBudgetItemMutation,
 } from '../../../../redux/api/bca-backend/parametros/budgetItemSlice'
 
@@ -42,8 +42,8 @@ export default function BudgetItemDrawer({
 
   const [createBudgetItem] = useCreateBudgetItemMutation()
   const [updateBudgetItem] = useUpdateBudgetItemMutation()
-  const { data, isLoading } = useGetAllBudgetItemsByAccumulateQuery({
-    accumulate: true,
+  const { data, isLoading } = useGetAllBudgetItemsQuery({
+    accum: true,
   })
 
   useEffect(() => {
