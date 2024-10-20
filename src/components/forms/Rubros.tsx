@@ -1,6 +1,5 @@
 import { useState } from 'react'
-import { Button, Stack, Typography } from '@mui/material'
-import { CancelOutlined, SaveOutlined } from '@mui/icons-material'
+import { Stack, Typography } from '@mui/material'
 import BcaTextField from '../input/BcaTextField'
 import { rubrosSchema, RubrosType } from '../../types/rubros'
 import { useNavigate } from 'react-router-dom'
@@ -10,6 +9,7 @@ import {
 } from '../../redux/api/bca-backend/parametros/rubrosSlice'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
+import ButtonGroup from '../buttons/button-group'
 
 type RubrosFromProps = {
   rubro: RubrosType
@@ -59,27 +59,10 @@ function RubrosForm({ rubroId, rubro }: RubrosFromProps) {
           <BcaTextField control={control} name='name' label='Nombre' />
           <BcaTextField control={control} name='unit' label='Unidad' />
 
-          <Stack direction={'row'} justifyContent='space-between'>
-            <Button
-              variant='contained'
-              type='submit'
-              size='small'
-              color='primary'
-              startIcon={<SaveOutlined />}
-              onClick={handleSubmit(hadleSubmit)}
-            >
-              Guardar
-            </Button>
-            <Button
-              variant='outlined'
-              size='small'
-              color='primary'
-              startIcon={<CancelOutlined />}
-              onClick={() => navigate('/parametros/rubros')}
-            >
-              Cancelar
-            </Button>
-          </Stack>
+          <ButtonGroup
+            saveFunction={handleSubmit(hadleSubmit)}
+            cancelFunction={() => navigate('/parametros/rubros')}
+          />
         </Stack>
       </form>
     </>
