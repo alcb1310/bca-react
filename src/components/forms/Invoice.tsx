@@ -43,7 +43,6 @@ function InvoiceForm({ invoiceId, invoice }: InvoiceFormProps) {
         setConflictError(res.error.data.error)
       }
 
-      console.log(res)
       navigate(`/transacciones/facturas/${res.data?.id}`)
       return
     }
