@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { Box, CircularProgress } from '@mui/material'
 
@@ -7,8 +8,10 @@ import InvoiceForm from '../../../../components/forms/Invoice'
 import EditToolbar from '../../../../components/table/headers/toolbar'
 import AllDetailsTable from '../../../../components/parameters/invoices/AllDetailsTable'
 import { useGetAllInvoiceDetailsQuery } from '../../../../redux/api/bca-backend/transacciones/invoiceDetailsSlice'
+import InvoiceDetailsDrawer from '../../../../components/drawers/Transactions/InvoiceDetailsDrawer'
 
 export default function IndividualInvoice() {
+  const [open, setOpen] = useState<boolean>(false)
   const { invoiceId } = useParams()
   const { data: invoice, isLoading } = useGetOneInvoiceQuery(invoiceId!)
   const { data } = useGetAllInvoiceDetailsQuery({ id: invoiceId! })
@@ -31,8 +34,13 @@ export default function IndividualInvoice() {
             <InvoiceForm invoiceId={invoiceId!} invoice={invoice!} />
           </Box>
 
-          <EditToolbar title='Agregar Detalle' onClick={() => {}} />
+          <EditToolbar title='Agregar Detalle' onClick={() => setOpen(true)} />
           <AllDetailsTable data={data!} />
+          <InvoiceDetailsDrawer
+            open={open}
+            onClose={() => setOpen(false)}
+            invoiceId={invoiceId!}
+          />
         </>
       )}
     </>

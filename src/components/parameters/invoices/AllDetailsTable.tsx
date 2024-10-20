@@ -22,29 +22,50 @@ export default function AllDetailsTable({ data }: AllDetailsTableProps) {
       field: 'quantity',
       headerName: 'Cantidad',
       width: 150,
+      align: 'right',
+      valueFormatter: (params: number) => {
+        return params.toLocaleString('es-EC', {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2,
+        })
+      },
     },
     {
       field: 'cost',
       headerName: 'Costo',
       width: 150,
+      align: 'right',
+      valueFormatter: (params: number) => {
+        return params.toLocaleString('es-EC', {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2,
+        })
+      },
     },
     {
       field: 'total',
       headerName: 'Total',
       width: 150,
+      align: 'right',
+      valueFormatter: (params: number) => {
+        return params.toLocaleString('es-EC', {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2,
+        })
+      },
     },
     {
       field: 'actions',
-      type:'actions',
+      type: 'actions',
       width: 10,
       getActions: (params) => [
         <GridActionsCellItem
-          icon={<DeleteOutlined color="error" />}
-          label="Borrar"
+          icon={<DeleteOutlined color='error' />}
+          label='Borrar'
           onClick={() => console.log(params)}
         />,
       ],
-    }
+    },
   ]
   return (
     <DataGrid

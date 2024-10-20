@@ -21,6 +21,7 @@ export const bcaApiSlice = createApi({
 
   tagTypes: [
     'categorias',
+    'detalle',
     'facturas',
     'materiales',
     'partidas',

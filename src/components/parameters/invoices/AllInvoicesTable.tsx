@@ -53,7 +53,12 @@ export default function AllInvoicesTable({ data }: AllInvoicesTableProps) {
       headerName: 'Total',
       width: 200,
       align: 'right',
-      renderCell: (params) => params.row.invoice_total.toLocaleString('es-EC'),
+      valueFormatter: (params: number) => {
+        return params.toLocaleString('es-EC', {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2,
+        })
+      },
     },
     {
       field: 'actions',
