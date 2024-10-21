@@ -1,6 +1,6 @@
 import { useForm } from 'react-hook-form'
 import { useEffect, useState } from 'react'
-import { Box, MenuItem, Typography } from '@mui/material'
+import { Box, Typography } from '@mui/material'
 import { budgetEditSchema, BudgetEditType } from '../../../types/budget'
 import ButtonGroup from '../../buttons/button-group'
 import DrawerTitle from '../../titles/DrawerTitle'
@@ -10,7 +10,10 @@ import BcaSelect from '../../input/BcaSelect'
 import { useGetAllBudgetItemsQuery } from '../../../redux/api/bca-backend/parametros/budgetItemSlice'
 import BcaTextField from '../../input/BcaTextField'
 import { DevTool } from '@hookform/devtools'
-import { useCreateBudgetMutation, useUpdateBudgetMutation } from '../../../redux/api/bca-backend/transacciones/budgetSlice'
+import {
+  useCreateBudgetMutation,
+  useUpdateBudgetMutation,
+} from '../../../redux/api/bca-backend/transacciones/budgetSlice'
 import { zodResolver } from '@hookform/resolvers/zod'
 
 type BudgetDrawerProps = {
@@ -94,17 +97,17 @@ export default function BudgetDrawer({
             )}
             <BcaSelect control={control} name='project_id' label='Proyectos'>
               {projects?.map((project) => (
-                <MenuItem key={project.id} value={project.id}>
+                <option key={project.id} value={project.id}>
                   {project.name}
-                </MenuItem>
+                </option>
               ))}
             </BcaSelect>
 
             <BcaSelect control={control} name='budget_item_id' label='Partida'>
               {budgetItems?.map((budgetItem) => (
-                <MenuItem key={budgetItem.id} value={budgetItem.id}>
+                <option key={budgetItem.id} value={budgetItem.id}>
                   {budgetItem.name}
-                </MenuItem>
+                </option>
               ))}
             </BcaSelect>
 
@@ -122,7 +125,6 @@ export default function BudgetDrawer({
                 } else {
                   console.log(e.target.value)
                 }
-
               }}
             />
             <BcaTextField

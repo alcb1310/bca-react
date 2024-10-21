@@ -16,7 +16,7 @@ import {
   useCreateRubrosMaterialMutation,
   useUpdateRubrosMaterialMutation,
 } from '../../../../redux/api/bca-backend/parametros/rubroMaterialSlice'
-import { MenuItem, Typography } from '@mui/material'
+import { Typography } from '@mui/material'
 
 type RubroMaterialsDrawerProps = {
   open: boolean
@@ -94,9 +94,9 @@ function RubroMaterialsDrawer({
           disabled={defaultValues.material_id ? true : false}
         >
           {allMaterials?.map((material) => (
-            <MenuItem key={material.id} value={material.id}>
+            <option key={material.id} value={material.id}>
               {material.name}
-            </MenuItem>
+            </option>
           ))}
         </BcaSelect>
 

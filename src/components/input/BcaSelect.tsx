@@ -1,26 +1,34 @@
-import { SelectProps } from '@mui/material'
+import { FormHelperText, NativeSelect, SelectProps } from '@mui/material'
 import { BcaField } from '../../types/fields'
-//import { Controller } from "react-hook-form"
-import BcaTextField from './BcaTextField'
+import { Controller } from 'react-hook-form'
 
 type BcaSelectProps = BcaField<SelectProps>
 
 export default function BcaSelect({
   name,
-  label,
   control,
   disabled,
   children,
 }: BcaSelectProps) {
   return (
-    <BcaTextField
+    <Controller
       name={name}
-      label={label}
       control={control}
-      select
-      disabled={disabled}
-    >
-      {children}
-    </BcaTextField>
+      render={({ field: { ref, ...fieldRest }, fieldState: { error } }) => (
+        <>
+          <NativeSelect
+            variant='filled'
+            disabled={disabled}
+            {...fieldRest}
+            error={!!error}
+          >
+            {children}
+          </NativeSelect>
+          <FormHelperText error={!!error} component='span' variant='standard'>
+            {error?.message}
+          </FormHelperText>
+        </>
+      )}
+    />
   )
 }
