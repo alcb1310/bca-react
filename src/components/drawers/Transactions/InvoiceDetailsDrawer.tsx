@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { MenuItem, Stack, Typography } from '@mui/material'
+import { Stack, Typography } from '@mui/material'
 
 import DrawerTitle from '../../titles/DrawerTitle'
 import BcaDrawer from '../BcaDrawer/BcaDrawer'
@@ -59,12 +59,15 @@ export default function InvoiceDetailsDrawer({
       <DrawerTitle title='Detalle' close={onClose} />
       <form onSubmit={handleSubmit(hadleSubmit)}>
         <Stack direction='column' spacing={2} sx={{ mt: 2 }}>
-          {conflictError && <Typography color='error'>{conflictError}</Typography>}
+          {conflictError && (
+            <Typography color='error'>{conflictError}</Typography>
+          )}
           <BcaSelect control={control} name='budget_item_id' label='Partida'>
+            <option value=''>Seleccione una partida</option>
             {budgetItems?.map((item) => (
-              <MenuItem key={item.id} value={item.id}>
+              <option key={item.id} value={item.id}>
                 {item.name}
-              </MenuItem>
+              </option>
             ))}
           </BcaSelect>
 

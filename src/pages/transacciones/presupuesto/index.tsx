@@ -1,5 +1,11 @@
 import { ChangeEvent, useState } from 'react'
-import { CircularProgress, Grid2, MenuItem, Select, SelectChangeEvent, Stack, TextField } from '@mui/material'
+import {
+  CircularProgress,
+  Grid2,
+  NativeSelect,
+  Stack,
+  TextField,
+} from '@mui/material'
 
 import EditToolbar from '../../../components/table/headers/toolbar'
 import PageTitle from '../../../components/titles/PageTitle'
@@ -12,7 +18,10 @@ export default function Presupuesto() {
   const [open, setOpen] = useState<boolean>(false)
   const [search, setSearch] = useState<string>('')
   const [selectedProject, setSelectedProject] = useState<string>('')
-  const { data, isLoading } = useGetAllBudgetsQuery({ query: search, project: selectedProject })
+  const { data, isLoading } = useGetAllBudgetsQuery({
+    query: search,
+    project: selectedProject,
+  })
   const { data: projects } = useGetAllProjectsQuery({ active: true })
 
   return (
@@ -25,22 +34,20 @@ export default function Presupuesto() {
         </Grid2>
 
         <Grid2 size={2}>
-          <Select
+          <NativeSelect
             size='small'
+            variant='outlined'
             className='w-full'
             value={selectedProject}
-            onChange={(e: SelectChangeEvent<string>) => {
-              setSelectedProject(e.target.value)
-            }}
+            onChange={(e) => setSelectedProject(e.target.value)}
           >
-            {
-              projects?.map(project => (
-                <MenuItem key={project.id} value={project.id}>
-                  {project.name}
-                </MenuItem>
-              ))
-            }
-          </Select>
+            <option value=''>Seleccione un proyecto</option>
+            {projects?.map((project) => (
+              <option key={project.id} value={project.id}>
+                {project.name}
+              </option>
+            ))}
+          </NativeSelect>
         </Grid2>
 
         <Grid2 size={9}>

@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { MenuItem, Stack, Typography } from '@mui/material'
+import { Stack, Typography } from '@mui/material'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 
@@ -68,10 +68,11 @@ function InvoiceForm({ invoiceId, invoice }: InvoiceFormProps) {
               label={'Proyecto'}
               disabled={invoiceId?.toLowerCase() !== 'crear'}
             >
+              <option value=''>Seleccione un proyecto</option>
               {projects?.map((project) => (
-                <MenuItem key={project.id} value={project.id}>
+                <option key={project.id} value={project.id}>
                   {project.name}
-                </MenuItem>
+                </option>
               ))}
             </BcaSelect>
           )}
@@ -83,10 +84,11 @@ function InvoiceForm({ invoiceId, invoice }: InvoiceFormProps) {
               label='Proveedoredor'
               disabled={invoiceId?.toLowerCase() !== 'crear'}
             >
+              <option value=''>Seleccione un proveedor</option>
               {suppliers?.map((supplier) => (
-                <MenuItem key={supplier.id} value={supplier.id}>
+                <option key={supplier.id} value={supplier.id}>
                   {supplier.name}
-                </MenuItem>
+                </option>
               ))}
             </BcaSelect>
           )}

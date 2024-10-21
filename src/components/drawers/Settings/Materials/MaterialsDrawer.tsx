@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { CircularProgress, MenuItem, Typography } from '@mui/material'
+import { CircularProgress, Typography } from '@mui/material'
 import { zodResolver } from '@hookform/resolvers/zod'
 
 import { materialSchema, MaterialType } from '../../../../types/materials'
@@ -83,10 +83,11 @@ export default function MaterialsDrawer({
         <BcaTextField name='unit' label='Unidad' control={control} />
 
         <BcaSelect name='category.id' label='Categoría' control={control}>
+          <option value=''>Seleccione una categoría</option>
           {categories?.map((category) => (
-            <MenuItem key={category.id} value={category.id}>
+            <option key={category.id} value={category.id}>
               {category.name}
-            </MenuItem>
+            </option>
           ))}
         </BcaSelect>
 
