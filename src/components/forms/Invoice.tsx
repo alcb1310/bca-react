@@ -68,6 +68,7 @@ function InvoiceForm({ invoiceId, invoice }: InvoiceFormProps) {
               label={'Proyecto'}
               disabled={invoiceId?.toLowerCase() !== 'crear'}
             >
+              <option value=''>Seleccione un proyecto</option>
               {projects?.map((project) => (
                 <option key={project.id} value={project.id}>
                   {project.name}
@@ -83,6 +84,7 @@ function InvoiceForm({ invoiceId, invoice }: InvoiceFormProps) {
               label='Proveedoredor'
               disabled={invoiceId?.toLowerCase() !== 'crear'}
             >
+              <option value=''>Seleccione un proveedor</option>
               {suppliers?.map((supplier) => (
                 <option key={supplier.id} value={supplier.id}>
                   {supplier.name}

@@ -93,6 +93,7 @@ function RubroMaterialsDrawer({
           control={control}
           disabled={defaultValues.material_id ? true : false}
         >
+          <option value=''>Seleccione un material</option>
           {allMaterials?.map((material) => (
             <option key={material.id} value={material.id}>
               {material.name}

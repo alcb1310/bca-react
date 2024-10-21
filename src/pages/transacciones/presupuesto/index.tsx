@@ -43,6 +43,7 @@ export default function Presupuesto() {
               setSelectedProject(e.target.value)
             }}
           >
+            <option value=''>Seleccione un proyecto</option>
             {projects?.map((project) => (
               <option key={project.id} value={project.id}>
                 {project.name}

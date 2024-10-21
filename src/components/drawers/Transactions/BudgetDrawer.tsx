@@ -96,6 +96,7 @@ export default function BudgetDrawer({
               <Typography color='error'>{conflictError}</Typography>
             )}
             <BcaSelect control={control} name='project_id' label='Proyectos'>
+              <option value=''>Seleccione un proyecto</option>
               {projects?.map((project) => (
                 <option key={project.id} value={project.id}>
                   {project.name}
@@ -104,6 +105,7 @@ export default function BudgetDrawer({
             </BcaSelect>
 
             <BcaSelect control={control} name='budget_item_id' label='Partida'>
+              <option value=''>Seleccione una partida</option>
               {budgetItems?.map((budgetItem) => (
                 <option key={budgetItem.id} value={budgetItem.id}>
                   {budgetItem.name}

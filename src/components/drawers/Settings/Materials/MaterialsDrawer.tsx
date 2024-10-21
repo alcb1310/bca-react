@@ -83,6 +83,7 @@ export default function MaterialsDrawer({
         <BcaTextField name='unit' label='Unidad' control={control} />
 
         <BcaSelect name='category.id' label='Categoría' control={control}>
+          <option value=''>Seleccione una categoría</option>
           {categories?.map((category) => (
             <option key={category.id} value={category.id}>
               {category.name}
