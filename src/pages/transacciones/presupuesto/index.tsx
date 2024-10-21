@@ -2,8 +2,7 @@ import { ChangeEvent, useState } from 'react'
 import {
   CircularProgress,
   Grid2,
-  Select,
-  SelectChangeEvent,
+  NativeSelect,
   Stack,
   TextField,
 } from '@mui/material'
@@ -35,13 +34,12 @@ export default function Presupuesto() {
         </Grid2>
 
         <Grid2 size={2}>
-          <Select
+          <NativeSelect
             size='small'
+            variant='outlined'
             className='w-full'
             value={selectedProject}
-            onChange={(e: SelectChangeEvent<string>) => {
-              setSelectedProject(e.target.value)
-            }}
+            onChange={(e) => setSelectedProject(e.target.value)}
           >
             <option value=''>Seleccione un proyecto</option>
             {projects?.map((project) => (
@@ -49,7 +47,7 @@ export default function Presupuesto() {
                 {project.name}
               </option>
             ))}
-          </Select>
+          </NativeSelect>
         </Grid2>
 
         <Grid2 size={9}>
