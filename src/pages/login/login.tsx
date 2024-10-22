@@ -96,7 +96,7 @@ export default function Login() {
               name='email'
               control={control}
               render={({ field }) => (
-                <TextField {...field} label='Email' variant='outlined' />
+                <TextField {...field} size='small' label='Email' variant='outlined' />
               )}
             />
             {errors.email && (
@@ -109,6 +109,7 @@ export default function Login() {
               render={({ field }) => (
                 <TextField
                   {...field}
+                  size='small'
                   label='Contraseña'
                   type='password'
                   variant='outlined'

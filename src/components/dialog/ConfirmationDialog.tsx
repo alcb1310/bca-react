@@ -1,4 +1,4 @@
-import { forwardRef, ReactElement, Ref, useState } from 'react'
+import { forwardRef, ReactElement, Ref } from 'react'
 import {
   Dialog,
   DialogTitle,
@@ -11,6 +11,8 @@ import { TransitionProps } from '@mui/material/transitions'
 
 interface ConfirmationDialogProps {
   message: string
+  open: boolean
+  setOpen: (open: boolean) => void
   confirm: () => void
 }
 
@@ -25,10 +27,10 @@ const Transition = forwardRef(function Transition(
 
 export default function ConfirmationDialog({
   confirm,
+  open,
+  setOpen,
   message,
 }: ConfirmationDialogProps) {
-  const [open, setOpen] = useState(true)
-
   const handleConfirm = () => {
     confirm()
     setOpen(false)
@@ -43,8 +45,8 @@ export default function ConfirmationDialog({
       <DialogTitle color='warning'>Confirmaci&oacute;n</DialogTitle>
       <DialogContent>{message}</DialogContent>
       <DialogActions>
-        <Button onClick={handleConfirm}>Confirm</Button>
-        <Button onClick={handleCancel}>Cancel</Button>
+        <Button onClick={handleConfirm}>Confirmar</Button>
+        <Button onClick={handleCancel}>Cancelar</Button>
       </DialogActions>
     </Dialog>
   )

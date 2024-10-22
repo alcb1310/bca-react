@@ -4,6 +4,7 @@ import {
   ChevronRightOutlined,
   ExpandMoreOutlined,
   FactoryOutlined,
+  InfoOutlined,
   InventoryOutlined,
   ViewKanbanOutlined,
 } from '@mui/icons-material'
@@ -24,7 +25,14 @@ export default function ParametersMenu() {
 
   return (
     <Box>
-      <ListItemButton onClick={() => setOpen((prev) => !prev)}>
+      <ListItemButton
+        onClick={() => setOpen((prev) => !prev)}
+        sx={{
+          backgroundColor: 'primary.main',
+          color: 'white',
+          borderRadius: 2,
+        }}
+      >
         <ListItemText
           primary='Parametros'
           primaryTypographyProps={{
@@ -140,7 +148,7 @@ export default function ParametersMenu() {
             selected={str.toLowerCase() === '/parametros/rubros'}
           >
             <ListItemIcon sx={{ minWidth: 30 }}>
-              <FactoryOutlined sx={{ fontSize: '0.75rem' }} />
+              <InfoOutlined sx={{ fontSize: '0.75rem' }} />
             </ListItemIcon>
 
             <ListItemText

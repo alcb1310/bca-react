@@ -5,7 +5,6 @@ import {
   Box,
   CircularProgress,
   FormControlLabel,
-  MenuItem,
   Typography,
 } from '@mui/material'
 import { DevTool } from '@hookform/devtools'
@@ -19,7 +18,7 @@ import { RhfSwitch } from 'mui-rhf-integration'
 import BcaSelect from '../../../input/BcaSelect'
 import {
   useCreateBudgetItemMutation,
-  useGetAllBudgetItemsByAccumulateQuery,
+  useGetAllBudgetItemsQuery,
   useUpdateBudgetItemMutation,
 } from '../../../../redux/api/bca-backend/parametros/budgetItemSlice'
 
@@ -42,8 +41,8 @@ export default function BudgetItemDrawer({
 
   const [createBudgetItem] = useCreateBudgetItemMutation()
   const [updateBudgetItem] = useUpdateBudgetItemMutation()
-  const { data, isLoading } = useGetAllBudgetItemsByAccumulateQuery({
-    accumulate: true,
+  const { data, isLoading } = useGetAllBudgetItemsQuery({
+    accum: true,
   })
 
   useEffect(() => {
@@ -95,11 +94,11 @@ export default function BudgetItemDrawer({
             control={control}
             disabled={defaultValues.id ? true : false}
           >
-            <MenuItem value={''}>---Seleccione---</MenuItem>
+            <option value=''>Seleccione una partida</option>
             {data?.map((budgetItem) => (
-              <MenuItem key={budgetItem.id} value={budgetItem.id}>
+              <option key={budgetItem.id} value={budgetItem.id}>
                 {budgetItem.name}
-              </MenuItem>
+              </option>
             ))}
           </BcaSelect>
 

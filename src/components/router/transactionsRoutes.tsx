@@ -13,11 +13,11 @@ export const transactionsRoute: RouteObject = {
       element: <Transacciones />,
     },
     {
-      path: 'presupuesto',
+      path: 'presupuestos',
       element: <Presupuesto />,
     },
     {
-      path: 'factura',
+      path: 'facturas',
       children: [
         {
           index: true,

@@ -4,7 +4,14 @@ import { Button, Stack } from '@mui/material'
 type EditToolbarProps = {
   title: string
   onClick: () => void
-  color?: 'primary' | 'secondary' | 'inherit' | 'success' | 'error' | 'warning' | 'info'
+  color?:
+    | 'primary'
+    | 'secondary'
+    | 'inherit'
+    | 'success'
+    | 'error'
+    | 'warning'
+    | 'info'
   hasExportButton?: boolean
   exportClick?: () => void
 }
@@ -14,7 +21,7 @@ export default function EditToolbar({
   onClick,
   hasExportButton = false,
   exportClick = undefined,
-  color = 'primary'
+  color = 'primary',
 }: EditToolbarProps) {
   return (
     <Stack direction='row' spacing={2}>

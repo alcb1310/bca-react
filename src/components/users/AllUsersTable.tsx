@@ -92,6 +92,8 @@ export default function AllUsersTable() {
       />
       {confirmationDialogOpen && (
         <ConfirmationDialog
+          open={confirmationDialogOpen}
+          setOpen={setConfirmationDialogOpen}
           message={message}
           confirm={() => {
             deleteUser(userIdToDelete)

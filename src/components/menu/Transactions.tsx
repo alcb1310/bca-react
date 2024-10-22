@@ -22,7 +22,14 @@ export default function TransactionsMenu() {
 
   return (
     <Box>
-      <ListItemButton onClick={() => setOpen((prev) => !prev)}>
+      <ListItemButton
+        onClick={() => setOpen((prev) => !prev)}
+        sx={{
+          backgroundColor: 'primary.main',
+          color: 'white',
+          borderRadius: 2,
+        }}
+      >
         <ListItemText
           primary='Transacciones'
           primaryTypographyProps={{
@@ -38,7 +45,7 @@ export default function TransactionsMenu() {
         <List component='div' disablePadding dense>
           <ListItemButton
             component={NavLink}
-            to='/transacciones/presupuesto'
+            to='/transacciones/presupuestos'
             sx={{ borderRadius: 2 }}
             selected={str.toLowerCase() === '/transacciones/presupuesto'}
           >
@@ -57,7 +64,7 @@ export default function TransactionsMenu() {
 
           <ListItemButton
             component={NavLink}
-            to='/transacciones/factura'
+            to='/transacciones/facturas'
             sx={{ borderRadius: 2 }}
             selected={str.toLowerCase() === '/transacciones/factura'}
           >

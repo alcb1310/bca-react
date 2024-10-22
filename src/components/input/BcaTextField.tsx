@@ -11,20 +11,16 @@ export default function BcaTextField({
   disabled,
   ...rest
 }: BcaTextFieldProps) {
-  console.dir(disabled)
   return (
     <>
       <Controller
         name={name}
         control={control}
         defaultValue={defaultValue}
-        render={({
-          field: { ref: rhfRef, ...fieldRest },
-          fieldState: { error },
-        }) => (
+        render={({ field: { ref, ...fieldRest }, fieldState: { error } }) => (
           <TextField
             {...fieldRest}
-            inputRef={rhfRef}
+            inputRef={ref}
             label={name}
             error={!!error}
             disabled={disabled}
