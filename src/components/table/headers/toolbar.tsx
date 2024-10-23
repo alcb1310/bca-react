@@ -41,6 +41,7 @@ export default function EditToolbar({
           startIcon={<FileDownloadOutlined />}
           onClick={exportClick}
           size='small'
+          color='success'
         >
           Exportar
         </Button>
