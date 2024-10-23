@@ -19,6 +19,7 @@ export default function BcaSelect({
           <NativeSelect
             variant='filled'
             disabled={disabled}
+            sx={{ '& .MuiInputBase-input': { px: 2 } }}
             {...fieldRest}
             error={!!error}
           >

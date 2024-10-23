@@ -5,19 +5,40 @@ const budgetApiSlice = bcaApiSlice.injectEndpoints({
   overrideExisting: true,
 
   endpoints: (builder) => ({
-    getAllBudgets: builder.query<BudgetResponseType[], { query?: string; project?:string }>({
+    getAllBudgets: builder.query<
+      BudgetResponseType[],
+      { query?: string; project?: string }
+    >({
       query(params) {
         return {
           url: '/transacciones/presupuestos',
           method: 'GET',
           params: {
             query: params.query,
-            project: params.project
+            project: params.project,
           },
         }
       },
 
       providesTags: ['presupuesto', 'proyectos', 'partidas'],
+    }),
+
+    getAllBudgetsByProjectAndLevel: builder.query<
+      BudgetResponseType[],
+      {
+        project_id: string
+        level: string
+      }
+    >({
+      query(params) {
+        return {
+          url: '/reportes/actual',
+          method: 'GET',
+          params,
+        }
+      },
+
+      providesTags: ['presupuesto'],
     }),
 
     createBudget: builder.mutation<BudgetResponseType, BudgetEditType>({
@@ -42,12 +63,13 @@ const budgetApiSlice = bcaApiSlice.injectEndpoints({
       },
 
       invalidatesTags: ['presupuesto'],
-    })
+    }),
   }),
 })
 
 export const {
   useGetAllBudgetsQuery,
   useCreateBudgetMutation,
-  useUpdateBudgetMutation
+  useUpdateBudgetMutation,
+  useGetAllBudgetsByProjectAndLevelQuery,
 } = budgetApiSlice
