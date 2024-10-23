@@ -3,7 +3,7 @@ import PageTitle from '../../../components/titles/PageTitle'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import BcaSelect from '../../../components/input/BcaSelect'
-import {  CircularProgress, Stack } from '@mui/material'
+import { CircularProgress, Stack } from '@mui/material'
 import { useGetAllProjectsQuery } from '../../../redux/api/bca-backend/parametros/projectsSlice'
 import { useGetAllBudgetsByProjectAndLevelQuery } from '../../../redux/api/bca-backend/transacciones/budgetSlice'
 import { useState } from 'react'
@@ -11,6 +11,7 @@ import { useGetAllLevelsQuery } from '../../../redux/api/bca-backend/reports/com
 import ActualTable from '../../../components/reports/ActualTable'
 import { useAppSelector } from '../../../redux/hooks'
 import EditToolbar from '../../../components/table/headers/toolbar'
+import { downloadExcelFile } from '../../../utils/download'
 
 const reportSchema = z.object({
   project_id: z
@@ -40,17 +41,6 @@ export default function Actual() {
 
   function hadleSubmit(data: ReportTypes) {
     setSelectedReport(data)
-  }
-
-  const downloadExcelFile = (blob: Blob, fileName: string) => {
-    const url = URL.createObjectURL(blob)
-    // const url = `http://localhost:42069:/public/${fileName}`
-    const a = document.createElement('a')
-    a.href = url
-    a.download = fileName
-    a.click()
-    console.dir(a)
-    URL.revokeObjectURL(url)
   }
 
   async function exportClick(data: ReportTypes) {
