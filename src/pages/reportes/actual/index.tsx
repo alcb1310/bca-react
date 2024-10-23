@@ -3,14 +3,14 @@ import PageTitle from '../../../components/titles/PageTitle'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import BcaSelect from '../../../components/input/BcaSelect'
-import { Button, CircularProgress, Stack } from '@mui/material'
-import { AddOutlined, FileDownloadOutlined } from '@mui/icons-material'
+import {  CircularProgress, Stack } from '@mui/material'
 import { useGetAllProjectsQuery } from '../../../redux/api/bca-backend/parametros/projectsSlice'
 import { useGetAllBudgetsByProjectAndLevelQuery } from '../../../redux/api/bca-backend/transacciones/budgetSlice'
 import { useState } from 'react'
 import { useGetAllLevelsQuery } from '../../../redux/api/bca-backend/reports/common'
 import ActualTable from '../../../components/reports/ActualTable'
 import { useAppSelector } from '../../../redux/hooks'
+import EditToolbar from '../../../components/table/headers/toolbar'
 
 const reportSchema = z.object({
   project_id: z
@@ -39,7 +39,6 @@ export default function Actual() {
   const token = useAppSelector((state) => state.login.token)
 
   function hadleSubmit(data: ReportTypes) {
-    console.log('submit', data)
     setSelectedReport(data)
   }
 
@@ -67,13 +66,11 @@ export default function Actual() {
     )
 
     const blob = await res.blob()
-
     const filename =
       res.headers.get('Content-Disposition')?.split('filename=')[1] ||
       'excel-file.xlsx'
 
     downloadExcelFile(blob, filename)
-
   }
 
   return (
@@ -98,26 +95,13 @@ export default function Actual() {
             ))}
           </BcaSelect>
 
-          <Stack direction='row' spacing={2} justifyContent='flex-start'>
-            <Button
-              variant='text'
-              startIcon={<AddOutlined />}
-              color='primary'
-              onClick={handleSubmit(hadleSubmit)}
-              size='small'
-            >
-              Generar
-            </Button>
-            <Button
-              variant='text'
-              startIcon={<FileDownloadOutlined />}
-              onClick={handleSubmit(exportClick)}
-              size='small'
-              color='success'
-            >
-              Exportar
-            </Button>
-          </Stack>
+          <EditToolbar
+            title='Generar'
+            onClick={handleSubmit(hadleSubmit)}
+            color='primary'
+            hasExportButton
+            exportClick={handleSubmit(exportClick)}
+          />
         </Stack>
       </form>
       {isLoading && <CircularProgress />}
