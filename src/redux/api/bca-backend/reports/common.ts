@@ -1,3 +1,4 @@
+import { BudgetResponseType } from '../../../../types/budget'
 import { bcaApiSlice } from '../bcaSlice'
 
 type LevelType = {
@@ -16,7 +17,24 @@ const commonApiSlice = bcaApiSlice.injectEndpoints({
         }
       },
     }),
+
+    getAllHistoric: builder.query<
+      BudgetResponseType[],
+      {
+        project_id: string
+        level: string
+        date: string
+      }
+    >({
+      query: (params) => {
+        return {
+          url: '/reportes/historico',
+          method: 'GET',
+          params
+        }
+      },
+    }),
   }),
 })
 
-export const { useGetAllLevelsQuery } = commonApiSlice
+export const { useGetAllLevelsQuery, useGetAllHistoricQuery } = commonApiSlice
