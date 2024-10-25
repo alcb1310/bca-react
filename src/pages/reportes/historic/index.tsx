@@ -8,7 +8,7 @@ import { useGetAllProjectsQuery } from '../../../redux/api/bca-backend/parametro
 import {
   useGetAllHistoricQuery,
   useGetAllLevelsQuery,
-} from '../../../redux/api/bca-backend/reports/common'
+} from '../../../redux/api/bca-backend/reports/commonSlice'
 import EditToolbar from '../../../components/table/headers/toolbar'
 import BcaDateTextField from '../../../components/input/BcaDateTextField'
 import ActualTable from '../../../components/reports/ActualTable'
