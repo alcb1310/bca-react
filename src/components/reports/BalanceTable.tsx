@@ -1,16 +1,26 @@
 import { DataGrid, GridColDef } from '@mui/x-data-grid'
+import { BalanceResponseType } from '../../types/reports'
+import { InvoiceResponseType } from '../../types/invoice'
 
 type BalanceTableProps = {
-  data: any[]
+  data: BalanceResponseType
 }
 
 export default function BalanceTable({ data }: BalanceTableProps) {
-  const cols: GridColDef[] = [
+  const cols: GridColDef<InvoiceResponseType>[] = [
     {
       field: 'date',
       headerName: 'Feccha',
       width: 100,
       hideable: false,
+      valueGetter: (_value, row) => {
+        const dt = new Date(row.invoice_date)
+        return dt.toLocaleDateString('es-EC', {
+          year: 'numeric',
+          month: '2-digit',
+          day: '2-digit',
+        })
+      },
     },
     {
       field: 'supplier',
@@ -38,7 +48,7 @@ export default function BalanceTable({ data }: BalanceTableProps) {
   return (
     <DataGrid
       columns={cols}
-      rows={data}
+      rows={data?.invoices}
       rowHeight={25}
       pageSizeOptions={[]}
       disableColumnFilter
