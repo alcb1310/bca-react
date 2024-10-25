@@ -48,6 +48,27 @@ export default function Balance() {
     })
   }
 
+  async function exportReport(data: ReportType) {
+    const url = import.meta.env.VITE_BACKEND_SERVER
+    const date = `${data.date.getFullYear()}-${data.date.getMonth() + 1}-${data.date.getDate()}`
+    const res = await fetch(
+      `${url}/reportes/excel/cuadre?project=${data.project_id}&date=${date}`,
+      {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    )
+
+    const blob = await res.blob()
+    const filename =
+      res.headers.get('Content-Disposition')?.split('filename=')[1] ||
+      'excel-file.xlsx'
+
+    downloadExcelFile(blob, filename)
+  }
+
   return (
     <>
       <PageTitle title='Cuadre' />
@@ -70,7 +91,7 @@ export default function Balance() {
             title='Generar'
             onClick={handleSubmit(generateReport)}
             hasExportButton
-            exportClick={() => { }}
+            exportClick={handleSubmit(exportReport)}
           />
         </Stack>
       </form>
