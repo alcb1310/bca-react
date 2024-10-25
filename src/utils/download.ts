@@ -5,6 +5,5 @@ export function downloadExcelFile(blob: Blob, fileName: string) {
   a.href = url
   a.download = fileName
   a.click()
-  console.dir(a)
   URL.revokeObjectURL(url)
 }
