@@ -50,6 +50,19 @@ const commonApiSlice = bcaApiSlice.injectEndpoints({
           params,
         }
       },
+
+      providesTags: ['cuadre'],
+    }),
+
+    setBalancedInvoice: builder.mutation<void, { invoice_id: string }>({
+      query: (data) => {
+        return {
+          url: `/reportes/cuadre/${data.invoice_id}`,
+          method: 'PUT',
+        }
+      },
+
+      invalidatesTags: ['cuadre'],
     }),
   }),
 })
@@ -58,4 +71,5 @@ export const {
   useGetAllLevelsQuery,
   useGetAllHistoricQuery,
   useGetBalanceReportQuery,
+  useSetBalancedInvoiceMutation,
 } = commonApiSlice

@@ -1,16 +1,51 @@
+import { useState } from 'react'
+import { Alert, Checkbox } from '@mui/material'
 import { DataGrid, GridColDef } from '@mui/x-data-grid'
+
 import { BalanceResponseType } from '../../types/reports'
 import { InvoiceResponseType } from '../../types/invoice'
+import { useSetBalancedInvoiceMutation } from '../../redux/api/bca-backend/reports/commonSlice'
 
 type BalanceTableProps = {
   data: BalanceResponseType
 }
 
 export default function BalanceTable({ data }: BalanceTableProps) {
+  const [alert, setAlert] = useState<boolean>(false)
+  const [msg, setMsg] = useState<string>('')
+  const [setBalanced] = useSetBalancedInvoiceMutation()
+
+  async function handleClick(data: InvoiceResponseType) {
+    setAlert(false)
+    const res = await setBalanced({ invoice_id: data.id })
+    if ('error' in res) {
+      setAlert(true)
+      // @ts-expect-error data is a property of error
+      setMsg(res?.error.data)
+    }
+  }
+
   const cols: GridColDef<InvoiceResponseType>[] = [
     {
+      field: 'is_balaced',
+      headerName: '',
+      width: 55,
+      hideable: false,
+      renderCell(params) {
+        return (
+          <Checkbox
+            checked={params.row.is_balanced}
+            size='small'
+            onClick={() => handleClick(params.row)}
+            sx={{ mt: -1 }}
+            inputProps={{ 'aria-label': 'isBalanced' }}
+          />
+        )
+      },
+    },
+    {
       field: 'date',
-      headerName: 'Feccha',
+      headerName: 'Fecha',
       width: 100,
       hideable: false,
       valueGetter: (_value, row) => {
@@ -42,21 +77,38 @@ export default function BalanceTable({ data }: BalanceTableProps) {
       headerName: 'Total',
       width: 150,
       hideable: false,
+      align: 'right',
+      renderCell: (params) => {
+        return params.row.invoice_total.toLocaleString('es-EC', {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2,
+        })
+      },
     },
   ]
 
   return (
-    <DataGrid
-      columns={cols}
-      rows={data?.invoices}
-      rowHeight={25}
-      pageSizeOptions={[]}
-      disableColumnFilter
-      disableColumnMenu
-      disableColumnResize
-      disableRowSelectionOnClick
-      disableMultipleRowSelection
-      sx={{ '&, [class^=MuiDataGrid]': { border: 'none' } }}
-    />
+    <>
+      {alert && (
+        <Alert severity='error' onClose={() => setAlert(false)}>
+          {msg}
+        </Alert>
+      )}
+      <DataGrid
+        columns={cols}
+        rows={data?.invoices}
+        rowHeight={25}
+        pageSizeOptions={[]}
+        disableColumnFilter
+        disableColumnMenu
+        disableColumnResize
+        disableRowSelectionOnClick
+        disableMultipleRowSelection
+        hideFooter
+        sx={{
+          '&, [class^=MuiDataGrid]': { border: 'none' },
+        }}
+      />
+    </>
   )
 }
