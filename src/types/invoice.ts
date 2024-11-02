@@ -11,6 +11,7 @@ export const invoiceResponseSchema = z.object({
   invoice_number: z.string(),
   invoice_total: z.number(),
   company_id: z.string().uuid().optional(),
+  is_balanced: z.boolean().optional(),
 })
 
 export type InvoiceResponseType = z.infer<typeof invoiceResponseSchema>
