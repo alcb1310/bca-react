@@ -1,3 +1,5 @@
+// BUG: In the Reporte/Historico page, when searching the invoices with a date with a one digit day, there is an error when querying the API 
+
 import { z } from 'zod'
 import PageTitle from '../../../components/titles/PageTitle'
 import { useForm } from 'react-hook-form'

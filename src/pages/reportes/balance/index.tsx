@@ -1,3 +1,5 @@
+// BUG: In the Reporte/Cuadre page, when searching the invoices with a date with a one digit day, there is an error when querying the API 
+
 import { useForm } from 'react-hook-form'
 import PageTitle from '../../../components/titles/PageTitle'
 import { z } from 'zod'
