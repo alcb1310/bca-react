@@ -29,7 +29,6 @@ function RubrosForm({ rubroId, rubro }: RubrosFromProps) {
   async function hadleSubmit(data: RubrosType) {
     setConflictError('')
     if (rubroId?.toLowerCase() === 'crear') {
-      // INFO: we are creating a new rubr
       const res = await createRubro(data)
       if ('data' in res) {
         navigate(`/parametros/rubros/${res.data?.id}`)
@@ -41,7 +40,6 @@ function RubrosForm({ rubroId, rubro }: RubrosFromProps) {
       return
     }
 
-    // INFO: we are updating a rubro
     const res = await updateRubro(data)
     if ('error' in res) {
       // @ts-expect-error data is a property of the error object
