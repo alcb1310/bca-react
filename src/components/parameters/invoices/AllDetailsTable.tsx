@@ -2,6 +2,7 @@ import { DataGrid, GridActionsCellItem, GridColDef } from '@mui/x-data-grid'
 import { InvoiceDetailsResponseType } from '../../../types/invoiceDetails'
 import { DeleteOutlined } from '@mui/icons-material'
 import { useDeleteInvoiceDetailsMutation } from '../../../redux/api/bca-backend/transacciones/invoiceDetailsSlice'
+import SpentDetailsDrawer from '../../reports/SpentDetails'
 
 type AllDetailsTableProps = {
   data: InvoiceDetailsResponseType[]
@@ -80,22 +81,24 @@ export default function AllDetailsTable({
     },
   ]
   return (
-    <DataGrid
-      rows={data}
-      columns={cols}
-      getRowId={(row) => row.id}
-      rowHeight={25}
-      disableColumnFilter
-      disableColumnResize
-      disableRowSelectionOnClick
-      disableMultipleRowSelection
-      sx={{ '&, [class^=MuiDataGrid]': { border: 'none' } }}
-      pagination
-      initialState={{
-        pagination: {
-          paginationModel: { pageSize: 25 },
-        },
-      }}
-    />
+    <>
+      <DataGrid
+        rows={data}
+        columns={cols}
+        getRowId={(row) => row.id}
+        rowHeight={25}
+        disableColumnFilter
+        disableColumnResize
+        disableRowSelectionOnClick
+        disableMultipleRowSelection
+        sx={{ '&, [class^=MuiDataGrid]': { border: 'none' } }}
+        pagination
+        initialState={{
+          pagination: {
+            paginationModel: { pageSize: 25 },
+          },
+        }}
+      />
+    </>
   )
 }

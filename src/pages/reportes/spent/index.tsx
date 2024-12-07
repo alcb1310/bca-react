@@ -13,6 +13,8 @@ import { z } from 'zod'
 import { useState } from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import SpentTable from '../../../components/reports/SpentTable'
+import SpentDetailsDrawer from '../../../components/drawers/Reports/Spent/SpentDetailsDrawer'
+import { Spent as SpentType } from '../../../types/reports'
 
 const reportSchema = z.object({
   project_id: z
@@ -37,6 +39,8 @@ export default function Spent() {
     level: '',
     date: '',
   })
+  const [open, setOpen] = useState<boolean>(false)
+  const [selected, setSelected] = useState<SpentType | undefined>(undefined)
 
   const { control, handleSubmit } = useForm<ReportTypes>({
     defaultValues: {
@@ -52,8 +56,6 @@ export default function Spent() {
   const { data, isLoading } = useGetSpentQuery(selectedReport!)
 
   function generateReport(info: ReportTypes) {
-    // console.log(info)
-    // console.log(typeof info.date)
     let day = `${info.date.getDate()}`
     if (day.length === 1) {
       day = `0${day}`
@@ -72,7 +74,6 @@ export default function Spent() {
   return (
     <>
       <PageTitle title='Gastado por partida' />
-
       <form onSubmit={handleSubmit(generateReport)}>
         <Stack width='50%' direction={'column'} spacing={2} mx={'auto'} mt={2}>
           <BcaSelect name='project_id' label='Proyecto' control={control}>
@@ -102,12 +103,21 @@ export default function Spent() {
             onClick={handleSubmit(generateReport)}
             color='primary'
             hasExportButton
-            exportClick={() => {}}
+            exportClick={() => { }}
           />
         </Stack>
       </form>
       {isLoading && <CircularProgress />}
-      <SpentTable data={data!} />
+      <SpentTable data={data!} setOpen={setOpen} setSelected={setSelected} />
+
+      {open && (
+        <SpentDetailsDrawer
+          setOpen={() => setOpen(false)} open={open}
+          selectedData={selected!}
+          selectedProject={selectedReport.project_id!}
+          selectedDate={selectedReport.date!}
+        />
+      )}
     </>
   )
 }
