@@ -17,6 +17,7 @@ import SpentDetailsDrawer from '../../../components/drawers/Reports/Spent/SpentD
 import { Spent as SpentType } from '../../../types/reports'
 import { useAppSelector } from '../../../redux/hooks'
 import { downloadExcelFile } from '../../../utils/download'
+import { normalizeDate } from '../../../utils/date'
 
 const reportSchema = z.object({
     project_id: z
@@ -60,13 +61,7 @@ export default function Spent() {
     const { data, isLoading } = useGetSpentQuery(selectedReport!)
 
     function generateReport(info: ReportTypes) {
-        let day = `${info.date.getDate()}`
-        if (day.length === 1) {
-            day = `0${day}`
-        }
-
-        const date = `${info.date.getFullYear()}-${info.date.getMonth() + 1}-${day}`
-
+        const date = normalizeDate(info.date)
         const reportData = {
             project_id: info.project_id,
             level: info.level,
@@ -75,18 +70,13 @@ export default function Spent() {
         setSelectedReport(reportData)
     }
 
-    async function exportClick(data: ReportTypes) {
+    async function exportClick(info: ReportTypes) {
         const url = import.meta.env.VITE_BACKEND_SERVER
-        let day = `${data.date.getDate()}`
-        if (day.length === 1) {
-            day = `0${day}`
-        }
-
-        const date = `${data.date.getFullYear()}-${data.date.getMonth() + 1}-${day}`
+        const date = normalizeDate(info.date)
 
         try {
             const res = await fetch(
-                `${url}/reportes/excel/gastado?proyecto=${data.project_id}&nivel=${data.level}&fecha=${date}`,
+                `${url}/reportes/excel/gastado?proyecto=${info.project_id}&nivel=${info.level}&fecha=${date}`,
                 {
                     method: "GET",
                     headers: {
