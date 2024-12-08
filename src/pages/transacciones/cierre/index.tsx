@@ -1,3 +1,5 @@
+// BUG: In the Pages/Cierre page, when searching the invoices with a date with a one digit day, there is an error when querying the API 
+
 import { useState } from 'react'
 import { Box, Button, CircularProgress, Stack, Typography } from '@mui/material'
 import { SaveOutlined } from '@mui/icons-material'
