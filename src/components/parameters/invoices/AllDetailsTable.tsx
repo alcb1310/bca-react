@@ -80,24 +80,22 @@ export default function AllDetailsTable({
         },
     ]
     return (
-        <>
-            <DataGrid
-                rows={data}
-                columns={cols}
-                getRowId={(row) => row.id}
-                rowHeight={25}
-                disableColumnFilter
-                disableColumnResize
-                disableRowSelectionOnClick
-                disableMultipleRowSelection
-                sx={{ '&, [class^=MuiDataGrid]': { border: 'none' } }}
-                pagination
-                initialState={{
-                    pagination: {
-                        paginationModel: { pageSize: 25 },
-                    },
-                }}
-            />
-        </>
+        <DataGrid
+            rows={data}
+            columns={cols}
+            getRowId={(row) => row.budget_item_id}
+            rowHeight={25}
+            disableColumnFilter
+            disableColumnResize
+            disableRowSelectionOnClick
+            disableMultipleRowSelection
+            sx={{ '&, [class^=MuiDataGrid]': { border: 'none' } }}
+            pagination
+            initialState={{
+                pagination: {
+                    paginationModel: { pageSize: 25 },
+                },
+            }}
+        />
     )
 }
