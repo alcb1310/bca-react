@@ -5,7 +5,7 @@ export const loginSchema = z.object({
   password: z
     .string()
     .min(1, 'Contraseña es obligatoria')
-    .min(8, 'Contraseña debe ser mayor a 8 caracteres'),
+    //.min(2, 'Contraseña debe ser mayor a 2 caracteres'),
 })
 
 export type LoginInput = z.TypeOf<typeof loginSchema>
