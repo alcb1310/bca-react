@@ -6,7 +6,7 @@ import {
     useGetSpentQuery,
 } from '../../../redux/api/bca-backend/reports/commonSlice'
 import BcaSelect from '../../../components/input/BcaSelect'
-import { CircularProgress, Stack } from '@mui/material'
+import { CircularProgress, Grid2, Stack, Typography } from '@mui/material'
 import BcaDateTextField from '../../../components/input/BcaDateTextField'
 import EditToolbar from '../../../components/table/headers/toolbar'
 import { z } from 'zod'
@@ -131,7 +131,46 @@ export default function Spent() {
                 </Stack>
             </form>
             {isLoading && <CircularProgress />}
+
+            {!!data && (
+                <Grid2 container spacing={2} mt={2}>
+                    <Typography variant='body1' component='h5' textAlign='left' pl={1}>
+                        Total:{' '}
+                        <Typography
+                            variant='body1'
+                            fontWeight='bold'
+                            component='span'
+                            sx={{ color: 'success.main' }}
+                        >
+                            {data.total.toLocaleString('es-EC', {
+                                minimumFractionDigits: 2,
+                                maximumFractionDigits: 2,
+                            })}
+                        </Typography>
+                    </Typography>
+                </Grid2>
+            )}
+
             <SpentTable data={data!} setOpen={setOpen} setSelected={setSelected} />
+
+            {!!data && (
+                <Grid2 container spacing={2} mt={2}>
+                    <Typography variant='body1' component='h5' textAlign='left' pl={1}>
+                        Total:{' '}
+                        <Typography
+                            variant='body1'
+                            fontWeight='bold'
+                            component='span'
+                            sx={{ color: 'success.main' }}
+                        >
+                            {data.total.toLocaleString('es-EC', {
+                                minimumFractionDigits: 2,
+                                maximumFractionDigits: 2,
+                            })}
+                        </Typography>
+                    </Typography>
+                </Grid2>
+            )}
 
             {open && (
                 <SpentDetailsDrawer
