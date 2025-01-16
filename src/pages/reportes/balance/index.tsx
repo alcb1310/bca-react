@@ -2,7 +2,7 @@ import { useForm } from 'react-hook-form'
 import PageTitle from '../../../components/titles/PageTitle'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { CircularProgress, Stack } from '@mui/material'
+import { CircularProgress, Grid2, Stack, Typography } from '@mui/material'
 import BcaDateTextField from '../../../components/input/BcaDateTextField'
 import BcaSelect from '../../../components/input/BcaSelect'
 import EditToolbar from '../../../components/table/headers/toolbar'
@@ -12,6 +12,7 @@ import { useState } from 'react'
 import { useGetBalanceReportQuery } from '../../../redux/api/bca-backend/reports/commonSlice'
 import { useAppSelector } from '../../../redux/hooks'
 import { downloadExcelFile } from '../../../utils/download'
+import { normalizeDate } from '../../../utils/date'
 
 const reportSchema = z.object({
   project_id: z
@@ -37,20 +38,18 @@ export default function Balance() {
   })
   const { data: projects } = useGetAllProjectsQuery({ active: true })
   const { data, isLoading } = useGetBalanceReportQuery(selectedData!)
-  const token = useAppSelector(state => state.login.token)
+  const token = useAppSelector((state) => state.login.token)
 
   function generateReport(data: ReportType) {
-    const selectedDate = `${data.date.getFullYear()}-${data.date.getMonth() + 1}-${data.date.getDate()}`
-
     setSelectedData({
       project_id: data.project_id,
-      date: selectedDate,
+      date: normalizeDate(data.date),
     })
   }
 
   async function exportReport(data: ReportType) {
     const url = import.meta.env.VITE_BACKEND_SERVER
-    const date = `${data.date.getFullYear()}-${data.date.getMonth() + 1}-${data.date.getDate()}`
+    const date = normalizeDate(data.date)
     const res = await fetch(
       `${url}/reportes/excel/cuadre?project=${data.project_id}&date=${date}`,
       {
@@ -96,7 +95,46 @@ export default function Balance() {
         </Stack>
       </form>
       {isLoading && <CircularProgress />}
+
+      {!!data && (
+        <Grid2 container spacing={2} mt={2}>
+          <Typography variant='body1' component='h5' textAlign='left' pl={8}>
+            Total:{' '}
+            <Typography
+              variant='body1'
+              fontWeight='bold'
+              component='span'
+              sx={{ color: 'success.main' }}
+            >
+              {data.total.toLocaleString('es-EC', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              })}
+            </Typography>
+          </Typography>
+        </Grid2>
+      )}
+
       <BalanceTable data={data!} />
+
+      {!!data && (
+        <Grid2 container spacing={2} mt={2}>
+          <Typography variant='body1' component='h5' textAlign='left' pl={8}>
+            Total:{' '}
+            <Typography
+              variant='body1'
+              fontWeight='bold'
+              component='span'
+              sx={{ color: 'success.main' }}
+            >
+              {data.total.toLocaleString('es-EC', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              })}
+            </Typography>
+          </Typography>
+        </Grid2>
+      )}
     </>
   )
 }
