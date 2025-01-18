@@ -1,8 +1,19 @@
 import ApplicationBar from './AppBar'
+import TestAppWrapper from '../wrappers/TestAppWraper'
 
 describe('<ApplicationBar />', () => {
+    beforeEach(() => {
+        cy.mount(
+            <TestAppWrapper>
+                <ApplicationBar />
+            </TestAppWrapper>
+        )
+    })
+
     it('renders', () => {
-        // see: https://on.cypress.io/mounting-react
-        cy.mount(<ApplicationBar />)
+        cy.get('[data-testid="title"]').should(
+            'have.text',
+            'Sistema Control Prespuestario'
+        )
     })
 })
