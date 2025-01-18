@@ -34,6 +34,7 @@ function UserMenu() {
         <>
             <Tooltip title='Usuarios'>
                 <IconButton
+                    data-testid='user-icon'
                     size='large'
                     sx={{ color: 'white' }}
                     onClick={handleClick}
@@ -43,12 +44,14 @@ function UserMenu() {
             </Tooltip>
 
             <Menu
+                data-testid='user-menu'
                 open={open}
                 anchorEl={anchorEl}
                 onClose={handleClick}
             >
                 <MenuItem>
                     <Button
+                        data-testid='user-profile'
                         variant='text'
                         sx={{
                             justifyContent: 'start',
@@ -64,6 +67,7 @@ function UserMenu() {
                 <MenuItem>
                     <Button
                         variant='text'
+                        data-testid='user-admin'
                         sx={{
                             justifyContent: 'start',
                             color: 'black',
@@ -78,6 +82,7 @@ function UserMenu() {
                 <MenuItem>
                     <Button
                         variant='text'
+                        data-testid='user-password'
                         sx={{
                             justifyContent: 'start',
                             color: 'black',

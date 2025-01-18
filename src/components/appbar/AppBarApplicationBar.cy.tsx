@@ -16,4 +16,13 @@ describe('<ApplicationBar />', () => {
             'Sistema Control Prespuestario'
         )
     })
+
+    it('should display the user menu', () => {
+        cy.get('[data-testid="user-menu"]').should('not.exist')
+        cy.get('[data-testid="user-icon"]').trigger('click')
+        cy.get('[data-testid="user-menu"]').should('be.visible')
+        cy.get('[data-testid="user-profile"]').should('be.visible')
+        cy.get('[data-testid="user-admin"]').should('be.visible')
+        cy.get('[data-testid="user-password"]').should('be.visible')
+    })
 })
