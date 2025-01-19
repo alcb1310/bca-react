@@ -40,4 +40,23 @@ describe('<TransactionsMenu />', () => {
             'Cierre Mensual'
         )
     })
+
+    describe('should toggle the menu when clickig the title', () => {
+        beforeEach(() => {
+            cy.get('[data-testid="menu.transactions"]').click()
+        })
+
+        it('should hide the menu', () => {
+            cy.get('[data-testid="menu.transactions.open-chevron"]').should(
+                'not.exist'
+            )
+            cy.get('[data-testid="menu.transactions.closed-chevron"]').should(
+                'be.visible'
+            )
+
+            cy.get('[data-testid="menu.transactions.budget"]').should('not.exist')
+            cy.get('[data-testid="menu.transactions.invoices"]').should('not.exist')
+            cy.get('[data-testid="menu.transactions.closure"]').should('not.exist')
+        })
+    })
 })
