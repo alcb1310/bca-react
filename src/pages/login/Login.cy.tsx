@@ -50,5 +50,19 @@ describe('<Login />', () => {
                 .should('be.visible')
                 .should('have.text', 'Contraseña es obligatoria')
         })
+
+        it('should validate email', () => {
+            cy.get('[data-testid="pages.login.form.email"]').type('test')
+            cy.get('[data-testid="pages.login.form.password"]').type('password')
+            cy.get('[data-testid="pages.login.form.submit"]').click()
+
+            cy.get('[data-testid="pages.login.form.email.error"]')
+                .should('be.visible')
+                .should('have.text', 'Email no es valido')
+
+            cy.get('[data-testid="pages.login.form.password.error"]').should(
+                'not.exist'
+            )
+        })
     })
 })
