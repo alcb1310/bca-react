@@ -1,7 +1,7 @@
 import TestAppWrapper from '../wrappers/TestAppWraper'
 import ReportsMenu from './Reports'
 
-describe('<Reportes />', () => {
+describe('<ReportesMenu />', () => {
     beforeEach(() => {
         cy.mount(
             <TestAppWrapper>
@@ -47,6 +47,17 @@ describe('<Reportes />', () => {
             cy.get('[data-testid="menu.reports.balance"]').should('not.exist')
             cy.get('[data-testid="menu.reports.spent"]').should('not.exist')
             cy.get('[data-testid="menu.reports.historic"]').should('not.exist')
+        })
+
+        it('should show the menu when click the title', () => {
+            cy.get('[data-testid="menu.reports"]').click()
+            cy.get('[data-testid="menu.reports.open-chevron"]').should('be.visible')
+            cy.get('[data-testid="menu.reports.closed-chevron"]').should('not.exist')
+
+            cy.get('[data-testid="menu.reports.actual"]').should('be.visible')
+            cy.get('[data-testid="menu.reports.balance"]').should('be.visible')
+            cy.get('[data-testid="menu.reports.spent"]').should('be.visible')
+            cy.get('[data-testid="menu.reports.historic"]').should('be.visible')
         })
     })
 })
