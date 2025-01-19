@@ -5,14 +5,14 @@ import { themeSlice } from './features/theme/themeSlice'
 import { loginSlice } from './features/login/loginSlice'
 
 export const store = configureStore({
-  reducer: {
-    theme: themeSlice.reducer,
-    login: loginSlice.reducer,
-    [bcaApiSlice.reducerPath]: bcaApiSlice.reducer,
-  },
-  middleware: (getDefaultMiddleware) => {
-    return getDefaultMiddleware().concat(bcaApiSlice.middleware)
-  },
+    reducer: {
+        theme: themeSlice.reducer,
+        login: loginSlice.reducer,
+        [bcaApiSlice.reducerPath]: bcaApiSlice.reducer,
+    },
+    middleware: (getDefaultMiddleware) => {
+        return getDefaultMiddleware().concat(bcaApiSlice.middleware)
+    },
 })
 
 export type AppDispatch = typeof store.dispatch

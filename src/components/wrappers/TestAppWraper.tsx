@@ -1,7 +1,7 @@
 import { Provider } from 'react-redux'
-import { store } from '../../redux/store'
 import { BrowserRouter } from 'react-router-dom'
 import { ReactNode } from 'react'
+import { testStore } from '../../redux/testStore'
 
 type TestAppWrapperProps = {
     children: ReactNode
@@ -9,7 +9,7 @@ type TestAppWrapperProps = {
 
 export default function TestAppWrapper({ children }: TestAppWrapperProps) {
     return (
-        <Provider store={store}>
+        <Provider store={testStore}>
             <BrowserRouter>{children}</BrowserRouter>
         </Provider>
     )
