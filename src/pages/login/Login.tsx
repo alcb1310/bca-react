@@ -64,6 +64,7 @@ export default function Login() {
             >
                 <Typography
                     variant='h5'
+                    data-testid='pages.login.title'
                     component='h5'
                     textTransform='uppercase'
                     sx={{ textAlign: 'center' }}
@@ -76,6 +77,7 @@ export default function Login() {
                         color='error'
                         variant='body2'
                         component='p'
+                        data-testid='pages.login.error'
                         sx={{ textAlign: 'left', width: '100%' }}
                     >
                         {' '}
@@ -98,6 +100,7 @@ export default function Login() {
                             render={({ field }) => (
                                 <TextField
                                     {...field}
+                                    data-testid='pages.login.form.email'
                                     size='small'
                                     label='Email'
                                     variant='outlined'
@@ -105,7 +108,9 @@ export default function Login() {
                             )}
                         />
                         {errors.email && (
-                            <FormHelperText error>{errors.email?.message}</FormHelperText>
+                            <FormHelperText data-testid='pages.login.form.email.error' error>
+                                {errors.email?.message}
+                            </FormHelperText>
                         )}
 
                         <Controller
@@ -114,6 +119,7 @@ export default function Login() {
                             render={({ field }) => (
                                 <TextField
                                     {...field}
+                                    data-testid='pages.login.form.password'
                                     size='small'
                                     label='Contraseña'
                                     type='password'
@@ -122,11 +128,17 @@ export default function Login() {
                             )}
                         />
                         {errors.password && (
-                            <FormHelperText error>{errors.password?.message}</FormHelperText>
+                            <FormHelperText
+                                data-testid='pages.login.form.password.error'
+                                error
+                            >
+                                {errors.password?.message}
+                            </FormHelperText>
                         )}
 
                         <Button
                             variant='contained'
+                            data-testid='pages.login.form.submit'
                             type='submit'
                             color='primary'
                             onClick={handleSubmit(onSubmit)}
