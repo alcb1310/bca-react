@@ -9,11 +9,13 @@ export default function Home() {
                 <CircularProgress />
             ) : (
                 <Typography
+                    data-testid='pages.home.welcome'
                     variant='body1'
                     component='p'
                 >
                     Bienvenido&nbsp;
                     <Typography
+                        data-testid='pages.home.username'
                         variant='body1'
                         component='span'
                         color='success'
