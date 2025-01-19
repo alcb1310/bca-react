@@ -35,6 +35,7 @@ export default function ParametersMenu() {
             >
                 <ListItemText
                     primary='Parametros'
+                    data-testid='menu.parameters'
                     primaryTypographyProps={{
                         fontWeight: 'bold',
                         fontSize: '0.85rem',
@@ -42,7 +43,11 @@ export default function ParametersMenu() {
                         textTransform: 'uppercase',
                     }}
                 />
-                {open ? <ExpandMoreOutlined /> : <ChevronRightOutlined />}
+                {open ? (
+                    <ExpandMoreOutlined data-testid='menu.parameters.open-chevron' />
+                ) : (
+                    <ChevronRightOutlined data-testid='menu.parameters.closed-chevron' />
+                )}
             </ListItemButton>
             <Collapse in={open} timeout='auto' unmountOnExit>
                 <List component='div' disablePadding dense>
@@ -58,6 +63,7 @@ export default function ParametersMenu() {
 
                         <ListItemText
                             primary='Partidas'
+                            data-testid='menu.parameters.budget-items'
                             primaryTypographyProps={{
                                 fontSize: '0.75rem',
                                 textTransform: 'uppercase',
@@ -77,6 +83,7 @@ export default function ParametersMenu() {
 
                         <ListItemText
                             primary='Categorias'
+                            data-testid='menu.parameters.categories'
                             primaryTypographyProps={{
                                 fontSize: '0.75rem',
                                 textTransform: 'uppercase',
@@ -96,6 +103,7 @@ export default function ParametersMenu() {
 
                         <ListItemText
                             primary='Materiales'
+                            data-testid='menu.parameters.materials'
                             primaryTypographyProps={{
                                 fontSize: '0.75rem',
                                 textTransform: 'uppercase',
@@ -115,6 +123,7 @@ export default function ParametersMenu() {
 
                         <ListItemText
                             primary='Proyectos'
+                            data-testid='menu.parameters.projects'
                             primaryTypographyProps={{
                                 fontSize: '0.75rem',
                                 textTransform: 'uppercase',
@@ -134,6 +143,7 @@ export default function ParametersMenu() {
 
                         <ListItemText
                             primary='Proveedores'
+                            data-testid='menu.parameters.suppliers'
                             primaryTypographyProps={{
                                 fontSize: '0.75rem',
                                 textTransform: 'uppercase',
@@ -153,6 +163,7 @@ export default function ParametersMenu() {
 
                         <ListItemText
                             primary='Rubros'
+                            data-testid='menu.parameters.items'
                             primaryTypographyProps={{
                                 fontSize: '0.75rem',
                                 textTransform: 'uppercase',
