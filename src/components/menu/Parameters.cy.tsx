@@ -70,5 +70,24 @@ describe('<ParametersMenu />', () => {
             cy.get('[data-testid="menu.parameters.suppliers"]').should('not.exist')
             cy.get('[data-testid="menu.parameters.items"]').should('not.exist')
         })
+
+        it('should open the menu when clickig it', () => {
+            cy.get('[data-testid="menu.parameters"]').click()
+            cy.get('[data-testid="menu.parameters.open-chevron"]').should(
+                'be.visible'
+            )
+            cy.get('[data-testid="menu.parameters.closed-chevron"]').should(
+                'not.exist'
+            )
+
+            cy.get('[data-testid="menu.parameters.budget-items"]').should(
+                'be.visible'
+            )
+            cy.get('[data-testid="menu.parameters.categories"]').should('be.visible')
+            cy.get('[data-testid="menu.parameters.materials"]').should('be.visible')
+            cy.get('[data-testid="menu.parameters.projects"]').should('be.visible')
+            cy.get('[data-testid="menu.parameters.suppliers"]').should('be.visible')
+            cy.get('[data-testid="menu.parameters.items"]').should('be.visible')
+        })
     })
 })
