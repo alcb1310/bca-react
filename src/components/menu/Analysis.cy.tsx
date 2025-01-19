@@ -27,4 +27,20 @@ describe('<AnalysisMenu />', () => {
             'Analisis'
         )
     })
+
+    describe('should toggle the menu when clicking', () => {
+        beforeEach(() => {
+            cy.get('[data-testid="menu.analysis"]').click()
+        })
+
+        it('should hide the menu when clicking it', () => {
+            cy.get('[data-testid="menu.analysis.closed-chevron"]').should(
+                'be.visible'
+            )
+            cy.get('[data-testid="menu.analysis.open-chevron"]').should('not.exist')
+
+            cy.get('[data-testid="menu.analysis.quantities"]').should('not.exist')
+            cy.get('[data-testid="menu.analysis.analysis"]').should('not.exist')
+        })
+    })
 })
