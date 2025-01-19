@@ -33,4 +33,20 @@ describe('<Reportes />', () => {
             'Historico'
         )
     })
+
+    describe('toggle the menu', () => {
+        beforeEach(() => {
+            cy.get('[data-testid="menu.reports"]').click()
+        })
+
+        it('should hide the menu when click the title', () => {
+            cy.get('[data-testid="menu.reports.closed-chevron"]').should('be.visible')
+            cy.get('[data-testid="menu.reports.open-chevron"]').should('not.exist')
+
+            cy.get('[data-testid="menu.reports.actual"]').should('not.exist')
+            cy.get('[data-testid="menu.reports.balance"]').should('not.exist')
+            cy.get('[data-testid="menu.reports.spent"]').should('not.exist')
+            cy.get('[data-testid="menu.reports.historic"]').should('not.exist')
+        })
+    })
 })
