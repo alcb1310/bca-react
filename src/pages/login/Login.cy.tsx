@@ -82,5 +82,21 @@ describe('<Login />', () => {
                 .should('be.visible')
                 .should('have.text', 'credenciales inválidas')
         })
+
+        it('should correctly login', () => {
+            cy.intercept('POST', '**/login', {
+                statusCode: 200,
+                fixture: 'users/login_success.json',
+            }).as('login')
+
+            cy.get('[data-testid="pages.login.form.email"]').type('test@test.com')
+            cy.get('[data-testid="pages.login.form.password"]').type('password')
+            cy.get('[data-testid="pages.login.form.submit"]').click()
+            cy.wait('@login')
+
+            cy.get('[data-testid="pages.login.error"]').should('not.exist')
+
+            cy.url().should('eq', 'http://localhost:5173/')
+        })
     })
 })

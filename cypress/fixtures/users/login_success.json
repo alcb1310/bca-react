@@ -1,0 +1,10 @@
+{
+  "user": {
+    "id": "45d5f3aa-09c0-43df-9e39-7ebdaa5a2176",
+    "name": "Test User",
+    "email": "test@test.com",
+    "role_id": "a",
+    "company_id": "6191aaf0-bf44-44ef-b574-7645808ab5da"
+  },
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjQ1ZDVmM2FhLTA5YzAtNDNkZi05ZTM5LTdlYmRhYTVhMjE3NiIsIm5hbWUiOiJUZXN0IFVzZXIiLCJlbWFpbCI6InRlc3RAdGVzdC5jb20iLCJyb2xlX2lkIjoiYSIsImNvbXBhbnlfaWQiOiI2MTkxYWFmMC1iZjQ0LTQ0ZWYtYjU3NC03NjQ1ODA4YWI1ZGEifQ.BoxYMfDiD4bzDpK_ChIUcIh-ICGOUpbGm3EZfeO2-VU"
+}
