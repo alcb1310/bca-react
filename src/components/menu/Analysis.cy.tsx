@@ -42,5 +42,15 @@ describe('<AnalysisMenu />', () => {
             cy.get('[data-testid="menu.analysis.quantities"]').should('not.exist')
             cy.get('[data-testid="menu.analysis.analysis"]').should('not.exist')
         })
+
+        it('should open the menu when clicking it', () => {
+            cy.get('[data-testid="menu.analysis"]').click()
+
+            cy.get('[data-testid="menu.analysis.open-chevron"]').should('be.visible')
+            cy.get('[data-testid="menu.analysis.closed-chevron"]').should('not.exist')
+
+            cy.get('[data-testid="menu.analysis.quantities"]').should('be.visible')
+            cy.get('[data-testid="menu.analysis.analysis"]').should('be.visible')
+        })
     })
 })
