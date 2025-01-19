@@ -33,6 +33,7 @@ export default function ReportsMenu() {
             >
                 <ListItemText
                     primary='Reportes'
+                    data-testid='menu.reports'
                     primaryTypographyProps={{
                         fontWeight: 'bold',
                         fontSize: '0.85rem',
@@ -40,7 +41,11 @@ export default function ReportsMenu() {
                         textTransform: 'uppercase',
                     }}
                 />
-                {open ? <ExpandMoreOutlined /> : <ChevronRightOutlined />}
+                {open ? (
+                    <ExpandMoreOutlined data-testid='menu.reports.open-chevron' />
+                ) : (
+                    <ChevronRightOutlined data-testid='menu.reports.closed-chevron' />
+                )}
             </ListItemButton>
             <Collapse in={open} timeout='auto' unmountOnExit>
                 <List component='div' disablePadding dense>
@@ -56,6 +61,7 @@ export default function ReportsMenu() {
 
                         <ListItemText
                             primary='Actual'
+                            data-testid='menu.reports.actual'
                             primaryTypographyProps={{
                                 fontSize: '0.75rem',
                                 textTransform: 'uppercase',
@@ -75,6 +81,7 @@ export default function ReportsMenu() {
 
                         <ListItemText
                             primary='Cuadre'
+                            data-testid='menu.reports.balance'
                             primaryTypographyProps={{
                                 fontSize: '0.75rem',
                                 textTransform: 'uppercase',
@@ -94,6 +101,7 @@ export default function ReportsMenu() {
 
                         <ListItemText
                             primary='Gastado por Partida'
+                            data-testid='menu.reports.spent'
                             primaryTypographyProps={{
                                 fontSize: '0.75rem',
                                 textTransform: 'uppercase',
@@ -113,6 +121,7 @@ export default function ReportsMenu() {
 
                         <ListItemText
                             primary='Historico'
+                            data-testid='menu.reports.historic'
                             primaryTypographyProps={{
                                 fontSize: '0.75rem',
                                 textTransform: 'uppercase',
