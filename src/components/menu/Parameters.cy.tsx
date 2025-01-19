@@ -51,4 +51,24 @@ describe('<ParametersMenu />', () => {
             'Rubros'
         )
     })
+
+    describe('should toggle the menu', () => {
+        beforeEach(() => {
+            cy.get('[data-testid="menu.parameters"]').click()
+        })
+
+        it('should close the menu when clickig it', () => {
+            cy.get('[data-testid="menu.parameters.closed-chevron"]').should(
+                'be.visible'
+            )
+            cy.get('[data-testid="menu.parameters.open-chevron"]').should('not.exist')
+
+            cy.get('[data-testid="menu.parameters.budget-items"]').should('not.exist')
+            cy.get('[data-testid="menu.parameters.categories"]').should('not.exist')
+            cy.get('[data-testid="menu.parameters.materials"]').should('not.exist')
+            cy.get('[data-testid="menu.parameters.projects"]').should('not.exist')
+            cy.get('[data-testid="menu.parameters.suppliers"]').should('not.exist')
+            cy.get('[data-testid="menu.parameters.items"]').should('not.exist')
+        })
+    })
 })
