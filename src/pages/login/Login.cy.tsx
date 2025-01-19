@@ -65,4 +65,22 @@ describe('<Login />', () => {
             )
         })
     })
+
+    describe('it should parse api response', () => {
+        it('should display invalid credentials when apropriate', () => {
+            cy.intercept('POST', '**/login', {
+                statusCode: 400,
+                fixture: 'users/login_error.json',
+            }).as('login')
+
+            cy.get('[data-testid="pages.login.form.email"]').type('test@test.com')
+            cy.get('[data-testid="pages.login.form.password"]').type('password')
+            cy.get('[data-testid="pages.login.form.submit"]').click()
+            cy.wait('@login')
+
+            cy.get('[data-testid="pages.login.error"]')
+                .should('be.visible')
+                .should('have.text', 'credenciales inválidas')
+        })
+    })
 })

@@ -80,8 +80,7 @@ export default function Login() {
                         data-testid='pages.login.error'
                         sx={{ textAlign: 'left', width: '100%' }}
                     >
-                        {' '}
-                        {error}{' '}
+                        {error}
                     </Typography>
                 )}
 
