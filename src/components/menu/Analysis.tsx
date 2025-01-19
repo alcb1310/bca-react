@@ -31,6 +31,7 @@ export default function AnalysisMenu() {
             >
                 <ListItemText
                     primary='Analisis'
+                    data-testid='menu.analysis'
                     primaryTypographyProps={{
                         fontWeight: 'bold',
                         fontSize: '0.85rem',
@@ -38,7 +39,11 @@ export default function AnalysisMenu() {
                         textTransform: 'uppercase',
                     }}
                 />
-                {open ? <ExpandMoreOutlined /> : <ChevronRightOutlined />}
+                {open ? (
+                    <ExpandMoreOutlined data-testid='menu.analysis.open-chevron' />
+                ) : (
+                    <ChevronRightOutlined data-testid='menu.analysis.closed-chevron' />
+                )}
             </ListItemButton>
             <Collapse in={open} timeout='auto' unmountOnExit>
                 <List component='div' disablePadding dense>
@@ -54,6 +59,7 @@ export default function AnalysisMenu() {
 
                         <ListItemText
                             primary='Cantidades'
+                            data-testid='menu.analysis.quantities'
                             primaryTypographyProps={{
                                 fontSize: '0.75rem',
                                 textTransform: 'uppercase',
@@ -72,7 +78,8 @@ export default function AnalysisMenu() {
                         </ListItemIcon>
 
                         <ListItemText
-                            primary='analisis'
+                            primary='Analisis'
+                            data-testid='menu.analysis.analysis'
                             primaryTypographyProps={{
                                 fontSize: '0.75rem',
                                 textTransform: 'uppercase',
