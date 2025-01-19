@@ -25,4 +25,19 @@ describe('<Login />', () => {
             .should('be.visible')
             .should('have.text', 'Login')
     })
+
+    describe('should display error on bad credentials', () => {
+        it('should validate email and password', () => {
+            cy.get('[data-testid="pages.login.form.email"]').type('test')
+            cy.get('[data-testid="pages.login.form.submit"]').click()
+
+            cy.get('[data-testid="pages.login.form.email.error"]')
+                .should('be.visible')
+                .should('have.text', 'Email no es valido')
+
+            cy.get('[data-testid="pages.login.form.password.error"]')
+                .should('be.visible')
+                .should('have.text', 'Contraseña es obligatoria')
+        })
+    })
 })
