@@ -13,8 +13,11 @@ describe('<Home />', () => {
                 <Home />
             </TestAppWrapper>
         )
+        cy.get('[data-testid="pages.home.spinner"]').should('be.visible')
+        cy.get('[data-testid="pages.home.welcome"]').should('not.exist')
         cy.wait(['@currentUser'])
 
+        cy.get('[data-testid="pages.home.spinner"]').should('not.exist')
         cy.get('[data-testid="pages.home.welcome"]').should(
             'include.text',
             'Bienvenido'

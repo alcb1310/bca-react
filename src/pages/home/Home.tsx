@@ -6,7 +6,7 @@ export default function Home() {
     return (
         <>
             {isLoading ? (
-                <CircularProgress />
+                <CircularProgress data-testid='pages.home.spinner' />
             ) : (
                 <Typography
                     data-testid='pages.home.welcome'
