@@ -32,6 +32,7 @@ export default function TransactionsMenu() {
             >
                 <ListItemText
                     primary='Transacciones'
+                    data-testid='menu.transactions'
                     primaryTypographyProps={{
                         fontWeight: 'bold',
                         fontSize: '0.85rem',
@@ -39,7 +40,11 @@ export default function TransactionsMenu() {
                         textTransform: 'uppercase',
                     }}
                 />
-                {open ? <ExpandMoreOutlined /> : <ChevronRightOutlined />}
+                {open ? (
+                    <ExpandMoreOutlined data-testid='menu.transactions.open-chevron' />
+                ) : (
+                    <ChevronRightOutlined data-testid='menu.transactions.closed-chevron' />
+                )}
             </ListItemButton>
             <Collapse in={open} timeout='auto' unmountOnExit>
                 <List component='div' disablePadding dense>
@@ -55,6 +60,7 @@ export default function TransactionsMenu() {
 
                         <ListItemText
                             primary='Presupuesto'
+                            data-testid='menu.transactions.budget'
                             primaryTypographyProps={{
                                 fontSize: '0.75rem',
                                 textTransform: 'uppercase',
@@ -74,6 +80,7 @@ export default function TransactionsMenu() {
 
                         <ListItemText
                             primary='Facturas'
+                            data-testid='menu.transactions.invoices'
                             primaryTypographyProps={{
                                 fontSize: '0.75rem',
                                 textTransform: 'uppercase',
@@ -93,6 +100,7 @@ export default function TransactionsMenu() {
 
                         <ListItemText
                             primary='Cierre Mensual'
+                            data-testid='menu.transactions.closure'
                             primaryTypographyProps={{
                                 fontSize: '0.75rem',
                                 textTransform: 'uppercase',
