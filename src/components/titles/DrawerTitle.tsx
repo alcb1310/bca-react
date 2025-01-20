@@ -18,6 +18,7 @@ export default function DrawerTitle(props: DrawerTitleProps) {
         >
             <Typography
                 variant='h5'
+                data-testid='component.drawertitle.title'
                 component='h5'
                 textAlign='left'
                 sx={{
@@ -29,6 +30,7 @@ export default function DrawerTitle(props: DrawerTitleProps) {
 
             <Button
                 variant='text'
+                startIcon={<CloseOutlined data-testid='component.drawertitle.close' />}
                 onClick={props.close}
                 color='inherit'
             ></Button>
