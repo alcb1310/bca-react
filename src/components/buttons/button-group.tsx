@@ -15,6 +15,7 @@ export default function ButtonGroup({
             <Button
                 variant='contained'
                 startIcon={<SaveOutlined />}
+                data-testid='component.button.group.save'
                 color='primary'
                 onClick={saveFunction}
                 type='submit'
@@ -25,6 +26,7 @@ export default function ButtonGroup({
 
             <Button
                 variant='outlined'
+                data-testid='component.button.group.cancel'
                 startIcon={<CancelOutlined />}
                 color='primary'
                 onClick={cancelFunction}
