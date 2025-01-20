@@ -8,6 +8,7 @@ export default function PageTitle(props: PageTitleProps) {
     return (
         <Typography
             variant='h5'
+            data-testid='component.pagetitle.title'
             component='h2'
             textAlign='left'
             py={2}
