@@ -95,7 +95,12 @@ export default function BudgetDrawer({
                         {conflictError && (
                             <Typography color='error'>{conflictError}</Typography>
                         )}
-                        <BcaSelect control={control} name='project_id' label='Proyectos'>
+                        <BcaSelect
+                            datatestid='component.drawer.budget.project'
+                            control={control}
+                            name='project_id'
+                            label='Proyectos'
+                        >
                             <option value=''>Seleccione un proyecto</option>
                             {projects?.map((project) => (
                                 <option key={project.id} value={project.id}>
@@ -104,7 +109,12 @@ export default function BudgetDrawer({
                             ))}
                         </BcaSelect>
 
-                        <BcaSelect control={control} name='budget_item_id' label='Partida'>
+                        <BcaSelect
+                            datatestid='component.drawer.budget.budget_item'
+                            control={control}
+                            name='budget_item_id'
+                            label='Partida'
+                        >
                             <option value=''>Seleccione una partida</option>
                             {budgetItems?.map((budgetItem) => (
                                 <option key={budgetItem.id} value={budgetItem.id}>
@@ -115,6 +125,7 @@ export default function BudgetDrawer({
 
                         <BcaTextField
                             name='quantity'
+                            datatestid='component.drawer.budget.quantity'
                             label='Cantidad'
                             control={control}
                             onChange={(e) => {
@@ -132,6 +143,7 @@ export default function BudgetDrawer({
                         <BcaTextField
                             name='cost'
                             label='Costo'
+                            datatestid='component.drawer.budget.cost'
                             control={control}
                             onChange={(e) => {
                                 if (!isNaN(parseFloat(e.target.value))) {
@@ -143,7 +155,13 @@ export default function BudgetDrawer({
                                 }
                             }}
                         />
-                        <BcaTextField name='total' control={control} disabled />
+                        <BcaTextField
+                            datatestid='component.drawer.budget.total'
+                            name='total'
+                            label='Total'
+                            control={control}
+                            disabled
+                        />
 
                         <ButtonGroup
                             saveFunction={handleSubmit(hadleSubmit)}
