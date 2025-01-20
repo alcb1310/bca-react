@@ -8,6 +8,7 @@ export default function BcaTextField({
     name,
     defaultValue,
     control,
+    datatestid: dataTestId,
     disabled,
     ...rest
 }: BcaTextFieldProps) {
@@ -21,6 +22,7 @@ export default function BcaTextField({
                     <TextField
                         {...fieldRest}
                         inputRef={ref}
+                        data-testid={dataTestId}
                         label={name}
                         error={!!error}
                         disabled={disabled}

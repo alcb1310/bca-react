@@ -8,6 +8,7 @@ export default function BcaSelect({
     name,
     control,
     disabled,
+    datatestid: dataTestId,
     children,
 }: BcaSelectProps) {
     return (
@@ -17,6 +18,7 @@ export default function BcaSelect({
             render={({ field: { ref, ...fieldRest }, fieldState: { error } }) => (
                 <>
                     <NativeSelect
+                        data-testid={dataTestId}
                         variant='filled'
                         disabled={disabled}
                         sx={{ '& .MuiInputBase-input': { px: 2 } }}
