@@ -94,5 +94,19 @@ describe('<BudgetDrawer />', () => {
                     .should('have.value', '1.522756')
             })
         })
+
+        describe('should total 0 if a non number is entered either in quantity or cost', () => {
+            it('enters the quantity wrong', () => {
+                cy.get('[data-testid="component.drawer.budget.quantity"]').type('bad')
+                cy.get('[data-testid="component.drawer.budget.cost"]').type('1.234')
+
+                cy.get(
+                    '[data-testid="component.drawer.budget.total"] > .MuiInputBase-root > input'
+                )
+                    .should('be.visible')
+                    .should('have.class', 'Mui-disabled')
+                    .should('have.value', '0')
+            })
+        })
     })
 })
