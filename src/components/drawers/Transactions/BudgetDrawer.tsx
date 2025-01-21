@@ -28,11 +28,10 @@ export default function BudgetDrawer({
     defaultValues,
 }: BudgetDrawerProps) {
     const [conflictError, setConflictError] = useState<string>('')
-    const { control, reset, handleSubmit, setValue, getValues } =
-        useForm<BudgetEditType>({
-            defaultValues,
-            resolver: zodResolver(budgetEditSchema),
-        })
+    const { control, reset, handleSubmit, watch } = useForm<BudgetEditType>({
+        defaultValues,
+        resolver: zodResolver(budgetEditSchema),
+    })
 
     const { data: projects } = useGetAllProjectsQuery({
         active: true,
@@ -82,6 +81,10 @@ export default function BudgetDrawer({
         setConflictError(res.error.data.erro)
     }
 
+    const quantity = watch('quantity')
+    const cost = watch('cost')
+    const total = isNaN(quantity * cost) ? 0 : quantity * cost
+
     return (
         <>
             <BcaDrawer open={open} onClose={onClose}>
@@ -128,38 +131,19 @@ export default function BudgetDrawer({
                             datatestid='component.drawer.budget.quantity'
                             label='Cantidad'
                             control={control}
-                            onChange={(e) => {
-                                if (!isNaN(parseFloat(e.target.value))) {
-                                    setValue('quantity', parseFloat(e.target.value))
-                                    setValue(
-                                        'total',
-                                        getValues('cost') * parseFloat(e.target.value)
-                                    )
-                                } else {
-                                    console.log(e.target.value)
-                                }
-                            }}
                         />
                         <BcaTextField
                             name='cost'
                             label='Costo'
                             datatestid='component.drawer.budget.cost'
                             control={control}
-                            onChange={(e) => {
-                                if (!isNaN(parseFloat(e.target.value))) {
-                                    setValue('cost', parseFloat(e.target.value))
-                                    setValue(
-                                        'total',
-                                        getValues('quantity') * parseFloat(e.target.value)
-                                    )
-                                }
-                            }}
                         />
                         <BcaTextField
                             datatestid='component.drawer.budget.total'
                             name='total'
                             label='Total'
                             control={control}
+                            value={total}
                             disabled
                         />
 
