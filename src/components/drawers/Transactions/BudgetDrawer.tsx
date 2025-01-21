@@ -1,4 +1,4 @@
-import { useForm } from 'react-hook-form'
+import { useForm, useWatch } from 'react-hook-form'
 import { useEffect, useState } from 'react'
 import { Box, Typography } from '@mui/material'
 import { budgetEditSchema, BudgetEditType } from '../../../types/budget'
@@ -28,10 +28,24 @@ export default function BudgetDrawer({
     defaultValues,
 }: BudgetDrawerProps) {
     const [conflictError, setConflictError] = useState<string>('')
-    const { control, reset, handleSubmit, watch } = useForm<BudgetEditType>({
+    const { control, reset, handleSubmit } = useForm<BudgetEditType>({
         defaultValues,
         resolver: zodResolver(budgetEditSchema),
     })
+
+    function calculateTotal(): number {
+        const q = results.quantity
+            ? isNaN(results.quantity)
+                ? 0
+                : results.quantity
+            : 0
+        const c = results.cost ? (isNaN(results.cost) ? 0 : results.cost) : 0
+
+        return q * c
+    }
+
+    const results = useWatch({ control })
+    const total = calculateTotal()
 
     const { data: projects } = useGetAllProjectsQuery({
         active: true,
@@ -80,10 +94,6 @@ export default function BudgetDrawer({
         // @ts-expect-error data property is part of the res.error object
         setConflictError(res.error.data.erro)
     }
-
-    const quantity = watch('quantity')
-    const cost = watch('cost')
-    const total = isNaN(quantity * cost) ? 0 : quantity * cost
 
     return (
         <>
