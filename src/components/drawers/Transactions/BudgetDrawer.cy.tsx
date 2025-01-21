@@ -119,6 +119,18 @@ describe('<BudgetDrawer />', () => {
                     .should('have.class', 'Mui-disabled')
                     .should('have.value', '0')
             })
+
+            it('enters the cost and quantity wrong', () => {
+                cy.get('[data-testid="component.drawer.budget.quantity"]').type('bad')
+                cy.get('[data-testid="component.drawer.budget.cost"]').type('bad')
+
+                cy.get(
+                    '[data-testid="component.drawer.budget.total"] > .MuiInputBase-root > input'
+                )
+                    .should('be.visible')
+                    .should('have.class', 'Mui-disabled')
+                    .should('have.value', '0')
+            })
         })
     })
 })
