@@ -12,6 +12,16 @@ var defaultValues: BudgetEditType = {
 
 describe('<BudgetDrawer />', () => {
     beforeEach(() => {
+        cy.intercept('GET', '**/parametros/proyectos**', {
+            statusCode: 200,
+            fixture: 'parameters/projects/active.json',
+        }).as('projects')
+
+        cy.intercept('GET', '**/parametros/partidas**', {
+            statusCode: 200,
+            fixture: 'parameters/budget_items/nonaccum.json',
+        }).as('projects')
+
         cy.mount(
             <TestAppWrapper>
                 <BudgetDrawer
@@ -95,7 +105,7 @@ describe('<BudgetDrawer />', () => {
             })
         })
 
-        describe('should total 0 if a non number is entered either in quantity or cost', () => {
+        describe('before submiting', () => {
             it('enters the quantity wrong', () => {
                 cy.get('[data-testid="component.drawer.budget.quantity"]').type('bad')
                 cy.get('[data-testid="component.drawer.budget.cost"]').type('1.234')
