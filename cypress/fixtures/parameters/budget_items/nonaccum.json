@@ -1,0 +1,14 @@
+[
+  {
+    "id": "3c10969f-b514-4a8c-a934-fc0438766492",
+    "code": "500.1.1",
+    "name": "Project manager",
+    "accumulate": false,
+    "parent": {
+      "id": "8ba2d916-549f-4e8c-9694-04892ca8f2d8",
+      "code": "500.1",
+      "name": "General Spending",
+      "accumulate": true
+    }
+  }
+]
