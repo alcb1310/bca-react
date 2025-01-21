@@ -79,4 +79,20 @@ describe('<BudgetDrawer />', () => {
             .should('be.visible')
             .should('have.text', 'Cancelar')
     })
+
+    describe('validate input data', () => {
+        describe('should multiply the quantity and cost', () => {
+            it('should use decimals in both quantity and cost', () => {
+                cy.get('[data-testid="component.drawer.budget.quantity"]').type('1.234')
+                cy.get('[data-testid="component.drawer.budget.cost"]').type('1.234')
+
+                cy.get(
+                    '[data-testid="component.drawer.budget.total"] > .MuiInputBase-root > input'
+                )
+                    .should('be.visible')
+                    .should('have.class', 'Mui-disabled')
+                    .should('have.value', '1.522756')
+            })
+        })
+    })
 })
