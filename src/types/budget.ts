@@ -24,16 +24,10 @@ export const budgetResponseSchema = z.object({
 export type BudgetResponseType = z.infer<typeof budgetResponseSchema>
 
 export const budgetEditSchema = z.object({
-    project_id: z.string().uuid(),
-    budget_item_id: z.string().uuid(),
-    quantity: z.custom<number>((val) => {
-        const num = parseFloat(val)
-        return !isNaN(num)
-    }, 'La cantidad deber ser un  número'),
-    cost: z.custom<number>((val) => {
-        const num = parseFloat(val)
-        return !isNaN(num)
-    }, 'El costo deber ser un  número'),
+    project_id: z.string().uuid({ message: 'Seleccione un proyecto' }),
+    budget_item_id: z.string().uuid({ message: 'Seleccione una partida' }),
+    quantity: z.coerce.number({ message: 'La cantidad debe ser un número' }),
+    cost: z.coerce.number({ message: 'El costo debe ser un número' }),
     total: z.custom<number>((val) => {
         const num = parseFloat(val)
         return !isNaN(num)

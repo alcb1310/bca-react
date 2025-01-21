@@ -27,7 +27,12 @@ export default function BcaSelect({
                     >
                         {children}
                     </NativeSelect>
-                    <FormHelperText error={!!error} component='span' variant='standard'>
+                    <FormHelperText
+                        className={name}
+                        error={!!error}
+                        component='span'
+                        variant='standard'
+                    >
                         {error?.message}
                     </FormHelperText>
                 </>
