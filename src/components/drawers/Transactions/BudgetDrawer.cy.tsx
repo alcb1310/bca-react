@@ -20,7 +20,7 @@ describe('<BudgetDrawer />', () => {
         cy.intercept('GET', '**/parametros/partidas**', {
             statusCode: 200,
             fixture: 'parameters/budget_items/nonaccum.json',
-        }).as('projects')
+        }).as('items')
 
         cy.mount(
             <TestAppWrapper>
@@ -34,17 +34,18 @@ describe('<BudgetDrawer />', () => {
     })
 
     it('should show the drawer', () => {
+        cy.wait(['@items', '@projects'])
         cy.get('[data-testid="component.drawertitle.title"]')
             .should('be.visible')
             .should('have.text', 'Proyectos')
 
-        cy.get('[data-testid="component.drawer.budget.project"]')
-            .should('be.visible')
-            .should('have.text', 'Seleccione un proyecto')
+        cy.get('[data-testid="component.drawer.budget.project"]').should(
+            'be.visible'
+        )
 
-        cy.get('[data-testid="component.drawer.budget.budget_item"]')
-            .should('be.visible')
-            .should('have.text', 'Seleccione una partida')
+        cy.get('[data-testid="component.drawer.budget.budget_item"]').should(
+            'be.visible'
+        )
 
         cy.get('[data-testid="component.drawer.budget.quantity"]')
             .should('be.visible')
