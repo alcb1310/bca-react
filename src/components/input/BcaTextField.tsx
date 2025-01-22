@@ -30,6 +30,7 @@ export default function BcaTextField({
                         helperText={
                             <FormHelperText
                                 error={!!error}
+                                data-testid={`${dataTestId}.error`}
                                 component='span'
                                 variant='standard'
                             >
