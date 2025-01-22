@@ -69,6 +69,23 @@ describe('<InvoiceDetailsDrawer />', () => {
                     .should('be.disabled')
                     .should('have.value', '1.261129')
             })
+
+            it('should total to 0 when invalid quantity', () => {
+                cy.get(
+                    '[data-testid="component.drawer.transaction.invoice.details.quantity"]'
+                ).type('ñkldjf')
+
+                cy.get(
+                    '[data-testid="component.drawer.transaction.invoice.details.cost"]'
+                ).type('1.123')
+
+                cy.get(
+                    '[data-testid="component.drawer.transaction.invoice.details.total"] > .MuiInputBase-root > input'
+                )
+                    .should('be.visible')
+                    .should('be.disabled')
+                    .should('have.value', '0')
+            })
         })
     })
 })
