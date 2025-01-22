@@ -171,6 +171,27 @@ describe('<BudgetDrawer />', () => {
                     .should('be.visible')
                     .should('have.text', 'El costo debe ser un número')
             })
+
+            it('should error if only the project is invalid', () => {
+                cy.get(
+                    '[data-testid="component.drawer.budget.budget_item"] > .MuiNativeSelect-select'
+                ).select('Project manager')
+                cy.get('[data-testid="component.drawer.budget.quantity"]').type('10')
+                cy.get('[data-testid="component.drawer.budget.cost"]').type('10')
+
+                cy.get('[data-testid="component.button.group.save"]').click()
+
+                cy.get('.project_id')
+                    .should('be.visible')
+                    .should('have.text', 'Seleccione un proyecto')
+
+                cy.get(
+                    '[data-testid="component.drawer.budget.total"] > .MuiInputBase-root > input'
+                )
+                    .should('be.visible')
+                    .should('have.class', 'Mui-disabled')
+                    .should('have.value', '100')
+            })
         })
     })
 })
