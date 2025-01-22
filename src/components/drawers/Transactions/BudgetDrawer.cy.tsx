@@ -145,33 +145,31 @@ describe('<BudgetDrawer />', () => {
         })
 
         describe('submit', () => {
-            describe('invalid data', () => {
-                it('should error with all fieds invalid', () => {
-                    cy.get('[data-testid="component.drawer.budget.quantity"]').type('bad')
-                    cy.get('[data-testid="component.drawer.budget.cost"]').type('bad')
+            it('should error with all fieds invalid', () => {
+                cy.get('[data-testid="component.drawer.budget.quantity"]').type('bad')
+                cy.get('[data-testid="component.drawer.budget.cost"]').type('bad')
 
-                    cy.get('[data-testid="component.button.group.save"]').click()
+                cy.get('[data-testid="component.button.group.save"]').click()
 
-                    cy.get('.project_id')
-                        .should('be.visible')
-                        .should('have.text', 'Seleccione un proyecto')
+                cy.get('.project_id')
+                    .should('be.visible')
+                    .should('have.text', 'Seleccione un proyecto')
 
-                    cy.get('.budget_item_id')
-                        .should('be.visible')
-                        .should('have.text', 'Seleccione una partida')
+                cy.get('.budget_item_id')
+                    .should('be.visible')
+                    .should('have.text', 'Seleccione una partida')
 
-                    cy.get(
-                        '[data-testid="component.drawer.budget.quantity"] > .MuiFormHelperText-root'
-                    )
-                        .should('be.visible')
-                        .should('have.text', 'La cantidad debe ser un número')
+                cy.get(
+                    '[data-testid="component.drawer.budget.quantity"] > .MuiFormHelperText-root'
+                )
+                    .should('be.visible')
+                    .should('have.text', 'La cantidad debe ser un número')
 
-                    cy.get(
-                        '[data-testid="component.drawer.budget.cost"] > .MuiFormHelperText-root'
-                    )
-                        .should('be.visible')
-                        .should('have.text', 'El costo debe ser un número')
-                })
+                cy.get(
+                    '[data-testid="component.drawer.budget.cost"] > .MuiFormHelperText-root'
+                )
+                    .should('be.visible')
+                    .should('have.text', 'El costo debe ser un número')
             })
         })
     })
