@@ -74,6 +74,7 @@ export default function InvoiceDetailsDrawer({
                     <BcaTextField
                         control={control}
                         name='quantity'
+                        data-testid='component.drawer.transaction.invoice.details.quantity'
                         label='Cantidad'
                         onChange={(e) => {
                             if (!isNaN(parseFloat(e.target.value))) {
@@ -89,6 +90,7 @@ export default function InvoiceDetailsDrawer({
                         control={control}
                         name='cost'
                         label='Costo'
+                        data-testid='component.drawer.transaction.invoice.details.cost'
                         onChange={(e) => {
                             if (!isNaN(parseFloat(e.target.value))) {
                                 setValue('cost', parseFloat(e.target.value))
@@ -99,7 +101,13 @@ export default function InvoiceDetailsDrawer({
                             }
                         }}
                     />
-                    <BcaTextField control={control} name='total' label='Total' disabled />
+                    <BcaTextField
+                        data-testid='component.drawer.transaction.invoice.details.total'
+                        control={control}
+                        name='total'
+                        label='Total'
+                        disabled
+                    />
 
                     <ButtonGroup
                         saveFunction={handleSubmit(hadleSubmit)}
