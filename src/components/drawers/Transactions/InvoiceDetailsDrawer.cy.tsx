@@ -50,4 +50,25 @@ describe('<InvoiceDetailsDrawer />', () => {
             .should('be.visible')
             .should('have.text', 'Cancelar')
     })
+
+    describe('data validation', () => {
+        describe('before submit', () => {
+            it('should be able to enter decimal numbers in both quantity and cost', () => {
+                cy.get(
+                    '[data-testid="component.drawer.transaction.invoice.details.quantity"]'
+                ).type('1.123')
+
+                cy.get(
+                    '[data-testid="component.drawer.transaction.invoice.details.cost"]'
+                ).type('1.123')
+
+                cy.get(
+                    '[data-testid="component.drawer.transaction.invoice.details.total"] > .MuiInputBase-root > input'
+                )
+                    .should('be.visible')
+                    .should('be.disabled')
+                    .should('have.value', '1.261129')
+            })
+        })
+    })
 })

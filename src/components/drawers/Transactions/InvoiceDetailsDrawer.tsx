@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useForm } from 'react-hook-form'
+import { useForm, useWatch } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Stack, Typography } from '@mui/material'
 
@@ -28,15 +28,29 @@ export default function InvoiceDetailsDrawer({
 }: InvoiceDetailsDrawerProps) {
     const [conflictError, setConflictError] = useState<string>('')
     const { data: budgetItems } = useGetAllBudgetItemsQuery({ accum: false })
-    const { control, reset, setValue, getValues, handleSubmit } =
-        useForm<InvoiceDetailsCreateType>({
-            defaultValues: { budget_item_id: '', quantity: 0, cost: 0, total: 0 },
-            resolver: zodResolver(invoiceDetailsCreateSchema),
-        })
+    const { control, reset, handleSubmit } = useForm<InvoiceDetailsCreateType>({
+        defaultValues: { budget_item_id: '', quantity: 0, cost: 0, total: 0 },
+        resolver: zodResolver(invoiceDetailsCreateSchema),
+    })
 
     useEffect(() => {
         reset({ budget_item_id: '', quantity: 0, cost: 0, total: 0 })
     }, [open])
+
+    function calculateTotal(): number {
+        const q = results.quantity
+            ? isNaN(results.quantity)
+                ? 0
+                : results.quantity
+            : 0
+
+        const c = results.cost ? (isNaN(results.cost) ? 0 : results.cost) : 0
+
+        return q * c
+    }
+
+    const results = useWatch({ control })
+    const total = calculateTotal()
 
     const [createInvoiceDetail] = useCreateIvoiceDetailsMutation()
 
@@ -76,34 +90,19 @@ export default function InvoiceDetailsDrawer({
                         name='quantity'
                         data-testid='component.drawer.transaction.invoice.details.quantity'
                         label='Cantidad'
-                        onChange={(e) => {
-                            if (!isNaN(parseFloat(e.target.value))) {
-                                setValue('quantity', parseFloat(e.target.value))
-                                setValue(
-                                    'total',
-                                    getValues('cost') * parseFloat(e.target.value)
-                                )
-                            }
-                        }}
                     />
+
                     <BcaTextField
                         control={control}
                         name='cost'
                         label='Costo'
                         data-testid='component.drawer.transaction.invoice.details.cost'
-                        onChange={(e) => {
-                            if (!isNaN(parseFloat(e.target.value))) {
-                                setValue('cost', parseFloat(e.target.value))
-                                setValue(
-                                    'total',
-                                    getValues('quantity') * parseFloat(e.target.value)
-                                )
-                            }
-                        }}
                     />
+
                     <BcaTextField
                         data-testid='component.drawer.transaction.invoice.details.total'
                         control={control}
+                        value={total}
                         name='total'
                         label='Total'
                         disabled
