@@ -192,6 +192,27 @@ describe('<BudgetDrawer />', () => {
                     .should('have.class', 'Mui-disabled')
                     .should('have.value', '100')
             })
+
+            it('should error if only the budget item is invalid', () => {
+                cy.get(
+                    '[data-testid="component.drawer.budget.project"] > .MuiNativeSelect-select'
+                ).select('Test Project 1')
+                cy.get('[data-testid="component.drawer.budget.quantity"]').type('10')
+                cy.get('[data-testid="component.drawer.budget.cost"]').type('20')
+
+                cy.get('[data-testid="component.button.group.save"]').click()
+
+                cy.get(
+                    '[data-testid="component.drawer.budget.total"] > .MuiInputBase-root > input'
+                )
+                    .should('be.visible')
+                    .should('have.class', 'Mui-disabled')
+                    .should('have.value', '200')
+
+                cy.get('.budget_item_id')
+                    .should('be.visible')
+                    .should('have.text', 'Seleccione una partida')
+            })
         })
     })
 })
