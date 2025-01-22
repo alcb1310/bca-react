@@ -229,6 +229,22 @@ describe('<BudgetDrawer />', () => {
                     .should('exist')
                     .should('have.text', 'La cantidad debe ser un número')
             })
+
+            it('should error if invalid cost', () => {
+                cy.get(
+                    '[data-testid="component.drawer.budget.budget_item"] > .MuiNativeSelect-select'
+                ).select('Project manager')
+                cy.get(
+                    '[data-testid="component.drawer.budget.project"] > .MuiNativeSelect-select'
+                ).select('Test Project 1')
+                cy.get('[data-testid="component.drawer.budget.cost"]').type('sdkl')
+                cy.get('[data-testid="component.drawer.budget.quantity"]').type('20')
+
+                cy.get('[data-testid="component.button.group.save"]').click()
+                cy.get('[data-testid="component.drawer.budget.cost.error"]')
+                    .should('exist')
+                    .should('have.text', 'El costo debe ser un número')
+            })
         })
     })
 })
