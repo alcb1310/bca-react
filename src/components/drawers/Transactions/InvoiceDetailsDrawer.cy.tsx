@@ -3,6 +3,11 @@ import InvoiceDetailsDrawer from './InvoiceDetailsDrawer'
 
 describe('<InvoiceDetailsDrawer />', () => {
     beforeEach(() => {
+        cy.intercept('GET', '**/parametros/partidas**', {
+            statusCode: 200,
+            fixture: 'parameters/budget_items/nonaccum.json',
+        }).as('items')
+
         cy.mount(
             <TestAppWrapper>
                 <InvoiceDetailsDrawer open={true} onClose={() => { }} invoiceId={''} />
@@ -11,6 +16,7 @@ describe('<InvoiceDetailsDrawer />', () => {
     })
 
     it('should display the screen', () => {
+        cy.wait('@items')
         cy.get('[data-testid="component.drawertitle.title"]')
             .should('be.visible')
             .should('have.text', 'Detalle')
@@ -102,6 +108,36 @@ describe('<InvoiceDetailsDrawer />', () => {
                     .should('be.visible')
                     .should('be.disabled')
                     .should('have.value', '0')
+            })
+        })
+
+        describe('after submit', () => {
+            it('should display error when all fields are invalid', () => {
+                cy.get(
+                    '[data-testid="component.drawer.transaction.invoice.details.quantity"]'
+                ).type('ñkldjf')
+
+                cy.get(
+                    '[data-testid="component.drawer.transaction.invoice.details.cost"]'
+                ).type('ñldfj')
+
+                cy.get('[data-testid="component.button.group.save"]').click()
+
+                cy.get('.budget_item_id')
+                    .should('be.visible')
+                    .should('have.text', 'Seleccione una partida')
+
+                cy.get(
+                    '[data-testid="component.drawer.transaction.invoice.details.quantity"] > .MuiFormHelperText-root'
+                )
+                    .should('be.visible')
+                    .should('have.text', 'La cantidad debe ser un número')
+
+                cy.get(
+                    '[data-testid="component.drawer.transaction.invoice.details.cost"] > .MuiFormHelperText-root'
+                )
+                    .should('be.visible')
+                    .should('have.text', 'El costo debe ser un número')
             })
         })
     })
