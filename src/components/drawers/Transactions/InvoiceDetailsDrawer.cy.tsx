@@ -162,6 +162,35 @@ describe('<InvoiceDetailsDrawer />', () => {
                     .should('be.disabled')
                     .should('have.value', '1.261129')
             })
+
+            it('should display error when only quantity is invalid', () => {
+                cy.get(
+                    '[data-testid="component.drawer.transaction.invoid.details.budget-item"] > .MuiNativeSelect-select'
+                ).select('Project manager')
+
+                cy.get(
+                    '[data-testid="component.drawer.transaction.invoice.details.quantity"]'
+                ).type('añkdfj')
+
+                cy.get(
+                    '[data-testid="component.drawer.transaction.invoice.details.cost"]'
+                ).type('1.123')
+
+                cy.get('[data-testid="component.button.group.save"]').click()
+
+                cy.get(
+                    '[data-testid="component.drawer.transaction.invoice.details.quantity"] > .MuiFormHelperText-root'
+                )
+                    .should('be.visible')
+                    .should('have.text', 'La cantidad debe ser un número')
+
+                cy.get(
+                    '[data-testid="component.drawer.transaction.invoice.details.total"] > .MuiInputBase-root > input'
+                )
+                    .should('be.visible')
+                    .should('be.disabled')
+                    .should('have.value', '0')
+            })
         })
     })
 })
