@@ -76,7 +76,12 @@ export default function InvoiceDetailsDrawer({
                     {conflictError && (
                         <Typography color='error'>{conflictError}</Typography>
                     )}
-                    <BcaSelect control={control} name='budget_item_id' label='Partida'>
+                    <BcaSelect
+                        datatestid='component.drawer.transaction.invoid.details.budget-item'
+                        control={control}
+                        name='budget_item_id'
+                        label='Partida'
+                    >
                         <option value=''>Seleccione una partida</option>
                         {budgetItems?.map((item) => (
                             <option key={item.id} value={item.id}>
