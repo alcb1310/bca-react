@@ -191,6 +191,35 @@ describe('<InvoiceDetailsDrawer />', () => {
                     .should('be.disabled')
                     .should('have.value', '0')
             })
+
+            it('should display error when only cost is invalid', () => {
+                cy.get(
+                    '[data-testid="component.drawer.transaction.invoid.details.budget-item"] > .MuiNativeSelect-select'
+                ).select('Project manager')
+
+                cy.get(
+                    '[data-testid="component.drawer.transaction.invoice.details.quantity"]'
+                ).type('1.123')
+
+                cy.get(
+                    '[data-testid="component.drawer.transaction.invoice.details.cost"]'
+                ).type('Fadj')
+
+                cy.get('[data-testid="component.button.group.save"]').click()
+
+                cy.get(
+                    '[data-testid="component.drawer.transaction.invoice.details.cost"] > .MuiFormHelperText-root'
+                )
+                    .should('be.visible')
+                    .should('have.text', 'El costo debe ser un número')
+
+                cy.get(
+                    '[data-testid="component.drawer.transaction.invoice.details.total"] > .MuiInputBase-root > input'
+                )
+                    .should('be.visible')
+                    .should('be.disabled')
+                    .should('have.value', '0')
+            })
         })
     })
 })
