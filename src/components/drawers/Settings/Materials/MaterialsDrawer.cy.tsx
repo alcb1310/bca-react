@@ -3,6 +3,11 @@ import MaterialsDrawer from './MaterialsDrawer'
 
 describe('<MaterialsDrawer />', () => {
     beforeEach(() => {
+        cy.intercept('GET', '**parametros/categorias**', {
+            statusCode: 200,
+            fixture: 'parameters/categories/getAllCategories.json',
+        }).as('categorias')
+
         cy.mount(
             <TestAppWrapper>
                 <MaterialsDrawer
@@ -52,5 +57,27 @@ describe('<MaterialsDrawer />', () => {
         cy.get('[data-testid="component.button.group.cancel"]')
             .should('be.visible')
             .should('have.text', 'Cancelar')
+    })
+
+    describe('data validation', () => {
+        it('should display errors in all the fields', () => {
+            cy.get('[data-testid="component.button.group.save"]').click()
+
+            cy.get('[data-testid="component.drawer.setting.materials.code.error"]')
+                .should('be.visible')
+                .should('have.text', 'Código es obligatorio')
+
+            cy.get('[data-testid="component.drawer.setting.materials.name.error"]')
+                .should('be.visible')
+                .should('have.text', 'Nombre es obligatorio')
+
+            cy.get('[data-testid="component.drawer.setting.materials.unit.error"]')
+                .should('be.visible')
+                .should('have.text', 'Unidad es obligatorio')
+
+            cy.get('[data-testid="component.drawer.setting.materials.category"]')
+                .next()
+                .should('have.text', 'Seleccione una categoría')
+        })
     })
 })
