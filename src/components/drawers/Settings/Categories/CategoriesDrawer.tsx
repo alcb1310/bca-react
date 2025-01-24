@@ -5,12 +5,13 @@ import DrawerTitle from '../../../titles/DrawerTitle'
 import BcaDrawer from '../../BcaDrawer/BcaDrawer'
 import BcaTextField from '../../../input/BcaTextField'
 import { useForm } from 'react-hook-form'
-import { CategoryType } from '../../../../types/categories'
+import { categorySchema, CategoryType } from '../../../../types/categories'
 import ButtonGroup from '../../../buttons/button-group'
 import {
     useCreateCategoryMutation,
     useUpdateCategoryMutation,
 } from '../../../../redux/api/bca-backend/parametros/categoriesSlice'
+import { zodResolver } from '@hookform/resolvers/zod'
 
 type CategoriesDrawerProps = {
     open: boolean
@@ -27,6 +28,7 @@ export default function CategoriesDrawer({
 
     const { control, reset, handleSubmit } = useForm<CategoryType>({
         defaultValues,
+        resolver: zodResolver(categorySchema),
     })
 
     const [createCategory] = useCreateCategoryMutation()

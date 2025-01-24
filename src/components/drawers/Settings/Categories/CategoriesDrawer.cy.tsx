@@ -34,4 +34,12 @@ describe('<CategoriesDrawer />', () => {
             .should('be.visible')
             .should('have.text', 'Cancelar')
     })
+
+    it('should validate the information when submit', () => {
+        cy.get('[data-testid="component.button.group.save"]').click()
+
+        cy.get('[data-testid="component.drawer.settings.category.name.error"]')
+            .should('be.visible')
+            .should('have.text', 'Categoría es obligatoria')
+    })
 })
