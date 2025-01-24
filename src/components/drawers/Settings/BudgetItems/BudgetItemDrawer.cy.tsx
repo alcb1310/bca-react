@@ -61,5 +61,20 @@ describe('<BudgetItemDrawer />', () => {
                 .should('be.visible')
                 .should('have.text', 'Nombre es obligatorio')
         })
+
+        it('should show an error if only code is not entered', () => {
+            cy.get('[data-testid="component.drawer.settings.budget.item.name"]').type(
+                'Budget Item Name'
+            )
+            cy.get('[data-testid="component.button.group.save"]').click()
+
+            cy.get('[data-testid="component.drawer.settings.budget.item.code.error"]')
+                .should('be.visible')
+                .should('have.text', 'Código es obligatorio')
+
+            cy.get(
+                '[data-testid="component.drawer.settings.budget.item.name.error"]'
+            ).should('not.be.visible')
+        })
     })
 })
