@@ -83,6 +83,7 @@ export default function CategoriesDrawer({
                     <BcaTextField
                         name='name'
                         label='Categoría'
+                        datatestid='component.drawer.settings.category.name'
                         type='text'
                         control={control}
                     />
