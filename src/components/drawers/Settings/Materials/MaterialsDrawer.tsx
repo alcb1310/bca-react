@@ -77,20 +77,32 @@ export default function MaterialsDrawer({
                 onSubmit={handleSubmit(hadleSubmit)}
             >
                 <BcaTextField
+                    datatestid='component.drawer.setting.materials.code'
                     name='code'
                     label='Código'
                     control={control}
                 />
 
                 <BcaTextField
+                    datatestid='component.drawer.setting.materials.name'
                     name='name'
                     label='Nombre'
                     control={control}
                 />
 
-                <BcaTextField name='unit' label='Unidad' control={control} />
+                <BcaTextField
+                    datatestid='component.drawer.setting.materials.unit'
+                    name='unit'
+                    label='Unidad'
+                    control={control}
+                />
 
-                <BcaSelect name='category.id' label='Categoría' control={control}>
+                <BcaSelect
+                    datatestid='component.drawer.setting.materials.category'
+                    name='category.id'
+                    label='Categoría'
+                    control={control}
+                >
                     <option value=''>Seleccione una categoría</option>
                     {categories?.map((category) => (
                         <option key={category.id} value={category.id}>
