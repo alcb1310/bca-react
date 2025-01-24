@@ -85,15 +85,22 @@ export default function BudgetItemDrawer({
                     )}
 
                     <BcaTextField
+                        datatestid='component.drawer.settings.budget.item.code'
                         name='code'
                         label='Código'
                         control={control}
                     />
 
-                    <BcaTextField name='name' label='Nombre' control={control} />
+                    <BcaTextField
+                        datatestid='component.drawer.settings.budget.item.name'
+                        name='name'
+                        label='Nombre'
+                        control={control}
+                    />
 
                     <BcaSelect
                         name='parent_id'
+                        datatestid='component.drawer.settings.budget.item.parent'
                         label='Padre'
                         control={control}
                         disabled={defaultValues.id ? true : false}
@@ -108,6 +115,7 @@ export default function BudgetItemDrawer({
 
                     <FormControlLabel
                         name='accumulates'
+                        data-testid='component.drawer.settings.budget.item.accumulate'
                         labelPlacement='end'
                         label='Acumula'
                         control={
