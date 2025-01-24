@@ -163,5 +163,37 @@ describe('<MaterialsDrawer />', () => {
                 '[data-testid="component.drawer.setting.materials.name.error"]'
             ).should('not.be.visible')
         })
+
+        it('should display error if only the category is invalid', () => {
+            cy.get('[data-testid="component.drawer.setting.materials.code"]').type(
+                'code'
+            )
+
+            cy.get('[data-testid="component.drawer.setting.materials.name"]').type(
+                'name'
+            )
+
+            cy.get('[data-testid="component.drawer.setting.materials.unit"]').type(
+                'unit'
+            )
+
+            cy.get('[data-testid="component.button.group.save"]').click()
+
+            cy.get(
+                '[data-testid="component.drawer.setting.materials.code.error"]'
+            ).should('not.be.visible')
+
+            cy.get(
+                '[data-testid="component.drawer.setting.materials.name.error"]'
+            ).should('not.be.visible')
+
+            cy.get(
+                '[data-testid="component.drawer.setting.materials.unit.error"]'
+            ).should('not.be.visible')
+
+            cy.get('[data-testid="component.drawer.setting.materials.category"]')
+                .next()
+                .should('have.text', 'Seleccione una categoría')
+        })
     })
 })
