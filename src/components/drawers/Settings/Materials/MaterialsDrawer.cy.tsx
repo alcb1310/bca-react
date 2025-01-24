@@ -79,5 +79,33 @@ describe('<MaterialsDrawer />', () => {
                 .next()
                 .should('have.text', 'Seleccione una categoría')
         })
+
+        it('should display errors if only the code is invalid', () => {
+            cy.get('[data-testid="component.drawer.setting.materials.name"]').type(
+                'name'
+            )
+
+            cy.get('[data-testid="component.drawer.setting.materials.unit"]').type(
+                'unit'
+            )
+
+            cy.get(
+                '[data-testid="component.drawer.setting.materials.category"] > .MuiNativeSelect-select'
+            ).select('Material')
+
+            cy.get('[data-testid="component.button.group.save"]').click()
+
+            cy.get('[data-testid="component.drawer.setting.materials.code.error"]')
+                .should('be.visible')
+                .should('have.text', 'Código es obligatorio')
+
+            cy.get(
+                '[data-testid="component.drawer.setting.materials.name.error"]'
+            ).should('not.be.visible')
+
+            cy.get(
+                '[data-testid="component.drawer.setting.materials.unit.error"]'
+            ).should('not.be.visible')
+        })
     })
 })
