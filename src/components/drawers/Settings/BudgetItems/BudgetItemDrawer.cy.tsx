@@ -2,7 +2,7 @@ import TestAppWrapper from '../../../wrappers/TestAppWraper'
 import BudgetItemDrawer from './BudgetItemDrawer'
 
 describe('<BudgetItemDrawer />', () => {
-    it('should display the drawer', () => {
+    beforeEach(() => {
         cy.mount(
             <TestAppWrapper>
                 <BudgetItemDrawer
@@ -17,7 +17,9 @@ describe('<BudgetItemDrawer />', () => {
                 />
             </TestAppWrapper>
         )
+    })
 
+    it('should display the drawer', () => {
         cy.get('[data-testid="component.drawertitle.title"]')
             .should('be.visible')
             .should('have.text', 'Crear Partida')
@@ -45,5 +47,19 @@ describe('<BudgetItemDrawer />', () => {
         cy.get('[data-testid="component.button.group.cancel"]')
             .should('be.visible')
             .should('have.text', 'Cancelar')
+    })
+
+    describe('data validation after submit', () => {
+        it('show all the errors', () => {
+            cy.get('[data-testid="component.button.group.save"]').click()
+
+            cy.get('[data-testid="component.drawer.settings.budget.item.code.error"]')
+                .should('be.visible')
+                .should('have.text', 'Código es obligatorio')
+
+            cy.get('[data-testid="component.drawer.settings.budget.item.name.error"]')
+                .should('be.visible')
+                .should('have.text', 'Nombre es obligatorio')
+        })
     })
 })
