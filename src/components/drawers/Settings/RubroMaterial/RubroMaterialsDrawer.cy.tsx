@@ -3,6 +3,11 @@ import RubroMaterialsDrawer from './RubroMaterialsDrawer'
 
 describe('<RubroMaterialsDrawer />', () => {
     beforeEach(() => {
+        cy.intercept('GET', '**/parametros/materiales**', {
+            statusCode: 200,
+            fixture: 'parameters/materials/getAllMaterials.json',
+        }).as('materials')
+
         cy.mount(
             <TestAppWrapper>
                 <RubroMaterialsDrawer
@@ -19,6 +24,7 @@ describe('<RubroMaterialsDrawer />', () => {
     })
 
     it('should display all the fields', () => {
+        cy.wait('@materials')
 
         cy.get('[data-testid="component.drawertitle.title"]')
             .should('be.visible')
@@ -78,6 +84,24 @@ describe('<RubroMaterialsDrawer />', () => {
             cy.get('.material_id')
                 .should('be.visible')
                 .should('have.text', 'Seleccione un material')
+        })
+
+        it('should display error if quantity is invalid', () => {
+            cy.get(
+                '[data-testid="component.drawer.settings.rubro.material.material"] > select'
+            ).select('Cemento')
+
+            cy.get(
+                '[data-testid="component.drawer.settings.rubro.material.quantity"]'
+            ).type('lkadjf')
+
+            cy.get('[data-testid="component.button.group.save"]').click()
+
+            cy.get(
+                '[data-testid="component.drawer.settings.rubro.material.quantity.error"]'
+            )
+                .should('be.visible')
+                .should('have.text', 'La cantidad deber ser un  número')
         })
     })
 })
