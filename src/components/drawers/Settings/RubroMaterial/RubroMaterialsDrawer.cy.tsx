@@ -59,5 +59,25 @@ describe('<RubroMaterialsDrawer />', () => {
                 .should('be.visible')
                 .should('have.text', 'La cantidad deber ser un  número')
         })
+
+        it('should display error if material is invalid', () => {
+            cy.get(
+                '[data-testid="component.drawer.settings.rubro.material.quantity"]'
+            ).type('1.123')
+
+            cy.get('[data-testid="component.button.group.save"]').click()
+
+            cy.get(
+                '[data-testid="component.drawer.settings.rubro.material.quantity"] > div > input'
+            ).should('have.value', '01.123')
+
+            cy.get(
+                '[data-testid="component.drawer.settings.rubro.material.quantity.error"]'
+            ).should('not.be.visible')
+
+            cy.get('.material_id')
+                .should('be.visible')
+                .should('have.text', 'Seleccione un material')
+        })
     })
 })
