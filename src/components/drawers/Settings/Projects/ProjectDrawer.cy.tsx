@@ -141,5 +141,44 @@ describe('<ProjectDrawer />', () => {
                 .should('be.visible')
                 .should('have.value', '2787.83')
         })
+
+        it('should display an errorr if only the gross area is invalid', () => {
+            cy.get('[data-testid="component.drawer.settings.project.name"]').type(
+                'name'
+            )
+
+            cy.get('[data-testid="component.drawer.settings.project.net.area"]').type(
+                '2357.23'
+            )
+            cy.get(
+                '[data-testid="component.drawer.settings.project.gross.area"]'
+            ).type('adfja')
+
+            cy.get('[data-testid="component.button.group.save"]').click()
+
+            cy.get(
+                '[data-testid="component.drawer.settings.project.gross.area.error"]'
+            )
+                .should('be.visible')
+                .should('have.text', 'El valor debe ser un número')
+
+            cy.get(
+                '[data-testid="component.drawer.settings.project.name"] > div > input'
+            )
+                .should('be.visible')
+                .should('have.value', 'name')
+
+            cy.get(
+                '[data-testid="component.drawer.settings.project.net.area"] > div > input'
+            )
+                .should('be.visible')
+                .should('have.value', '2357.23')
+
+            cy.get(
+                '[data-testid="component.drawer.settings.project.gross.area"] > div > input'
+            )
+                .should('be.visible')
+                .should('have.value', 'adfja')
+        })
     })
 })
