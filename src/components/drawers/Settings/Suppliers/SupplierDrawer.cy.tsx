@@ -76,5 +76,23 @@ describe('<SupplierDrawer />', () => {
                 .should('be.visible')
                 .should('have.text', 'Nombre es obligatorio')
         })
+
+        it('should display error on empty ruc', () => {
+            cy.get('[data-testid="component.drawer.settings.supplier.name"]').type(
+                'name'
+            )
+
+            cy.get('[data-testid="component.button.group.save"]').click()
+
+            cy.get(
+                '[data-testid="component.drawer.settings.supplier.supplier_id.error"]'
+            )
+                .should('be.visible')
+                .should('have.text', 'Ruc del proveedor es obligatorio')
+
+            cy.get(
+                '[data-testid="component.drawer.settings.supplier.name.error"]'
+            ).should('not.be.visible')
+        })
     })
 })
