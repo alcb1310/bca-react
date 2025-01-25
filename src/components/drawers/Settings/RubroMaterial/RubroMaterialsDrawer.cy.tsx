@@ -2,7 +2,7 @@ import TestAppWrapper from '../../../wrappers/TestAppWraper'
 import RubroMaterialsDrawer from './RubroMaterialsDrawer'
 
 describe('<RubroMaterialsDrawer />', () => {
-    it('should display all the fields', () => {
+    beforeEach(() => {
         cy.mount(
             <TestAppWrapper>
                 <RubroMaterialsDrawer
@@ -16,6 +16,9 @@ describe('<RubroMaterialsDrawer />', () => {
                 />
             </TestAppWrapper>
         )
+    })
+
+    it('should display all the fields', () => {
 
         cy.get('[data-testid="component.drawertitle.title"]')
             .should('be.visible')
@@ -36,5 +39,25 @@ describe('<RubroMaterialsDrawer />', () => {
         cy.get('[data-testid="component.button.group.cancel"]')
             .should('be.visible')
             .should('have.text', 'Cancelar')
+    })
+
+    describe('data validation on submit', () => {
+        it('should display all the errors', () => {
+            cy.get(
+                '[data-testid="component.drawer.settings.rubro.material.quantity"]'
+            ).type('lkadjf')
+
+            cy.get('[data-testid="component.button.group.save"]').click()
+
+            cy.get('.material_id')
+                .should('be.visible')
+                .should('have.text', 'Seleccione un material')
+
+            cy.get(
+                '[data-testid="component.drawer.settings.rubro.material.quantity.error"]'
+            )
+                .should('be.visible')
+                .should('have.text', 'La cantidad deber ser un  número')
+        })
     })
 })
