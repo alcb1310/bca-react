@@ -94,5 +94,21 @@ describe('<SupplierDrawer />', () => {
                 '[data-testid="component.drawer.settings.supplier.name.error"]'
             ).should('not.be.visible')
         })
+
+        it('should display error on invalid name', () => {
+            cy.get(
+                '[data-testid="component.drawer.settings.supplier.supplier_id"]'
+            ).type('asdfqwertp')
+
+            cy.get('[data-testid="component.button.group.save"]').click()
+
+            cy.get('[data-testid="component.drawer.settings.supplier.name.error"]')
+                .should('be.visible')
+                .should('have.text', 'Nombre es obligatorio')
+
+            cy.get(
+                '[data-testid="component.drawer.settings.supplier.supplier_id.error"]'
+            ).should('not.be.visible')
+        })
     })
 })
