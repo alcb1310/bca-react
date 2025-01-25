@@ -79,12 +79,30 @@ export default function ProjectDrawer({
                         {conflictError}
                     </Typography>
                 )}
-                <BcaTextField name='name' label='Nombre' control={control} />
-                <BcaTextField name='net_area' label='Area Bruta' control={control} />
-                <BcaTextField name='gross_area' label='Area Util' control={control} />
+                <BcaTextField
+                    datatestid='component.drawer.settings.project.name'
+                    name='name'
+                    label='Nombre'
+                    control={control}
+                />
+
+                <BcaTextField
+                    datatestid='component.drawer.settings.project.net.area'
+                    name='net_area'
+                    label='Area Bruta'
+                    control={control}
+                />
+
+                <BcaTextField
+                    datatestid='component.drawer.settings.project.gross.area'
+                    name='gross_area'
+                    label='Area Util'
+                    control={control}
+                />
 
                 <FormControlLabel
                     name='is_active'
+                    data-testid='component.drawer.settings.project.active'
                     labelPlacement='end'
                     label='Activo'
                     control={
