@@ -2,7 +2,7 @@ import TestAppWrapper from '../../../wrappers/TestAppWraper'
 import ProjectDrawer from './ProjectDrawer'
 
 describe('<ProjectDrawer />', () => {
-    it('should display all fields', () => {
+    beforeEach(() => {
         cy.mount(
             <TestAppWrapper>
                 <ProjectDrawer
@@ -16,7 +16,9 @@ describe('<ProjectDrawer />', () => {
                 />
             </TestAppWrapper>
         )
+    })
 
+    it('should display all fields', () => {
         cy.get('[data-testid="component.drawertitle.title"]')
             .should('be.visible')
             .should('have.text', 'Proyectos')
@@ -48,5 +50,32 @@ describe('<ProjectDrawer />', () => {
         cy.get('[data-testid="component.button.group.cancel"]')
             .should('be.visible')
             .should('have.text', 'Cancelar')
+    })
+
+    describe('data validation on submit', () => {
+        it('should show all the errors with every value invalid', () => {
+            cy.get('[data-testid="component.drawer.settings.project.net.area"]').type(
+                'lkdf'
+            )
+            cy.get(
+                '[data-testid="component.drawer.settings.project.gross.area"]'
+            ).type('lkdf')
+
+            cy.get('[data-testid="component.button.group.save"]').click()
+
+            cy.get('[data-testid="component.drawer.settings.project.name.error"]')
+                .should('be.visible')
+                .should('have.text', 'El nombre es requerido')
+
+            cy.get('[data-testid="component.drawer.settings.project.net.area.error"]')
+                .should('be.visible')
+                .should('have.text', 'El valor debe ser un número')
+
+            cy.get(
+                '[data-testid="component.drawer.settings.project.gross.area.error"]'
+            )
+                .should('be.visible')
+                .should('have.text', 'El valor debe ser un número')
+        })
     })
 })
