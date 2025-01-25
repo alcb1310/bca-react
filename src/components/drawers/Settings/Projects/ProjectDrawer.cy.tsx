@@ -180,5 +180,21 @@ describe('<ProjectDrawer />', () => {
                 .should('be.visible')
                 .should('have.value', 'adfja')
         })
+
+        it('should allow to only type a ame', () => {
+            cy.get('[data-testid="component.drawer.settings.project.name"]').type(
+                'name'
+            )
+
+            cy.get('[data-testid="component.button.group.save"]').click()
+
+            cy.get(
+                '[data-testid="component.drawer.settings.project.net.area.error"]'
+            ).should('not.be.visible')
+
+            cy.get(
+                '[data-testid="component.drawer.settings.project.gross.area.error"]'
+            ).should('not.be.visible')
+        })
     })
 })
