@@ -90,6 +90,7 @@ function RubroMaterialsDrawer({
                 <BcaSelect
                     name='material_id'
                     label='Material'
+                    datatestid='component.drawer.settings.rubro.material.material'
                     control={control}
                     disabled={defaultValues.material_id ? true : false}
                 >
@@ -101,7 +102,12 @@ function RubroMaterialsDrawer({
                     ))}
                 </BcaSelect>
 
-                <BcaTextField name='quantity' label='Cantidad' control={control} />
+                <BcaTextField
+                    datatestid='component.drawer.settings.rubro.material.quantity'
+                    name='quantity'
+                    label='Cantidad'
+                    control={control}
+                />
 
                 <ButtonGroup
                     saveFunction={handleSubmit(hadleSubmit)}
