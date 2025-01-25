@@ -77,5 +77,32 @@ describe('<ProjectDrawer />', () => {
                 .should('be.visible')
                 .should('have.text', 'El valor debe ser un número')
         })
+
+        it('should display an error only if the name is invalid', () => {
+            cy.get('[data-testid="component.drawer.settings.project.net.area"]').type(
+                '2540.45'
+            )
+            cy.get(
+                '[data-testid="component.drawer.settings.project.gross.area"]'
+            ).type('2787.83')
+
+            cy.get('[data-testid="component.button.group.save"]').click()
+
+            cy.get('[data-testid="component.drawer.settings.project.name.error"]')
+                .should('be.visible')
+                .should('have.text', 'El nombre es requerido')
+
+            cy.get(
+                '[data-testid="component.drawer.settings.project.net.area"] > div > input'
+            )
+                .should('be.visible')
+                .should('have.value', '2540.45')
+
+            cy.get(
+                '[data-testid="component.drawer.settings.project.gross.area"] > div > input'
+            )
+                .should('be.visible')
+                .should('have.value', '2787.83')
+        })
     })
 })
