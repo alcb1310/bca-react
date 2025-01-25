@@ -70,20 +70,37 @@ export default function SupplierDrawer({
                 {conflictError && (
                     <Typography color='error'>{conflictError}</Typography>
                 )}
-                <BcaTextField name='supplier_id' control={control} label='Ruc' />
-                <BcaTextField name='name' control={control} label='Nombre' />
+                <BcaTextField
+                    datatestid='component.drawer.settings.supplier.supplier_id'
+                    name='supplier_id'
+                    control={control}
+                    label='Ruc'
+                />
+
+                <BcaTextField
+                    datatestid='component.drawer.settings.supplier.name'
+                    name='name'
+                    control={control}
+                    label='Nombre'
+                />
+
                 <BcaTextField
                     name='contact_name'
+                    datatestid='component.drawer.settings.supplier.contact_name'
                     control={control}
                     label='Nombre Contacto'
                 />
+
                 <BcaTextField
                     name='contact_email'
+                    datatestid='component.drawer.settings.supplier.contact_email'
                     control={control}
                     label='Email Contacto'
                 />
+
                 <BcaTextField
                     name='contact_phone'
+                    datatestid='component.drawer.settings.supplier.contact_phone'
                     control={control}
                     label='Telefono Contacto'
                 />
