@@ -1,8 +1,6 @@
 import TestAppWrapper from '../../../wrappers/TestAppWraper'
 import SupplierDrawer from './SupplierDrawer'
 
-// This is a comment
-
 describe('<SupplierDrawer />', () => {
     beforeEach(() => {
         cy.mount(
@@ -89,6 +87,28 @@ describe('<SupplierDrawer />', () => {
             )
                 .should('be.visible')
                 .should('have.text', 'Ruc del proveedor es obligatorio')
+
+            cy.get(
+                '[data-testid="component.drawer.settings.supplier.name.error"]'
+            ).should('not.be.visible')
+        })
+
+        it('should display error on invalid ruc', () => {
+            cy.get(
+                '[data-testid="component.drawer.settings.supplier.supplier_id"]'
+            ).type('invalid')
+
+            cy.get('[data-testid="component.drawer.settings.supplier.name"]').type(
+                'name'
+            )
+
+            cy.get('[data-testid="component.button.group.save"]').click()
+
+            cy.get(
+                '[data-testid="component.drawer.settings.supplier.supplier_id.error"]'
+            )
+                .should('be.visible')
+                .should('have.text', 'Ruc inválido')
 
             cy.get(
                 '[data-testid="component.drawer.settings.supplier.name.error"]'
