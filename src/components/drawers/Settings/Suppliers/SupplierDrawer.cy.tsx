@@ -1,8 +1,10 @@
 import TestAppWrapper from '../../../wrappers/TestAppWraper'
 import SupplierDrawer from './SupplierDrawer'
 
+// This is a comment
+
 describe('<SupplierDrawer />', () => {
-    it('should display all the fields', () => {
+    beforeEach(() => {
         cy.mount(
             <TestAppWrapper>
                 <SupplierDrawer
@@ -16,7 +18,9 @@ describe('<SupplierDrawer />', () => {
                 />
             </TestAppWrapper>
         )
+    })
 
+    it('should display all the fields', () => {
         cy.get('[data-testid="component.drawertitle.title"]')
             .should('be.visible')
             .should('have.text', 'Proveedor')
@@ -56,5 +60,21 @@ describe('<SupplierDrawer />', () => {
         cy.get('[data-testid="component.button.group.cancel"]')
             .should('be.visible')
             .should('have.text', 'Cancelar')
+    })
+
+    describe('validate on submit', () => {
+        it('should display error on all required fields', () => {
+            cy.get('[data-testid="component.button.group.save"]').click()
+
+            cy.get(
+                '[data-testid="component.drawer.settings.supplier.supplier_id.error"]'
+            )
+                .should('be.visible')
+                .should('have.text', 'Ruc del proveedor es obligatorio')
+
+            cy.get('[data-testid="component.drawer.settings.supplier.name.error"]')
+                .should('be.visible')
+                .should('have.text', 'Nombre es obligatorio')
+        })
     })
 })
