@@ -244,4 +244,89 @@ describe('<BudgetDrawer />', () => {
             })
         })
     })
+
+    describe('create budget', () => {
+        it('should display all values', () => {
+            cy.intercept('GET', '**/parametros/proyectos**', {
+                statusCode: 200,
+                fixture: 'parameters/projects/active.json',
+            }).as('projects')
+
+            cy.intercept('GET', '**/parametros/partidas**', {
+                statusCode: 200,
+                fixture: 'parameters/budget_items/nonaccum.json',
+            }).as('items')
+
+            cy.mount(
+                <TestAppWrapper>
+                    <BudgetDrawer
+                        open={true}
+                        onClose={() => { }}
+                        defaultValues={{
+                            project_id: 'e4b2eaf2-1d98-4493-bf2d-15938ef3057b',
+                            budget_item_id: '3c10969f-b514-4a8c-a934-fc0438766492',
+                            quantity: 10,
+                            cost: 12.45,
+                            total: 124.5,
+                        }}
+                    />
+                </TestAppWrapper>
+            )
+            cy.get('[data-testid="component.drawertitle.title"]')
+                .should('be.visible')
+                .should('have.text', 'Editar Presupuesto')
+
+            cy.get('[data-testid="component.drawer.budget.project"]')
+                .find('select')
+                .should('be.visible')
+                .should('be.disabled')
+                .invoke('val')
+                .should('eq', 'e4b2eaf2-1d98-4493-bf2d-15938ef3057b')
+
+            cy.get('[data-testid="component.drawer.budget.budget_item"]')
+                .find('select')
+                .should('be.visible')
+                .should('be.disabled')
+                .invoke('val')
+                .should('eq', '3c10969f-b514-4a8c-a934-fc0438766492')
+
+            cy.get('[data-testid="component.drawer.budget.quantity"]')
+                .find('label')
+                .should('be.visible')
+                .should('have.text', 'Cantidad')
+            cy.get('[data-testid="component.drawer.budget.quantity"]')
+                .find('input')
+                .should('be.visible')
+                .should('not.be.disabled')
+                .should('have.value', '10')
+
+            cy.get('[data-testid="component.drawer.budget.cost"]')
+                .find('label')
+                .should('be.visible')
+                .should('have.text', 'Costo')
+            cy.get('[data-testid="component.drawer.budget.cost"]')
+                .find('input')
+                .should('be.visible')
+                .should('not.be.disabled')
+                .should('have.value', '12.45')
+
+            cy.get('[data-testid="component.drawer.budget.total"]')
+                .find('label')
+                .should('be.visible')
+                .should('have.text', 'Total')
+            cy.get('[data-testid="component.drawer.budget.total"]')
+                .find('input')
+                .should('be.visible')
+                .should('be.disabled')
+                .should('have.value', '124.5')
+
+            cy.get('[data-testid="component.button.group.save"]')
+                .should('be.visible')
+                .should('have.text', 'Guardar')
+
+            cy.get('[data-testid="component.button.group.cancel"]')
+                .should('be.visible')
+                .should('have.text', 'Cancelar')
+        })
+    })
 })

@@ -120,6 +120,7 @@ export default function BudgetDrawer({
                             control={control}
                             name='project_id'
                             label='Proyectos'
+                            disabled={!!defaultValues.project_id}
                         >
                             <option value=''>Seleccione un proyecto</option>
                             {projects?.map((project) => (
@@ -134,6 +135,7 @@ export default function BudgetDrawer({
                             control={control}
                             name='budget_item_id'
                             label='Partida'
+                            disabled={!!defaultValues.budget_item_id}
                         >
                             <option value=''>Seleccione una partida</option>
                             {budgetItems?.map((budgetItem) => (
