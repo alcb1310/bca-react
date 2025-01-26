@@ -61,7 +61,10 @@ export default function SupplierDrawer({
 
     return (
         <BcaDrawer open={open} onClose={onClose}>
-            <DrawerTitle title='Proveedor' close={onClose} />
+            <DrawerTitle
+                title={defaultValues.id ? 'Editar Proveedor' : 'Crear Proveedor'}
+                close={onClose}
+            />
 
             <form
                 className='mt-5 flex flex-col gap-5'
