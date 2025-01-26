@@ -93,6 +93,7 @@ export default function UsersDrawer({
 
                     <BcaTextField
                         name='email'
+                        datatestid='component.drawer.user.email'
                         label='Email'
                         type='email'
                         control={control}
@@ -101,6 +102,7 @@ export default function UsersDrawer({
 
                     <BcaTextField
                         name='name'
+                        datatestid='component.drawer.user.name'
                         label='Nombre'
                         type='text'
                         control={control}
@@ -109,6 +111,7 @@ export default function UsersDrawer({
                     {'password' in userData && (
                         <BcaTextField
                             name='password'
+                            datatestid='component.drawer.user.password'
                             type='password'
                             label='Contraseña'
                             disabled={'id' in userData}
