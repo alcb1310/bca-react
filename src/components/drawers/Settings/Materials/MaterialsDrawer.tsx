@@ -67,7 +67,10 @@ export default function MaterialsDrawer({
 
     return (
         <BcaDrawer open={open} onClose={onClose}>
-            <DrawerTitle title='Crear Material' close={onClose} />
+            <DrawerTitle
+                title={defaultValues.id ? 'Editar Material' : 'Crear Material'}
+                close={onClose}
+            />
 
             {isLoading && <CircularProgress />}
             {conflictError && <Typography color='error'>{conflictError}</Typography>}
