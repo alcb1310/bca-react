@@ -83,6 +83,27 @@ describe('<UsersDrawer />', () => {
                     'not.be.visible'
                 )
             })
+
+            it('error if only email is missing', () => {
+                cy.get('[data-testid="component.drawer.user.name"]').type('name')
+                cy.get('[data-testid="component.drawer.user.password"]').type(
+                    'password'
+                )
+
+                cy.get('[data-testid="component.button.group.save"]').click()
+
+                cy.get('[data-testid="component.drawer.user.email.error"]')
+                    .should('be.visible')
+                    .should('have.text', 'Email es obligatorio')
+
+                cy.get('[data-testid="component.drawer.user.name.error"]').should(
+                    'not.be.visible'
+                )
+
+                cy.get('[data-testid="component.drawer.user.password.error"]').should(
+                    'not.be.visible'
+                )
+            })
         })
     })
 })
