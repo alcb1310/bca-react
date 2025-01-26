@@ -76,7 +76,10 @@ function RubroMaterialsDrawer({
 
     return (
         <BcaDrawer open={open} onClose={onClose}>
-            <DrawerTitle title='Material' close={onClose} />
+            <DrawerTitle
+                title={defaultValues.material_id ? 'Editar Material' : 'Crear Material'}
+                close={onClose}
+            />
 
             <form
                 className='mt-5 flex flex-col gap-5'
