@@ -126,5 +126,28 @@ describe('<UsersDrawer />', () => {
                 )
             })
         })
+
+        describe('password', () => {
+            it('requires a password', () => {
+                cy.get('[data-testid="component.drawer.user.email"]').type(
+                    'email@test.com'
+                )
+                cy.get('[data-testid="component.drawer.user.name"]').type('name')
+
+                cy.get('[data-testid="component.button.group.save"]').click()
+
+                cy.get('[data-testid="component.drawer.user.email.error"]').should(
+                    'not.be.visible'
+                )
+
+                cy.get('[data-testid="component.drawer.user.name.error"]').should(
+                    'not.be.visible'
+                )
+
+                cy.get('[data-testid="component.drawer.user.password.error"]')
+                    .should('be.visible')
+                    .should('have.text', 'Contraseña es obligatoria')
+            })
+        })
     })
 })
