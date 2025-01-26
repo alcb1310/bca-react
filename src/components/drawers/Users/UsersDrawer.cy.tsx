@@ -172,4 +172,52 @@ describe('<UsersDrawer />', () => {
             })
         })
     })
+
+    describe.only('Update user', () => {
+        it('should display all fieds', () => {
+            cy.mount(
+                <TestAppWrapper>
+                    <UsersDrawer
+                        open={true}
+                        onClose={() => { }}
+                        userData={{
+                            id: '',
+                            name: 'Test',
+                            email: 'email@test.com',
+                            company_id: '',
+                            role_id: 'a',
+                        }}
+                    />
+                </TestAppWrapper>
+            )
+            cy.get('[data-testid="component.drawertitle.title"]')
+                .should('be.visible')
+                .should('have.text', 'Editar usuario')
+
+            cy.get('[data-testid="component.drawer.user.email"] > label')
+                .should('exist')
+                .should('have.text', 'Email')
+
+            cy.get('[data-testid="component.drawer.user.email"] > div> input')
+                .should('be.visible')
+                .should('have.value', 'email@test.com')
+                .should('not.be.enabled')
+
+            cy.get('[data-testid="component.drawer.user.name"] > label')
+                .should('exist')
+                .should('have.text', 'Nombre')
+
+            cy.get('[data-testid="component.drawer.user.name"] > div> input')
+                .should('be.visible')
+                .should('have.value', 'Test')
+
+            cy.get('[data-testid="component.button.group.save"]')
+                .should('be.visible')
+                .should('have.text', 'Guardar')
+
+            cy.get('[data-testid="component.button.group.cancel"]')
+                .should('be.visible')
+                .should('have.text', 'Cancelar')
+        })
+    })
 })
