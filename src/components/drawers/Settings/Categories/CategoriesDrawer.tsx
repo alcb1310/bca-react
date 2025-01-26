@@ -69,7 +69,10 @@ export default function CategoriesDrawer({
 
     return (
         <BcaDrawer open={open} onClose={onClose}>
-            <DrawerTitle title='Crear Categorias' close={onClose} />
+            <DrawerTitle
+                title={defaultValues.id ? 'Editar Categoria' : 'Crear Categorias'}
+                close={onClose}
+            />
 
             <Box mt={2}>
                 <form
