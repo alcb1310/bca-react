@@ -1,14 +1,5 @@
-import { BudgetEditType } from '../../../types/budget'
 import TestAppWrapper from '../../wrappers/TestAppWraper'
 import BudgetDrawer from './BudgetDrawer'
-
-var defaultValues: BudgetEditType = {
-    project_id: '',
-    budget_item_id: '',
-    quantity: 0,
-    cost: 0,
-    total: 0,
-}
 
 describe('<BudgetDrawer />', () => {
     describe('create budget', () => {
@@ -28,7 +19,13 @@ describe('<BudgetDrawer />', () => {
                     <BudgetDrawer
                         open={true}
                         onClose={() => { }}
-                        defaultValues={defaultValues}
+                        defaultValues={{
+                            project_id: '',
+                            budget_item_id: '',
+                            quantity: 0,
+                            cost: 0,
+                            total: 0,
+                        }}
                     />
                 </TestAppWrapper>
             )
@@ -82,7 +79,7 @@ describe('<BudgetDrawer />', () => {
             cy.get('[data-testid="component.drawer.budget.total"]')
                 .find('input')
                 .should('be.visible')
-                .should('have.class', 'Mui-disabled')
+                .should('be.disabled')
                 .should('have.value', '0')
 
             cy.get('[data-testid="component.button.group.save"]')
@@ -105,7 +102,7 @@ describe('<BudgetDrawer />', () => {
                     cy.get('[data-testid="component.drawer.budget.total"]')
                         .find('input')
                         .should('be.visible')
-                        .should('have.class', 'Mui-disabled')
+                        .should('be.disabled')
                         .should('have.value', '1.522756')
                 })
             })
@@ -118,7 +115,7 @@ describe('<BudgetDrawer />', () => {
                     cy.get('[data-testid="component.drawer.budget.total"]')
                         .find('input')
                         .should('be.visible')
-                        .should('have.class', 'Mui-disabled')
+                        .should('be.disabled')
                         .should('have.value', '0')
                 })
 
@@ -131,7 +128,7 @@ describe('<BudgetDrawer />', () => {
                     cy.get('[data-testid="component.drawer.budget.total"]')
                         .find('input')
                         .should('be.visible')
-                        .should('have.class', 'Mui-disabled')
+                        .should('be.disabled')
                         .should('have.value', '0')
                 })
 
@@ -142,7 +139,7 @@ describe('<BudgetDrawer />', () => {
                     cy.get('[data-testid="component.drawer.budget.total"]')
                         .find('input')
                         .should('be.visible')
-                        .should('have.class', 'Mui-disabled')
+                        .should('be.disabled')
                         .should('have.value', '0')
                 })
             })
@@ -187,7 +184,7 @@ describe('<BudgetDrawer />', () => {
                     cy.get('[data-testid="component.drawer.budget.total"]')
                         .find('input')
                         .should('be.visible')
-                        .should('have.class', 'Mui-disabled')
+                        .should('be.disabled')
                         .should('have.value', '100')
                 })
 
@@ -203,7 +200,7 @@ describe('<BudgetDrawer />', () => {
                     cy.get('[data-testid="component.drawer.budget.total"]')
                         .find('input')
                         .should('be.visible')
-                        .should('have.class', 'Mui-disabled')
+                        .should('be.disabled')
                         .should('have.value', '200')
 
                     cy.get('.budget_item_id')
