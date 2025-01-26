@@ -148,6 +148,28 @@ describe('<UsersDrawer />', () => {
                     .should('be.visible')
                     .should('have.text', 'Contraseña es obligatoria')
             })
+
+            it('should require at least 8 char password', () => {
+                cy.get('[data-testid="component.drawer.user.email"]').type(
+                    'email@test.com'
+                )
+                cy.get('[data-testid="component.drawer.user.name"]').type('name')
+                cy.get('[data-testid="component.drawer.user.password"]').type('pas')
+
+                cy.get('[data-testid="component.button.group.save"]').click()
+
+                cy.get('[data-testid="component.drawer.user.email.error"]').should(
+                    'not.be.visible'
+                )
+
+                cy.get('[data-testid="component.drawer.user.name.error"]').should(
+                    'not.be.visible'
+                )
+
+                cy.get('[data-testid="component.drawer.user.password.error"]')
+                    .should('be.visible')
+                    .should('have.text', 'Contraseña debe ser mayor a 8 caracteres')
+            })
         })
     })
 })
