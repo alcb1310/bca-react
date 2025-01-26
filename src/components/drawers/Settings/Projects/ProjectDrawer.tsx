@@ -68,7 +68,10 @@ export default function ProjectDrawer({
 
     return (
         <BcaDrawer open={open} onClose={onClose}>
-            <DrawerTitle title='Proyectos' close={onClose} />
+            <DrawerTitle
+                title={defaultValues.id ? 'Editar Proyecto' : 'Crear Proyecto'}
+                close={onClose}
+            />
 
             <form
                 className='mt-5 flex flex-col gap-5'

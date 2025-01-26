@@ -22,7 +22,7 @@ describe('<ProjectDrawer />', () => {
         it('should display all fields', () => {
             cy.get('[data-testid="component.drawertitle.title"]')
                 .should('be.visible')
-                .should('have.text', 'Proyectos')
+                .should('have.text', 'Crear Proyecto')
 
             cy.get('[data-testid="component.drawer.settings.project.name"]')
                 .find('label')
@@ -213,7 +213,7 @@ describe('<ProjectDrawer />', () => {
 
             cy.get('[data-testid="component.drawertitle.title"]')
                 .should('be.visible')
-                .should('have.text', 'Proyectos')
+                .should('have.text', 'Editar Proyecto')
 
             cy.get('[data-testid="component.drawer.settings.project.name"]')
                 .find('input')
@@ -252,7 +252,7 @@ describe('<ProjectDrawer />', () => {
 
             cy.get('[data-testid="component.drawertitle.title"]')
                 .should('be.visible')
-                .should('have.text', 'Proyectos')
+                .should('have.text', 'Editar Proyecto')
 
             cy.get('[data-testid="component.drawer.settings.project.name"]')
                 .find('input')
