@@ -106,4 +106,53 @@ describe('<BudgetItemDrawer />', () => {
             })
         })
     })
+
+    describe('Edit a budget item', () => {
+        it('should display all the fields with no parent', () => {
+            cy.mount(
+                <TestAppWrapper>
+                    <BudgetItemDrawer
+                        open={true}
+                        onClose={(): void => { }}
+                        defaultValues={{
+                            id: '661129c8-f4ac-4a9a-b484-c40f9ec4d3e4',
+                            code: '200',
+                            name: 'Gastos Generales',
+                            accumulate: true,
+                        }}
+                    />
+                </TestAppWrapper>
+            )
+            cy.get('[data-testid="component.drawertitle.title"]')
+                .should('be.visible')
+                .should('have.text', 'Editar Partida')
+
+            cy.get(
+                '[data-testid="component.drawer.settings.budget.item.code"] > div > input'
+            )
+                .should('be.visible')
+                .should('have.value', '200')
+
+            cy.get(
+                '[data-testid="component.drawer.settings.budget.item.name"] > div > input'
+            )
+                .should('be.visible')
+                .should('have.value', 'Gastos Generales')
+
+            cy.get(
+                '[data-testid="component.drawer.settings.budget.item.parent"] > select'
+            )
+                .should('be.disabled')
+                .invoke('val')
+                .should('eq', '')
+
+            cy.get('[data-testid="component.button.group.save"]')
+                .should('be.visible')
+                .should('have.text', 'Guardar')
+
+            cy.get('[data-testid="component.button.group.cancel"]')
+                .should('be.visible')
+                .should('have.text', 'Cancelar')
+        })
+    })
 })
