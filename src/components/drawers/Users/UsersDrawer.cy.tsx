@@ -173,8 +173,8 @@ describe('<UsersDrawer />', () => {
         })
     })
 
-    describe.only('Update user', () => {
-        it('should display all fieds', () => {
+    describe('Update user', () => {
+        beforeEach(() => {
             cy.mount(
                 <TestAppWrapper>
                     <UsersDrawer
@@ -190,6 +190,9 @@ describe('<UsersDrawer />', () => {
                     />
                 </TestAppWrapper>
             )
+        })
+
+        it('should display all fieds', () => {
             cy.get('[data-testid="component.drawertitle.title"]')
                 .should('be.visible')
                 .should('have.text', 'Editar usuario')
@@ -218,6 +221,20 @@ describe('<UsersDrawer />', () => {
             cy.get('[data-testid="component.button.group.cancel"]')
                 .should('be.visible')
                 .should('have.text', 'Cancelar')
+        })
+
+        it('should validate name', () => {
+            cy.get('[data-testid="component.drawer.user.name"] > div> input').clear()
+
+            cy.get('[data-testid="component.button.group.save"]').click()
+
+            cy.get('[data-testid="component.drawer.user.email.error"]').should(
+                'not.be.visible'
+            )
+
+            cy.get('[data-testid="component.drawer.user.name.error"]')
+                .should('be.visible')
+                .should('have.text', 'Nombre es obligatorio')
         })
     })
 })
