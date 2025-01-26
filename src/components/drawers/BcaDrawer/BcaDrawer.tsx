@@ -7,21 +7,25 @@ type BcaDrawerProps = {
     width?: string
 }
 
-export default function BcaDrawer({ open, onClose, children, width }: BcaDrawerProps) {
-    const drawerWidth = !width ? '300px' : width
-
+export default function BcaDrawer({
+    open,
+    onClose,
+    children,
+    width = '300px',
+}: BcaDrawerProps) {
     return (
         <Drawer
             anchor='right'
+            data-testid='component.drawer'
             open={open}
             onClose={onClose}
             PaperProps={{
                 elevation: 8,
             }}
             sx={{
-                width: drawerWidth,
+                width: width,
                 '& .MuiDrawer-paper': {
-                    width: drawerWidth,
+                    width: width,
                     boxSizing: 'border-box',
                 },
             }}
