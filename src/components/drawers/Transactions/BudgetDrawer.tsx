@@ -98,7 +98,14 @@ export default function BudgetDrawer({
     return (
         <>
             <BcaDrawer open={open} onClose={onClose}>
-                <DrawerTitle title='Proyectos' close={onClose} />
+                <DrawerTitle
+                    title={
+                        defaultValues.project_id
+                            ? 'Editar Presupuesto'
+                            : 'Crear Presupuesto'
+                    }
+                    close={onClose}
+                />
 
                 <Box mt={2}>
                     <form

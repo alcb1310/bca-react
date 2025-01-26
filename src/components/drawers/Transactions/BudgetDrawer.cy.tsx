@@ -11,229 +11,239 @@ var defaultValues: BudgetEditType = {
 }
 
 describe('<BudgetDrawer />', () => {
-    beforeEach(() => {
-        cy.intercept('GET', '**/parametros/proyectos**', {
-            statusCode: 200,
-            fixture: 'parameters/projects/active.json',
-        }).as('projects')
+    describe('create budget', () => {
+        beforeEach(() => {
+            cy.intercept('GET', '**/parametros/proyectos**', {
+                statusCode: 200,
+                fixture: 'parameters/projects/active.json',
+            }).as('projects')
 
-        cy.intercept('GET', '**/parametros/partidas**', {
-            statusCode: 200,
-            fixture: 'parameters/budget_items/nonaccum.json',
-        }).as('items')
+            cy.intercept('GET', '**/parametros/partidas**', {
+                statusCode: 200,
+                fixture: 'parameters/budget_items/nonaccum.json',
+            }).as('items')
 
-        cy.mount(
-            <TestAppWrapper>
-                <BudgetDrawer
-                    open={true}
-                    onClose={() => { }}
-                    defaultValues={defaultValues}
-                />
-            </TestAppWrapper>
-        )
-    })
-
-    it('should show the drawer', () => {
-        cy.wait(['@items', '@projects'])
-        cy.get('[data-testid="component.drawertitle.title"]')
-            .should('be.visible')
-            .should('have.text', 'Proyectos')
-
-        cy.get('[data-testid="component.drawer.budget.project"]').should(
-            'be.visible'
-        )
-
-        cy.get('[data-testid="component.drawer.budget.budget_item"]').should(
-            'be.visible'
-        )
-
-        cy.get('[data-testid="component.drawer.budget.quantity"]')
-            .should('be.visible')
-            .should('not.be.disabled')
-        cy.get('[data-testid="component.drawer.budget.quantity"]')
-            .find('label')
-            .should('be.visible')
-            .should('have.text', 'Cantidad')
-        cy.get('[data-testid="component.drawer.budget.quantity"]')
-            .find('input')
-            .should('be.visible')
-            .should('have.value', '0')
-
-        cy.get('[data-testid="component.drawer.budget.cost"]')
-            .should('be.visible')
-            .should('not.be.disabled')
-        cy.get('[data-testid="component.drawer.budget.cost"]')
-            .find('label')
-            .should('be.visible')
-            .should('have.text', 'Costo')
-        cy.get('[data-testid="component.drawer.budget.cost"]')
-            .find('input')
-            .should('be.visible')
-            .should('have.value', '0')
-
-        cy.get('[data-testid="component.drawer.budget.total"]').should('be.visible')
-        cy.get('[data-testid="component.drawer.budget.total"]')
-            .find('label')
-            .should('be.visible')
-            .should('have.text', 'Total')
-        cy.get('[data-testid="component.drawer.budget.total"]')
-            .find('input')
-            .should('be.visible')
-            .should('have.class', 'Mui-disabled')
-            .should('have.value', '0')
-
-        cy.get('[data-testid="component.button.group.save"]')
-            .should('be.visible')
-            .should('have.text', 'Guardar')
-
-        cy.get('[data-testid="component.button.group.cancel"]')
-            .should('be.visible')
-            .should('have.text', 'Cancelar')
-    })
-
-    describe('validate input data', () => {
-        describe('should multiply the quantity and cost', () => {
-            it('should use decimals in both quantity and cost', () => {
-                cy.get('[data-testid="component.drawer.budget.quantity"]').type('1.234')
-                cy.get('[data-testid="component.drawer.budget.cost"]').type('1.234')
-
-                cy.get('[data-testid="component.drawer.budget.total"]')
-                    .find('input')
-                    .should('be.visible')
-                    .should('have.class', 'Mui-disabled')
-                    .should('have.value', '1.522756')
-            })
+            cy.mount(
+                <TestAppWrapper>
+                    <BudgetDrawer
+                        open={true}
+                        onClose={() => { }}
+                        defaultValues={defaultValues}
+                    />
+                </TestAppWrapper>
+            )
         })
 
-        describe('before submiting', () => {
-            it('enters the quantity wrong', () => {
-                cy.get('[data-testid="component.drawer.budget.quantity"]').type('bad')
-                cy.get('[data-testid="component.drawer.budget.cost"]').type('1.234')
+        it('should show the drawer', () => {
+            cy.wait(['@items', '@projects'])
+            cy.get('[data-testid="component.drawertitle.title"]')
+                .should('be.visible')
+                .should('have.text', 'Crear Presupuesto')
 
-                cy.get('[data-testid="component.drawer.budget.total"]')
-                    .find('input')
-                    .should('be.visible')
-                    .should('have.class', 'Mui-disabled')
-                    .should('have.value', '0')
-            })
+            cy.get('[data-testid="component.drawer.budget.project"]').should(
+                'be.visible'
+            )
 
-            it('enters the cost wrong', () => {
-                cy.get('[data-testid="component.drawer.budget.quantity"]').type('1.234')
-                cy.get('[data-testid="component.drawer.budget.cost"]').type('bad')
+            cy.get('[data-testid="component.drawer.budget.budget_item"]').should(
+                'be.visible'
+            )
 
-                cy.get('[data-testid="component.drawer.budget.total"]')
-                    .find('input')
-                    .should('be.visible')
-                    .should('have.class', 'Mui-disabled')
-                    .should('have.value', '0')
-            })
+            cy.get('[data-testid="component.drawer.budget.quantity"]')
+                .should('be.visible')
+                .should('not.be.disabled')
+            cy.get('[data-testid="component.drawer.budget.quantity"]')
+                .find('label')
+                .should('be.visible')
+                .should('have.text', 'Cantidad')
+            cy.get('[data-testid="component.drawer.budget.quantity"]')
+                .find('input')
+                .should('be.visible')
+                .should('have.value', '0')
 
-            it('enters the cost and quantity wrong', () => {
-                cy.get('[data-testid="component.drawer.budget.quantity"]').type('bad')
-                cy.get('[data-testid="component.drawer.budget.cost"]').type('bad')
+            cy.get('[data-testid="component.drawer.budget.cost"]')
+                .should('be.visible')
+                .should('not.be.disabled')
+            cy.get('[data-testid="component.drawer.budget.cost"]')
+                .find('label')
+                .should('be.visible')
+                .should('have.text', 'Costo')
+            cy.get('[data-testid="component.drawer.budget.cost"]')
+                .find('input')
+                .should('be.visible')
+                .should('have.value', '0')
 
-                cy.get('[data-testid="component.drawer.budget.total"]')
-                    .find('input')
-                    .should('be.visible')
-                    .should('have.class', 'Mui-disabled')
-                    .should('have.value', '0')
-            })
+            cy.get('[data-testid="component.drawer.budget.total"]').should(
+                'be.visible'
+            )
+            cy.get('[data-testid="component.drawer.budget.total"]')
+                .find('label')
+                .should('be.visible')
+                .should('have.text', 'Total')
+            cy.get('[data-testid="component.drawer.budget.total"]')
+                .find('input')
+                .should('be.visible')
+                .should('have.class', 'Mui-disabled')
+                .should('have.value', '0')
+
+            cy.get('[data-testid="component.button.group.save"]')
+                .should('be.visible')
+                .should('have.text', 'Guardar')
+
+            cy.get('[data-testid="component.button.group.cancel"]')
+                .should('be.visible')
+                .should('have.text', 'Cancelar')
         })
 
-        describe('submit', () => {
-            it('should error with all fieds invalid', () => {
-                cy.get('[data-testid="component.drawer.budget.quantity"]').type('bad')
-                cy.get('[data-testid="component.drawer.budget.cost"]').type('bad')
+        describe('validate input data', () => {
+            describe('should multiply the quantity and cost', () => {
+                it('should use decimals in both quantity and cost', () => {
+                    cy.get('[data-testid="component.drawer.budget.quantity"]').type(
+                        '1.234'
+                    )
+                    cy.get('[data-testid="component.drawer.budget.cost"]').type('1.234')
 
-                cy.get('[data-testid="component.button.group.save"]').click()
-
-                cy.get('.project_id')
-                    .should('be.visible')
-                    .should('have.text', 'Seleccione un proyecto')
-
-                cy.get('.budget_item_id')
-                    .should('be.visible')
-                    .should('have.text', 'Seleccione una partida')
-
-                cy.get('[data-testid="component.drawer.budget.quantity.error"]')
-                    .should('be.visible')
-                    .should('have.text', 'La cantidad debe ser un número')
-
-                cy.get('[data-testid="component.drawer.budget.cost.error"]')
-                    .should('be.visible')
-                    .should('have.text', 'El costo debe ser un número')
+                    cy.get('[data-testid="component.drawer.budget.total"]')
+                        .find('input')
+                        .should('be.visible')
+                        .should('have.class', 'Mui-disabled')
+                        .should('have.value', '1.522756')
+                })
             })
 
-            it('should error if only the project is invalid', () => {
-                cy.get('[data-testid="component.drawer.budget.budget_item"]')
-                    .find('select')
-                    .select('Project manager')
-                cy.get('[data-testid="component.drawer.budget.quantity"]').type('10')
-                cy.get('[data-testid="component.drawer.budget.cost"]').type('10')
+            describe('before submiting', () => {
+                it('enters the quantity wrong', () => {
+                    cy.get('[data-testid="component.drawer.budget.quantity"]').type('bad')
+                    cy.get('[data-testid="component.drawer.budget.cost"]').type('1.234')
 
-                cy.get('[data-testid="component.button.group.save"]').click()
+                    cy.get('[data-testid="component.drawer.budget.total"]')
+                        .find('input')
+                        .should('be.visible')
+                        .should('have.class', 'Mui-disabled')
+                        .should('have.value', '0')
+                })
 
-                cy.get('.project_id')
-                    .should('be.visible')
-                    .should('have.text', 'Seleccione un proyecto')
+                it('enters the cost wrong', () => {
+                    cy.get('[data-testid="component.drawer.budget.quantity"]').type(
+                        '1.234'
+                    )
+                    cy.get('[data-testid="component.drawer.budget.cost"]').type('bad')
 
-                cy.get('[data-testid="component.drawer.budget.total"]')
-                    .find('input')
-                    .should('be.visible')
-                    .should('have.class', 'Mui-disabled')
-                    .should('have.value', '100')
+                    cy.get('[data-testid="component.drawer.budget.total"]')
+                        .find('input')
+                        .should('be.visible')
+                        .should('have.class', 'Mui-disabled')
+                        .should('have.value', '0')
+                })
+
+                it('enters the cost and quantity wrong', () => {
+                    cy.get('[data-testid="component.drawer.budget.quantity"]').type('bad')
+                    cy.get('[data-testid="component.drawer.budget.cost"]').type('bad')
+
+                    cy.get('[data-testid="component.drawer.budget.total"]')
+                        .find('input')
+                        .should('be.visible')
+                        .should('have.class', 'Mui-disabled')
+                        .should('have.value', '0')
+                })
             })
 
-            it('should error if only the budget item is invalid', () => {
-                cy.get('[data-testid="component.drawer.budget.project"]')
-                    .find('select')
-                    .select('Test Project 1')
-                cy.get('[data-testid="component.drawer.budget.quantity"]').type('10')
-                cy.get('[data-testid="component.drawer.budget.cost"]').type('20')
+            describe('submit', () => {
+                it('should error with all fieds invalid', () => {
+                    cy.get('[data-testid="component.drawer.budget.quantity"]').type('bad')
+                    cy.get('[data-testid="component.drawer.budget.cost"]').type('bad')
 
-                cy.get('[data-testid="component.button.group.save"]').click()
+                    cy.get('[data-testid="component.button.group.save"]').click()
 
-                cy.get('[data-testid="component.drawer.budget.total"]')
-                    .find('input')
-                    .should('be.visible')
-                    .should('have.class', 'Mui-disabled')
-                    .should('have.value', '200')
+                    cy.get('.project_id')
+                        .should('be.visible')
+                        .should('have.text', 'Seleccione un proyecto')
 
-                cy.get('.budget_item_id')
-                    .should('be.visible')
-                    .should('have.text', 'Seleccione una partida')
-            })
+                    cy.get('.budget_item_id')
+                        .should('be.visible')
+                        .should('have.text', 'Seleccione una partida')
 
-            it('should error if invalid quantity', () => {
-                cy.get('[data-testid="component.drawer.budget.budget_item"]')
-                    .find('select')
-                    .select('Project manager')
-                cy.get('[data-testid="component.drawer.budget.project"]')
-                    .find('select')
-                    .select('Test Project 1')
-                cy.get('[data-testid="component.drawer.budget.quantity"]').type('sdkl')
-                cy.get('[data-testid="component.drawer.budget.cost"]').type('20')
+                    cy.get('[data-testid="component.drawer.budget.quantity.error"]')
+                        .should('be.visible')
+                        .should('have.text', 'La cantidad debe ser un número')
 
-                cy.get('[data-testid="component.button.group.save"]').click()
-                cy.get('[data-testid="component.drawer.budget.quantity.error"]')
-                    .should('exist')
-                    .should('have.text', 'La cantidad debe ser un número')
-            })
+                    cy.get('[data-testid="component.drawer.budget.cost.error"]')
+                        .should('be.visible')
+                        .should('have.text', 'El costo debe ser un número')
+                })
 
-            it('should error if invalid cost', () => {
-                cy.get('[data-testid="component.drawer.budget.budget_item"]')
-                    .find('select')
-                    .select('Project manager')
-                cy.get('[data-testid="component.drawer.budget.project"]')
-                    .find('select')
-                    .select('Test Project 1')
-                cy.get('[data-testid="component.drawer.budget.cost"]').type('sdkl')
-                cy.get('[data-testid="component.drawer.budget.quantity"]').type('20')
+                it('should error if only the project is invalid', () => {
+                    cy.get('[data-testid="component.drawer.budget.budget_item"]')
+                        .find('select')
+                        .select('Project manager')
+                    cy.get('[data-testid="component.drawer.budget.quantity"]').type('10')
+                    cy.get('[data-testid="component.drawer.budget.cost"]').type('10')
 
-                cy.get('[data-testid="component.button.group.save"]').click()
-                cy.get('[data-testid="component.drawer.budget.cost.error"]')
-                    .should('exist')
-                    .should('have.text', 'El costo debe ser un número')
+                    cy.get('[data-testid="component.button.group.save"]').click()
+
+                    cy.get('.project_id')
+                        .should('be.visible')
+                        .should('have.text', 'Seleccione un proyecto')
+
+                    cy.get('[data-testid="component.drawer.budget.total"]')
+                        .find('input')
+                        .should('be.visible')
+                        .should('have.class', 'Mui-disabled')
+                        .should('have.value', '100')
+                })
+
+                it('should error if only the budget item is invalid', () => {
+                    cy.get('[data-testid="component.drawer.budget.project"]')
+                        .find('select')
+                        .select('Test Project 1')
+                    cy.get('[data-testid="component.drawer.budget.quantity"]').type('10')
+                    cy.get('[data-testid="component.drawer.budget.cost"]').type('20')
+
+                    cy.get('[data-testid="component.button.group.save"]').click()
+
+                    cy.get('[data-testid="component.drawer.budget.total"]')
+                        .find('input')
+                        .should('be.visible')
+                        .should('have.class', 'Mui-disabled')
+                        .should('have.value', '200')
+
+                    cy.get('.budget_item_id')
+                        .should('be.visible')
+                        .should('have.text', 'Seleccione una partida')
+                })
+
+                it('should error if invalid quantity', () => {
+                    cy.get('[data-testid="component.drawer.budget.budget_item"]')
+                        .find('select')
+                        .select('Project manager')
+                    cy.get('[data-testid="component.drawer.budget.project"]')
+                        .find('select')
+                        .select('Test Project 1')
+                    cy.get('[data-testid="component.drawer.budget.quantity"]').type(
+                        'sdkl'
+                    )
+                    cy.get('[data-testid="component.drawer.budget.cost"]').type('20')
+
+                    cy.get('[data-testid="component.button.group.save"]').click()
+                    cy.get('[data-testid="component.drawer.budget.quantity.error"]')
+                        .should('exist')
+                        .should('have.text', 'La cantidad debe ser un número')
+                })
+
+                it('should error if invalid cost', () => {
+                    cy.get('[data-testid="component.drawer.budget.budget_item"]')
+                        .find('select')
+                        .select('Project manager')
+                    cy.get('[data-testid="component.drawer.budget.project"]')
+                        .find('select')
+                        .select('Test Project 1')
+                    cy.get('[data-testid="component.drawer.budget.cost"]').type('sdkl')
+                    cy.get('[data-testid="component.drawer.budget.quantity"]').type('20')
+
+                    cy.get('[data-testid="component.button.group.save"]').click()
+                    cy.get('[data-testid="component.drawer.budget.cost.error"]')
+                        .should('exist')
+                        .should('have.text', 'El costo debe ser un número')
+                })
             })
         })
     })
