@@ -70,7 +70,7 @@ export default function InvoiceDetailsDrawer({
 
     return (
         <BcaDrawer open={open} onClose={onClose}>
-            <DrawerTitle title='Detalle' close={onClose} />
+            <DrawerTitle title={'Crear Detalle'} close={onClose} />
             <form onSubmit={handleSubmit(hadleSubmit)}>
                 <Stack direction='column' spacing={2} sx={{ mt: 2 }}>
                     {conflictError && (

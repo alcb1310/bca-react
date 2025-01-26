@@ -19,7 +19,7 @@ describe('<InvoiceDetailsDrawer />', () => {
         cy.wait('@items')
         cy.get('[data-testid="component.drawertitle.title"]')
             .should('be.visible')
-            .should('have.text', 'Detalle')
+            .should('have.text', 'Crear Detalle')
 
         cy.get(
             '[data-testid="component.drawer.transaction.invoice.details.quantity"]'
