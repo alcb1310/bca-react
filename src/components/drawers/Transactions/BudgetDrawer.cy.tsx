@@ -50,34 +50,34 @@ describe('<BudgetDrawer />', () => {
         cy.get('[data-testid="component.drawer.budget.quantity"]')
             .should('be.visible')
             .should('not.be.disabled')
-        cy.get('[data-testid="component.drawer.budget.quantity"] > label')
+        cy.get('[data-testid="component.drawer.budget.quantity"]')
+            .find('label')
             .should('be.visible')
             .should('have.text', 'Cantidad')
-        cy.get(
-            '[data-testid="component.drawer.budget.quantity"] > .MuiInputBase-root > input'
-        )
+        cy.get('[data-testid="component.drawer.budget.quantity"]')
+            .find('input')
             .should('be.visible')
             .should('have.value', '0')
 
         cy.get('[data-testid="component.drawer.budget.cost"]')
             .should('be.visible')
             .should('not.be.disabled')
-        cy.get('[data-testid="component.drawer.budget.cost"] > label')
+        cy.get('[data-testid="component.drawer.budget.cost"]')
+            .find('label')
             .should('be.visible')
             .should('have.text', 'Costo')
-        cy.get(
-            '[data-testid="component.drawer.budget.cost"] > .MuiInputBase-root > input'
-        )
+        cy.get('[data-testid="component.drawer.budget.cost"]')
+            .find('input')
             .should('be.visible')
             .should('have.value', '0')
 
         cy.get('[data-testid="component.drawer.budget.total"]').should('be.visible')
-        cy.get('[data-testid="component.drawer.budget.total"] > label')
+        cy.get('[data-testid="component.drawer.budget.total"]')
+            .find('label')
             .should('be.visible')
             .should('have.text', 'Total')
-        cy.get(
-            '[data-testid="component.drawer.budget.total"] > .MuiInputBase-root > input'
-        )
+        cy.get('[data-testid="component.drawer.budget.total"]')
+            .find('input')
             .should('be.visible')
             .should('have.class', 'Mui-disabled')
             .should('have.value', '0')
@@ -97,9 +97,8 @@ describe('<BudgetDrawer />', () => {
                 cy.get('[data-testid="component.drawer.budget.quantity"]').type('1.234')
                 cy.get('[data-testid="component.drawer.budget.cost"]').type('1.234')
 
-                cy.get(
-                    '[data-testid="component.drawer.budget.total"] > .MuiInputBase-root > input'
-                )
+                cy.get('[data-testid="component.drawer.budget.total"]')
+                    .find('input')
                     .should('be.visible')
                     .should('have.class', 'Mui-disabled')
                     .should('have.value', '1.522756')
@@ -111,9 +110,8 @@ describe('<BudgetDrawer />', () => {
                 cy.get('[data-testid="component.drawer.budget.quantity"]').type('bad')
                 cy.get('[data-testid="component.drawer.budget.cost"]').type('1.234')
 
-                cy.get(
-                    '[data-testid="component.drawer.budget.total"] > .MuiInputBase-root > input'
-                )
+                cy.get('[data-testid="component.drawer.budget.total"]')
+                    .find('input')
                     .should('be.visible')
                     .should('have.class', 'Mui-disabled')
                     .should('have.value', '0')
@@ -123,9 +121,8 @@ describe('<BudgetDrawer />', () => {
                 cy.get('[data-testid="component.drawer.budget.quantity"]').type('1.234')
                 cy.get('[data-testid="component.drawer.budget.cost"]').type('bad')
 
-                cy.get(
-                    '[data-testid="component.drawer.budget.total"] > .MuiInputBase-root > input'
-                )
+                cy.get('[data-testid="component.drawer.budget.total"]')
+                    .find('input')
                     .should('be.visible')
                     .should('have.class', 'Mui-disabled')
                     .should('have.value', '0')
@@ -135,9 +132,8 @@ describe('<BudgetDrawer />', () => {
                 cy.get('[data-testid="component.drawer.budget.quantity"]').type('bad')
                 cy.get('[data-testid="component.drawer.budget.cost"]').type('bad')
 
-                cy.get(
-                    '[data-testid="component.drawer.budget.total"] > .MuiInputBase-root > input'
-                )
+                cy.get('[data-testid="component.drawer.budget.total"]')
+                    .find('input')
                     .should('be.visible')
                     .should('have.class', 'Mui-disabled')
                     .should('have.value', '0')
@@ -159,23 +155,19 @@ describe('<BudgetDrawer />', () => {
                     .should('be.visible')
                     .should('have.text', 'Seleccione una partida')
 
-                cy.get(
-                    '[data-testid="component.drawer.budget.quantity"] > .MuiFormHelperText-root'
-                )
+                cy.get('[data-testid="component.drawer.budget.quantity.error"]')
                     .should('be.visible')
                     .should('have.text', 'La cantidad debe ser un número')
 
-                cy.get(
-                    '[data-testid="component.drawer.budget.cost"] > .MuiFormHelperText-root'
-                )
+                cy.get('[data-testid="component.drawer.budget.cost.error"]')
                     .should('be.visible')
                     .should('have.text', 'El costo debe ser un número')
             })
 
             it('should error if only the project is invalid', () => {
-                cy.get(
-                    '[data-testid="component.drawer.budget.budget_item"] > .MuiNativeSelect-select'
-                ).select('Project manager')
+                cy.get('[data-testid="component.drawer.budget.budget_item"]')
+                    .find('select')
+                    .select('Project manager')
                 cy.get('[data-testid="component.drawer.budget.quantity"]').type('10')
                 cy.get('[data-testid="component.drawer.budget.cost"]').type('10')
 
@@ -185,26 +177,24 @@ describe('<BudgetDrawer />', () => {
                     .should('be.visible')
                     .should('have.text', 'Seleccione un proyecto')
 
-                cy.get(
-                    '[data-testid="component.drawer.budget.total"] > .MuiInputBase-root > input'
-                )
+                cy.get('[data-testid="component.drawer.budget.total"]')
+                    .find('input')
                     .should('be.visible')
                     .should('have.class', 'Mui-disabled')
                     .should('have.value', '100')
             })
 
             it('should error if only the budget item is invalid', () => {
-                cy.get(
-                    '[data-testid="component.drawer.budget.project"] > .MuiNativeSelect-select'
-                ).select('Test Project 1')
+                cy.get('[data-testid="component.drawer.budget.project"]')
+                    .find('select')
+                    .select('Test Project 1')
                 cy.get('[data-testid="component.drawer.budget.quantity"]').type('10')
                 cy.get('[data-testid="component.drawer.budget.cost"]').type('20')
 
                 cy.get('[data-testid="component.button.group.save"]').click()
 
-                cy.get(
-                    '[data-testid="component.drawer.budget.total"] > .MuiInputBase-root > input'
-                )
+                cy.get('[data-testid="component.drawer.budget.total"]')
+                    .find('input')
                     .should('be.visible')
                     .should('have.class', 'Mui-disabled')
                     .should('have.value', '200')
@@ -215,12 +205,12 @@ describe('<BudgetDrawer />', () => {
             })
 
             it('should error if invalid quantity', () => {
-                cy.get(
-                    '[data-testid="component.drawer.budget.budget_item"] > .MuiNativeSelect-select'
-                ).select('Project manager')
-                cy.get(
-                    '[data-testid="component.drawer.budget.project"] > .MuiNativeSelect-select'
-                ).select('Test Project 1')
+                cy.get('[data-testid="component.drawer.budget.budget_item"]')
+                    .find('select')
+                    .select('Project manager')
+                cy.get('[data-testid="component.drawer.budget.project"]')
+                    .find('select')
+                    .select('Test Project 1')
                 cy.get('[data-testid="component.drawer.budget.quantity"]').type('sdkl')
                 cy.get('[data-testid="component.drawer.budget.cost"]').type('20')
 
@@ -231,12 +221,12 @@ describe('<BudgetDrawer />', () => {
             })
 
             it('should error if invalid cost', () => {
-                cy.get(
-                    '[data-testid="component.drawer.budget.budget_item"] > .MuiNativeSelect-select'
-                ).select('Project manager')
-                cy.get(
-                    '[data-testid="component.drawer.budget.project"] > .MuiNativeSelect-select'
-                ).select('Test Project 1')
+                cy.get('[data-testid="component.drawer.budget.budget_item"]')
+                    .find('select')
+                    .select('Project manager')
+                cy.get('[data-testid="component.drawer.budget.project"]')
+                    .find('select')
+                    .select('Test Project 1')
                 cy.get('[data-testid="component.drawer.budget.cost"]').type('sdkl')
                 cy.get('[data-testid="component.drawer.budget.quantity"]').type('20')
 

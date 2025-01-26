@@ -18,7 +18,8 @@ describe('<CategoriesDrawer />', () => {
     })
 
     it('should display the screen', () => {
-        cy.get('[data-testid="component.drawer.settings.category.name"] > label')
+        cy.get('[data-testid="component.drawer.settings.category.name"]')
+            .find('label')
             .should('exist')
             .should('have.text', 'Categoría')
 

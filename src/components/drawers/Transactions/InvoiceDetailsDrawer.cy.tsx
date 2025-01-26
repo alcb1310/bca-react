@@ -22,28 +22,28 @@ describe('<InvoiceDetailsDrawer />', () => {
             .should('have.text', 'Detalle')
 
         cy.get(
-            '[data-testid="component.drawer.transaction.invoice.details.quantity"] > label'
+            '[data-testid="component.drawer.transaction.invoice.details.quantity"]'
         )
+            .find('label')
             .should('be.visible')
             .should('have.text', 'Cantidad')
 
         cy.get(
-            '[data-testid="component.drawer.transaction.invoice.details.quantity"] > .MuiInputBase-root > input'
+            '[data-testid="component.drawer.transaction.invoice.details.quantity"]'
         )
+            .find('input')
             .should('be.visible')
             .should('not.be.disabled')
             .should('have.value', '0')
 
-        cy.get(
-            '[data-testid="component.drawer.transaction.invoice.details.cost"] > .MuiInputBase-root > input'
-        )
+        cy.get('[data-testid="component.drawer.transaction.invoice.details.cost"]')
+            .find('input')
             .should('be.visible')
             .should('not.be.disabled')
             .should('have.value', '0')
 
-        cy.get(
-            '[data-testid="component.drawer.transaction.invoice.details.total"] > .MuiInputBase-root > input'
-        )
+        cy.get('[data-testid="component.drawer.transaction.invoice.details.total"]')
+            .find('input')
             .should('be.visible')
             .should('be.disabled')
             .should('have.value', '0')
@@ -69,8 +69,9 @@ describe('<InvoiceDetailsDrawer />', () => {
                 ).type('1.123')
 
                 cy.get(
-                    '[data-testid="component.drawer.transaction.invoice.details.total"] > .MuiInputBase-root > input'
+                    '[data-testid="component.drawer.transaction.invoice.details.total"]'
                 )
+                    .find('input')
                     .should('be.visible')
                     .should('be.disabled')
                     .should('have.value', '1.261129')
@@ -86,8 +87,9 @@ describe('<InvoiceDetailsDrawer />', () => {
                 ).type('1.123')
 
                 cy.get(
-                    '[data-testid="component.drawer.transaction.invoice.details.total"] > .MuiInputBase-root > input'
+                    '[data-testid="component.drawer.transaction.invoice.details.total"]'
                 )
+                    .find('input')
                     .should('be.visible')
                     .should('be.disabled')
                     .should('have.value', '0')
@@ -103,8 +105,9 @@ describe('<InvoiceDetailsDrawer />', () => {
                 ).type('ñldfj')
 
                 cy.get(
-                    '[data-testid="component.drawer.transaction.invoice.details.total"] > .MuiInputBase-root > input'
+                    '[data-testid="component.drawer.transaction.invoice.details.total"]'
                 )
+                    .find('input')
                     .should('be.visible')
                     .should('be.disabled')
                     .should('have.value', '0')
@@ -128,13 +131,13 @@ describe('<InvoiceDetailsDrawer />', () => {
                     .should('have.text', 'Seleccione una partida')
 
                 cy.get(
-                    '[data-testid="component.drawer.transaction.invoice.details.quantity"] > .MuiFormHelperText-root'
+                    '[data-testid="component.drawer.transaction.invoice.details.quantity.error"]'
                 )
                     .should('be.visible')
                     .should('have.text', 'La cantidad debe ser un número')
 
                 cy.get(
-                    '[data-testid="component.drawer.transaction.invoice.details.cost"] > .MuiFormHelperText-root'
+                    '[data-testid="component.drawer.transaction.invoice.details.cost.error"]'
                 )
                     .should('be.visible')
                     .should('have.text', 'El costo debe ser un número')
@@ -156,8 +159,9 @@ describe('<InvoiceDetailsDrawer />', () => {
                     .should('have.text', 'Seleccione una partida')
 
                 cy.get(
-                    '[data-testid="component.drawer.transaction.invoice.details.total"] > .MuiInputBase-root > input'
+                    '[data-testid="component.drawer.transaction.invoice.details.total"]'
                 )
+                    .find('input')
                     .should('be.visible')
                     .should('be.disabled')
                     .should('have.value', '1.261129')
@@ -165,8 +169,10 @@ describe('<InvoiceDetailsDrawer />', () => {
 
             it('should display error when only quantity is invalid', () => {
                 cy.get(
-                    '[data-testid="component.drawer.transaction.invoid.details.budget-item"] > .MuiNativeSelect-select'
-                ).select('Project manager')
+                    '[data-testid="component.drawer.transaction.invoid.details.budget-item"]'
+                )
+                    .find('select')
+                    .select('Project manager')
 
                 cy.get(
                     '[data-testid="component.drawer.transaction.invoice.details.quantity"]'
@@ -179,14 +185,15 @@ describe('<InvoiceDetailsDrawer />', () => {
                 cy.get('[data-testid="component.button.group.save"]').click()
 
                 cy.get(
-                    '[data-testid="component.drawer.transaction.invoice.details.quantity"] > .MuiFormHelperText-root'
+                    '[data-testid="component.drawer.transaction.invoice.details.quantity.error"]'
                 )
                     .should('be.visible')
                     .should('have.text', 'La cantidad debe ser un número')
 
                 cy.get(
-                    '[data-testid="component.drawer.transaction.invoice.details.total"] > .MuiInputBase-root > input'
+                    '[data-testid="component.drawer.transaction.invoice.details.total"]'
                 )
+                    .find('input')
                     .should('be.visible')
                     .should('be.disabled')
                     .should('have.value', '0')
@@ -194,8 +201,10 @@ describe('<InvoiceDetailsDrawer />', () => {
 
             it('should display error when only cost is invalid', () => {
                 cy.get(
-                    '[data-testid="component.drawer.transaction.invoid.details.budget-item"] > .MuiNativeSelect-select'
-                ).select('Project manager')
+                    '[data-testid="component.drawer.transaction.invoid.details.budget-item"]'
+                )
+                    .find('select')
+                    .select('Project manager')
 
                 cy.get(
                     '[data-testid="component.drawer.transaction.invoice.details.quantity"]'
@@ -208,14 +217,15 @@ describe('<InvoiceDetailsDrawer />', () => {
                 cy.get('[data-testid="component.button.group.save"]').click()
 
                 cy.get(
-                    '[data-testid="component.drawer.transaction.invoice.details.cost"] > .MuiFormHelperText-root'
+                    '[data-testid="component.drawer.transaction.invoice.details.cost.error"]'
                 )
                     .should('be.visible')
                     .should('have.text', 'El costo debe ser un número')
 
                 cy.get(
-                    '[data-testid="component.drawer.transaction.invoice.details.total"] > .MuiInputBase-root > input'
+                    '[data-testid="component.drawer.transaction.invoice.details.total"]'
                 )
+                    .find('input')
                     .should('be.visible')
                     .should('be.disabled')
                     .should('have.value', '0')

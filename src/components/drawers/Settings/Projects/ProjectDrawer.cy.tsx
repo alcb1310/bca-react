@@ -23,23 +23,22 @@ describe('<ProjectDrawer />', () => {
             .should('be.visible')
             .should('have.text', 'Proyectos')
 
-        cy.get('[data-testid="component.drawer.settings.project.name"] > label')
+        cy.get('[data-testid="component.drawer.settings.project.name"]')
+            .find('label')
             .should('exist')
             .should('have.text', 'Nombre')
 
-        cy.get('[data-testid="component.drawer.settings.project.net.area"] > label')
+        cy.get('[data-testid="component.drawer.settings.project.net.area"]')
+            .find('label')
             .should('exist')
             .should('have.text', 'Area Bruta')
 
-        cy.get(
-            '[data-testid="component.drawer.settings.project.gross.area"] > label'
-        )
+        cy.get('[data-testid="component.drawer.settings.project.gross.area"]')
+            .find('label')
             .should('exist')
             .should('have.text', 'Area Util')
 
-        cy.get(
-            '[data-testid="component.drawer.settings.project.active"] > .MuiFormControlLabel-label'
-        )
+        cy.get('[data-testid="component.drawer.settings.project.active"]')
             .should('exist')
             .should('have.text', 'Activo')
 
@@ -92,15 +91,13 @@ describe('<ProjectDrawer />', () => {
                 .should('be.visible')
                 .should('have.text', 'El nombre es requerido')
 
-            cy.get(
-                '[data-testid="component.drawer.settings.project.net.area"] > div > input'
-            )
+            cy.get('[data-testid="component.drawer.settings.project.net.area"]')
+                .find('input')
                 .should('be.visible')
                 .should('have.value', '2540.45')
 
-            cy.get(
-                '[data-testid="component.drawer.settings.project.gross.area"] > div > input'
-            )
+            cy.get('[data-testid="component.drawer.settings.project.gross.area"]')
+                .find('input')
                 .should('be.visible')
                 .should('have.value', '2787.83')
         })
@@ -123,21 +120,18 @@ describe('<ProjectDrawer />', () => {
                 .should('be.visible')
                 .should('have.text', 'El valor debe ser un número')
 
-            cy.get(
-                '[data-testid="component.drawer.settings.project.name"] > div > input'
-            )
+            cy.get('[data-testid="component.drawer.settings.project.name"]')
+                .find('input')
                 .should('be.visible')
                 .should('have.value', 'name')
 
-            cy.get(
-                '[data-testid="component.drawer.settings.project.net.area"] > div > input'
-            )
+            cy.get('[data-testid="component.drawer.settings.project.net.area"]')
+                .find('input')
                 .should('be.visible')
                 .should('have.value', 'djklfa')
 
-            cy.get(
-                '[data-testid="component.drawer.settings.project.gross.area"] > div > input'
-            )
+            cy.get('[data-testid="component.drawer.settings.project.gross.area"]')
+                .find('input')
                 .should('be.visible')
                 .should('have.value', '2787.83')
         })
@@ -162,21 +156,18 @@ describe('<ProjectDrawer />', () => {
                 .should('be.visible')
                 .should('have.text', 'El valor debe ser un número')
 
-            cy.get(
-                '[data-testid="component.drawer.settings.project.name"] > div > input'
-            )
+            cy.get('[data-testid="component.drawer.settings.project.name"]')
+                .find('input')
                 .should('be.visible')
                 .should('have.value', 'name')
 
-            cy.get(
-                '[data-testid="component.drawer.settings.project.net.area"] > div > input'
-            )
+            cy.get('[data-testid="component.drawer.settings.project.net.area"]')
+                .find('input')
                 .should('be.visible')
                 .should('have.value', '2357.23')
 
-            cy.get(
-                '[data-testid="component.drawer.settings.project.gross.area"] > div > input'
-            )
+            cy.get('[data-testid="component.drawer.settings.project.gross.area"]')
+                .find('input')
                 .should('be.visible')
                 .should('have.value', 'adfja')
         })

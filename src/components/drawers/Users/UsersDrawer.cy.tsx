@@ -24,15 +24,18 @@ describe('<UsersDrawer />', () => {
                 .should('be.visible')
                 .should('have.text', 'Crear usuario')
 
-            cy.get('[data-testid="component.drawer.user.email"] > label')
+            cy.get('[data-testid="component.drawer.user.email"]')
+                .find('label')
                 .should('exist')
                 .should('have.text', 'Email')
 
-            cy.get('[data-testid="component.drawer.user.name"] > label')
+            cy.get('[data-testid="component.drawer.user.name"]')
+                .find('label')
                 .should('exist')
                 .should('have.text', 'Nombre')
 
-            cy.get('[data-testid="component.drawer.user.password"] > label')
+            cy.get('[data-testid="component.drawer.user.password"]')
+                .find('label')
                 .should('exist')
                 .should('have.text', 'Contraseña')
 
@@ -197,20 +200,24 @@ describe('<UsersDrawer />', () => {
                 .should('be.visible')
                 .should('have.text', 'Editar usuario')
 
-            cy.get('[data-testid="component.drawer.user.email"] > label')
+            cy.get('[data-testid="component.drawer.user.email"]')
+                .find('label')
                 .should('exist')
                 .should('have.text', 'Email')
 
-            cy.get('[data-testid="component.drawer.user.email"] > div> input')
+            cy.get('[data-testid="component.drawer.user.email"]')
+                .find('input')
                 .should('be.visible')
                 .should('have.value', 'email@test.com')
                 .should('not.be.enabled')
 
-            cy.get('[data-testid="component.drawer.user.name"] > label')
+            cy.get('[data-testid="component.drawer.user.name"]')
+                .find('label')
                 .should('exist')
                 .should('have.text', 'Nombre')
 
-            cy.get('[data-testid="component.drawer.user.name"] > div> input')
+            cy.get('[data-testid="component.drawer.user.name"]')
+                .find('input')
                 .should('be.visible')
                 .should('have.value', 'Test')
 
@@ -224,7 +231,7 @@ describe('<UsersDrawer />', () => {
         })
 
         it('should validate name', () => {
-            cy.get('[data-testid="component.drawer.user.name"] > div> input').clear()
+            cy.get('[data-testid="component.drawer.user.name"]').find('input').clear()
 
             cy.get('[data-testid="component.button.group.save"]').click()
 

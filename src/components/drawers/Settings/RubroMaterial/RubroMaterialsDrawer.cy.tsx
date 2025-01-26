@@ -30,13 +30,13 @@ describe('<RubroMaterialsDrawer />', () => {
             .should('be.visible')
             .should('have.text', 'Material')
 
-        cy.get(
-            '[data-testid="component.drawer.settings.rubro.material.material"] > select'
-        ).should('be.visible')
+        cy.get('[data-testid="component.drawer.settings.rubro.material.material"]')
+            .find('select')
+            .should('be.visible')
 
-        cy.get(
-            '[data-testid="component.drawer.settings.rubro.material.quantity"] > div> input'
-        ).should('be.visible')
+        cy.get('[data-testid="component.drawer.settings.rubro.material.quantity"]')
+            .find('input')
+            .should('be.visible')
 
         cy.get('[data-testid="component.button.group.save"]')
             .should('be.visible')
@@ -74,8 +74,10 @@ describe('<RubroMaterialsDrawer />', () => {
             cy.get('[data-testid="component.button.group.save"]').click()
 
             cy.get(
-                '[data-testid="component.drawer.settings.rubro.material.quantity"] > div > input'
-            ).should('have.value', '01.123')
+                '[data-testid="component.drawer.settings.rubro.material.quantity"]'
+            )
+                .find('input')
+                .should('have.value', '01.123')
 
             cy.get(
                 '[data-testid="component.drawer.settings.rubro.material.quantity.error"]'
@@ -88,8 +90,10 @@ describe('<RubroMaterialsDrawer />', () => {
 
         it('should display error if quantity is invalid', () => {
             cy.get(
-                '[data-testid="component.drawer.settings.rubro.material.material"] > select'
-            ).select('Cemento')
+                '[data-testid="component.drawer.settings.rubro.material.material"]'
+            )
+                .find('select')
+                .select('Cemento')
 
             cy.get(
                 '[data-testid="component.drawer.settings.rubro.material.quantity"]'

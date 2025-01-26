@@ -34,15 +34,18 @@ describe('<MaterialsDrawer />', () => {
             .should('be.visible')
             .should('have.text', 'Crear Material')
 
-        cy.get('[data-testid="component.drawer.setting.materials.code"] > label')
+        cy.get('[data-testid="component.drawer.setting.materials.code"]')
+            .find('label')
             .should('exist')
             .should('have.text', 'Código')
 
-        cy.get('[data-testid="component.drawer.setting.materials.name"] > label')
+        cy.get('[data-testid="component.drawer.setting.materials.name"]')
+            .find('label')
             .should('exist')
             .should('have.text', 'Nombre')
 
-        cy.get('[data-testid="component.drawer.setting.materials.unit"] > label')
+        cy.get('[data-testid="component.drawer.setting.materials.unit"]')
+            .find('label')
             .should('exist')
             .should('have.text', 'Unidad')
 
@@ -89,9 +92,9 @@ describe('<MaterialsDrawer />', () => {
                 'unit'
             )
 
-            cy.get(
-                '[data-testid="component.drawer.setting.materials.category"] > .MuiNativeSelect-select'
-            ).select('Material')
+            cy.get('[data-testid="component.drawer.setting.materials.category"]')
+                .find('select')
+                .select('Material')
 
             cy.get('[data-testid="component.button.group.save"]').click()
 
@@ -117,9 +120,9 @@ describe('<MaterialsDrawer />', () => {
                 'unit'
             )
 
-            cy.get(
-                '[data-testid="component.drawer.setting.materials.category"] > .MuiNativeSelect-select'
-            ).select('Material')
+            cy.get('[data-testid="component.drawer.setting.materials.category"]')
+                .find('select')
+                .select('Material')
 
             cy.get('[data-testid="component.button.group.save"]').click()
 
@@ -145,9 +148,9 @@ describe('<MaterialsDrawer />', () => {
                 'name'
             )
 
-            cy.get(
-                '[data-testid="component.drawer.setting.materials.category"] > .MuiNativeSelect-select'
-            ).select('Material')
+            cy.get('[data-testid="component.drawer.setting.materials.category"]')
+                .find('select')
+                .select('Material')
 
             cy.get('[data-testid="component.button.group.save"]').click()
 

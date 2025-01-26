@@ -23,31 +23,28 @@ describe('<SupplierDrawer />', () => {
             .should('be.visible')
             .should('have.text', 'Proveedor')
 
-        cy.get(
-            '[data-testid="component.drawer.settings.supplier.supplier_id"] > label'
-        )
+        cy.get('[data-testid="component.drawer.settings.supplier.supplier_id"]')
+            .find('label')
             .should('exist')
             .should('have.text', 'Ruc')
 
-        cy.get('[data-testid="component.drawer.settings.supplier.name"] > label')
+        cy.get('[data-testid="component.drawer.settings.supplier.name"]')
+            .find('label')
             .should('exist')
             .should('have.text', 'Nombre')
 
-        cy.get(
-            '[data-testid="component.drawer.settings.supplier.contact_name"] > label'
-        )
+        cy.get('[data-testid="component.drawer.settings.supplier.contact_name"]')
+            .find('label')
             .should('exist')
             .should('have.text', 'Nombre Contacto')
 
-        cy.get(
-            '[data-testid="component.drawer.settings.supplier.contact_email"] > label'
-        )
+        cy.get('[data-testid="component.drawer.settings.supplier.contact_email"]')
+            .find('label')
             .should('exist')
             .should('have.text', 'Email Contacto')
 
-        cy.get(
-            '[data-testid="component.drawer.settings.supplier.contact_phone"] > label'
-        )
+        cy.get('[data-testid="component.drawer.settings.supplier.contact_phone"]')
+            .find('label')
             .should('exist')
             .should('have.text', 'Telefono Contacto')
 
