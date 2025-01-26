@@ -25,15 +25,13 @@ describe('<BudgetItemDrawer />', () => {
                 .should('be.visible')
                 .should('have.text', 'Crear Partida')
 
-            cy.get(
-                '[data-testid="component.drawer.settings.budget.item.code"] > label'
-            )
+            cy.get('[data-testid="component.drawer.settings.budget.item.code"]')
+                .find('label')
                 .should('exist')
                 .should('have.text', 'Código')
 
-            cy.get(
-                '[data-testid="component.drawer.settings.budget.item.name"] > label'
-            )
+            cy.get('[data-testid="component.drawer.settings.budget.item.name"]')
+                .find('label')
                 .should('exist')
                 .should('have.text', 'Nombre')
 
@@ -171,7 +169,7 @@ describe('<BudgetItemDrawer />', () => {
                             id: '661129c8-f4ac-4a9a-b484-c40f9ec4d3e4',
                             code: '200',
                             name: 'Gastos Generales',
-                            accumulate: true,
+                            accumulate: false,
                             parent_id: '8ba2d916-549f-4e8c-9694-04892ca8f2d8',
                         }}
                     />
@@ -198,6 +196,10 @@ describe('<BudgetItemDrawer />', () => {
                 .should('be.disabled')
                 .invoke('val')
                 .should('eq', '8ba2d916-549f-4e8c-9694-04892ca8f2d8')
+
+            cy.get('[data-testid="component.drawer.settings.budget.item.accumulate"]')
+                .find('input')
+                .should('not.be.checked')
 
             cy.get('[data-testid="component.button.group.save"]')
                 .should('be.visible')
