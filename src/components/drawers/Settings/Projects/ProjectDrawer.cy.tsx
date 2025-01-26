@@ -233,5 +233,53 @@ describe('<ProjectDrawer />', () => {
                 .should('have.text', 'Cancelar')
         })
 
+        it('should display the information with active false', () => {
+            cy.mount(
+                <TestAppWrapper>
+                    <ProjectDrawer
+                        open={true}
+                        onClose={() => { }}
+                        defaultValues={{
+                            id: '5247f25d-6199-4195-b4ab-2f6c2bd19b5d',
+                            name: 'Test Project',
+                            is_active: false,
+                            net_area: 2435.89,
+                            gross_area: 2678.87,
+                        }}
+                    />
+                </TestAppWrapper>
+            )
+
+            cy.get('[data-testid="component.drawertitle.title"]')
+                .should('be.visible')
+                .should('have.text', 'Proyectos')
+
+            cy.get('[data-testid="component.drawer.settings.project.name"]')
+                .find('input')
+                .should('be.visible')
+                .should('have.value', 'Test Project')
+
+            cy.get('[data-testid="component.drawer.settings.project.active"]')
+                .find('input')
+                .should('not.be.checked')
+
+            cy.get('[data-testid="component.drawer.settings.project.net.area"]')
+                .find('input')
+                .should('be.visible')
+                .should('have.value', '2435.89')
+
+            cy.get('[data-testid="component.drawer.settings.project.gross.area"]')
+                .find('input')
+                .should('be.visible')
+                .should('have.value', '2678.87')
+
+            cy.get('[data-testid="component.button.group.save"]')
+                .should('be.visible')
+                .should('have.text', 'Guardar')
+
+            cy.get('[data-testid="component.button.group.cancel"]')
+                .should('be.visible')
+                .should('have.text', 'Cancelar')
+        })
     })
 })
