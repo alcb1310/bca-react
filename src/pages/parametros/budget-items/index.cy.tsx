@@ -44,4 +44,14 @@ describe('<BudgetItems />', () => {
 
         cy.get('[data-testid="component.drawer"]').should('not.exist')
     })
+
+    it('should open the drawer', () => {
+        cy.get('[data-testid="component.table.header.toolbar.main"]').click()
+        cy.get('[data-testid="component.drawer"]').should('be.visible')
+        cy.get('[data-testid="component.drawertitle.title"]')
+            .should('be.visible')
+            .should('have.text', 'Crear Partida')
+        cy.get('[data-testid="component.button.group.cancel"]').click()
+        cy.get('[data-testid="component.drawer"]').should('not.exist')
+    })
 })
