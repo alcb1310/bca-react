@@ -30,6 +30,7 @@ export default function BudgetItems() {
 
                 <Grid size={10}>
                     <TextField
+                        data-testid='page.parametros.partidas.search'
                         label='Buscar'
                         name='query'
                         value={query}
