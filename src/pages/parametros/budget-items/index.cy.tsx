@@ -46,7 +46,6 @@ describe('<BudgetItems />', () => {
             .should('have.text', 'Buscar')
 
         cy.get('[data-testid="component.drawer"]').should('not.exist')
-        cy.get('.MuiDataGrid-scrollbar').click()
         for (var i = 0; i < cols.length; i++) {
             cy.get(`[data-field="${title[i]}"]`)
                 .find('.MuiDataGrid-columnHeaderTitle')
@@ -58,13 +57,31 @@ describe('<BudgetItems />', () => {
         }
     })
 
-    it('should open the drawer', () => {
-        cy.get('[data-testid="component.table.header.toolbar.main"]').click()
-        cy.get('[data-testid="component.drawer"]').should('be.visible')
-        cy.get('[data-testid="component.drawertitle.title"]')
-            .should('be.visible')
-            .should('have.text', 'Crear Partida')
-        cy.get('[data-testid="component.button.group.cancel"]').click()
-        cy.get('[data-testid="component.drawer"]').should('not.exist')
+    describe('open the drawer', () => {
+        it('should open for creation', () => {
+            cy.get('[data-testid="component.table.header.toolbar.main"]').click()
+            cy.get('[data-testid="component.drawer"]').should('be.visible')
+            cy.get('[data-testid="component.drawertitle.title"]')
+                .should('be.visible')
+                .should('have.text', 'Crear Partida')
+            cy.get('[data-testid="component.button.group.cancel"]').click()
+            cy.get('[data-testid="component.drawer"]').should('not.exist')
+        })
+
+        it('should enter for edit', () => {
+            for (var i = 0; i < cols.length; i++) {
+                cy.get(`[data-field="${title[i]}"]`)
+                    .find('.MuiDataGrid-columnHeaderTitle')
+                    .click()
+            }
+
+            cy.get('[data-rowindex="1"]').find('[aria-colindex="6"]').click()
+            cy.get('[data-testid="component.drawer"]').should('be.visible')
+            cy.get('[data-testid="component.drawertitle.title"]')
+                .should('be.visible')
+                .should('have.text', 'Editar Partida')
+            cy.get('[data-testid="component.button.group.cancel"]').click()
+            cy.get('[data-testid="component.drawer"]').should('not.exist')
+        })
     })
 })
