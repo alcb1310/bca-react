@@ -1,6 +1,9 @@
 import BudgetItems from '.'
 import TestAppWrapper from '../../../components/wrappers/TestAppWraper'
 
+const cols = ['Código', 'Nombre', 'Nivel', 'Acumula', 'Padre']
+const title = ['code', 'name', 'level', 'accumulate', 'parent_code']
+
 describe('<BudgetItems />', () => {
     beforeEach(() => {
         cy.intercept('GET', '**/parametros/partidas?query=', {
@@ -43,6 +46,16 @@ describe('<BudgetItems />', () => {
             .should('have.text', 'Buscar')
 
         cy.get('[data-testid="component.drawer"]').should('not.exist')
+        cy.get('.MuiDataGrid-scrollbar').click()
+        for (var i = 0; i < cols.length; i++) {
+            cy.get(`[data-field="${title[i]}"]`)
+                .find('.MuiDataGrid-columnHeaderTitle')
+                .should('have.text', cols[i])
+
+            cy.get(`[data-field="${title[i]}"]`)
+                .find('.MuiDataGrid-columnHeaderTitle')
+                .click()
+        }
     })
 
     it('should open the drawer', () => {
