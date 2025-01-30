@@ -6,11 +6,16 @@ const title = ['code', 'name', 'unit']
 
 describe('<Items />', () => {
     it('should display the page', () => {
+        cy.intercept('GET', '**/parametros/rubros', {
+            statusCode: 200,
+            fixture: 'parameters/rubros/getAllRubros.json',
+        }).as('rubros')
         cy.mount(
             <TestAppWrapper>
                 <Items />
             </TestAppWrapper>
         )
+        cy.wait('@rubros')
 
         cy.get('[data-testid="component.pagetitle.title"]')
             .should('be.visible')
