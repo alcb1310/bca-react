@@ -16,10 +16,12 @@ export default function Categories() {
 
     return (
         <>
-            <PageTitle title='Categorías' />
+            <PageTitle title='Categorias' />
 
-            {isLoading && <CircularProgress />}
-            <EditToolbar title='Crear Categoría' onClick={handleClick} />
+            {isLoading && (
+                <CircularProgress data-testid='page.parametros.categorias.loading' />
+            )}
+            <EditToolbar title='Crear Categoria' onClick={handleClick} />
             <AllCategoriesTable data={data!} />
             <CategoriesDrawer
                 open={open}
