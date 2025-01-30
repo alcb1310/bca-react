@@ -55,5 +55,15 @@ describe('<Categories />', () => {
             cy.get('[data-testid="component.button.group.cancel"]').click()
             cy.get('[data-testid="component.drawer"]').should('not.exist')
         })
+
+        it('should open for edit', () => {
+            cy.get('[data-rowindex="0"]').find('[aria-colindex="2"]').click()
+            cy.get('[data-testid="component.drawertitle.title"]').should(
+                'have.text',
+                'Editar Categoria'
+            )
+            cy.get('[data-testid="component.button.group.cancel"]').click()
+            cy.get('[data-testid="component.drawer"]').should('not.exist')
+        })
     })
 })
