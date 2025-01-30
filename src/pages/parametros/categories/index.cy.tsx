@@ -43,4 +43,17 @@ describe('<Categories />', () => {
                 .should('have.text', cols[i])
         }
     })
+
+    describe('show the drawer', () => {
+        it('should open for creation', () => {
+            cy.get('[data-testid="component.table.header.toolbar.main"]').click()
+            cy.get('[data-testid="component.drawer"]').should('be.visible')
+            cy.get('[data-testid="component.drawertitle.title"]').should(
+                'have.text',
+                'Crear Categorias'
+            )
+            cy.get('[data-testid="component.button.group.cancel"]').click()
+            cy.get('[data-testid="component.drawer"]').should('not.exist')
+        })
+    })
 })
