@@ -134,8 +134,22 @@ describe('<IndividualItem />', () => {
         })
     })
 
-    describe('update an item', () => {
+    describe.only('update an item', () => {
         it('should display the page', () => {
+            cy.intercept('GET', '**/parametros/materiales', {
+                statusCode: 200,
+                fixture: 'parameters/materials/getAllMaterials.json',
+            }).as('material')
+
+            cy.intercept(
+                'GET',
+                '**/parametros/rubros/df344545-d20b-4e4c-97c6-6a8f65743abb/materiales',
+                {
+                    statusCode: 200,
+                    fixture: 'parameters/rubros/getAllRubroMaterial.json',
+                }
+            ).as('rubromaterial')
+
             cy.intercept(
                 'GET',
                 '**/parametros/rubros/df344545-d20b-4e4c-97c6-6a8f65743abb',
@@ -144,6 +158,7 @@ describe('<IndividualItem />', () => {
                     fixture: 'parameters/rubros/getOneRubro.json',
                 }
             ).as('item')
+
             cy.mount(
                 <Provider store={testStore}>
                     <MemoryRouter
@@ -159,7 +174,7 @@ describe('<IndividualItem />', () => {
                 'be.visible'
             )
 
-            cy.wait('@item')
+            cy.wait(['@item', '@rubromaterial', '@material'])
             cy.get('[data-testid="page.parameters.item.detail.loading"]').should(
                 'not.exist'
             )
