@@ -86,6 +86,25 @@ describe('<IndividualItem />', () => {
                     'not.be.visible'
                 )
             })
+
+            it('should validate only name', () => {
+                cy.get('[data-testid="component.form.rubro.code"]').type('code')
+                cy.get('[data-testid="component.form.rubro.unit"]').type('unit')
+
+                cy.get('[data-testid="component.button.group.save"]').click()
+
+                cy.get('[data-testid="component.form.rubro.name.error"]')
+                    .should('be.visible')
+                    .should('have.text', 'Nombre es obligatorio')
+
+                cy.get('[data-testid="component.form.rubro.code.error"]').should(
+                    'not.be.visible'
+                )
+
+                cy.get('[data-testid="component.form.rubro.unit.error"]').should(
+                    'not.be.visible'
+                )
+            })
         })
     })
 })
