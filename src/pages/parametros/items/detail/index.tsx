@@ -25,9 +25,8 @@ export default function IndividualItem() {
     return (
         <>
             <PageTitle title={title} />
-
             {isLoading ? (
-                <CircularProgress />
+                <CircularProgress data-testid='page.parameters.item.detail.loading' />
             ) : (
                 <>
                     <Box sx={{ width: '50%', mx: 'auto', mt: 2 }}>

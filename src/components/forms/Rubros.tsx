@@ -53,9 +53,26 @@ function RubrosForm({ rubroId, rubro }: RubrosFromProps) {
                     {conflictError && (
                         <Typography color='error'>{conflictError}</Typography>
                     )}
-                    <BcaTextField control={control} name='code' label='Código' />
-                    <BcaTextField control={control} name='name' label='Nombre' />
-                    <BcaTextField control={control} name='unit' label='Unidad' />
+                    <BcaTextField
+                        datatestid='component.form.rubro.code'
+                        control={control}
+                        name='code'
+                        label='Código'
+                    />
+
+                    <BcaTextField
+                        datatestid='component.form.rubro.name'
+                        control={control}
+                        name='name'
+                        label='Nombre'
+                    />
+
+                    <BcaTextField
+                        datatestid='component.form.rubro.unit'
+                        control={control}
+                        name='unit'
+                        label='Unidad'
+                    />
 
                     <ButtonGroup
                         saveFunction={handleSubmit(hadleSubmit)}
