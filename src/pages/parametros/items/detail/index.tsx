@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 import { Box, CircularProgress } from '@mui/material'
 
 import { useGetOneRubroQuery } from '../../../../redux/api/bca-backend/parametros/rubrosSlice'
@@ -11,7 +11,8 @@ import RubrosForm from '../../../../components/forms/Rubros'
 
 export default function IndividualItem() {
     const [open, setOpen] = useState<boolean>(false)
-    const { rubroId } = useParams()
+    const location = useLocation()
+    const rubroId = location.pathname.split('/')[3]
     const { data: rubro, isLoading } = useGetOneRubroQuery(rubroId!)
 
     const title = rubroId
