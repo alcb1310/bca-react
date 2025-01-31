@@ -3,7 +3,7 @@ import TestAppWrapper from '../../../../components/wrappers/TestAppWraper'
 
 describe('<IndividualItem />', () => {
     describe('Create an item', () => {
-        it('should display the page', () => {
+        beforeEach(() => {
             cy.intercept('GET', '**/parametros/rubros/undefined', {
                 statusCode: 200,
             }).as('item')
@@ -12,6 +12,9 @@ describe('<IndividualItem />', () => {
                     <IndividualItem />
                 </TestAppWrapper>
             )
+        })
+
+        it('should display the page', () => {
             cy.get('[data-testid="page.parameters.item.detail.loading"]').should(
                 'be.visible'
             )
@@ -46,6 +49,24 @@ describe('<IndividualItem />', () => {
             cy.get('[data-testid="component.button.group.cancel"]')
                 .should('be.visible')
                 .should('have.text', 'Cancelar')
+        })
+
+        describe('should validate', () => {
+            it('should validate all fields', () => {
+                cy.get('[data-testid="component.button.group.save"]').click()
+
+                cy.get('[data-testid="component.form.rubro.code.error"]')
+                    .should('be.visible')
+                    .should('have.text', 'Código es obligatorio')
+
+                cy.get('[data-testid="component.form.rubro.name.error"]')
+                    .should('be.visible')
+                    .should('have.text', 'Nombre es obligatorio')
+
+                cy.get('[data-testid="component.form.rubro.unit.error"]')
+                    .should('be.visible')
+                    .should('have.text', 'Unidad es obligatorio')
+            })
         })
     })
 })
