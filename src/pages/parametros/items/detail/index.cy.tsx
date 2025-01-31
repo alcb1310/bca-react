@@ -1,16 +1,20 @@
+import { Provider } from 'react-redux'
 import IndividualItem from '.'
-import TestAppWrapper from '../../../../components/wrappers/TestAppWraper'
+import { testStore } from '../../../../redux/testStore'
+import { MemoryRouter } from 'react-router-dom'
 
 describe('<IndividualItem />', () => {
     describe('Create an item', () => {
         beforeEach(() => {
-            cy.intercept('GET', '**/parametros/rubros/undefined', {
+            cy.intercept('GET', '**/parametros/rubros/crear', {
                 statusCode: 200,
             }).as('item')
             cy.mount(
-                <TestAppWrapper>
-                    <IndividualItem />
-                </TestAppWrapper>
+                <Provider store={testStore}>
+                    <MemoryRouter initialEntries={['/parametros/rubros/crear']}>
+                        <IndividualItem />
+                    </MemoryRouter>
+                </Provider>
             )
         })
 
