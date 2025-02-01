@@ -17,7 +17,7 @@ const title = [
 ]
 
 describe('<Suppliers />', () => {
-    it('should display the page', () => {
+    beforeEach(() => {
         cy.intercept('GET', '**/parametros/proveedores?query=', {
             statusCode: 200,
             fixture: 'parameters/suppliers/getAllSuppliers.json',
@@ -27,7 +27,9 @@ describe('<Suppliers />', () => {
                 <Suppliers />
             </TestAppWrapper>
         )
+    })
 
+    it('should display the page', () => {
         cy.get('[data-testid="page.parameters.suppliers.loading"]').should(
             'be.visible'
         )
@@ -58,5 +60,16 @@ describe('<Suppliers />', () => {
                 .find('.MuiDataGrid-columnHeaderTitle')
                 .click()
         }
+    })
+
+    it('should open the drawer on create mode', () => {
+        cy.get('[data-testid="component.drawer"]').should('not.exist')
+        cy.get('[data-testid="component.table.header.toolbar.main"]').click()
+        cy.get('[data-testid="component.drawer"]').should('be.visible')
+        cy.get('[data-testid="component.drawertitle.title"]')
+            .should('be.visible')
+            .should('have.text', 'Crear Proveedor')
+        cy.get('[data-testid="component.button.group.cancel"]').click()
+        cy.get('[data-testid="component.drawer"]').should('not.exist')
     })
 })
