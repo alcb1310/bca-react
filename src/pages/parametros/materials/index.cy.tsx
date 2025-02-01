@@ -5,7 +5,7 @@ const cols = ['Código', 'Nombre', 'Unidad', 'Categoría']
 const title = ['code', 'name', 'unit', 'category']
 
 describe('<Materials />', () => {
-    it('should display the page', () => {
+    beforeEach(() => {
         cy.intercept('GET', '**/parametros/materiales', {
             statusCode: 200,
             fixture: 'parameters/materials/getAllMaterials.json',
@@ -14,12 +14,15 @@ describe('<Materials />', () => {
             statusCode: 200,
             fixture: 'parameters/categories/getAllCategories.json',
         }).as('categories')
+
         cy.mount(
             <TestAppWrapper>
                 <Materials />
             </TestAppWrapper>
         )
+    })
 
+    it('should display the page', () => {
         cy.get('[data-testid="page.parameters.materials.loading"]').should(
             'be.visible'
         )
