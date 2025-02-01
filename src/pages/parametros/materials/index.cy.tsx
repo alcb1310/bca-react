@@ -50,4 +50,16 @@ describe('<Materials />', () => {
                 .click()
         }
     })
+
+    it('should open the drawer for creation', () => {
+        cy.get('[data-testid="component.table.header.toolbar.main"]').click()
+        cy.get('[data-testid="component.drawer"]').should('be.visible')
+
+        cy.get('[data-testid="component.drawertitle.title"]')
+            .should('be.visible')
+            .should('have.text', 'Crear Material')
+
+        cy.get('[data-testid="component.button.group.cancel"]').click()
+        cy.get('[data-testid="component.drawer"]').should('not.exist')
+    })
 })
