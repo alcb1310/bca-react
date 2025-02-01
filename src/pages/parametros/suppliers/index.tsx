@@ -7,44 +7,47 @@ import EditToolbar from '../../../components/table/headers/toolbar'
 import SupplierDrawer from '../../../components/drawers/Settings/Suppliers/SupplierDrawer'
 
 export default function Suppliers() {
-  const [query, setQuery] = useState<string>('')
-  const [open, setOpen] = useState<boolean>(false)
+    const [query, setQuery] = useState<string>('')
+    const [open, setOpen] = useState<boolean>(false)
 
-  const { data, isLoading } = useGetAllSuppliersQuery({ search: query })
+    const { data, isLoading } = useGetAllSuppliersQuery({ search: query })
 
-  return (
-    <>
-      <PageTitle title='Proveedores' />
+    return (
+        <>
+            <PageTitle title='Proveedores' />
 
-      {isLoading && <CircularProgress />}
+            {isLoading && (
+                <CircularProgress data-testid='page.parameters.suppliers.loading' />
+            )}
 
-      <Grid2 container spacing={2}>
-        <Grid2 size={2}>
-          <EditToolbar title='Crear Proveedor' onClick={() => setOpen(true)} />
-        </Grid2>
+            <Grid2 container spacing={2}>
+                <Grid2 size={2}>
+                    <EditToolbar title='Crear Proveedor' onClick={() => setOpen(true)} />
+                </Grid2>
 
-        <Grid2 size={10}>
-          <TextField
-            label='Buscar'
-            name='query'
-            size='small'
-            className='w-full'
-            onChange={(e) => setQuery(e.target.value)}
-          />
-          '
-        </Grid2>
-      </Grid2>
+                <Grid2 size={10}>
+                    <TextField
+                        label='Buscar'
+                        data-testid='page.parameters.suppliers.search'
+                        name='query'
+                        size='small'
+                        className='w-full'
+                        onChange={(e) => setQuery(e.target.value)}
+                    />
+                    '
+                </Grid2>
+            </Grid2>
 
-      <AllSuppliersTable data={data!} />
+            <AllSuppliersTable data={data!} />
 
-      <SupplierDrawer
-        open={open}
-        onClose={() => setOpen(false)}
-        defaultValues={{
-          supplier_id: '',
-          name: '',
-        }}
-      />
-    </>
-  )
+            <SupplierDrawer
+                open={open}
+                onClose={() => setOpen(false)}
+                defaultValues={{
+                    supplier_id: '',
+                    name: '',
+                }}
+            />
+        </>
+    )
 }

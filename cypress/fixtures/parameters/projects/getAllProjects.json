@@ -12,5 +12,12 @@
     "is_active": true,
     "gross_area": "50.30",
     "net_area": "50.30"
+  },
+  {
+    "id": "99c5b98c-d1d1-4d2b-9eae-aa6e6068a60a",
+    "name": "Test Project 3",
+    "is_active": false,
+    "gross_area": "50.30",
+    "net_area": "50.30"
   }
 ]
