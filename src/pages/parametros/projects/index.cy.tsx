@@ -5,7 +5,7 @@ const cols = ['Nombre', 'Area Bruta', 'Area Util', 'Activo']
 const title = ['name', 'net_area', 'gross_area', 'is_active']
 
 describe('<Projects />', () => {
-    it('should display the page', () => {
+    beforeEach(() => {
         cy.intercept('GET', '**/parametros/proyectos?query=', {
             statusCode: 200,
             fixture: 'parameters/projects/getAllProjects.json',
@@ -15,7 +15,9 @@ describe('<Projects />', () => {
                 <Projects />
             </TestAppWrapper>
         )
+    })
 
+    it('should display the page', () => {
         cy.get('[data-testid="page.parameters.projects.loading"]').should(
             'be.visible'
         )
@@ -46,5 +48,19 @@ describe('<Projects />', () => {
                 .find('.MuiDataGrid-columnHeaderTitle')
                 .click()
         }
+    })
+
+    it('should display the drawer in create mode', () => {
+        cy.get('[data-testid="component.drawer"]').should('not.exist')
+
+        cy.get('[data-testid="component.table.header.toolbar.main"]').click()
+        cy.get('[data-testid="component.drawer"]').should('be.visible')
+
+        cy.get('[data-testid="component.drawertitle.title"]')
+            .should('be.visible')
+            .should('have.text', 'Crear Proyecto')
+
+        cy.get('[data-testid="component.button.group.cancel"]').click()
+        cy.get('[data-testid="component.drawer"]').should('not.exist')
     })
 })
