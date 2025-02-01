@@ -7,29 +7,31 @@ import { useState } from 'react'
 import MaterialsDrawer from '../../../components/drawers/Settings/Materials/MaterialsDrawer'
 
 export default function Materials() {
-  const [open, setOpen] = useState<boolean>(false)
-  const { data, isLoading } = useGetAllMaterialsQuery()
+    const [open, setOpen] = useState<boolean>(false)
+    const { data, isLoading } = useGetAllMaterialsQuery()
 
-  return (
-    <>
-      <PageTitle title='Materiales' />
-      {isLoading && <CircularProgress />}
+    return (
+        <>
+            <PageTitle title='Materiales' />
+            {isLoading && (
+                <CircularProgress data-testid='page.parameters.materials.loading' />
+            )}
 
-      <EditToolbar title='Crear Material' onClick={() => setOpen(true)} />
-      <AllMaterialsTable data={data!} />
-      <MaterialsDrawer
-        open={open}
-        onClose={() => setOpen(false)}
-        defaultValues={{
-          code: '',
-          name: '',
-          unit: '',
-          category: {
-            id: '',
-            name: '',
-          },
-        }}
-      />
-    </>
-  )
+            <EditToolbar title='Crear Material' onClick={() => setOpen(true)} />
+            <AllMaterialsTable data={data!} />
+            <MaterialsDrawer
+                open={open}
+                onClose={() => setOpen(false)}
+                defaultValues={{
+                    code: '',
+                    name: '',
+                    unit: '',
+                    category: {
+                        id: '',
+                        name: '',
+                    },
+                }}
+            />
+        </>
+    )
 }
