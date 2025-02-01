@@ -1,7 +1,5 @@
-import { Provider } from 'react-redux'
 import IndividualItem from '.'
-import { testStore } from '../../../../redux/testStore'
-import { MemoryRouter } from 'react-router-dom'
+import TestRouterWraper from '../../../../components/wrappers/TestRouterWraper'
 
 const cols = ['Código', 'Nombre', 'Unidad', 'Cantidad']
 const title = ['code', 'name', 'unit', 'quantity']
@@ -13,11 +11,9 @@ describe('<IndividualItem />', () => {
                 statusCode: 200,
             }).as('item')
             cy.mount(
-                <Provider store={testStore}>
-                    <MemoryRouter initialEntries={['/parametros/rubros/crear']}>
-                        <IndividualItem />
-                    </MemoryRouter>
-                </Provider>
+                <TestRouterWraper route={['/parametros/rubros/crear']}>
+                    <IndividualItem />
+                </TestRouterWraper>
             )
         })
 
@@ -134,7 +130,7 @@ describe('<IndividualItem />', () => {
         })
     })
 
-    describe.only('update an item', () => {
+    describe('update an item', () => {
         it('should display the page', () => {
             cy.intercept('GET', '**/parametros/materiales', {
                 statusCode: 200,
@@ -160,15 +156,11 @@ describe('<IndividualItem />', () => {
             ).as('item')
 
             cy.mount(
-                <Provider store={testStore}>
-                    <MemoryRouter
-                        initialEntries={[
-                            '/parametros/rubros/df344545-d20b-4e4c-97c6-6a8f65743abb',
-                        ]}
-                    >
-                        <IndividualItem />
-                    </MemoryRouter>
-                </Provider>
+                <TestRouterWraper
+                    route={['/parametros/rubros/df344545-d20b-4e4c-97c6-6a8f65743abb']}
+                >
+                    <IndividualItem />
+                </TestRouterWraper>
             )
             cy.get('[data-testid="page.parameters.item.detail.loading"]').should(
                 'be.visible'
