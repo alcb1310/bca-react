@@ -72,4 +72,22 @@ describe('<Suppliers />', () => {
         cy.get('[data-testid="component.button.group.cancel"]').click()
         cy.get('[data-testid="component.drawer"]').should('not.exist')
     })
+
+    it('should open the drawer on edit mode', () => {
+        for (var i = 0; i < cols.length; i++) {
+            cy.get(`[data-field="${title[i]}"]`)
+                .find('.MuiDataGrid-columnHeaderTitle')
+                .click()
+        }
+
+        cy.get('[data-testid="component.drawer"]').should('not.exist')
+        cy.get('[data-rowindex="1"]').find('[aria-label="Edit"]').click()
+
+        cy.get('[data-testid="component.drawer"]').should('be.visible')
+        cy.get('[data-testid="component.drawertitle.title"]')
+            .should('be.visible')
+            .should('have.text', 'Editar Proveedor')
+        cy.get('[data-testid="component.button.group.cancel"]').click()
+        cy.get('[data-testid="component.drawer"]').should('not.exist')
+    })
 })
