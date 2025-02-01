@@ -16,7 +16,9 @@ export default function Suppliers() {
         <>
             <PageTitle title='Proveedores' />
 
-            {isLoading && <CircularProgress />}
+            {isLoading && (
+                <CircularProgress data-testid='page.parameters.suppliers.loading' />
+            )}
 
             <Grid2 container spacing={2}>
                 <Grid2 size={2}>
@@ -26,6 +28,7 @@ export default function Suppliers() {
                 <Grid2 size={10}>
                     <TextField
                         label='Buscar'
+                        data-testid='page.parameters.suppliers.search'
                         name='query'
                         size='small'
                         className='w-full'
