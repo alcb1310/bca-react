@@ -63,4 +63,26 @@ describe('<Projects />', () => {
         cy.get('[data-testid="component.button.group.cancel"]').click()
         cy.get('[data-testid="component.drawer"]').should('not.exist')
     })
+
+    it('should display the drawer in edit mode', () => {
+        cy.get('[data-testid="component.drawer"]').should('not.exist')
+
+        for (var i = 0; i < cols.length; i++) {
+            cy.get(`[data-field="${title[i]}"]`)
+                .find('.MuiDataGrid-columnHeaderTitle')
+                .click()
+        }
+
+        cy.get('[data-rowindex="2"]')
+            .find('[data-testid="EditOutlinedIcon"]')
+            .click()
+        cy.get('[data-testid="component.drawer"]').should('be.visible')
+
+        cy.get('[data-testid="component.drawertitle.title"]')
+            .should('be.visible')
+            .should('have.text', 'Editar Proyecto')
+
+        cy.get('[data-testid="component.button.group.cancel"]').click()
+        cy.get('[data-testid="component.drawer"]').should('not.exist')
+    })
 })
