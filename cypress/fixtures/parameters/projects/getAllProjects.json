@@ -1,0 +1,23 @@
+[
+  {
+    "id": "e4b2eaf2-1d98-4493-bf2d-15938ef3057b",
+    "name": "Test Project 1",
+    "is_active": true,
+    "gross_area": 0,
+    "net_area": 0
+  },
+  {
+    "id": "a607d66e-49f0-4fd1-95ce-22c1d17fada9",
+    "name": "Test Project 2",
+    "is_active": true,
+    "gross_area": "50.30",
+    "net_area": "50.30"
+  },
+  {
+    "id": "99c5b98c-d1d1-4d2b-9eae-aa6e6068a60a",
+    "name": "Test Project 3",
+    "is_active": false,
+    "gross_area": "50.30",
+    "net_area": "50.30"
+  }
+]
