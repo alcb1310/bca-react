@@ -62,4 +62,23 @@ describe('<Materials />', () => {
         cy.get('[data-testid="component.button.group.cancel"]').click()
         cy.get('[data-testid="component.drawer"]').should('not.exist')
     })
+
+    it('should open the drawer for edition', () => {
+        for (var i = 0; i < cols.length; i++) {
+            cy.get(`[data-field="${title[i]}"]`)
+                .find('.MuiDataGrid-columnHeaderTitle')
+                .click()
+        }
+
+        cy.get('[data-rowindex="0"]')
+            .find('[data-testid="EditOutlinedIcon"]')
+            .click()
+
+        cy.get('[data-testid="component.drawertitle.title"]')
+            .should('be.visible')
+            .should('have.text', 'Editar Material')
+
+        cy.get('[data-testid="component.button.group.cancel"]').click()
+        cy.get('[data-testid="component.drawer"]').should('not.exist')
+    })
 })
