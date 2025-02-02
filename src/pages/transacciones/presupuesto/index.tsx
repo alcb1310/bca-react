@@ -30,12 +30,16 @@ export default function Presupuesto() {
 
             <Grid2 container spacing={1}>
                 <Grid2 size={1}>
-                    <EditToolbar title={'Agregar'} onClick={() => setOpen(true)} />
+                    <EditToolbar
+                        title={'Agregar Presupuesto'}
+                        onClick={() => setOpen(true)}
+                    />
                 </Grid2>
 
                 <Grid2 size={2}>
                     <NativeSelect
                         size='small'
+                        data-testid='page.transactions.budget.filter.project'
                         variant='outlined'
                         className='w-full'
                         value={selectedProject}
@@ -52,7 +56,8 @@ export default function Presupuesto() {
 
                 <Grid2 size={9}>
                     <TextField
-                        placeholder='Buscar'
+                        label='Buscar'
+                        data-testid='page.transactions.budget.filter.search'
                         size='small'
                         value={search}
                         onChange={(e: ChangeEvent<HTMLInputElement>) =>
@@ -62,7 +67,9 @@ export default function Presupuesto() {
                     />
                 </Grid2>
             </Grid2>
-            {isLoading && <CircularProgress />}
+            {isLoading && (
+                <CircularProgress data-testid='page.transactions.budget.loading' />
+            )}
             <AllBudgetsTable data={data} />
             <BudgetDrawer
                 open={open}
