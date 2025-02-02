@@ -78,4 +78,17 @@ describe('<Presupuesto />', () => {
         cy.getByTestId('component.button.group.cancel').click()
         cy.getByTestId('component.drawer').should('not.exist')
     })
+
+    it('should open the drawer in edit mode', () => {
+        cy.getByTestId('component.drawer').should('not.exist')
+
+        cy.get('[data-rowindex="0"]').find('[data-colindex="0"]').click()
+        cy.getByTestId('component.drawer').should('be.visible')
+        cy.getByTestId('component.drawertitle.title')
+            .should('be.visible')
+            .should('have.text', 'Editar Presupuesto')
+
+        cy.getByTestId('component.button.group.cancel').click()
+        cy.getByTestId('component.drawer').should('not.exist')
+    })
 })

@@ -266,7 +266,13 @@ export default function AllBudgetsTable({ data }: AllBudgetsTableProps) {
                 open={open}
                 onClose={() => {
                     setOpen(false)
-                    setSelectedBudget(null)
+                    setSelectedBudget({
+                        project_id: '',
+                        budget_item_id: '',
+                        quantity: 0,
+                        cost: 0,
+                        total: 0,
+                    })
                 }}
                 defaultValues={selectedBudget!}
             />
