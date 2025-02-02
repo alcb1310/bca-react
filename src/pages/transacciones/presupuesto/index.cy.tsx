@@ -29,6 +29,7 @@ describe('<Presupuesto />', () => {
         }).as('budget_items')
         cy.intercept('GET', '**/transacciones/presupuestos?**', {
             statusCode: 200,
+            fixture: 'transactions/budget/getAllBudget.json',
         }).as('budget')
 
         cy.wrapper(<Presupuesto />)
