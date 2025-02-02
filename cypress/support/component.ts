@@ -31,6 +31,7 @@ declare global {
             getByTestId(selector: string): Chainable<any>
             findByTestId(selector: string): Chainable<any>
             wrapper(children: ReactNode): Chainable<any>
+            pageWrapper(children: ReactNode, routes: string[]): Chainable<any>
         }
     }
 }
