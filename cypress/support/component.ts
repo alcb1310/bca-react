@@ -14,7 +14,9 @@
 // ***********************************************************
 
 // Import commands.js using ES2015 syntax:
-import './commands'
+import { ReactNode } from 'react'
+import './commands.ts'
+import './wrappers.tsx'
 
 import { mount } from 'cypress/react'
 
@@ -23,11 +25,14 @@ import { mount } from 'cypress/react'
 // Alternatively, can be defined in cypress/support/component.d.ts
 // with a <reference path="./component" /> at the top of your spec.
 declare global {
-  namespace Cypress {
-    interface Chainable {
-      mount: typeof mount
+    namespace Cypress {
+        interface Chainable {
+            mount: typeof mount
+            getByTestId(selector: string): Chainable<any>
+            findByTestId(selector: string): Chainable<any>
+            wrapper(children: ReactNode): Chainable<any>
+        }
     }
-  }
 }
 
 Cypress.Commands.add('mount', mount)
