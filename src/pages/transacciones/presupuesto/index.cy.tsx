@@ -18,7 +18,7 @@ const title = [
 ]
 
 describe('<Presupuesto />', () => {
-    it('should display the page', () => {
+    beforeEach(() => {
         cy.intercept('GET', '**/parametros/proyectos?active=true', {
             statusCode: 200,
             fixture: 'parameters/projects/active.json',
@@ -33,7 +33,9 @@ describe('<Presupuesto />', () => {
         }).as('budget')
 
         cy.wrapper(<Presupuesto />)
+    })
 
+    it('should display the page', () => {
         cy.getByTestId('page.transactions.budget.loading').should('be.visible')
         cy.wait(['@projects', '@budget_items', '@budget'])
         cy.getByTestId('page.transactions.budget.loading').should('not.exist')
@@ -63,5 +65,17 @@ describe('<Presupuesto />', () => {
                 .find('.MuiDataGrid-columnHeaderTitle')
                 .click()
         }
+    })
+
+    it('should open the drawer in create mode', () => {
+        cy.getByTestId('component.drawer').should('not.exist')
+        cy.getByTestId('component.table.header.toolbar.main').click()
+        cy.getByTestId('component.drawer').should('be.visible')
+        cy.getByTestId('component.drawertitle.title')
+            .should('be.visible')
+            .should('have.text', 'Crear Presupuesto')
+
+        cy.getByTestId('component.button.group.cancel').click()
+        cy.getByTestId('component.drawer').should('not.exist')
     })
 })
