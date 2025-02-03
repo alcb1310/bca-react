@@ -13,11 +13,13 @@ export default function Factura() {
         <>
             <PageTitle title='Facturas' />
 
-      <EditToolbar
-        title='Agregar'
-        onClick={() => navigate('/transacciones/facturas/crear')}
-      />
-      {isLoading && <CircularProgress />}
+            <EditToolbar
+                title='Crear Factura'
+                onClick={() => navigate('/transacciones/facturas/crear')}
+            />
+            {isLoading && (
+                <CircularProgress data-testid='page.transactions.invoice.loading' />
+            )}
 
             <AllInvoicesTable data={data!} />
         </>
