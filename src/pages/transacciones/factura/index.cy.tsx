@@ -13,6 +13,7 @@ describe('<Factura />', () => {
     it('should display the page', () => {
         cy.intercept('GET', '**/transacciones/facturas', {
             statusCode: 200,
+            fixture: 'transactions/invoice/getAllInvoices.json',
         }).as('invoices')
         cy.wrapper(<Factura />)
         cy.getByTestId('page.transactions.invoice.loading').should('be.visible')
