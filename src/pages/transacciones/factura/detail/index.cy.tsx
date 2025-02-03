@@ -3,7 +3,7 @@ import IndividualInvoice from '.'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 
 describe('<IndividualInvoice />', () => {
-    it('should display the page', () => {
+    beforeEach(() => {
         cy.intercept('GET', '**/parametros/proyectos?active=true', {
             statusCode: 200,
             fixture: 'parameters/projects/active.json',
@@ -34,7 +34,9 @@ describe('<IndividualInvoice />', () => {
             </LocalizationProvider>,
             ['/transacciones/facturas/crear']
         )
+    })
 
+    it('should display the page', () => {
         cy.getByTestId('page.transactions.invoice.details.loading').should(
             'be.visible'
         )
@@ -87,5 +89,23 @@ describe('<IndividualInvoice />', () => {
         cy.getByTestId('component.button.group.cancel')
             .should('be.visible')
             .should('have.text', 'Cancelar')
+    })
+
+    describe('validate data', () => {
+        it('should display all the error messages', () => {
+            cy.getByTestId('component.button.group.save').click()
+            cy.get('.project_id')
+                .should('be.visible')
+                .should('have.text', 'Seleccione un proyecto')
+            cy.get('.supplier_id')
+                .should('be.visible')
+                .should('have.text', 'Seleccione un proveedor')
+            cy.getByTestId('components.forms.invoice.number.error')
+                .should('be.visible')
+                .should('have.text', 'Ingrese el numero de la Factura')
+            cy.getByTestId('components.forms.invoice.date')
+                .find('.MuiFormHelperText-root')
+                .should('have.text', 'Invalid date')
+        })
     })
 })
