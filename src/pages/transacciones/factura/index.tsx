@@ -6,12 +6,12 @@ import { useGetAllInvoicesQuery } from '../../../redux/api/bca-backend/transacci
 import { useNavigate } from 'react-router-dom'
 
 export default function Factura() {
-  const { data, isLoading } = useGetAllInvoicesQuery()
-  const navigate = useNavigate()
+    const { data, isLoading } = useGetAllInvoicesQuery()
+    const navigate = useNavigate()
 
-  return (
-    <>
-      <PageTitle title='Facturas' />
+    return (
+        <>
+            <PageTitle title='Facturas' />
 
       <EditToolbar
         title='Agregar'
@@ -19,7 +19,7 @@ export default function Factura() {
       />
       {isLoading && <CircularProgress />}
 
-      <AllInvoicesTable data={data!} />
-    </>
-  )
+            <AllInvoicesTable data={data!} />
+        </>
+    )
 }
