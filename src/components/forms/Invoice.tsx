@@ -64,6 +64,7 @@ function InvoiceForm({ invoiceId, invoice }: InvoiceFormProps) {
                     {projects && (
                         <BcaSelect
                             control={control}
+                            datatestid='components.forms.invoice.project'
                             name={'project_id'}
                             label={'Proyecto'}
                             disabled={invoiceId?.toLowerCase() !== 'crear'}
@@ -80,6 +81,7 @@ function InvoiceForm({ invoiceId, invoice }: InvoiceFormProps) {
                     {suppliers && (
                         <BcaSelect
                             control={control}
+                            datatestid='components.forms.invoice.supplier'
                             name='supplier_id'
                             label='Proveedoredor'
                             disabled={invoiceId?.toLowerCase() !== 'crear'}
@@ -95,12 +97,14 @@ function InvoiceForm({ invoiceId, invoice }: InvoiceFormProps) {
 
                     <BcaTextField
                         control={control}
+                        datatestid='components.forms.invoice.number'
                         name='invoice_number'
                         label='Número de Factura'
                     />
 
                     <Stack direction={'row'} justifyContent='space-between' spacing={2}>
                         <BcaDateTextField
+                            datatestid='components.forms.invoice.date'
                             control={control}
                             name='invoice_date'
                             label='Fecha de Factura'
@@ -109,6 +113,7 @@ function InvoiceForm({ invoiceId, invoice }: InvoiceFormProps) {
                         <BcaTextField
                             control={control}
                             name='invoice_total'
+                            datatestid='components.forms.invoice.total'
                             label='Total'
                             disabled
                             sx={{ textAlign: 'right' }}
