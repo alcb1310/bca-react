@@ -175,11 +175,13 @@ describe('<IndividualInvoice />', () => {
                 .should('be.visible')
                 .find('select')
                 .should('have.value', project_id)
+                .should('be.disabled')
 
             cy.getByTestId('components.forms.invoice.supplier')
                 .should('be.visible')
                 .find('select')
                 .should('have.value', supplier_id)
+                .should('be.disabled')
 
             cy.getByTestId('components.forms.invoice.number')
                 .should('be.visible')
@@ -201,6 +203,20 @@ describe('<IndividualInvoice />', () => {
             cy.getByTestId('component.button.group.cancel')
                 .should('be.visible')
                 .should('have.text', 'Cancelar')
+
+            cy.getByTestId('component.table.header.toolbar.main')
+                .should('be.visible')
+                .should('have.text', 'Agregar Detalle')
+
+            for (var i = 0; i < cols.length; i++) {
+                cy.get(`[data-field="${title[i]}"]`)
+                    .find('.MuiDataGrid-columnHeaderTitle')
+                    .should('have.text', cols[i])
+
+                cy.get(`[data-field="${title[i]}"]`)
+                    .find('.MuiDataGrid-columnHeaderTitle')
+                    .click()
+            }
         })
     })
 })
