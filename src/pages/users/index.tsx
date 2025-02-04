@@ -11,14 +11,26 @@ export default function UsersHome() {
                 <Typography variant='body1' component='span' color='success'>
                     Nombre:&nbsp;
                 </Typography>
-                {data?.name}
+                <Typography
+                    variant='body1'
+                    component='span'
+                    data-testid='page.user.name'
+                >
+                    {data?.name}
+                </Typography>
             </Typography>
 
             <Typography variant='body1' component='p'>
                 <Typography variant='body1' component='span' color='success'>
                     Email:&nbsp;
                 </Typography>
-                {data?.email}
+                <Typography
+                    variant='body1'
+                    component='span'
+                    data-testid='page.user.email'
+                >
+                    {data?.email}
+                </Typography>
             </Typography>
             <br />
 
@@ -38,7 +50,11 @@ export default function UsersHome() {
         <>
             <PageTitle title='Perfil' />
             <Box sx={{ marginTop: 2 }}>
-                {isLoading ? <CircularProgress /> : componentLayout}
+                {isLoading ? (
+                    <CircularProgress data-testid='page.user.loading' />
+                ) : (
+                    componentLayout
+                )}
             </Box>
         </>
     )
