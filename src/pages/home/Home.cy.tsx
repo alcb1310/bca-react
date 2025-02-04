@@ -1,4 +1,3 @@
-import TestAppWrapper from '../../components/wrappers/TestAppWraper'
 import Home from './Home'
 
 describe('<Home />', () => {
@@ -8,23 +7,13 @@ describe('<Home />', () => {
             'currentUser'
         )
 
-        cy.mount(
-            <TestAppWrapper>
-                <Home />
-            </TestAppWrapper>
-        )
-        cy.get('[data-testid="pages.home.spinner"]').should('be.visible')
+        cy.wrapper(<Home />)
+        cy.getByTestId('pages.home.spinner').should('be.visible')
         cy.get('[data-testid="pages.home.welcome"]').should('not.exist')
         cy.wait(['@currentUser'])
 
-        cy.get('[data-testid="pages.home.spinner"]').should('not.exist')
-        cy.get('[data-testid="pages.home.welcome"]').should(
-            'include.text',
-            'Bienvenido'
-        )
-        cy.get('[data-testid="pages.home.username"]').should(
-            'have.text',
-            'Test User'
-        )
+        cy.getByTestId('pages.home.spinner').should('not.exist')
+        cy.getByTestId('pages.home.welcome').should('include.text', 'Bienvenido')
+        cy.getByTestId('pages.home.username').should('have.text', 'Test User')
     })
 })

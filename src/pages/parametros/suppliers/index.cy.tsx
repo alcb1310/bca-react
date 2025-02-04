@@ -1,5 +1,4 @@
 import Suppliers from '.'
-import TestAppWrapper from '../../../components/wrappers/TestAppWraper'
 
 const cols = [
     'RUC',
@@ -22,31 +21,23 @@ describe('<Suppliers />', () => {
             statusCode: 200,
             fixture: 'parameters/suppliers/getAllSuppliers.json',
         }).as('suppliers')
-        cy.mount(
-            <TestAppWrapper>
-                <Suppliers />
-            </TestAppWrapper>
-        )
+        cy.wrapper(<Suppliers />)
     })
 
     it('should display the page', () => {
-        cy.get('[data-testid="page.parameters.suppliers.loading"]').should(
-            'be.visible'
-        )
+        cy.getByTestId('page.parameters.suppliers.loading').should('be.visible')
         cy.wait('@suppliers')
-        cy.get('[data-testid="page.parameters.suppliers.loading"]').should(
-            'not.exist'
-        )
+        cy.getByTestId('page.parameters.suppliers.loading').should('not.exist')
 
-        cy.get('[data-testid="component.pagetitle.title"]')
+        cy.getByTestId('component.pagetitle.title')
             .should('be.visible')
             .should('have.text', 'Proveedores')
 
-        cy.get('[data-testid="component.table.header.toolbar.main"]')
+        cy.getByTestId('component.table.header.toolbar.main')
             .should('be.visible')
             .should('have.text', 'Crear Proveedor')
 
-        cy.get('[data-testid="page.parameters.suppliers.search"]')
+        cy.getByTestId('page.parameters.suppliers.search')
             .should('be.visible')
             .find('label')
             .should('have.text', 'Buscar')
@@ -63,14 +54,14 @@ describe('<Suppliers />', () => {
     })
 
     it('should open the drawer on create mode', () => {
-        cy.get('[data-testid="component.drawer"]').should('not.exist')
-        cy.get('[data-testid="component.table.header.toolbar.main"]').click()
-        cy.get('[data-testid="component.drawer"]').should('be.visible')
-        cy.get('[data-testid="component.drawertitle.title"]')
+        cy.getByTestId('component.drawer').should('not.exist')
+        cy.getByTestId('component.table.header.toolbar.main').click()
+        cy.getByTestId('component.drawer').should('be.visible')
+        cy.getByTestId('component.drawertitle.title')
             .should('be.visible')
             .should('have.text', 'Crear Proveedor')
-        cy.get('[data-testid="component.button.group.cancel"]').click()
-        cy.get('[data-testid="component.drawer"]').should('not.exist')
+        cy.getByTestId('component.button.group.cancel').click()
+        cy.getByTestId('component.drawer').should('not.exist')
     })
 
     it('should open the drawer on edit mode', () => {
@@ -80,14 +71,14 @@ describe('<Suppliers />', () => {
                 .click()
         }
 
-        cy.get('[data-testid="component.drawer"]').should('not.exist')
+        cy.getByTestId('component.drawer').should('not.exist')
         cy.get('[data-rowindex="1"]').find('[aria-label="Edit"]').click()
 
-        cy.get('[data-testid="component.drawer"]').should('be.visible')
-        cy.get('[data-testid="component.drawertitle.title"]')
+        cy.getByTestId('component.drawer').should('be.visible')
+        cy.getByTestId('component.drawertitle.title')
             .should('be.visible')
             .should('have.text', 'Editar Proveedor')
-        cy.get('[data-testid="component.button.group.cancel"]').click()
-        cy.get('[data-testid="component.drawer"]').should('not.exist')
+        cy.getByTestId('component.button.group.cancel').click()
+        cy.getByTestId('component.drawer').should('not.exist')
     })
 })

@@ -1,5 +1,4 @@
 import Materials from '.'
-import TestAppWrapper from '../../../components/wrappers/TestAppWraper'
 
 const cols = ['Código', 'Nombre', 'Unidad', 'Categoría']
 const title = ['code', 'name', 'unit', 'category']
@@ -14,29 +13,20 @@ describe('<Materials />', () => {
             statusCode: 200,
             fixture: 'parameters/categories/getAllCategories.json',
         }).as('categories')
-
-        cy.mount(
-            <TestAppWrapper>
-                <Materials />
-            </TestAppWrapper>
-        )
+        cy.wrapper(<Materials />)
     })
 
     it('should display the page', () => {
-        cy.get('[data-testid="page.parameters.materials.loading"]').should(
-            'be.visible'
-        )
+        cy.getByTestId('page.parameters.materials.loading').should('be.visible')
 
         cy.wait(['@materials', '@categories'])
-        cy.get('[data-testid="page.parameters.materials.loading"]').should(
-            'not.exist'
-        )
+        cy.getByTestId('page.parameters.materials.loading').should('not.exist')
 
-        cy.get('[data-testid="component.pagetitle.title"]')
+        cy.getByTestId('component.pagetitle.title')
             .should('be.visible')
             .should('have.text', 'Materiales')
 
-        cy.get('[data-testid="component.table.header.toolbar.main"]')
+        cy.getByTestId('component.table.header.toolbar.main')
             .should('be.visible')
             .should('have.text', 'Crear Material')
 
@@ -52,15 +42,15 @@ describe('<Materials />', () => {
     })
 
     it('should open the drawer for creation', () => {
-        cy.get('[data-testid="component.table.header.toolbar.main"]').click()
-        cy.get('[data-testid="component.drawer"]').should('be.visible')
+        cy.getByTestId('component.table.header.toolbar.main').click()
+        cy.getByTestId('component.drawer').should('be.visible')
 
-        cy.get('[data-testid="component.drawertitle.title"]')
+        cy.getByTestId('component.drawertitle.title')
             .should('be.visible')
             .should('have.text', 'Crear Material')
 
-        cy.get('[data-testid="component.button.group.cancel"]').click()
-        cy.get('[data-testid="component.drawer"]').should('not.exist')
+        cy.getByTestId('component.button.group.cancel').click()
+        cy.getByTestId('component.drawer').should('not.exist')
     })
 
     it('should open the drawer for edition', () => {
@@ -74,11 +64,11 @@ describe('<Materials />', () => {
             .find('[data-testid="EditOutlinedIcon"]')
             .click()
 
-        cy.get('[data-testid="component.drawertitle.title"]')
+        cy.getByTestId('component.drawertitle.title')
             .should('be.visible')
             .should('have.text', 'Editar Material')
 
-        cy.get('[data-testid="component.button.group.cancel"]').click()
-        cy.get('[data-testid="component.drawer"]').should('not.exist')
+        cy.getByTestId('component.button.group.cancel').click()
+        cy.getByTestId('component.drawer').should('not.exist')
     })
 })

@@ -1,5 +1,4 @@
 import BudgetItems from '.'
-import TestAppWrapper from '../../../components/wrappers/TestAppWraper'
 
 const cols = ['Código', 'Nombre', 'Nivel', 'Acumula', 'Padre']
 const title = ['code', 'name', 'level', 'accumulate', 'parent_code']
@@ -10,42 +9,33 @@ describe('<BudgetItems />', () => {
             statusCode: 200,
             fixture: 'parameters/budget_items/getAllBudgetItem.json',
         }).as('partidas')
-
-        cy.mount(
-            <TestAppWrapper>
-                <BudgetItems />
-            </TestAppWrapper>
-        )
+        cy.wrapper(<BudgetItems />)
     })
 
     it('should display the page', () => {
-        cy.get('[data-testid="page.parametros.partidas.loading"]').should(
-            'be.visible'
-        )
+        cy.getByTestId('page.parametros.partidas.loading').should('be.visible')
 
         cy.wait('@partidas')
 
-        cy.get('[data-testid="page.parametros.partidas.loading"]').should(
-            'not.exist'
-        )
+        cy.getByTestId('page.parametros.partidas.loading').should('not.exist')
 
-        cy.get('[data-testid="component.pagetitle.title"]')
+        cy.getByTestId('component.pagetitle.title')
             .should('be.visible')
             .should('have.text', 'Partidas')
 
-        cy.get('[data-testid="component.table.header.toolbar.main"]')
+        cy.getByTestId('component.table.header.toolbar.main')
             .should('be.visible')
             .should('have.text', 'Crear Partida')
 
-        cy.get('[data-testid="page.parametros.partidas.search"]')
+        cy.getByTestId('page.parametros.partidas.search')
             .find('input')
             .should('be.visible')
 
-        cy.get('[data-testid="page.parametros.partidas.search"]')
+        cy.getByTestId('page.parametros.partidas.search')
             .find('label')
             .should('have.text', 'Buscar')
 
-        cy.get('[data-testid="component.drawer"]').should('not.exist')
+        cy.getByTestId('component.drawer').should('not.exist')
         for (var i = 0; i < cols.length; i++) {
             cy.get(`[data-field="${title[i]}"]`)
                 .find('.MuiDataGrid-columnHeaderTitle')
@@ -59,13 +49,13 @@ describe('<BudgetItems />', () => {
 
     describe('open the drawer', () => {
         it('should open for creation', () => {
-            cy.get('[data-testid="component.table.header.toolbar.main"]').click()
-            cy.get('[data-testid="component.drawer"]').should('be.visible')
-            cy.get('[data-testid="component.drawertitle.title"]')
+            cy.getByTestId('component.table.header.toolbar.main').click()
+            cy.getByTestId('component.drawer').should('be.visible')
+            cy.getByTestId('component.drawertitle.title')
                 .should('be.visible')
                 .should('have.text', 'Crear Partida')
-            cy.get('[data-testid="component.button.group.cancel"]').click()
-            cy.get('[data-testid="component.drawer"]').should('not.exist')
+            cy.getByTestId('component.button.group.cancel').click()
+            cy.getByTestId('component.drawer').should('not.exist')
         })
 
         it('should enter for edit', () => {
@@ -76,12 +66,12 @@ describe('<BudgetItems />', () => {
             }
 
             cy.get('[data-rowindex="1"]').find('[aria-colindex="6"]').click()
-            cy.get('[data-testid="component.drawer"]').should('be.visible')
-            cy.get('[data-testid="component.drawertitle.title"]')
+            cy.getByTestId('component.drawer').should('be.visible')
+            cy.getByTestId('component.drawertitle.title')
                 .should('be.visible')
                 .should('have.text', 'Editar Partida')
-            cy.get('[data-testid="component.button.group.cancel"]').click()
-            cy.get('[data-testid="component.drawer"]').should('not.exist')
+            cy.getByTestId('component.button.group.cancel').click()
+            cy.getByTestId('component.drawer').should('not.exist')
         })
     })
 })

@@ -1,0 +1,34 @@
+[
+  {
+    "id": "3b484b0c-5c5d-4dfe-a104-ceac768acb45",
+    "data": "13-01-2025",
+    "project": {
+      "id": "e4b2eaf2-1d98-4493-bf2d-15938ef3057b",
+      "name": "Test Project 1",
+      "is_active": true,
+      "gross_area": 0,
+      "net_area": 0
+    },
+    "supplier": {
+      "id": "81065ab9-cce2-4bdb-ab8a-0cd326924c47",
+      "supplier_id": "1234567890001",
+      "name": "First Supplier",
+      "contact_name": {
+        "String": "",
+        "Valid": true
+      },
+      "contact_email": {
+        "String": "",
+        "Valid": true
+      },
+      "contact_phone": {
+        "String": "",
+        "Valid": true
+      }
+    },
+    "invoice_date": "01-13-2025",
+    "invoice_number": "001-001-241",
+    "invoice_total": 25,
+    "company_id": "6191aaf0-bf44-44ef-b574-7645808ab5da"
+  }
+]
