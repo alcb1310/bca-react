@@ -1,9 +1,11 @@
 import ChangePassword from '.'
 
 describe('<ChangePassword />', () => {
-    it('should display the page', () => {
+    beforeEach(() => {
         cy.wrapper(<ChangePassword onClose={() => { }} />)
+    })
 
+    it('should display the page', () => {
         cy.getByTestId('component.drawertitle.title')
             .should('be.visible')
             .should('have.text', 'Cambiar Contraseña')
@@ -19,5 +21,12 @@ describe('<ChangePassword />', () => {
         cy.getByTestId('component.button.group.cancel')
             .should('be.visible')
             .should('have.text', 'Cancelar')
+    })
+
+    it('should display error', () => {
+        cy.getByTestId('component.button.group.save').click()
+        cy.getByTestId('page.user.password.field.error')
+            .should('be.visible')
+            .should('have.text', 'Contraseña es obligatoria')
     })
 })
