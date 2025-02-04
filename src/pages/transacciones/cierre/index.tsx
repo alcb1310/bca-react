@@ -1,4 +1,4 @@
-// BUG: In the Pages/Cierre page, when searching the invoices with a date with a one digit day, there is an error when querying the API 
+// BUG: In the Pages/Cierre page, when searching the invoices with a date with a one digit day, there is an error when querying the API
 
 import { useState } from 'react'
 import { Box, Button, CircularProgress, Stack, Typography } from '@mui/material'
@@ -16,77 +16,77 @@ import { useCreateClosureMutation } from '../../../redux/api/bca-backend/transac
 import { DevTool } from '@hookform/devtools'
 
 export default function Cierre() {
-  const [open, setOpen] = useState<boolean>(false)
-  const [conflictError, setConflictError] = useState<string>('')
-  const [cierreData, setCierreData] = useState<CierreTypes | null>(null)
-  const { data: projects, isLoading } = useGetAllProjectsQuery({ active: true })
-  const { control, handleSubmit } = useForm<CierreTypes>({
-    defaultValues: {
-      project_id: '',
-      // @ts-expect-error default value is empty
-      date: '',
-    },
-    resolver: zodResolver(cierreSchema),
-  })
-  const [generateCierre] = useCreateClosureMutation()
+    const [open, setOpen] = useState<boolean>(false)
+    const [conflictError, setConflictError] = useState<string>('')
+    const [cierreData, setCierreData] = useState<CierreTypes | null>(null)
+    const { data: projects, isLoading } = useGetAllProjectsQuery({ active: true })
+    const { control, handleSubmit } = useForm<CierreTypes>({
+        defaultValues: {
+            project_id: '',
+            // @ts-expect-error default value is empty
+            date: '',
+        },
+        resolver: zodResolver(cierreSchema),
+    })
+    const [generateCierre] = useCreateClosureMutation()
 
-  function hadleSubmit(data: CierreTypes) {
-    setCierreData(data)
-    setOpen(true)
-  }
+    function hadleSubmit(data: CierreTypes) {
+        setCierreData(data)
+        setOpen(true)
+    }
 
-  return (
-    <>
-      <PageTitle title='Cierre de Mes' />
+    return (
+        <>
+            <PageTitle title='Cierre de Mes' />
 
-      <form onSubmit={handleSubmit(hadleSubmit)}>
-        <Stack width='50%' direction='column' spacing={2} mx='auto' mt={2}>
-          {isLoading && <CircularProgress />}
-          {conflictError && (
-            <Typography color='error'>{conflictError}</Typography>
-          )}
+            <form onSubmit={handleSubmit(hadleSubmit)}>
+                <Stack width='50%' direction='column' spacing={2} mx='auto' mt={2}>
+                    {isLoading && <CircularProgress />}
+                    {conflictError && (
+                        <Typography color='error'>{conflictError}</Typography>
+                    )}
 
-          <BcaSelect name='project_id' control={control}>
-            <option value=''>Seleccione un proyecto</option>
-            {projects?.map((project) => (
-              <option key={project.id} value={project.id}>
-                {project.name}
-              </option>
-            ))}
-          </BcaSelect>
+                    <BcaSelect name='project_id' control={control}>
+                        <option value=''>Seleccione un proyecto</option>
+                        {projects?.map((project) => (
+                            <option key={project.id} value={project.id}>
+                                {project.name}
+                            </option>
+                        ))}
+                    </BcaSelect>
 
-          <BcaDateTextField name='date' control={control} label='Fecha' />
+                    <BcaDateTextField name='date' control={control} label='Fecha' />
 
-          <Box>
-            <Button
-              variant='contained'
-              startIcon={<SaveOutlined />}
-              color='primary'
-              onClick={handleSubmit(hadleSubmit)}
-              type='submit'
-              size='small'
-            >
-              Generar Cierre
-            </Button>
-          </Box>
-        </Stack>
-      </form>
-      {open && (
-        <ConfirmationDialog
-          open={open}
-          setOpen={setOpen}
-          message={`Desea generar el cierre`}
-          confirm={async () => {
-            const res = await generateCierre(cierreData!)
-            if ('error' in res) {
-              // @ts-expect-error error property is part of the res.error object
-              setConflictError(res.error.data.error)
-            }
-            setOpen(false)
-          }}
-        />
-      )}
-      <DevTool control={control} />
-    </>
-  )
+                    <Box>
+                        <Button
+                            variant='contained'
+                            startIcon={<SaveOutlined />}
+                            color='primary'
+                            onClick={handleSubmit(hadleSubmit)}
+                            type='submit'
+                            size='small'
+                        >
+                            Generar Cierre
+                        </Button>
+                    </Box>
+                </Stack>
+            </form>
+            {open && (
+                <ConfirmationDialog
+                    open={open}
+                    setOpen={setOpen}
+                    message={`Desea generar el cierre`}
+                    confirm={async () => {
+                        const res = await generateCierre(cierreData!)
+                        if ('error' in res) {
+                            // @ts-expect-error error property is part of the res.error object
+                            setConflictError(res.error.data.error)
+                        }
+                        setOpen(false)
+                    }}
+                />
+            )}
+            <DevTool control={control} />
+        </>
+    )
 }
