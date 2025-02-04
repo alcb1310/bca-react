@@ -41,7 +41,7 @@ export default function AllUsersTable() {
     }
 
     if (isLoading) {
-        return <CircularProgress />
+        return <CircularProgress data-testid='component.users.table.loading' />
     }
 
     const cols: GridColDef[] = [
