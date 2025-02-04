@@ -33,7 +33,7 @@ describe('<Cierre />', () => {
         cy.getByTestId('page.transactions.closure.generate')
             .should('be.visible')
             .should('have.text', 'Generar Cierre')
-        cy.getByTestId('page.transactions.closure.dialog').should('not.exist')
+        cy.getByTestId('component.dialog').should('not.exist')
     })
 
     it('should display errors', () => {
@@ -44,5 +44,29 @@ describe('<Cierre />', () => {
         cy.getByTestId('page.transactions.closure.date')
             .find('.MuiFormHelperText-root')
             .should('have.text', 'Invalid date')
+    })
+
+    it('should display dialog', () => {
+        cy.getByTestId('page.transactions.closure.project')
+            .find('select')
+            .select('e4b2eaf2-1d98-4493-bf2d-15938ef3057b')
+        cy.getByTestId('page.transactions.closure.date').type('01012025')
+        cy.getByTestId('page.transactions.closure.generate').click()
+        cy.getByTestId('component.dialog').should('be.visible')
+
+        cy.getByTestId('component.dialog.title').should('have.text', 'Confirmación')
+
+        cy.getByTestId('component.dialog.content').should(
+            'have.text',
+            'Desea generar el cierre'
+        )
+        cy.getByTestId('component.dialog.confirm')
+            .should('be.visible')
+            .should('have.text', 'Confirmar')
+        cy.getByTestId('component.dialog.cancel')
+            .should('be.visible')
+            .should('have.text', 'Cancelar')
+            .click()
+        cy.getByTestId('component.dialog').should('not.exist')
     })
 })
