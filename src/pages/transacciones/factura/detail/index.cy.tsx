@@ -218,5 +218,18 @@ describe('<IndividualInvoice />', () => {
                     .click()
             }
         })
+
+        it('should open the drawer', () => {
+            cy.getByTestId('component.drawer').should('not.exist')
+            cy.getByTestId('component.table.header.toolbar.main').click()
+            cy.getByTestId('component.drawer').should('be.visible')
+            cy.getByTestId('component.drawertitle.title')
+                .should('be.visible')
+                .should('have.text', 'Crear Detalle')
+            cy.getByTestId('component.drawer')
+                .find('[data-testid="component.button.group.cancel"]')
+                .click()
+            cy.getByTestId('component.drawer').should('not.exist')
+        })
     })
 })
