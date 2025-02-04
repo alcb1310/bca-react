@@ -41,12 +41,18 @@ export default function Cierre() {
 
             <form onSubmit={handleSubmit(hadleSubmit)}>
                 <Stack width='50%' direction='column' spacing={2} mx='auto' mt={2}>
-                    {isLoading && <CircularProgress />}
+                    {isLoading && (
+                        <CircularProgress data-testid='page.transactions.closure.loading' />
+                    )}
                     {conflictError && (
                         <Typography color='error'>{conflictError}</Typography>
                     )}
 
-                    <BcaSelect name='project_id' control={control}>
+                    <BcaSelect
+                        datatestid='page.transactions.closure.project'
+                        name='project_id'
+                        control={control}
+                    >
                         <option value=''>Seleccione un proyecto</option>
                         {projects?.map((project) => (
                             <option key={project.id} value={project.id}>
@@ -55,11 +61,17 @@ export default function Cierre() {
                         ))}
                     </BcaSelect>
 
-                    <BcaDateTextField name='date' control={control} label='Fecha' />
+                    <BcaDateTextField
+                        datatestid='page.transactions.closure.date'
+                        name='date'
+                        control={control}
+                        label='Fecha'
+                    />
 
                     <Box>
                         <Button
                             variant='contained'
+                            data-testid='page.transactions.closure.generate'
                             startIcon={<SaveOutlined />}
                             color='primary'
                             onClick={handleSubmit(hadleSubmit)}
@@ -73,6 +85,7 @@ export default function Cierre() {
             </form>
             {open && (
                 <ConfirmationDialog
+                    data-testid='page.transactions.closure.dialog'
                     open={open}
                     setOpen={setOpen}
                     message={`Desea generar el cierre`}
