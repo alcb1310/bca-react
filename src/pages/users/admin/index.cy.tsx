@@ -4,7 +4,7 @@ const cols = ['Nombre', 'Email']
 const title = ['name', 'email']
 
 describe('<Admin />', () => {
-    it('should display the page', () => {
+    beforeEach(() => {
         cy.intercept('GET', '**/users/me', {
             statusCode: 200,
             fixture: '/users/me.json',
@@ -13,8 +13,10 @@ describe('<Admin />', () => {
             statusCode: 200,
             fixture: '/users/getAllUsers.json',
         }).as('users')
-
         cy.wrapper(<Admin />)
+    })
+
+    it('should display the page', () => {
         cy.getByTestId('component.users.table.loading').should('be.visible')
 
         cy.wait(['@me', '@users'])
@@ -36,5 +38,16 @@ describe('<Admin />', () => {
                 .find('.MuiDataGrid-columnHeaderTitle')
                 .click()
         }
+    })
+
+    it('should open the drawer', () => {
+        cy.getByTestId('component.drawer').should('not.exist')
+        cy.getByTestId('component.table.header.toolbar.main').click()
+        cy.getByTestId('component.drawer').should('be.visible')
+        cy.getByTestId('component.drawertitle.title')
+            .should('be.visible')
+            .should('have.text', 'Crear usuario')
+        cy.getByTestId('component.button.group.cancel').click()
+        cy.getByTestId('component.drawer').should('not.exist')
     })
 })
