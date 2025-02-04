@@ -3,7 +3,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 
 describe('<Cierre />', () => {
-    it('should display the page', () => {
+    beforeEach(() => {
         cy.intercept('GET', '**/parametros/proyectos?active=true', {
             statusCode: 200,
             fixture: 'parameters/projects/active.json',
@@ -13,7 +13,9 @@ describe('<Cierre />', () => {
                 <Cierre />
             </LocalizationProvider>
         )
+    })
 
+    it('should display the page', () => {
         cy.getByTestId('page.transactions.closure.loading').should('be.visible')
         cy.getByTestId('component.pagetitle.title')
             .should('be.visible')
@@ -32,5 +34,15 @@ describe('<Cierre />', () => {
             .should('be.visible')
             .should('have.text', 'Generar Cierre')
         cy.getByTestId('page.transactions.closure.dialog').should('not.exist')
+    })
+
+    it('should display errors', () => {
+        cy.getByTestId('page.transactions.closure.generate').click()
+        cy.get('.project_id')
+            .should('be.visible')
+            .should('have.text', 'Seleccione un proyecto')
+        cy.getByTestId('page.transactions.closure.date')
+            .find('.MuiFormHelperText-root')
+            .should('have.text', 'Invalid date')
     })
 })
