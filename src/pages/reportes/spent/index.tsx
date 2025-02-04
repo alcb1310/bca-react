@@ -45,7 +45,7 @@ export default function Spent() {
     const [open, setOpen] = useState<boolean>(false)
     const [selected, setSelected] = useState<SpentType | undefined>(undefined)
 
-    const token = useAppSelector(state => state.login.token)
+    const token = useAppSelector((state) => state.login.token)
 
     const { control, handleSubmit } = useForm<ReportTypes>({
         defaultValues: {
@@ -78,15 +78,17 @@ export default function Spent() {
             const res = await fetch(
                 `${url}/reportes/excel/gastado?proyecto=${info.project_id}&nivel=${info.level}&fecha=${date}`,
                 {
-                    method: "GET",
+                    method: 'GET',
                     headers: {
-                        Authorization: `Bearer ${token}`
+                        Authorization: `Bearer ${token}`,
                     },
-                },
+                }
             )
 
             const blob = await res.blob()
-            const filename = res.headers.get('Content-Disposition')?.split('filename')[1] || 'excel-file.xlsx'
+            const filename =
+                res.headers.get('Content-Disposition')?.split('filename')[1] ||
+                'excel-file.xlsx'
 
             downloadExcelFile(blob, filename)
         } catch (e) {
@@ -174,7 +176,8 @@ export default function Spent() {
 
             {open && (
                 <SpentDetailsDrawer
-                    setOpen={() => setOpen(false)} open={open}
+                    setOpen={() => setOpen(false)}
+                    open={open}
                     selectedData={selected!}
                     selectedProject={selectedReport.project_id!}
                     selectedDate={selectedReport.date!}
