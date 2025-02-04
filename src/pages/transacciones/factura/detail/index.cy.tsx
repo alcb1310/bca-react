@@ -2,6 +2,15 @@ import { LocalizationProvider } from '@mui/x-date-pickers'
 import IndividualInvoice from '.'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 
+const cols = ['Codigo', 'Nombre', 'Cantidad', 'Costo', 'Total']
+const title = [
+    'budget_item_code',
+    'budget_item_name',
+    'quantity',
+    'cost',
+    'total',
+]
+
 describe('<IndividualInvoice />', () => {
     describe('Create Invoice', () => {
         beforeEach(() => {
@@ -90,6 +99,12 @@ describe('<IndividualInvoice />', () => {
             cy.getByTestId('component.button.group.cancel')
                 .should('be.visible')
                 .should('have.text', 'Cancelar')
+
+            cy.getByTestId('component.table.header.toolbar.main').should('not.exist')
+
+            for (var i = 0; i < cols.length; i++) {
+                cy.get(`[data-field="${title[i]}"]`).should('not.exist')
+            }
         })
 
         describe('validate data', () => {
