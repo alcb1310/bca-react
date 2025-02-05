@@ -101,7 +101,12 @@ export default function Spent() {
             <PageTitle title='Gastado por partida' />
             <form onSubmit={handleSubmit(generateReport)}>
                 <Stack width='50%' direction={'column'} spacing={2} mx={'auto'} mt={2}>
-                    <BcaSelect name='project_id' label='Proyecto' control={control}>
+                    <BcaSelect
+                        datatestid='page.reports.spent.project'
+                        name='project_id'
+                        label='Proyecto'
+                        control={control}
+                    >
                         <option value=''>Seleccione un proyecto</option>
                         {projects?.map((project) => (
                             <option key={project.id} value={project.id}>
@@ -111,7 +116,12 @@ export default function Spent() {
                     </BcaSelect>
 
                     <Stack direction={'row'} justifyContent={'space-between'}>
-                        <BcaSelect name='level' label='Nivel' control={control}>
+                        <BcaSelect
+                            datatestid='page.reports.spent.level'
+                            name='level'
+                            label='Nivel'
+                            control={control}
+                        >
                             <option value=''>Seleccione un nivel</option>
                             {levels?.map((level) => (
                                 <option key={level.key} value={level.key}>
@@ -120,7 +130,12 @@ export default function Spent() {
                             ))}
                         </BcaSelect>
 
-                        <BcaDateTextField control={control} name='date' label='Fecha' />
+                        <BcaDateTextField
+                            datatestid='page.reports.spent.date'
+                            control={control}
+                            name='date'
+                            label='Fecha'
+                        />
                     </Stack>
 
                     <EditToolbar

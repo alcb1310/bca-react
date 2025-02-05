@@ -39,6 +39,7 @@ export default function EditToolbar({
             {hasExportButton && (
                 <Button
                     variant='text'
+                    data-testid='component.table.header.toolbar.export'
                     startIcon={<FileDownloadOutlined />}
                     onClick={exportClick}
                     size='small'
