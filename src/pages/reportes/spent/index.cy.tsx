@@ -6,7 +6,7 @@ const cols = ['Codigo', 'Nombre', 'Total']
 const title = ['code', 'name', 'spent']
 
 describe('<Spent />', () => {
-    it('should display the page', () => {
+    beforeEach(() => {
         cy.intercept('GET', '**/reportes/levels', {
             statusCode: 200,
             fixture: 'reports/levels/getAllLevels.json',
@@ -24,7 +24,9 @@ describe('<Spent />', () => {
                 <Spent />
             </LocalizationProvider>
         )
+    })
 
+    it('should display the page', () => {
         cy.wait(['@levels', '@projects', '@spent-load'])
 
         cy.getByTestId('component.pagetitle.title')
@@ -63,5 +65,15 @@ describe('<Spent />', () => {
                 .find('.MuiDataGrid-columnHeaderTitle')
                 .click()
         }
+    })
+
+    it('should display errors', () => {
+        cy.getByTestId('component.table.header.toolbar.main').click()
+        cy.get('.project_id')
+            .should('be.visible')
+            .should('have.text', 'Seleccione un proyecto')
+        cy.get('.level')
+            .should('be.visible')
+            .should('have.text', 'Seleccione un nivel')
     })
 })
