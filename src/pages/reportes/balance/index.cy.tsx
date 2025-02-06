@@ -57,4 +57,31 @@ describe('<Balance />', () => {
             .should('be.visible')
             .should('have.text', 'Seleccione un proyecto')
     })
+
+    it('should show spinner on fetch data', () => {
+        const project_id = 'e4b2eaf2-1d98-4493-bf2d-15938ef3057b'
+        const date = '2024-12-15'
+
+        cy.getByTestId('page.reports.balance.project')
+            .find('select')
+            .select('Test Project 1')
+        cy.getByTestId('page.reports.balance.date').find('input').type('12152024')
+
+        cy.intercept(
+            'GET',
+            `**/reportes/cuadre?project_id=${project_id}&date=${date}`,
+            {
+                statusCode: 200,
+                body: {
+                    invoices: [],
+                    total: 0,
+                },
+            }
+        ).as('balance')
+        cy.getByTestId('component.table.header.toolbar.main').click()
+
+        cy.getByTestId('page.reports.balance.loading').should('be.visible')
+        cy.wait('@balance')
+        cy.getByTestId('page.reports.balance.loading').should('not.exist')
+    })
 })

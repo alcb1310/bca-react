@@ -37,7 +37,7 @@ export default function Balance() {
         date: '',
     })
     const { data: projects } = useGetAllProjectsQuery({ active: true })
-    const { data, isLoading } = useGetBalanceReportQuery(selectedData!)
+    const { data, isFetching } = useGetBalanceReportQuery(selectedData!)
     const token = useAppSelector((state) => state.login.token)
 
     function generateReport(data: ReportType) {
@@ -104,7 +104,7 @@ export default function Balance() {
                     />
                 </Stack>
             </form>
-            {isLoading && (
+            {isFetching && (
                 <CircularProgress data-testid='page.reports.balance.loading' />
             )}
 
