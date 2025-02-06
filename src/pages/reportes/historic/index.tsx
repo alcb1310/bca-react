@@ -51,7 +51,7 @@ export default function Historic() {
 
     const { data: projects } = useGetAllProjectsQuery({})
     const { data: levels } = useGetAllLevelsQuery()
-    const { data: budgets, isLoading } = useGetAllHistoricQuery(selectedReport)
+    const { data: budgets, isFetching } = useGetAllHistoricQuery(selectedReport)
     const token = useAppSelector((state) => state.login.token)
 
     function generateReport(data: ReportTypes) {
@@ -90,7 +90,12 @@ export default function Historic() {
 
             <form onSubmit={handleSubmit(generateReport)}>
                 <Stack width='50%' direction='column' spacing={2} mx='auto' mt={2}>
-                    <BcaSelect name='project_id' label='Proyecto' control={control}>
+                    <BcaSelect
+                        datatestid='pages.reports.historic.project'
+                        name='project_id'
+                        label='Proyecto'
+                        control={control}
+                    >
                         <option value=''>Seleccione un proyecto</option>
                         {projects?.map((project) => (
                             <option key={project.id} value={project.id}>
@@ -100,7 +105,12 @@ export default function Historic() {
                     </BcaSelect>
 
                     <Stack direction='row' spacing={2} justifyContent='space-between'>
-                        <BcaSelect name='level' label='Nivel' control={control}>
+                        <BcaSelect
+                            datatestid='pages.reports.historic.level'
+                            name='level'
+                            label='Nivel'
+                            control={control}
+                        >
                             <option value=''>Seleccione un nivel</option>
                             {levels?.map((level) => (
                                 <option key={level.key} value={level.key}>
@@ -109,7 +119,12 @@ export default function Historic() {
                             ))}
                         </BcaSelect>
 
-                        <BcaDateTextField control={control} name='date' label='Fecha' />
+                        <BcaDateTextField
+                            datatestid='pages.reports.historic.date'
+                            control={control}
+                            name='date'
+                            label='Fecha'
+                        />
                     </Stack>
 
                     <EditToolbar
@@ -120,7 +135,9 @@ export default function Historic() {
                         exportClick={handleSubmit(exportReport)}
                     />
                 </Stack>
-                {isLoading && <CircularProgress />}
+                {isFetching && (
+                    <CircularProgress data-testid='pages.reports.historic.loading' />
+                )}
 
                 <ActualTable data={budgets!} />
             </form>

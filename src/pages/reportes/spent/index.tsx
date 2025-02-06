@@ -45,7 +45,7 @@ export default function Spent() {
     const [open, setOpen] = useState<boolean>(false)
     const [selected, setSelected] = useState<SpentType | undefined>(undefined)
 
-    const token = useAppSelector(state => state.login.token)
+    const token = useAppSelector((state) => state.login.token)
 
     const { control, handleSubmit } = useForm<ReportTypes>({
         defaultValues: {
@@ -58,7 +58,7 @@ export default function Spent() {
 
     const { data: projects } = useGetAllProjectsQuery({})
     const { data: levels } = useGetAllLevelsQuery()
-    const { data, isLoading } = useGetSpentQuery(selectedReport!)
+    const { data, isFetching } = useGetSpentQuery(selectedReport!)
 
     function generateReport(info: ReportTypes) {
         const date = normalizeDate(info.date)
@@ -78,15 +78,17 @@ export default function Spent() {
             const res = await fetch(
                 `${url}/reportes/excel/gastado?proyecto=${info.project_id}&nivel=${info.level}&fecha=${date}`,
                 {
-                    method: "GET",
+                    method: 'GET',
                     headers: {
-                        Authorization: `Bearer ${token}`
+                        Authorization: `Bearer ${token}`,
                     },
-                },
+                }
             )
 
             const blob = await res.blob()
-            const filename = res.headers.get('Content-Disposition')?.split('filename')[1] || 'excel-file.xlsx'
+            const filename =
+                res.headers.get('Content-Disposition')?.split('filename')[1] ||
+                'excel-file.xlsx'
 
             downloadExcelFile(blob, filename)
         } catch (e) {
@@ -99,7 +101,12 @@ export default function Spent() {
             <PageTitle title='Gastado por partida' />
             <form onSubmit={handleSubmit(generateReport)}>
                 <Stack width='50%' direction={'column'} spacing={2} mx={'auto'} mt={2}>
-                    <BcaSelect name='project_id' label='Proyecto' control={control}>
+                    <BcaSelect
+                        datatestid='page.reports.spent.project'
+                        name='project_id'
+                        label='Proyecto'
+                        control={control}
+                    >
                         <option value=''>Seleccione un proyecto</option>
                         {projects?.map((project) => (
                             <option key={project.id} value={project.id}>
@@ -109,7 +116,12 @@ export default function Spent() {
                     </BcaSelect>
 
                     <Stack direction={'row'} justifyContent={'space-between'}>
-                        <BcaSelect name='level' label='Nivel' control={control}>
+                        <BcaSelect
+                            datatestid='page.reports.spent.level'
+                            name='level'
+                            label='Nivel'
+                            control={control}
+                        >
                             <option value=''>Seleccione un nivel</option>
                             {levels?.map((level) => (
                                 <option key={level.key} value={level.key}>
@@ -118,7 +130,12 @@ export default function Spent() {
                             ))}
                         </BcaSelect>
 
-                        <BcaDateTextField control={control} name='date' label='Fecha' />
+                        <BcaDateTextField
+                            datatestid='page.reports.spent.date'
+                            control={control}
+                            name='date'
+                            label='Fecha'
+                        />
                     </Stack>
 
                     <EditToolbar
@@ -130,7 +147,6 @@ export default function Spent() {
                     />
                 </Stack>
             </form>
-            {isLoading && <CircularProgress />}
 
             {!!data && (
                 <Grid2 container spacing={2} mt={2}>
@@ -151,6 +167,9 @@ export default function Spent() {
                 </Grid2>
             )}
 
+            {isFetching && (
+                <CircularProgress data-testid='page.reports.spent.loading' />
+            )}
             <SpentTable data={data!} setOpen={setOpen} setSelected={setSelected} />
 
             {!!data && (
@@ -174,7 +193,8 @@ export default function Spent() {
 
             {open && (
                 <SpentDetailsDrawer
-                    setOpen={() => setOpen(false)} open={open}
+                    setOpen={() => setOpen(false)}
+                    open={open}
                     selectedData={selected!}
                     selectedProject={selectedReport.project_id!}
                     selectedDate={selectedReport.date!}
