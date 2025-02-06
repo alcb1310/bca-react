@@ -22,7 +22,7 @@ const title = [
 ]
 
 describe('<Actual />', () => {
-    it('should display the page', () => {
+    beforeEach(() => {
         cy.intercept('GET', '**/parametros/proyectos?active=true', {
             statusCode: 200,
             fixture: 'parameters/projects/active.json',
@@ -36,7 +36,9 @@ describe('<Actual />', () => {
         }).as('actual-load')
 
         cy.wrapper(<Actual />)
+    })
 
+    it('should display the page', () => {
         cy.getByTestId('page.reports.actual.loading').should('be.visible')
         cy.wait(['@projects', '@levels', '@actual-load'])
         cy.getByTestId('page.reports.actual.loading').should('not.exist')
@@ -66,5 +68,16 @@ describe('<Actual />', () => {
                 .find('.MuiDataGrid-columnHeaderTitle')
                 .click()
         }
+    })
+
+    it('should show errors', () => {
+        cy.getByTestId('component.table.header.toolbar.main').click()
+
+        cy.get('.project_id')
+            .should('be.visible')
+            .should('have.text', 'Seleccione un proyecto')
+        cy.get('.level')
+            .should('be.visible')
+            .should('have.text', 'Seleccione un nivel')
     })
 })
