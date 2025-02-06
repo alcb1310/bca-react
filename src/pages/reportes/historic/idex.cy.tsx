@@ -24,7 +24,7 @@ const title = [
 ]
 
 describe('<Historic />', () => {
-    it('should display the page', () => {
+    beforeEach(() => {
         cy.intercept('GET', '**/parametros/proyectos?', {
             statusCode: 200,
             fixture: 'parameters/projects/getAllProjects.json',
@@ -42,7 +42,9 @@ describe('<Historic />', () => {
                 <Historic />
             </LocalizationProvider>
         )
+    })
 
+    it('should display the page', () => {
         cy.getByTestId('pages.reports.historic.loading').should('be.visible')
         cy.wait(['@projects', '@levels', '@histoirc-load'])
         cy.getByTestId('pages.reports.historic.loading').should('not.exist')
@@ -82,5 +84,17 @@ describe('<Historic />', () => {
                 .find('.MuiDataGrid-columnHeaderTitle')
                 .click()
         }
+    })
+
+    it('should display errors', () => {
+        cy.getByTestId('component.table.header.toolbar.main').click()
+
+        cy.get('.project_id')
+            .should('be.visible')
+            .should('have.text', 'Seleccione un proyecto')
+
+        cy.get('.level')
+            .should('be.visible')
+            .should('have.text', 'Seleccione un nivel')
     })
 })
