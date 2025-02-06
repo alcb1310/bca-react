@@ -68,7 +68,12 @@ export default function Actual() {
             <PageTitle title='Actual' />
             <form onSubmit={handleSubmit(hadleSubmit)}>
                 <Stack width='50%' direction='column' spacing={2} mx='auto' mt={2}>
-                    <BcaSelect name='project_id' label='Proyecto' control={control}>
+                    <BcaSelect
+                        datatestid='page.reports.actual.project'
+                        name='project_id'
+                        label='Proyecto'
+                        control={control}
+                    >
                         <option value=''>Seleccione un proyecto</option>
                         {projects?.map((project) => (
                             <option key={project.id} value={project.id}>
@@ -76,7 +81,12 @@ export default function Actual() {
                             </option>
                         ))}
                     </BcaSelect>
-                    <BcaSelect name='level' label='Nivel' control={control}>
+                    <BcaSelect
+                        datatestid='page.reports.actual.level'
+                        name='level'
+                        label='Nivel'
+                        control={control}
+                    >
                         <option value=''>Seleccione un nivel</option>
                         {levels?.map((level) => (
                             <option key={level.key} value={level.key}>
@@ -94,7 +104,9 @@ export default function Actual() {
                     />
                 </Stack>
             </form>
-            {isLoading && <CircularProgress />}
+            {isLoading && (
+                <CircularProgress data-testid='page.reports.actual.loading' />
+            )}
 
             <ActualTable data={data!} />
         </>
