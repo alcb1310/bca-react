@@ -34,7 +34,7 @@ export default function Actual() {
         project_id: '',
         level: '',
     })
-    const { data, isLoading } =
+    const { data, isFetching } =
         useGetAllBudgetsByProjectAndLevelQuery(selectedReport)
 
     const token = useAppSelector((state) => state.login.token)
@@ -104,7 +104,7 @@ export default function Actual() {
                     />
                 </Stack>
             </form>
-            {isLoading && (
+            {isFetching && (
                 <CircularProgress data-testid='page.reports.actual.loading' />
             )}
 

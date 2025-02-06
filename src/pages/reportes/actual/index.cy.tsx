@@ -80,4 +80,28 @@ describe('<Actual />', () => {
             .should('be.visible')
             .should('have.text', 'Seleccione un nivel')
     })
+
+    it('should show spinner when fetching data', () => {
+        const project_id = 'e4b2eaf2-1d98-4493-bf2d-15938ef3057b'
+        const level = '1'
+
+        cy.getByTestId('page.reports.actual.project')
+            .find('select')
+            .select('Test Project 1')
+        cy.getByTestId('page.reports.actual.level').find('select').select('1')
+
+        cy.intercept(
+            'GET',
+            `**/reportes/actual?project_id=${project_id}&level=${level}`,
+            {
+                statusCode: 200,
+                body: [],
+            }
+        ).as('actual')
+        cy.getByTestId('component.table.header.toolbar.main').click()
+
+        cy.getByTestId('page.reports.actual.loading').should('be.visible')
+        cy.wait('@actual')
+        cy.getByTestId('page.reports.actual.loading').should('not.exist')
+    })
 })
