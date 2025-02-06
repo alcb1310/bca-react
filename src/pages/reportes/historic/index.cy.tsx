@@ -97,4 +97,31 @@ describe('<Historic />', () => {
             .should('be.visible')
             .should('have.text', 'Seleccione un nivel')
     })
+
+    it('should display the loadig spinner', () => {
+        const project_id = 'e4b2eaf2-1d98-4493-bf2d-15938ef3057b'
+        const level = '1'
+        const date = '2024-01-10'
+
+        cy.getByTestId('pages.reports.historic.project')
+            .find('select')
+            .select('Test Project 1')
+        cy.getByTestId('pages.reports.historic.level').find('select').select('1')
+        cy.getByTestId('pages.reports.historic.date').find('input').type('01102024')
+
+        cy.intercept(
+            'GET',
+            `**/reportes/historico?project_id=${project_id}&level=${level}&date=${date}`,
+            {
+                statusCode: 200,
+                fixture: 'reports/getHistoric.json',
+            }
+        ).as('historic')
+
+        cy.getByTestId('component.table.header.toolbar.main').click()
+
+        cy.getByTestId('pages.reports.historic.loading').should('be.visible')
+        cy.wait('@historic')
+        cy.getByTestId('pages.reports.historic.loading').should('not.exist')
+    })
 })
