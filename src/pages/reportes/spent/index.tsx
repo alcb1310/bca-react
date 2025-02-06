@@ -58,7 +58,7 @@ export default function Spent() {
 
     const { data: projects } = useGetAllProjectsQuery({})
     const { data: levels } = useGetAllLevelsQuery()
-    const { data, isLoading } = useGetSpentQuery(selectedReport!)
+    const { data, isFetching } = useGetSpentQuery(selectedReport!)
 
     function generateReport(info: ReportTypes) {
         const date = normalizeDate(info.date)
@@ -147,7 +147,6 @@ export default function Spent() {
                     />
                 </Stack>
             </form>
-            {isLoading && <CircularProgress />}
 
             {!!data && (
                 <Grid2 container spacing={2} mt={2}>
@@ -168,6 +167,9 @@ export default function Spent() {
                 </Grid2>
             )}
 
+            {isFetching && (
+                <CircularProgress data-testid='page.reports.spent.loading' />
+            )}
             <SpentTable data={data!} setOpen={setOpen} setSelected={setSelected} />
 
             {!!data && (
