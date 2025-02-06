@@ -6,7 +6,7 @@ const cols = ['Fecha', 'Proveedor', 'Factura', 'Total']
 const title = ['date', 'supplier', 'invoice_number', 'invoice_total']
 
 describe('<Balance />', () => {
-    it('should display the page', () => {
+    beforeEach(() => {
         cy.intercept('GET', '**/parametros/proyectos?active=true', {
             statusCode: 200,
             fixture: 'parameters/projects/active.json',
@@ -20,7 +20,9 @@ describe('<Balance />', () => {
                 <Balance />
             </LocalizationProvider>
         )
+    })
 
+    it('should display the page', () => {
         cy.getByTestId('page.reports.balance.loading').should('be.visible')
         cy.wait(['@projects', '@balance-load'])
         cy.getByTestId('page.reports.balance.loading').should('not.exist')
@@ -47,5 +49,12 @@ describe('<Balance />', () => {
                 .find('.MuiDataGrid-columnHeaderTitle')
                 .click()
         }
+    })
+
+    it('should display errors', () => {
+        cy.getByTestId('component.table.header.toolbar.main').click()
+        cy.get('.project_id')
+            .should('be.visible')
+            .should('have.text', 'Seleccione un proyecto')
     })
 })
