@@ -33,8 +33,8 @@ export default function SpentDetailsDrawer({
             width: 80,
             renderCell(params) {
                 const date = new Date(params.row.invoice_date)
-                return date.toLocaleDateString("es-EC")
-            }
+                return date.toLocaleDateString('es-EC')
+            },
         },
         {
             field: 'supplier_name',
@@ -54,26 +54,21 @@ export default function SpentDetailsDrawer({
             valueFormatter: (params: number) => {
                 return params.toLocaleString('es-EC', {
                     minimumFractionDigits: 2,
-                    maximumFractionDigits: 2
-
+                    maximumFractionDigits: 2,
                 })
             },
         },
     ]
 
     return (
-        <BcaDrawer
-            open={open}
-            onClose={setOpen}
-            width='500px'
-        >
+        <BcaDrawer open={open} onClose={setOpen} width='500px'>
             <DrawerTitle title='Reporte de gastos' close={setOpen} />
 
             <DataGrid
                 columns={cols}
                 rows={data}
                 rowHeight={25}
-                getRowId={row => {
+                getRowId={(row) => {
                     return row.invoice_id
                 }}
                 pageSizeOptions={[]}
@@ -86,7 +81,6 @@ export default function SpentDetailsDrawer({
                 sx={{
                     '&, [class^=MuiDataGrid]': { border: 'none' },
                 }}
-
             />
 
             <Button
