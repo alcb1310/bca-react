@@ -13,7 +13,7 @@ export type Spent = {
 
 export type SpentResponseType = {
     spent: Spent[]
-    total: number[]
+    total: number
     project: string
 }
 

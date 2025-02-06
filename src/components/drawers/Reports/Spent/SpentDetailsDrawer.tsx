@@ -85,6 +85,7 @@ export default function SpentDetailsDrawer({
 
             <Button
                 variant='contained'
+                data-testid='component.drawers.reports.spent.detail.close'
                 onClick={setOpen}
                 color='primary'
                 size='small'

@@ -78,25 +78,48 @@ describe('<Spent />', () => {
             .should('have.text', 'Seleccione un nivel')
     })
 
-    it('should show a spinner when loading data', () => {
-        cy.intercept(
-            'GET',
-            '**/reportes/gastado?project_id=e4b2eaf2-1d98-4493-bf2d-15938ef3057b&level=1&date=2024-10-15',
-            {
-                statusCode: 204,
-                fixture: 'reports/getSpent.json',
+    describe('show the report', () => {
+        beforeEach(() => {
+            cy.intercept(
+                'GET',
+                '**/reportes/gastado?project_id=e4b2eaf2-1d98-4493-bf2d-15938ef3057b&level=1&date=2024-10-15',
+                {
+                    statusCode: 200,
+                    fixture: 'reports/getSpent.json',
+                }
+            ).as('spent')
+            cy.getByTestId('page.reports.spent.project')
+                .find('select')
+                .select('Test Project 1')
+            cy.getByTestId('page.reports.spent.level').find('select').select('1')
+            cy.getByTestId('page.reports.spent.date').find('input').type('10152024')
+        })
+
+        it('should show a spinner when loading data', () => {
+            cy.getByTestId('component.table.header.toolbar.main').click()
+            cy.getByTestId('page.reports.spent.loading').should('be.visible')
+            cy.wait('@spent')
+            cy.getByTestId('page.reports.spent.loading').should('not.exist')
+        })
+
+        it('should open the drawer', () => {
+            cy.getByTestId('component.table.header.toolbar.main').click()
+            for (var i = 0; i < cols.length; i++) {
+                cy.get(`[data-field="${title[i]}"]`)
+                    .find('.MuiDataGrid-columnHeaderTitle')
+                    .click()
             }
-        ).as('spent')
 
-        cy.getByTestId('page.reports.spent.project')
-            .find('select')
-            .select('Test Project 1')
-        cy.getByTestId('page.reports.spent.level').find('select').select('1')
-        cy.getByTestId('page.reports.spent.date').find('input').type('10152024')
+            cy.get('[data-rowindex="0"]')
+                .find('[data-testid="VisibilityOutlinedIcon"]')
+                .click()
+            cy.getByTestId('component.drawer').should('be.visible')
+            cy.getByTestId('component.drawertitle.title')
+                .should('be.visible')
+                .should('have.text', 'Reporte de gastos')
 
-        cy.getByTestId('component.table.header.toolbar.main').click()
-        cy.getByTestId('page.reports.spent.loading').should('be.visible')
-        cy.wait('@spent')
-        cy.getByTestId('page.reports.spent.loading').should('not.exist')
+            cy.getByTestId('component.drawers.reports.spent.detail.close').click()
+            cy.getByTestId('component.drawer').should('not.exist')
+        })
     })
 })
