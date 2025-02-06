@@ -74,7 +74,12 @@ export default function Balance() {
 
             <form>
                 <Stack width='50%' direction='column' spacing={2} mx='auto' mt={2}>
-                    <BcaSelect name='project_id' label='Proyecto' control={control}>
+                    <BcaSelect
+                        datatestid='page.reports.balance.project'
+                        name='project_id'
+                        label='Proyecto'
+                        control={control}
+                    >
                         <option value=''>Seleccione un proyecto</option>
                         {projects?.map((project) => (
                             <option key={project.id} value={project.id}>
@@ -83,7 +88,12 @@ export default function Balance() {
                         ))}
                     </BcaSelect>
                     <Stack direction='row' spacing={2}>
-                        <BcaDateTextField name='date' label='Fecha' control={control} />
+                        <BcaDateTextField
+                            datatestid='page.reports.balance.date'
+                            name='date'
+                            label='Fecha'
+                            control={control}
+                        />
                     </Stack>
 
                     <EditToolbar
@@ -94,7 +104,9 @@ export default function Balance() {
                     />
                 </Stack>
             </form>
-            {isLoading && <CircularProgress />}
+            {isLoading && (
+                <CircularProgress data-testid='page.reports.balance.loading' />
+            )}
 
             {!!data && (
                 <Grid2 container spacing={2} mt={2}>
