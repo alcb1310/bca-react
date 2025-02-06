@@ -1,4 +1,4 @@
-import { Button } from '@mui/material'
+import { Button, CircularProgress } from '@mui/material'
 import { useGetSpentDetailsQuery } from '../../../../redux/api/bca-backend/reports/commonSlice'
 import { Spent, SpentDetailsType } from '../../../../types/reports'
 import DrawerTitle from '../../../titles/DrawerTitle'
@@ -20,7 +20,7 @@ export default function SpentDetailsDrawer({
     selectedProject,
     selectedDate,
 }: SpentDetailsDrawerProps) {
-    const { data } = useGetSpentDetailsQuery({
+    const { data, isLoading } = useGetSpentDetailsQuery({
         project_id: selectedProject,
         budget_item_id: selectedData.budget_item.id!,
         date: selectedDate,
@@ -61,41 +61,46 @@ export default function SpentDetailsDrawer({
     ]
 
     return (
-        <BcaDrawer open={open} onClose={setOpen} width='500px'>
-            <DrawerTitle title='Reporte de gastos' close={setOpen} />
+        <>
+            {isLoading && (
+                <CircularProgress data-testid='component.drawers.reporst.spent.detail.loading' />
+            )}
+            <BcaDrawer open={open} onClose={setOpen} width='500px'>
+                <DrawerTitle title='Reporte de gastos' close={setOpen} />
 
-            <DataGrid
-                columns={cols}
-                rows={data}
-                rowHeight={25}
-                getRowId={(row) => {
-                    return row.invoice_id
-                }}
-                pageSizeOptions={[]}
-                disableColumnFilter
-                disableColumnMenu
-                disableColumnResize
-                disableRowSelectionOnClick
-                disableMultipleRowSelection
-                hideFooter
-                sx={{
-                    '&, [class^=MuiDataGrid]': { border: 'none' },
-                }}
-            />
+                <DataGrid
+                    columns={cols}
+                    rows={data}
+                    rowHeight={25}
+                    getRowId={(row) => {
+                        return row.invoice_id
+                    }}
+                    pageSizeOptions={[]}
+                    disableColumnFilter
+                    disableColumnMenu
+                    disableColumnResize
+                    disableRowSelectionOnClick
+                    disableMultipleRowSelection
+                    hideFooter
+                    sx={{
+                        '&, [class^=MuiDataGrid]': { border: 'none' },
+                    }}
+                />
 
-            <Button
-                variant='contained'
-                data-testid='component.drawers.reports.spent.detail.close'
-                onClick={setOpen}
-                color='primary'
-                size='small'
-                sx={{
-                    width: '100%',
-                    marginTop: 2,
-                }}
-            >
-                Cerrar
-            </Button>
-        </BcaDrawer>
+                <Button
+                    variant='contained'
+                    data-testid='component.drawers.reports.spent.detail.close'
+                    onClick={setOpen}
+                    color='primary'
+                    size='small'
+                    sx={{
+                        width: '100%',
+                        marginTop: 2,
+                    }}
+                >
+                    Cerrar
+                </Button>
+            </BcaDrawer>
+        </>
     )
 }
