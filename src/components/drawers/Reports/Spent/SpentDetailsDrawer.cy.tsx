@@ -8,7 +8,7 @@ const budget_item_id = '3c10969f-b514-4a8c-a934-fc0438766492'
 const date = '2024-11-11'
 
 describe('<SpentDetailsDrawer />', () => {
-    it('should display the drawer', () => {
+    beforeEach(() => {
         cy.intercept(
             'GET',
             `**/reportes/gastado/${project_id}/${budget_item_id}/${date}`,
@@ -35,7 +35,9 @@ describe('<SpentDetailsDrawer />', () => {
                 selectedDate={date}
             />
         )
+    })
 
+    it('should display the drawer', () => {
         cy.getByTestId('component.drawers.reporst.spent.detail.loading').should(
             'be.visible'
         )
@@ -56,5 +58,27 @@ describe('<SpentDetailsDrawer />', () => {
                 .find('.MuiDataGrid-columnHeaderTitle')
                 .should('have.text', cols[i])
         }
+    })
+
+    it('should display 2 different rows', () => {
+        cy.get('[data-rowindex="0"]')
+            .find('[data-colindex="1"]')
+            .should('have.text', 'ANDRES COURT')
+        cy.get('[data-rowindex="0"]')
+            .find('[data-colindex="2"]')
+            .should('have.text', 'LIQ TIA')
+        cy.get('[data-rowindex="0"]')
+            .find('[data-colindex="3"]')
+            .should('have.text', '-300,00')
+
+        cy.get('[data-rowindex="1"]')
+            .find('[data-colindex="1"]')
+            .should('have.text', 'ANDRES COURT')
+        cy.get('[data-rowindex="1"]')
+            .find('[data-colindex="2"]')
+            .should('have.text', 'LIQ TIA')
+        cy.get('[data-rowindex="1"]')
+            .find('[data-colindex="3"]')
+            .should('have.text', '-202,35')
     })
 })
