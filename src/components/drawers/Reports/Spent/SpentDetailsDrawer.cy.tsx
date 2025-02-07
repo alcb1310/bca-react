@@ -14,7 +14,7 @@ describe('<SpentDetailsDrawer />', () => {
             `**/reportes/gastado/${project_id}/${budget_item_id}/${date}`,
             {
                 statusCode: 200,
-                body: [],
+                fixture: 'reports/spent/details.json',
             }
         ).as('data')
         cy.wrapper(

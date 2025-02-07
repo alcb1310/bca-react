@@ -73,7 +73,7 @@ export default function SpentDetailsDrawer({
                     rows={data}
                     rowHeight={25}
                     getRowId={(row) => {
-                        return row.invoice_id
+                        return row.invoice_id + '-' + row.budget_item_id
                     }}
                     pageSizeOptions={[]}
                     disableColumnFilter

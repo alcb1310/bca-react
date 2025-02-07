@@ -1,0 +1,40 @@
+[
+  {
+    "invoice_id": "7568b2aa-00bf-423d-b2a8-fe47863b9957",
+    "invoice_date": "2025-01-31T00:00:00Z",
+    "invoice_number": "LIQ TIA",
+    "invoice_total": -5388.570000299582,
+    "project_id": "b2687bae-c8bf-4624-b96d-b0e5ffcb43be",
+    "project_name": "Munay",
+    "supplier_id": "48d62f9a-2756-4d25-a438-2e49676fecb7",
+    "supplier_name": "ANDRES COURT",
+    "supplier_number": "1704749652",
+    "budget_item_id": "438cbe15-291d-46b1-a31b-05c40425d4c1",
+    "budget_item_code": "500.2501",
+    "budget_item_name": "MANO DE OBRA GRUESA",
+    "budgget_item_level": 4,
+    "quantity": -0.075,
+    "cost": 4000,
+    "total": -300,
+    "company_id": "04fc44d0-4213-4cc8-b51f-0560790903a3"
+  },
+  {
+    "invoice_id": "7568b2aa-00bf-423d-b2a8-fe47863b9957",
+    "invoice_date": "2025-01-31T00:00:00Z",
+    "invoice_number": "LIQ TIA",
+    "invoice_total": -5388.570000299582,
+    "project_id": "b2687bae-c8bf-4624-b96d-b0e5ffcb43be",
+    "project_name": "Munay",
+    "supplier_id": "48d62f9a-2756-4d25-a438-2e49676fecb7",
+    "supplier_name": "ANDRES COURT",
+    "supplier_number": "1704749652",
+    "budget_item_id": "c5508dfe-59c6-42b9-8721-f662a36c141a",
+    "budget_item_code": "500.2221",
+    "budget_item_name": "BONDEX PREMIUM",
+    "budgget_item_level": 4,
+    "quantity": -15,
+    "cost": 13.49,
+    "total": -202.35,
+    "company_id": "04fc44d0-4213-4cc8-b51f-0560790903a3"
+  }
+]
