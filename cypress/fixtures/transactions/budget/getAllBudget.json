@@ -1,0 +1,33 @@
+[
+  {
+    "project": {
+      "id": "e4b2eaf2-1d98-4493-bf2d-15938ef3057b",
+      "name": "Test Project 1",
+      "is_active": true,
+      "gross_area": 0,
+      "net_area": 0
+    },
+    "budget_item": {
+      "id": "3c10969f-b514-4a8c-a934-fc0438766492",
+      "code": "500.1.1",
+      "name": "Project manager",
+      "accumulate": false,
+      "parent": {
+        "id": "8ba2d916-549f-4e8c-9694-04892ca8f2d8",
+        "code": "500.1",
+        "name": "General Spending",
+        "accumulate": true
+      }
+    },
+    "initial_quantity": 10,
+    "initial_cost": 10,
+    "initial_total": 10,
+    "spent_quantity": 0,
+    "spent_total": 0,
+    "remaining_quantity": 10,
+    "remaining_cost": 10,
+    "remaining_total": 10,
+    "updated_budget": 10,
+    "company_id": "6191aaf0-bf44-44ef-b574-7645808ab5da"
+  }
+]

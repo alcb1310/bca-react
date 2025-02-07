@@ -70,7 +70,7 @@ export default function InvoiceDetailsDrawer({
 
     return (
         <BcaDrawer open={open} onClose={onClose}>
-            <DrawerTitle title='Detalle' close={onClose} />
+            <DrawerTitle title={'Crear Detalle'} close={onClose} />
             <form onSubmit={handleSubmit(hadleSubmit)}>
                 <Stack direction='column' spacing={2} sx={{ mt: 2 }}>
                     {conflictError && (
@@ -93,7 +93,7 @@ export default function InvoiceDetailsDrawer({
                     <BcaTextField
                         control={control}
                         name='quantity'
-                        data-testid='component.drawer.transaction.invoice.details.quantity'
+                        datatestid='component.drawer.transaction.invoice.details.quantity'
                         label='Cantidad'
                     />
 
@@ -101,11 +101,11 @@ export default function InvoiceDetailsDrawer({
                         control={control}
                         name='cost'
                         label='Costo'
-                        data-testid='component.drawer.transaction.invoice.details.cost'
+                        datatestid='component.drawer.transaction.invoice.details.cost'
                     />
 
                     <BcaTextField
-                        data-testid='component.drawer.transaction.invoice.details.total'
+                        datatestid='component.drawer.transaction.invoice.details.total'
                         control={control}
                         value={total}
                         name='total'

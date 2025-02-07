@@ -98,7 +98,14 @@ export default function BudgetDrawer({
     return (
         <>
             <BcaDrawer open={open} onClose={onClose}>
-                <DrawerTitle title='Proyectos' close={onClose} />
+                <DrawerTitle
+                    title={
+                        defaultValues?.project_id
+                            ? 'Editar Presupuesto'
+                            : 'Crear Presupuesto'
+                    }
+                    close={onClose}
+                />
 
                 <Box mt={2}>
                     <form
@@ -113,6 +120,7 @@ export default function BudgetDrawer({
                             control={control}
                             name='project_id'
                             label='Proyectos'
+                            disabled={defaultValues?.project_id ? true : false}
                         >
                             <option value=''>Seleccione un proyecto</option>
                             {projects?.map((project) => (
@@ -127,6 +135,7 @@ export default function BudgetDrawer({
                             control={control}
                             name='budget_item_id'
                             label='Partida'
+                            disabled={defaultValues?.budget_item_id ? true : false}
                         >
                             <option value=''>Seleccione una partida</option>
                             {budgetItems?.map((budgetItem) => (

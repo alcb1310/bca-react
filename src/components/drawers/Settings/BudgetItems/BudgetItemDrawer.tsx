@@ -70,7 +70,10 @@ export default function BudgetItemDrawer({
 
     return (
         <BcaDrawer open={open} onClose={onClose}>
-            <DrawerTitle title='Crear Partida' close={onClose} />
+            <DrawerTitle
+                title={defaultValues.id ? 'Editar Partida' : 'Crear Partida'}
+                close={onClose}
+            />
 
             <Box mt={2}>
                 <form
