@@ -1,4 +1,4 @@
-import ReportsMenu from './Reports'
+import ReportsMenu from '../Reports/Reports'
 
 describe('<ReportesMenu />', () => {
     beforeEach(() => {
