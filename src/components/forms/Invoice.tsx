@@ -4,17 +4,17 @@ import { Stack, Typography } from '@mui/material'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 
-import { invoiceCreateSchema, InvoiceCreateType } from '../../types/invoice'
-import { useGetAllProjectsQuery } from '../../redux/api/bca-backend/parametros/projectsSlice'
-import BcaSelect from '../input/BcaSelect'
-import ButtonGroup from '../buttons/button-group'
-import { useGetAllSuppliersQuery } from '../../redux/api/bca-backend/parametros/supplierSlice'
-import BcaTextField from '../input/BcaTextField'
-import BcaDateTextField from '../input/BcaDateTextField'
+import { invoiceCreateSchema, InvoiceCreateType } from '~types/invoice'
+import { useGetAllProjectsQuery } from '~redux/api/bca-backend/parametros/projectsSlice'
 import {
     useCreateInvoiceMutation,
     useUpdateInvoiceMutation,
-} from '../../redux/api/bca-backend/transacciones/invoiceSlice'
+} from '~redux/api/bca-backend/transacciones/invoiceSlice'
+import { useGetAllSuppliersQuery } from '~redux/api/bca-backend/parametros/supplierSlice'
+import BcaSelect from '~components/input/BcaSelect'
+import ButtonGroup from '~components/buttons/button-group'
+import BcaTextField from '~components/input/BcaTextField'
+import BcaDateTextField from '~components/input/BcaDateTextField'
 
 type InvoiceFormProps = {
     invoiceId: string
