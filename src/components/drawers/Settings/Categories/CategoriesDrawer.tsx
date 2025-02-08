@@ -1,17 +1,17 @@
 import { useEffect, useState } from 'react'
 import { Box, Typography } from '@mui/material'
-
-import DrawerTitle from '../../../titles/DrawerTitle'
-import BcaDrawer from '../../BcaDrawer/BcaDrawer'
-import BcaTextField from '../../../input/BcaTextField'
 import { useForm } from 'react-hook-form'
-import { categorySchema, CategoryType } from '../../../../types/categories'
-import ButtonGroup from '../../../buttons/button-group'
+import { zodResolver } from '@hookform/resolvers/zod'
+
+import DrawerTitle from '~components/titles/DrawerTitle'
+import BcaDrawer from '~components/drawers/BcaDrawer/BcaDrawer'
+import BcaTextField from '~components/input/BcaTextField'
+import { categorySchema, CategoryType } from '~types/categories'
+import ButtonGroup from '~components/buttons/button-group'
 import {
     useCreateCategoryMutation,
     useUpdateCategoryMutation,
-} from '../../../../redux/api/bca-backend/parametros/categoriesSlice'
-import { zodResolver } from '@hookform/resolvers/zod'
+} from '~redux/api/bca-backend/parametros/categoriesSlice'
 
 type CategoriesDrawerProps = {
     open: boolean
