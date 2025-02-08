@@ -2,7 +2,8 @@ import { useState, MouseEvent } from 'react'
 import { PersonOutline } from '@mui/icons-material'
 import { Button, IconButton, Menu, MenuItem, Tooltip } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
-import ChangePassword from '../../pages/users/password'
+
+import ChangePassword from '~/pages/users/password'
 
 function UserMenu() {
     const [open, setOpen] = useState(false)
