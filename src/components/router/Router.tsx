@@ -9,7 +9,7 @@ import { analysisRoutes } from './AnalysisRoutes/AnalysisRoutes'
 import { parametersRoutes } from './ParametersRoutes/ParametersRoutes'
 import { reportsRoutes } from './ReportsRoutes/ReportsRoutes'
 import { transactionsRoute } from './TransactionsRoutes/TransactionsRoutes'
-import { usersRoutes } from './usersRoutes'
+import { usersRoutes } from './UsersRoutes/UsersRoutes'
 
 export default function AppRouter() {
     const router = createBrowserRouter([
