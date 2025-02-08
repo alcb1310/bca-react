@@ -5,7 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { CircularProgress, Grid2, Stack, Typography } from '@mui/material'
 
 import PageTitle from '~components/titles/PageTitle'
-import BcaDateTextField from '~components/input/BcaDateTextField'
+import BcaDateTextField from '~/components/input/BcaDateTextField/BcaDateTextField'
 import BcaSelect from '~components/input/BcaSelect'
 import EditToolbar from '~components/table/headers/toolbar'
 import { useGetAllProjectsQuery } from '~redux/api/bca-backend/parametros/projectsSlice'

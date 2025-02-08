@@ -11,7 +11,7 @@ import PageTitle from '~components/titles/PageTitle'
 import { useGetAllProjectsQuery } from '~redux/api/bca-backend/parametros/projectsSlice'
 import { cierreSchema, CierreTypes } from '~types/cierre'
 import BcaSelect from '~components/input/BcaSelect'
-import BcaDateTextField from '~components/input/BcaDateTextField'
+import BcaDateTextField from '~/components/input/BcaDateTextField/BcaDateTextField'
 import ConfirmationDialog from '~components/dialog/ConfirmationDialog'
 import { useCreateClosureMutation } from '~redux/api/bca-backend/transacciones/closureSlice'
 

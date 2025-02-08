@@ -14,7 +14,7 @@ import { useGetAllSuppliersQuery } from '~redux/api/bca-backend/parametros/suppl
 import BcaSelect from '~components/input/BcaSelect'
 import ButtonGroup from '~components/buttons/button-group'
 import BcaTextField from '~components/input/BcaTextField'
-import BcaDateTextField from '~components/input/BcaDateTextField'
+import BcaDateTextField from '~/components/input/BcaDateTextField/BcaDateTextField'
 
 type InvoiceFormProps = {
     invoiceId: string
