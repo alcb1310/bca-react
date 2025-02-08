@@ -1,6 +1,7 @@
 import { FormHelperText, NativeSelect, SelectProps } from '@mui/material'
-import { BcaField } from '../../types/fields'
 import { Controller } from 'react-hook-form'
+
+import { BcaField } from '~types/fields'
 
 type BcaSelectProps = BcaField<SelectProps>
 
