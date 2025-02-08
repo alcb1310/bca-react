@@ -8,7 +8,7 @@ import AuthenticatedLayout from '~/components/layouts/AuthenticatedLayout/Authen
 import { analysisRoutes } from './AnalysisRoutes/AnalysisRoutes'
 import { parametersRoutes } from './ParametersRoutes/ParametersRoutes'
 import { reportsRoutes } from './ReportsRoutes/ReportsRoutes'
-import { transactionsRoute } from './transactionsRoutes'
+import { transactionsRoute } from './TransactionsRoutes/TransactionsRoutes'
 import { usersRoutes } from './usersRoutes'
 
 export default function AppRouter() {
