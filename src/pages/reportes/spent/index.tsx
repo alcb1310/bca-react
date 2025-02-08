@@ -1,23 +1,24 @@
+import { useState } from 'react'
+import { z } from 'zod'
+import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
-import PageTitle from '../../../components/titles/PageTitle'
-import { useGetAllProjectsQuery } from '../../../redux/api/bca-backend/parametros/projectsSlice'
+import { CircularProgress, Grid2, Stack, Typography } from '@mui/material'
+
+import PageTitle from '~components/titles/PageTitle'
+import { useGetAllProjectsQuery } from '~redux/api/bca-backend/parametros/projectsSlice'
 import {
     useGetAllLevelsQuery,
     useGetSpentQuery,
-} from '../../../redux/api/bca-backend/reports/commonSlice'
-import BcaSelect from '../../../components/input/BcaSelect'
-import { CircularProgress, Grid2, Stack, Typography } from '@mui/material'
-import BcaDateTextField from '../../../components/input/BcaDateTextField'
-import EditToolbar from '../../../components/table/headers/toolbar'
-import { z } from 'zod'
-import { useState } from 'react'
-import { zodResolver } from '@hookform/resolvers/zod'
-import SpentTable from '../../../components/reports/SpentTable'
-import SpentDetailsDrawer from '../../../components/drawers/Reports/Spent/SpentDetailsDrawer'
-import { Spent as SpentType } from '../../../types/reports'
-import { useAppSelector } from '../../../redux/hooks'
-import { downloadExcelFile } from '../../../utils/download'
-import { normalizeDate } from '../../../utils/date'
+} from '~redux/api/bca-backend/reports/commonSlice'
+import BcaSelect from '~components/input/BcaSelect'
+import BcaDateTextField from '~components/input/BcaDateTextField'
+import EditToolbar from '~components/table/headers/toolbar'
+import SpentTable from '~components/reports/SpentTable'
+import SpentDetailsDrawer from '~components/drawers/Reports/Spent/SpentDetailsDrawer'
+import { Spent as SpentType } from '~types/reports'
+import { useAppSelector } from '~redux/hooks'
+import { downloadExcelFile } from '~/utils/download'
+import { normalizeDate } from '~/utils/date'
 
 const reportSchema = z.object({
     project_id: z
