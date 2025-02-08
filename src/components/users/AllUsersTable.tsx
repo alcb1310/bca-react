@@ -6,16 +6,16 @@ import {
     GridActionsCellItem,
     GridRowParams,
 } from '@mui/x-data-grid'
+import { CircularProgress } from '@mui/material'
 
 import {
     useAllUsersQuery,
     useDeleteUserMutation,
     useMeQuery,
-} from '../../redux/api/bca-backend/user/userSlice'
-import ConfirmationDialog from '../dialog/ConfirmationDialog'
-import UsersDrawer from '../drawers/Users/UsersDrawer'
-import { UserResponse } from '../../types/user'
-import { CircularProgress } from '@mui/material'
+} from '~redux/api/bca-backend/user/userSlice'
+import ConfirmationDialog from '~components/dialog/ConfirmationDialog'
+import UsersDrawer from '~components/drawers/Users/UsersDrawer'
+import { UserResponse } from '~types/user'
 
 export default function AllUsersTable() {
     const [confirmationDialogOpen, setConfirmationDialogOpen] =
