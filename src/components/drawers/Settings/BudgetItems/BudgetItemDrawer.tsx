@@ -15,7 +15,7 @@ import BcaDrawer from '~components/drawers/BcaDrawer/BcaDrawer'
 import ButtonGroup from '~components/buttons/button-group'
 import BcaTextField from '~components/input/BcaTextField'
 import { BudgetItem, budgetItemSchema } from '~types/partidas'
-import BcaSelect from '~components/input/BcaSelect'
+import BcaSelect from '~/components/input/BcaSelect/BcaSelect'
 import {
     useCreateBudgetItemMutation,
     useGetAllBudgetItemsQuery,

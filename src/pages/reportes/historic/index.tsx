@@ -5,7 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { CircularProgress, Stack } from '@mui/material'
 
 import PageTitle from '~components/titles/PageTitle'
-import BcaSelect from '~components/input/BcaSelect'
+import BcaSelect from '~/components/input/BcaSelect/BcaSelect'
 import { useGetAllProjectsQuery } from '~redux/api/bca-backend/parametros/projectsSlice'
 import {
     useGetAllHistoricQuery,

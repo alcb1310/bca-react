@@ -10,7 +10,7 @@ import {
     useGetAllLevelsQuery,
     useGetSpentQuery,
 } from '~redux/api/bca-backend/reports/commonSlice'
-import BcaSelect from '~components/input/BcaSelect'
+import BcaSelect from '~/components/input/BcaSelect/BcaSelect'
 import BcaDateTextField from '~/components/input/BcaDateTextField/BcaDateTextField'
 import EditToolbar from '~components/table/headers/toolbar'
 import SpentTable from '~components/reports/SpentTable'

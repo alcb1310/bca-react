@@ -9,7 +9,7 @@ import ButtonGroup from '~components/buttons/button-group'
 import DrawerTitle from '~components/titles/DrawerTitle'
 import BcaDrawer from '~components/drawers/BcaDrawer/BcaDrawer'
 import { useGetAllProjectsQuery } from '~redux/api/bca-backend/parametros/projectsSlice'
-import BcaSelect from '~components/input/BcaSelect'
+import BcaSelect from '~/components/input/BcaSelect/BcaSelect'
 import { useGetAllBudgetItemsQuery } from '~redux/api/bca-backend/parametros/budgetItemSlice'
 import BcaTextField from '~components/input/BcaTextField'
 import {

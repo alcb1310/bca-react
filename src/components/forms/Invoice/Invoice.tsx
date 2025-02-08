@@ -11,7 +11,7 @@ import {
     useUpdateInvoiceMutation,
 } from '~redux/api/bca-backend/transacciones/invoiceSlice'
 import { useGetAllSuppliersQuery } from '~redux/api/bca-backend/parametros/supplierSlice'
-import BcaSelect from '~components/input/BcaSelect'
+import BcaSelect from '~/components/input/BcaSelect/BcaSelect'
 import ButtonGroup from '~components/buttons/button-group'
 import BcaTextField from '~components/input/BcaTextField'
 import BcaDateTextField from '~/components/input/BcaDateTextField/BcaDateTextField'
