@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { DataGrid, GridColDef, GridColumnGroupingModel } from '@mui/x-data-grid'
 
 import { BudgetEditType, BudgetResponseType } from '~types/budget'
-import BudgetDrawer from '~components/drawers/Transactions/BudgetDrawer'
+import BudgetDrawer from '~/components/drawers/Transactions/BudgetDrawer/BudgetDrawer'
 
 type AllBudgetsTableProps = {
     data: BudgetResponseType[]
