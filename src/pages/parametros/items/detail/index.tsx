@@ -5,7 +5,7 @@ import { Box, CircularProgress } from '@mui/material'
 import { useGetOneRubroQuery } from '~redux/api/bca-backend/parametros/rubrosSlice'
 import PageTitle from '~components/titles/PageTitle'
 import EditToolbar from '~components/table/headers/toolbar'
-import AllRubrosMaterialsTable from '~components/settings/rubros/AllRubrosMaterialsTable'
+import AllRubrosMaterialsTable from '~/components/settings/rubros/AllRubrosMaterialsTable/AllRubrosMaterialsTable'
 import RubroMaterialsDrawer from '~components/drawers/Settings/RubroMaterial/RubroMaterialsDrawer'
 import RubrosForm from '~/components/forms/Rubros/Rubros'
 
