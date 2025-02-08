@@ -7,7 +7,7 @@ import Home from '~/pages/home/Home'
 import AuthenticatedLayout from '~/components/layouts/AuthenticatedLayout/AuthenticatedLayout'
 import { analysisRoutes } from './AnalysisRoutes/AnalysisRoutes'
 import { parametersRoutes } from './ParametersRoutes/ParametersRoutes'
-import { reportsRoutes } from './reportsRoutes'
+import { reportsRoutes } from './ReportsRoutes/ReportsRoutes'
 import { transactionsRoute } from './transactionsRoutes'
 import { usersRoutes } from './usersRoutes'
 
