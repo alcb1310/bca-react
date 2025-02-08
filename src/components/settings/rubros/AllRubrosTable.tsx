@@ -1,12 +1,13 @@
+import { useNavigate } from 'react-router-dom'
 import {
     DataGrid,
     GridActionsCellItem,
     GridColDef,
     GridRowParams,
 } from '@mui/x-data-grid'
-import { RubrosType } from '../../../types/rubros'
 import { EditOutlined } from '@mui/icons-material'
-import { useNavigate } from 'react-router-dom'
+
+import { RubrosType } from '~types/rubros'
 
 type AllRubrosTableProps = {
     data: RubrosType[]
