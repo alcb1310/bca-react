@@ -3,12 +3,53 @@
 ## Menu
 
 - [Description](#description)
-- [Technical stack](#technical-stack)
 - [Installation](#installation)
+- [Technical stack](#technical-stack)
 
 ## Description
 
 This project is the frotend part of the Budget Cotrol Application that is being build
+
+## Installation
+
+To install:
+
+```bash
+git clone https://github.com/alcb1310/bca-react
+cd bca-react
+npm install
+```
+
+### Setup
+
+Create a `.env` file at the root of the project
+
+```.env
+VITE_BACKEND_SERVER=<backend server url>/api/v1
+```
+
+### Running the application
+
+To run the application in development
+
+```bash
+npm run dev
+```
+
+To run on production
+
+```bash
+npm run build
+npm run start
+```
+
+### Running tests
+
+To run all the component tests
+
+```bash
+npm run component
+```
 
 ## Technical stack
 
@@ -53,12 +94,12 @@ This project is the frotend part of the Budget Cotrol Application that is being 
 
 ![Neovim](https://img.shields.io/badge/NeoVim-%2357A143.svg?&style=for-the-badge&logo=neovim&logoColor=white)
 
-## Installation
+## License
 
-To install:
+[![Licence](https://img.shields.io/github/license/Ileriayo/markdown-badges?style=for-the-badge)](./LICENSE)
 
-```bash
-git clone https://github.com/alcb1310/bca-react
-cd bca-react
-npm install
-```
+## Author
+
+Andres Court
+
+[![X](https://img.shields.io/badge/X-%23000000.svg?style=for-the-badge&logo=X&logoColor=white)](https://x.com/alcb1310)
