@@ -3,7 +3,8 @@
 ## Menu
 
 - [Description](#description)
-- [Technical stack](#techical_stack)
+- [Technical stack](#technical-stack)
+- [Installation](#installation)
 
 ## Description
 
@@ -33,3 +34,13 @@ This project is the frotend part of the Budget Cotrol Application that is being 
 ### Editor
 
 ![Neovim](https://img.shields.io/badge/NeoVim-%2357A143.svg?&style=for-the-badge&logo=neovim&logoColor=white)
+
+## Installation
+
+To install:
+
+```bash
+git clone https://github.com/alcb1310/bca-react
+cd bca-react
+npm install
+```
