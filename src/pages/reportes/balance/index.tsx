@@ -9,7 +9,7 @@ import BcaDateTextField from '~/components/input/BcaDateTextField/BcaDateTextFie
 import BcaSelect from '~/components/input/BcaSelect/BcaSelect'
 import EditToolbar from '~components/table/headers/toolbar'
 import { useGetAllProjectsQuery } from '~redux/api/bca-backend/parametros/projectsSlice'
-import BalanceTable from '~components/reports/BalanceTable'
+import BalanceTable from '~/components/reports/BalanceTable/BalanceTable'
 import { useGetBalanceReportQuery } from '~redux/api/bca-backend/reports/commonSlice'
 import { useAppSelector } from '~redux/hooks'
 import { downloadExcelFile } from '~/utils/download'
