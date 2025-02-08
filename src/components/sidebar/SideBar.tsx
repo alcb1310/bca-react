@@ -4,7 +4,7 @@ import { Box, Drawer } from '@mui/material'
 import TransactionsMenu from '~components/menu/Transactions'
 import ReportsMenu from '~components/menu/Reports'
 import ParametersMenu from '~components/menu/Parameters'
-import AnalysisMenu from '~components/menu/Analysis'
+import AnalysisMenu from '~/components/menu/Analysis/Analysis'
 
 export default function Sidebar() {
     return (
