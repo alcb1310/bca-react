@@ -7,8 +7,8 @@ import {
     GridRowParams,
 } from '@mui/x-data-grid'
 
-import { BudgetItem, BudgetItemResponse } from '../../../types/partidas'
-import BudgetItemDrawer from '../../drawers/Settings/BudgetItems/BudgetItemDrawer'
+import { BudgetItem, BudgetItemResponse } from '~types/partidas'
+import BudgetItemDrawer from '~components/drawers/Settings/BudgetItems/BudgetItemDrawer'
 
 type AllBudgetItemsTableProps = {
     allBudgetItems: BudgetItem[]

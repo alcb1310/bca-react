@@ -19,7 +19,14 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    "types": ["cypress"]
+    "types": ["cypress"],
+
+    "paths": {
+      "~/*": ["./src/*"],
+      "~components/*": ["./src/components/*"],
+      "~types/*": ["./src/types/*"],
+      "~redux/*": ["./src/redux/*"]
+    }
   },
   "include": ["src", "cypress"]
 }

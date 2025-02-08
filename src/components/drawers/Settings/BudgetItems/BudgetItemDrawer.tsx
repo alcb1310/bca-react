@@ -8,19 +8,19 @@ import {
     Typography,
 } from '@mui/material'
 import { DevTool } from '@hookform/devtools'
-
-import DrawerTitle from '../../../titles/DrawerTitle'
-import BcaDrawer from '../../BcaDrawer/BcaDrawer'
-import ButtonGroup from '../../../buttons/button-group'
-import BcaTextField from '../../../input/BcaTextField'
-import { BudgetItem, budgetItemSchema } from '../../../../types/partidas'
 import { RhfSwitch } from 'mui-rhf-integration'
-import BcaSelect from '../../../input/BcaSelect'
+
+import DrawerTitle from '~/components/titles/DrawerTitle/DrawerTitle'
+import BcaDrawer from '~components/drawers/BcaDrawer/BcaDrawer'
+import ButtonGroup from '~components/buttons/button-group'
+import BcaTextField from '~/components/input/BcaTextField/BcaTextField'
+import { BudgetItem, budgetItemSchema } from '~types/partidas'
+import BcaSelect from '~/components/input/BcaSelect/BcaSelect'
 import {
     useCreateBudgetItemMutation,
     useGetAllBudgetItemsQuery,
     useUpdateBudgetItemMutation,
-} from '../../../../redux/api/bca-backend/parametros/budgetItemSlice'
+} from '~redux/api/bca-backend/parametros/budgetItemSlice'
 
 type BudgetItemDrawerProps = {
     open: boolean
