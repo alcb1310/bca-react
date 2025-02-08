@@ -4,7 +4,7 @@ import { Box, CircularProgress } from '@mui/material'
 
 import PageTitle from '~components/titles/PageTitle'
 import { useGetOneInvoiceQuery } from '~redux/api/bca-backend/transacciones/invoiceSlice'
-import InvoiceForm from '~components/forms/Invoice'
+import InvoiceForm from '~/components/forms/Invoice/Invoice'
 import EditToolbar from '~components/table/headers/toolbar'
 import AllDetailsTable from '~components/parameters/invoices/AllDetailsTable'
 import { useGetAllInvoiceDetailsQuery } from '~redux/api/bca-backend/transacciones/invoiceDetailsSlice'
