@@ -7,7 +7,7 @@ import PageTitle from '~components/titles/PageTitle'
 import EditToolbar from '~components/table/headers/toolbar'
 import AllRubrosMaterialsTable from '~components/settings/rubros/AllRubrosMaterialsTable'
 import RubroMaterialsDrawer from '~components/drawers/Settings/RubroMaterial/RubroMaterialsDrawer'
-import RubrosForm from '~components/forms/Rubros'
+import RubrosForm from '~/components/forms/Rubros/Rubros'
 
 export default function IndividualItem() {
     const [open, setOpen] = useState<boolean>(false)
