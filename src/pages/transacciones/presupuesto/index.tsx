@@ -8,7 +8,7 @@ import {
 } from '@mui/material'
 
 import EditToolbar from '~components/table/headers/toolbar'
-import PageTitle from '~components/titles/PageTitle'
+import PageTitle from '~/components/titles/PageTitle/PageTitle'
 import AllBudgetsTable from '~components/parameters/budgets/AllBudgetsTable'
 import { useGetAllBudgetsQuery } from '~redux/api/bca-backend/transacciones/budgetSlice'
 import BudgetDrawer from '~/components/drawers/Transactions/BudgetDrawer/BudgetDrawer'

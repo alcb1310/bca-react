@@ -4,7 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { CircularProgress, Grid2, Stack, Typography } from '@mui/material'
 
-import PageTitle from '~components/titles/PageTitle'
+import PageTitle from '~/components/titles/PageTitle/PageTitle'
 import { useGetAllProjectsQuery } from '~redux/api/bca-backend/parametros/projectsSlice'
 import {
     useGetAllLevelsQuery,

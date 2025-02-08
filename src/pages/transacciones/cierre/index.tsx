@@ -7,7 +7,7 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { DevTool } from '@hookform/devtools'
 
-import PageTitle from '~components/titles/PageTitle'
+import PageTitle from '~/components/titles/PageTitle/PageTitle'
 import { useGetAllProjectsQuery } from '~redux/api/bca-backend/parametros/projectsSlice'
 import { cierreSchema, CierreTypes } from '~types/cierre'
 import BcaSelect from '~/components/input/BcaSelect/BcaSelect'

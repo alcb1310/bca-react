@@ -4,7 +4,7 @@ import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { CircularProgress, Stack } from '@mui/material'
 
-import PageTitle from '~components/titles/PageTitle'
+import PageTitle from '~/components/titles/PageTitle/PageTitle'
 import BcaSelect from '~/components/input/BcaSelect/BcaSelect'
 import { useGetAllProjectsQuery } from '~redux/api/bca-backend/parametros/projectsSlice'
 import { useGetAllBudgetsByProjectAndLevelQuery } from '~redux/api/bca-backend/transacciones/budgetSlice'

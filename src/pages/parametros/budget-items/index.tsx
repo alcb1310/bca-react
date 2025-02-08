@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { CircularProgress, TextField } from '@mui/material'
 import Grid from '@mui/material/Grid2'
 
-import PageTitle from '~components/titles/PageTitle'
+import PageTitle from '~/components/titles/PageTitle/PageTitle'
 import { useGetAllBudgetItemsQuery } from '~redux/api/bca-backend/parametros/budgetItemSlice'
 import EditToolbar from '~components/table/headers/toolbar'
 import AllBudgetItemsTable from '~components/settings/budget-items/AllBudgetItemsTable'

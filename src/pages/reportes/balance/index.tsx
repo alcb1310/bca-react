@@ -4,7 +4,7 @@ import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { CircularProgress, Grid2, Stack, Typography } from '@mui/material'
 
-import PageTitle from '~components/titles/PageTitle'
+import PageTitle from '~/components/titles/PageTitle/PageTitle'
 import BcaDateTextField from '~/components/input/BcaDateTextField/BcaDateTextField'
 import BcaSelect from '~/components/input/BcaSelect/BcaSelect'
 import EditToolbar from '~components/table/headers/toolbar'

@@ -1,7 +1,7 @@
 import { useState } from 'react'
 
 import EditToolbar from '~components/table/headers/toolbar'
-import PageTitle from '~components/titles/PageTitle'
+import PageTitle from '~/components/titles/PageTitle/PageTitle'
 import AllUsersTable from '~components/users/AllUsersTable'
 import UsersDrawer from '~components/drawers/Users/UsersDrawer'
 

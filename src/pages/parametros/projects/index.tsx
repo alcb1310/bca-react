@@ -3,7 +3,7 @@ import { CircularProgress, TextField } from '@mui/material'
 import Grid from '@mui/material/Grid2'
 
 import EditToolbar from '~components/table/headers/toolbar'
-import PageTitle from '~components/titles/PageTitle'
+import PageTitle from '~/components/titles/PageTitle/PageTitle'
 import AllProjectsTable from '~components/settings/projects/AllProjectsTable'
 import { useGetAllProjectsQuery } from '~redux/api/bca-backend/parametros/projectsSlice'
 import ProjectDrawer from '~components/drawers/Settings/Projects/ProjectDrawer'

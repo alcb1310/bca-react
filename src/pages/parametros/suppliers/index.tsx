@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { CircularProgress, Grid2, TextField } from '@mui/material'
 
 import AllSuppliersTable from '~components/settings/suppliers/AllSuppliersTable'
-import PageTitle from '~components/titles/PageTitle'
+import PageTitle from '~/components/titles/PageTitle/PageTitle'
 import { useGetAllSuppliersQuery } from '~redux/api/bca-backend/parametros/supplierSlice'
 import EditToolbar from '~components/table/headers/toolbar'
 import SupplierDrawer from '~components/drawers/Settings/Suppliers/SupplierDrawer'

@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import { Box, CircularProgress } from '@mui/material'
 
-import PageTitle from '~components/titles/PageTitle'
+import PageTitle from '~/components/titles/PageTitle/PageTitle'
 import { useGetOneInvoiceQuery } from '~redux/api/bca-backend/transacciones/invoiceSlice'
 import InvoiceForm from '~/components/forms/Invoice/Invoice'
 import EditToolbar from '~components/table/headers/toolbar'

@@ -1,4 +1,4 @@
-import PageTitle from './PageTitle'
+import PageTitle from '../PageTitle/PageTitle'
 
 describe('<PageTitle />', () => {
     it('should display the corret page ttle', () => {
