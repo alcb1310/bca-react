@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { RootState } from '../../store'
+
+import { RootState } from '~redux/store'
 
 const SERVER_API_URL = import.meta.env.VITE_BACKEND_SERVER
 
