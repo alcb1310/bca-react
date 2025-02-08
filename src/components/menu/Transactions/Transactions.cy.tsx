@@ -1,4 +1,4 @@
-import TransactionsMenu from './Transactions'
+import TransactionsMenu from '../Transactions/Transactions'
 
 describe('<TransactionsMenu />', () => {
     beforeEach(() => {

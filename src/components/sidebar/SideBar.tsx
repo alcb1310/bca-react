@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import { Box, Drawer } from '@mui/material'
 
-import TransactionsMenu from '~components/menu/Transactions'
+import TransactionsMenu from '~/components/menu/Transactions/Transactions'
 import ReportsMenu from '~/components/menu/Reports/Reports'
 import ParametersMenu from '~/components/menu/Parameters/Parameters'
 import AnalysisMenu from '~/components/menu/Analysis/Analysis'
