@@ -4,7 +4,7 @@ import { Stack, Typography } from '@mui/material'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 
-import BcaTextField from '~components/input/BcaTextField'
+import BcaTextField from '~/components/input/BcaTextField/BcaTextField'
 import ButtonGroup from '~components/buttons/button-group'
 import { rubrosSchema, RubrosType } from '~types/rubros'
 import {

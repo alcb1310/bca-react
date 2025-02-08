@@ -7,7 +7,7 @@ import BcaDrawer from '~components/drawers/BcaDrawer/BcaDrawer'
 import DrawerTitle from '~components/titles/DrawerTitle'
 import ButtonGroup from '~components/buttons/button-group'
 import { passwordSchema, PasswordType } from '~types/user'
-import BcaTextField from '~components/input/BcaTextField'
+import BcaTextField from '~/components/input/BcaTextField/BcaTextField'
 import { useUpdatePasswordMutation } from '~redux/api/bca-backend/user/userSlice'
 
 type ChangePasswordProps = {

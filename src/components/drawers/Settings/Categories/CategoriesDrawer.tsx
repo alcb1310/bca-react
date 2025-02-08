@@ -5,7 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 
 import DrawerTitle from '~components/titles/DrawerTitle'
 import BcaDrawer from '~components/drawers/BcaDrawer/BcaDrawer'
-import BcaTextField from '~components/input/BcaTextField'
+import BcaTextField from '~/components/input/BcaTextField/BcaTextField'
 import { categorySchema, CategoryType } from '~types/categories'
 import ButtonGroup from '~components/buttons/button-group'
 import {

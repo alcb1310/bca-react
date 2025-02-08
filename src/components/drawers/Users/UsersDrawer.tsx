@@ -16,7 +16,7 @@ import {
     useCreateUserMutation,
     useUpdateUserMutation,
 } from '~redux/api/bca-backend/user/userSlice'
-import BcaTextField from '~components/input/BcaTextField'
+import BcaTextField from '~/components/input/BcaTextField/BcaTextField'
 
 type UsersDrawerProps = {
     open: boolean

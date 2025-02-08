@@ -7,7 +7,7 @@ import { rubroMaterialSchema, RubroMaterialType } from '~types/rubro-material'
 import BcaDrawer from '~components/drawers/BcaDrawer/BcaDrawer'
 import DrawerTitle from '~components/titles/DrawerTitle'
 import ButtonGroup from '~components/buttons/button-group'
-import BcaTextField from '~components/input/BcaTextField'
+import BcaTextField from '~/components/input/BcaTextField/BcaTextField'
 import { useGetAllMaterialsQuery } from '~redux/api/bca-backend/parametros/materialsSlice'
 import BcaSelect from '~/components/input/BcaSelect/BcaSelect'
 import {

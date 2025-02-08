@@ -7,7 +7,7 @@ import { materialSchema, MaterialType } from '~types/materials'
 import ButtonGroup from '~components/buttons/button-group'
 import DrawerTitle from '~components/titles/DrawerTitle'
 import BcaDrawer from '~components/drawers/BcaDrawer/BcaDrawer'
-import BcaTextField from '~components/input/BcaTextField'
+import BcaTextField from '~/components/input/BcaTextField/BcaTextField'
 import BcaSelect from '~/components/input/BcaSelect/BcaSelect'
 import { useGetAllCategoriesQuery } from '~redux/api/bca-backend/parametros/categoriesSlice'
 import {

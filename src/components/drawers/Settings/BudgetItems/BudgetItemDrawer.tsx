@@ -13,7 +13,7 @@ import { RhfSwitch } from 'mui-rhf-integration'
 import DrawerTitle from '~components/titles/DrawerTitle'
 import BcaDrawer from '~components/drawers/BcaDrawer/BcaDrawer'
 import ButtonGroup from '~components/buttons/button-group'
-import BcaTextField from '~components/input/BcaTextField'
+import BcaTextField from '~/components/input/BcaTextField/BcaTextField'
 import { BudgetItem, budgetItemSchema } from '~types/partidas'
 import BcaSelect from '~/components/input/BcaSelect/BcaSelect'
 import {

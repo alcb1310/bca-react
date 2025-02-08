@@ -6,7 +6,7 @@ import { Typography } from '@mui/material'
 import { supplierSchema, SupplierType } from '~types/supplier'
 import DrawerTitle from '~components/titles/DrawerTitle'
 import BcaDrawer from '~components/drawers/BcaDrawer/BcaDrawer'
-import BcaTextField from '~components/input/BcaTextField'
+import BcaTextField from '~/components/input/BcaTextField/BcaTextField'
 import ButtonGroup from '~components/buttons/button-group'
 import {
     useCreateSupplierMutation,

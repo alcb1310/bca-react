@@ -11,7 +11,7 @@ import BcaDrawer from '~components/drawers/BcaDrawer/BcaDrawer'
 import { useGetAllProjectsQuery } from '~redux/api/bca-backend/parametros/projectsSlice'
 import BcaSelect from '~/components/input/BcaSelect/BcaSelect'
 import { useGetAllBudgetItemsQuery } from '~redux/api/bca-backend/parametros/budgetItemSlice'
-import BcaTextField from '~components/input/BcaTextField'
+import BcaTextField from '~/components/input/BcaTextField/BcaTextField'
 import {
     useCreateBudgetMutation,
     useUpdateBudgetMutation,

@@ -13,7 +13,7 @@ import {
     InvoiceDetailsCreateType,
 } from '~types/invoiceDetails'
 import { useCreateIvoiceDetailsMutation } from '~redux/api/bca-backend/transacciones/invoiceDetailsSlice'
-import BcaTextField from '~components/input/BcaTextField'
+import BcaTextField from '~/components/input/BcaTextField/BcaTextField'
 
 type InvoiceDetailsDrawerProps = {
     open: boolean
