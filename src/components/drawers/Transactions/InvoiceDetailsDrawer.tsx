@@ -3,17 +3,17 @@ import { useForm, useWatch } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Stack, Typography } from '@mui/material'
 
-import DrawerTitle from '../../titles/DrawerTitle'
-import BcaDrawer from '../BcaDrawer/BcaDrawer'
-import ButtonGroup from '../../buttons/button-group'
-import BcaSelect from '../../input/BcaSelect'
-import { useGetAllBudgetItemsQuery } from '../../../redux/api/bca-backend/parametros/budgetItemSlice'
+import DrawerTitle from '~components/titles/DrawerTitle'
+import BcaDrawer from '~components/drawers/BcaDrawer/BcaDrawer'
+import ButtonGroup from '~components/buttons/button-group'
+import BcaSelect from '~components/input/BcaSelect'
+import { useGetAllBudgetItemsQuery } from '~redux/api/bca-backend/parametros/budgetItemSlice'
 import {
     invoiceDetailsCreateSchema,
     InvoiceDetailsCreateType,
-} from '../../../types/invoiceDetails'
-import BcaTextField from '../../input/BcaTextField'
-import { useCreateIvoiceDetailsMutation } from '../../../redux/api/bca-backend/transacciones/invoiceDetailsSlice'
+} from '~types/invoiceDetails'
+import { useCreateIvoiceDetailsMutation } from '~redux/api/bca-backend/transacciones/invoiceDetailsSlice'
+import BcaTextField from '~components/input/BcaTextField'
 
 type InvoiceDetailsDrawerProps = {
     open: boolean
