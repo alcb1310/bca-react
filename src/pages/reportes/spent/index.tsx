@@ -13,7 +13,7 @@ import {
 import BcaSelect from '~/components/input/BcaSelect/BcaSelect'
 import BcaDateTextField from '~/components/input/BcaDateTextField/BcaDateTextField'
 import EditToolbar from '~components/table/headers/toolbar'
-import SpentTable from '~components/reports/SpentTable'
+import SpentTable from '~/components/reports/SpentTable/SpentTable'
 import SpentDetailsDrawer from '~components/drawers/Reports/Spent/SpentDetailsDrawer'
 import { Spent as SpentType } from '~types/reports'
 import { useAppSelector } from '~redux/hooks'
