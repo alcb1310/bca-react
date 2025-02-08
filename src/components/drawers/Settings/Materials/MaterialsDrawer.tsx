@@ -5,7 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 
 import { materialSchema, MaterialType } from '~types/materials'
 import ButtonGroup from '~components/buttons/button-group'
-import DrawerTitle from '~components/titles/DrawerTitle'
+import DrawerTitle from '~/components/titles/DrawerTitle/DrawerTitle'
 import BcaDrawer from '~components/drawers/BcaDrawer/BcaDrawer'
 import BcaTextField from '~/components/input/BcaTextField/BcaTextField'
 import BcaSelect from '~/components/input/BcaSelect/BcaSelect'

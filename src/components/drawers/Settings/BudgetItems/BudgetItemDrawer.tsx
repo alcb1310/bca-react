@@ -10,7 +10,7 @@ import {
 import { DevTool } from '@hookform/devtools'
 import { RhfSwitch } from 'mui-rhf-integration'
 
-import DrawerTitle from '~components/titles/DrawerTitle'
+import DrawerTitle from '~/components/titles/DrawerTitle/DrawerTitle'
 import BcaDrawer from '~components/drawers/BcaDrawer/BcaDrawer'
 import ButtonGroup from '~components/buttons/button-group'
 import BcaTextField from '~/components/input/BcaTextField/BcaTextField'

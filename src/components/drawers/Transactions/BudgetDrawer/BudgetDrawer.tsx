@@ -6,7 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 
 import { budgetEditSchema, BudgetEditType } from '~types/budget'
 import ButtonGroup from '~components/buttons/button-group'
-import DrawerTitle from '~components/titles/DrawerTitle'
+import DrawerTitle from '~/components/titles/DrawerTitle/DrawerTitle'
 import BcaDrawer from '~components/drawers/BcaDrawer/BcaDrawer'
 import { useGetAllProjectsQuery } from '~redux/api/bca-backend/parametros/projectsSlice'
 import BcaSelect from '~/components/input/BcaSelect/BcaSelect'

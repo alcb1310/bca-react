@@ -3,7 +3,7 @@ import { useForm, useWatch } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Stack, Typography } from '@mui/material'
 
-import DrawerTitle from '~components/titles/DrawerTitle'
+import DrawerTitle from '~/components/titles/DrawerTitle/DrawerTitle'
 import BcaDrawer from '~components/drawers/BcaDrawer/BcaDrawer'
 import ButtonGroup from '~components/buttons/button-group'
 import BcaSelect from '~/components/input/BcaSelect/BcaSelect'

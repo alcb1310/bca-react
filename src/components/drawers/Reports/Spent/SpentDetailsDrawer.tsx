@@ -3,7 +3,7 @@ import { DataGrid, GridColDef } from '@mui/x-data-grid'
 
 import { useGetSpentDetailsQuery } from '~redux/api/bca-backend/reports/commonSlice'
 import { Spent, SpentDetailsType } from '~types/reports'
-import DrawerTitle from '~components/titles/DrawerTitle'
+import DrawerTitle from '~/components/titles/DrawerTitle/DrawerTitle'
 import BcaDrawer from '~components/drawers/BcaDrawer/BcaDrawer'
 
 type SpentDetailsDrawerProps = {

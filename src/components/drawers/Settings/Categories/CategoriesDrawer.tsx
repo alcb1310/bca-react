@@ -3,7 +3,7 @@ import { Box, Typography } from '@mui/material'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 
-import DrawerTitle from '~components/titles/DrawerTitle'
+import DrawerTitle from '~/components/titles/DrawerTitle/DrawerTitle'
 import BcaDrawer from '~components/drawers/BcaDrawer/BcaDrawer'
 import BcaTextField from '~/components/input/BcaTextField/BcaTextField'
 import { categorySchema, CategoryType } from '~types/categories'
