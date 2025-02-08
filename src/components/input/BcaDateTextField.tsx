@@ -1,8 +1,9 @@
 import { DatePicker } from '@mui/x-date-pickers'
-import { BcaField } from '../../types/fields'
 import { TextFieldProps } from '@mui/material'
 import { Controller } from 'react-hook-form'
 import dayjs from 'dayjs'
+
+import { BcaField } from '~types/fields'
 
 type BcaDateTextFieldProps = BcaField<TextFieldProps>
 
