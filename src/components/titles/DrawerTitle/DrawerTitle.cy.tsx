@@ -1,4 +1,4 @@
-import DrawerTitle from './DrawerTitle/DrawerTitlee'
+import DrawerTitle from './DrawerTitle'
 
 describe('<DrawerTitle />', () => {
     it("should display the title's test", () => {
