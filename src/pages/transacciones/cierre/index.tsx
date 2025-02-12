@@ -14,6 +14,7 @@ import BcaSelect from '~/components/input/BcaSelect/BcaSelect'
 import BcaDateTextField from '~/components/input/BcaDateTextField/BcaDateTextField'
 import ConfirmationDialog from '~components/dialog/ConfirmationDialog'
 import { useCreateClosureMutation } from '~redux/api/bca-backend/transacciones/closureSlice'
+import { normalizeDate } from '~/utils/date'
 
 export default function Cierre() {
     const [open, setOpen] = useState<boolean>(false)
@@ -31,7 +32,12 @@ export default function Cierre() {
     const [generateCierre] = useCreateClosureMutation()
 
     function hadleSubmit(data: CierreTypes) {
-        setCierreData(data)
+        const dateString = normalizeDate(data.date)
+        setCierreData({
+            project_id: data.project_id,
+            // @ts-expect-error testing fix purposes
+            date: dateString,
+        })
         setOpen(true)
     }
 
