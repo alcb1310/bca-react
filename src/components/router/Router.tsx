@@ -1,14 +1,15 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import UnauthenticatedLayout from '../layouts/UnauthenticatedLayout'
-import Login from '../../pages/login/Login'
-import ValidateAuthentication from '../auth/Authentication'
-import Home from '../../pages/home/Home'
-import AuthenticatedLayout from '../layouts/AuthenticatedLayout'
-import { analysisRoutes } from './analysisRoutes'
-import { parametersRoutes } from './parametersRoutes'
-import { reportsRoutes } from './reportsRoutes'
-import { transactionsRoute } from './transactionsRoutes'
-import { usersRoutes } from './usersRoutes'
+
+import UnauthenticatedLayout from '~/components/layouts/UnauthenticatedLayout/UnauthenticatedLayout'
+import Login from '~/pages/login/Login'
+import ValidateAuthentication from '~components/auth/Authentication'
+import Home from '~/pages/home/Home'
+import AuthenticatedLayout from '~/components/layouts/AuthenticatedLayout/AuthenticatedLayout'
+import { analysisRoutes } from './AnalysisRoutes/AnalysisRoutes'
+import { parametersRoutes } from './ParametersRoutes/ParametersRoutes'
+import { reportsRoutes } from './ReportsRoutes/ReportsRoutes'
+import { transactionsRoute } from './TransactionsRoutes/TransactionsRoutes'
+import { usersRoutes } from './UsersRoutes/UsersRoutes'
 
 export default function AppRouter() {
     const router = createBrowserRouter([

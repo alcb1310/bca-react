@@ -1,8 +1,9 @@
 import { useState } from 'react'
-import EditToolbar from '../../../components/table/headers/toolbar'
-import PageTitle from '../../../components/titles/PageTitle'
-import AllUsersTable from '../../../components/users/AllUsersTable'
-import UsersDrawer from '../../../components/drawers/Users/UsersDrawer'
+
+import EditToolbar from '~components/table/headers/toolbar'
+import PageTitle from '~/components/titles/PageTitle/PageTitle'
+import AllUsersTable from '~components/users/AllUsersTable'
+import UsersDrawer from '~components/drawers/Users/UsersDrawer'
 
 export default function Admin() {
     const [open, setOpen] = useState<boolean>(false)

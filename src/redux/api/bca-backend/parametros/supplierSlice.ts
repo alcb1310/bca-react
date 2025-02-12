@@ -1,46 +1,46 @@
-import { SupplierType } from '../../../../types/supplier'
 import { bcaApiSlice } from '../bcaSlice'
+import { SupplierType } from '~types/supplier'
 
 const supplierSlice = bcaApiSlice.injectEndpoints({
-  overrideExisting: true,
+    overrideExisting: true,
 
-  endpoints: (builder) => ({
-    getAllSuppliers: builder.query<SupplierType[], { search: string }>({
-      query: ({ search }) => ({
-        url: '/parametros/proveedores',
-        method: 'GET',
-        params: {
-          query: search,
-        },
-      }),
+    endpoints: (builder) => ({
+        getAllSuppliers: builder.query<SupplierType[], { search: string }>({
+            query: ({ search }) => ({
+                url: '/parametros/proveedores',
+                method: 'GET',
+                params: {
+                    query: search,
+                },
+            }),
 
-      providesTags: ['suppliers'],
+            providesTags: ['suppliers'],
+        }),
+
+        createSupplier: builder.mutation<SupplierType, SupplierType>({
+            query: (supplier) => ({
+                url: '/parametros/proveedores',
+                method: 'POST',
+                body: supplier,
+            }),
+
+            invalidatesTags: ['suppliers'],
+        }),
+
+        updateSupplier: builder.mutation<SupplierType, SupplierType>({
+            query: (supplier) => ({
+                url: `/parametros/proveedores/${supplier.id}`,
+                method: 'PUT',
+                body: supplier,
+            }),
+
+            invalidatesTags: ['suppliers'],
+        }),
     }),
-
-    createSupplier: builder.mutation<SupplierType, SupplierType>({
-      query: (supplier) => ({
-        url: '/parametros/proveedores',
-        method: 'POST',
-        body: supplier,
-      }),
-
-      invalidatesTags: ['suppliers'],
-    }),
-
-    updateSupplier: builder.mutation<SupplierType, SupplierType>({
-      query: (supplier) => ({
-        url: `/parametros/proveedores/${supplier.id}`,
-        method: 'PUT',
-        body: supplier,
-      }),
-
-      invalidatesTags: ['suppliers'],
-    }),
-  }),
 })
 
 export const {
-  useGetAllSuppliersQuery,
-  useCreateSupplierMutation,
-  useUpdateSupplierMutation,
+    useGetAllSuppliersQuery,
+    useCreateSupplierMutation,
+    useUpdateSupplierMutation,
 } = supplierSlice

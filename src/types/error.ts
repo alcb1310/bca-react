@@ -1,3 +1,3 @@
 export type LoginErrorResponse = {
-  error: string
+    error: string
 }

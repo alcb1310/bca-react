@@ -1,21 +1,22 @@
+import { useState } from 'react'
 import { z } from 'zod'
-import PageTitle from '../../../components/titles/PageTitle'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { CircularProgress, Stack } from '@mui/material'
-import BcaSelect from '../../../components/input/BcaSelect'
-import { useGetAllProjectsQuery } from '../../../redux/api/bca-backend/parametros/projectsSlice'
+
+import PageTitle from '~/components/titles/PageTitle/PageTitle'
+import BcaSelect from '~/components/input/BcaSelect/BcaSelect'
+import { useGetAllProjectsQuery } from '~redux/api/bca-backend/parametros/projectsSlice'
 import {
     useGetAllHistoricQuery,
     useGetAllLevelsQuery,
-} from '../../../redux/api/bca-backend/reports/commonSlice'
-import EditToolbar from '../../../components/table/headers/toolbar'
-import BcaDateTextField from '../../../components/input/BcaDateTextField'
-import ActualTable from '../../../components/reports/ActualTable'
-import { useState } from 'react'
-import { useAppSelector } from '../../../redux/hooks'
-import { downloadExcelFile } from '../../../utils/download'
-import { normalizeDate } from '../../../utils/date'
+} from '~redux/api/bca-backend/reports/commonSlice'
+import EditToolbar from '~components/table/headers/toolbar'
+import BcaDateTextField from '~/components/input/BcaDateTextField/BcaDateTextField'
+import ActualTable from '~/components/reports/ActualTable/ActualTable'
+import { useAppSelector } from '~redux/hooks'
+import { downloadExcelFile } from '~/utils/download'
+import { normalizeDate } from '~/utils/date'
 
 const reportSchema = z.object({
     project_id: z

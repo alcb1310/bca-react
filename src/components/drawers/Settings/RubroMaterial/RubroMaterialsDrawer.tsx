@@ -1,22 +1,19 @@
 import { useEffect, useState } from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
+import { Typography } from '@mui/material'
 
-import {
-    rubroMaterialSchema,
-    RubroMaterialType,
-} from '../../../../types/rubro-material'
-import BcaDrawer from '../../BcaDrawer/BcaDrawer'
-import DrawerTitle from '../../../titles/DrawerTitle'
-import ButtonGroup from '../../../buttons/button-group'
-import BcaTextField from '../../../input/BcaTextField'
-import { useGetAllMaterialsQuery } from '../../../../redux/api/bca-backend/parametros/materialsSlice'
-import BcaSelect from '../../../input/BcaSelect'
+import { rubroMaterialSchema, RubroMaterialType } from '~types/rubro-material'
+import BcaDrawer from '~components/drawers/BcaDrawer/BcaDrawer'
+import DrawerTitle from '~/components/titles/DrawerTitle/DrawerTitle'
+import ButtonGroup from '~components/buttons/button-group'
+import BcaTextField from '~/components/input/BcaTextField/BcaTextField'
+import { useGetAllMaterialsQuery } from '~redux/api/bca-backend/parametros/materialsSlice'
+import BcaSelect from '~/components/input/BcaSelect/BcaSelect'
 import {
     useCreateRubrosMaterialMutation,
     useUpdateRubrosMaterialMutation,
-} from '../../../../redux/api/bca-backend/parametros/rubroMaterialSlice'
-import { Typography } from '@mui/material'
+} from '~redux/api/bca-backend/parametros/rubroMaterialSlice'
 
 type RubroMaterialsDrawerProps = {
     open: boolean

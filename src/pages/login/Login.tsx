@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Navigate } from 'react-router-dom'
 import {
     Box,
     Button,
@@ -8,12 +9,12 @@ import {
     Typography,
 } from '@mui/material'
 import { Controller, useForm } from 'react-hook-form'
-import { LoginInput, loginSchema } from '../../types/login'
-import { useAppDispatch, useAppSelector } from '../../redux/hooks'
-import { login } from '../../redux/features/login/loginSlice'
-import { Navigate } from 'react-router-dom'
-import { useLoginMutation } from '../../redux/api/bca-backend/auth/authentication'
 import { zodResolver } from '@hookform/resolvers/zod'
+
+import { LoginInput, loginSchema } from '~types/login'
+import { useAppDispatch, useAppSelector } from '~redux/hooks'
+import { login } from '~redux/features/login/loginSlice'
+import { useLoginMutation } from '~redux/api/bca-backend/auth/authentication'
 
 export default function Login() {
     const [error, setError] = useState<string | null>(null)

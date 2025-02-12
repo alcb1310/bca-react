@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Box, Typography } from '@mui/material'
+import { zodResolver } from '@hookform/resolvers/zod'
 
 import BcaDrawer from '../BcaDrawer/BcaDrawer'
 import {
@@ -8,15 +9,14 @@ import {
     userCreateSchema,
     UserResponse,
     userResponseSchema,
-} from '../../../types/user'
-import DrawerTitle from '../../titles/DrawerTitle'
-import ButtonGroup from '../../buttons/button-group'
+} from '~types/user'
+import DrawerTitle from '~/components/titles/DrawerTitle/DrawerTitle'
+import ButtonGroup from '~components/buttons/button-group'
 import {
     useCreateUserMutation,
     useUpdateUserMutation,
-} from '../../../redux/api/bca-backend/user/userSlice'
-import BcaTextField from '../../input/BcaTextField'
-import { zodResolver } from '@hookform/resolvers/zod'
+} from '~redux/api/bca-backend/user/userSlice'
+import BcaTextField from '~/components/input/BcaTextField/BcaTextField'
 
 type UsersDrawerProps = {
     open: boolean

@@ -1,3 +1,5 @@
+import { useState } from 'react'
+import { EditOutlined } from '@mui/icons-material'
 import {
     DataGrid,
     GridActionsCellItem,
@@ -5,10 +7,9 @@ import {
     GridColumnGroupingModel,
     GridRowParams,
 } from '@mui/x-data-grid'
-import { BudgetEditType, BudgetResponseType } from '../../../types/budget'
-import { EditOutlined } from '@mui/icons-material'
-import { useState } from 'react'
-import BudgetDrawer from '../../drawers/Transactions/BudgetDrawer'
+
+import { BudgetEditType, BudgetResponseType } from '~types/budget'
+import BudgetDrawer from '~/components/drawers/Transactions/BudgetDrawer/BudgetDrawer'
 
 type AllBudgetsTableProps = {
     data: BudgetResponseType[] | undefined

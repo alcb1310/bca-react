@@ -5,15 +5,16 @@ import { Box, Button, CircularProgress, Stack, Typography } from '@mui/material'
 import { SaveOutlined } from '@mui/icons-material'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-
-import PageTitle from '../../../components/titles/PageTitle'
-import { useGetAllProjectsQuery } from '../../../redux/api/bca-backend/parametros/projectsSlice'
-import { cierreSchema, CierreTypes } from '../../../types/cierre'
-import BcaSelect from '../../../components/input/BcaSelect'
-import BcaDateTextField from '../../../components/input/BcaDateTextField'
-import ConfirmationDialog from '../../../components/dialog/ConfirmationDialog'
-import { useCreateClosureMutation } from '../../../redux/api/bca-backend/transacciones/closureSlice'
 import { DevTool } from '@hookform/devtools'
+
+import PageTitle from '~/components/titles/PageTitle/PageTitle'
+import { useGetAllProjectsQuery } from '~redux/api/bca-backend/parametros/projectsSlice'
+import { cierreSchema, CierreTypes } from '~types/cierre'
+import BcaSelect from '~/components/input/BcaSelect/BcaSelect'
+import BcaDateTextField from '~/components/input/BcaDateTextField/BcaDateTextField'
+import ConfirmationDialog from '~components/dialog/ConfirmationDialog'
+import { useCreateClosureMutation } from '~redux/api/bca-backend/transacciones/closureSlice'
+import { normalizeDate } from '~/utils/date'
 
 export default function Cierre() {
     const [open, setOpen] = useState<boolean>(false)
@@ -31,7 +32,12 @@ export default function Cierre() {
     const [generateCierre] = useCreateClosureMutation()
 
     function hadleSubmit(data: CierreTypes) {
-        setCierreData(data)
+        const dateString = normalizeDate(data.date)
+        setCierreData({
+            project_id: data.project_id,
+            // @ts-expect-error testing fix purposes
+            date: dateString,
+        })
         setOpen(true)
     }
 
