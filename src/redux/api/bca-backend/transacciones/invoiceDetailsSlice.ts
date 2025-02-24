@@ -2,7 +2,7 @@ import { bcaApiSlice } from '../bcaSlice'
 import {
     InvoiceDetailsCreateType,
     InvoiceDetailsResponseType,
-} from '~types/invoiceDetails'
+} from '@/types/invoiceDetails'
 
 const invoiceDetailsApiSlice = bcaApiSlice.injectEndpoints({
     overrideExisting: true,

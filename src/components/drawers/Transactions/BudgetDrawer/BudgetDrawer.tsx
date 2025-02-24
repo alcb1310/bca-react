@@ -4,18 +4,18 @@ import { Box, Typography } from '@mui/material'
 import { DevTool } from '@hookform/devtools'
 import { zodResolver } from '@hookform/resolvers/zod'
 
-import { budgetEditSchema, BudgetEditType } from '~types/budget'
-import ButtonGroup from '~components/buttons/button-group'
-import DrawerTitle from '~/components/titles/DrawerTitle/DrawerTitle'
-import BcaDrawer from '~components/drawers/BcaDrawer/BcaDrawer'
-import { useGetAllProjectsQuery } from '~redux/api/bca-backend/parametros/projectsSlice'
-import BcaSelect from '~/components/input/BcaSelect/BcaSelect'
-import { useGetAllBudgetItemsQuery } from '~redux/api/bca-backend/parametros/budgetItemSlice'
-import BcaTextField from '~/components/input/BcaTextField/BcaTextField'
+import { budgetEditSchema, BudgetEditType } from '@/types/budget'
+import ButtonGroup from '@components/buttons/button-group'
+import DrawerTitle from '@/components/titles/DrawerTitle/DrawerTitle'
+import BcaDrawer from '@components/drawers/BcaDrawer/BcaDrawer'
+import { useGetAllProjectsQuery } from '@redux/api/bca-backend/parametros/projectsSlice'
+import BcaSelect from '@/components/input/BcaSelect/BcaSelect'
+import { useGetAllBudgetItemsQuery } from '@redux/api/bca-backend/parametros/budgetItemSlice'
+import BcaTextField from '@/components/input/BcaTextField/BcaTextField'
 import {
     useCreateBudgetMutation,
     useUpdateBudgetMutation,
-} from '~redux/api/bca-backend/transacciones/budgetSlice'
+} from '@redux/api/bca-backend/transacciones/budgetSlice'
 
 type BudgetDrawerProps = {
     open: boolean

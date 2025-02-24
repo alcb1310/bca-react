@@ -2,7 +2,7 @@ import { bcaApiSlice } from '../bcaSlice'
 import {
     RubroMaterialResponseTye,
     RubroMaterialType,
-} from '~types/rubro-material'
+} from '@/types/rubro-material'
 
 const rubroMaterialApilice = bcaApiSlice.injectEndpoints({
     overrideExisting: true,

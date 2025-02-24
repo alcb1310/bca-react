@@ -4,15 +4,15 @@ import { FormControlLabel, Typography } from '@mui/material'
 import { RhfSwitch } from 'mui-rhf-integration'
 import { zodResolver } from '@hookform/resolvers/zod'
 
-import DrawerTitle from '~/components/titles/DrawerTitle/DrawerTitle'
-import BcaDrawer from '~components/drawers/BcaDrawer/BcaDrawer'
-import { projectSchema, ProjectType } from '~types/project'
-import BcaTextField from '~/components/input/BcaTextField/BcaTextField'
-import ButtonGroup from '~components/buttons/button-group'
+import DrawerTitle from '@/components/titles/DrawerTitle/DrawerTitle'
+import BcaDrawer from '@components/drawers/BcaDrawer/BcaDrawer'
+import { projectSchema, ProjectType } from '@/types/project'
+import BcaTextField from '@/components/input/BcaTextField/BcaTextField'
+import ButtonGroup from '@components/buttons/button-group'
 import {
     useCreateProjectMutation,
     useUpdateProjectMutation,
-} from '~redux/api/bca-backend/parametros/projectsSlice'
+} from '@redux/api/bca-backend/parametros/projectsSlice'
 
 type ProjectDrawerProps = {
     open: boolean

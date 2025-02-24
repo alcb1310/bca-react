@@ -4,13 +4,13 @@ import { Stack, Typography } from '@mui/material'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 
-import BcaTextField from '~/components/input/BcaTextField/BcaTextField'
-import ButtonGroup from '~components/buttons/button-group'
-import { rubrosSchema, RubrosType } from '~types/rubros'
+import BcaTextField from '@/components/input/BcaTextField/BcaTextField'
+import ButtonGroup from '@components/buttons/button-group'
+import { rubrosSchema, RubrosType } from '@/types/rubros'
 import {
     useCreateRubroMutation,
     useUpdateRubroMutation,
-} from '~redux/api/bca-backend/parametros/rubrosSlice'
+} from '@redux/api/bca-backend/parametros/rubrosSlice'
 
 type RubrosFromProps = {
     rubro: RubrosType

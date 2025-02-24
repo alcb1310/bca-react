@@ -1,5 +1,5 @@
 import { bcaApiSlice } from '../bcaSlice'
-import { CierreTypes } from '~types/cierre'
+import { CierreTypes } from '@/types/cierre'
 
 const closureSlice = bcaApiSlice.injectEndpoints({
     overrideExisting: true,

@@ -7,14 +7,14 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { DevTool } from '@hookform/devtools'
 
-import PageTitle from '~/components/titles/PageTitle/PageTitle'
-import { useGetAllProjectsQuery } from '~redux/api/bca-backend/parametros/projectsSlice'
-import { cierreSchema, CierreTypes } from '~types/cierre'
-import BcaSelect from '~/components/input/BcaSelect/BcaSelect'
-import BcaDateTextField from '~/components/input/BcaDateTextField/BcaDateTextField'
-import ConfirmationDialog from '~components/dialog/ConfirmationDialog'
-import { useCreateClosureMutation } from '~redux/api/bca-backend/transacciones/closureSlice'
-import { normalizeDate } from '~/utils/date'
+import PageTitle from '@/components/titles/PageTitle/PageTitle'
+import { useGetAllProjectsQuery } from '@redux/api/bca-backend/parametros/projectsSlice'
+import { cierreSchema, CierreTypes } from '@/types/cierre'
+import BcaSelect from '@/components/input/BcaSelect/BcaSelect'
+import BcaDateTextField from '@/components/input/BcaDateTextField/BcaDateTextField'
+import ConfirmationDialog from '@components/dialog/ConfirmationDialog'
+import { useCreateClosureMutation } from '@redux/api/bca-backend/transacciones/closureSlice'
+import { normalizeDate } from '@/utils/date'
 
 export default function Cierre() {
     const [open, setOpen] = useState<boolean>(false)

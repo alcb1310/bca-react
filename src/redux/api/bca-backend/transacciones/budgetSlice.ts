@@ -1,5 +1,5 @@
 import { bcaApiSlice } from '../bcaSlice'
-import { BudgetEditType, BudgetResponseType } from '~types/budget'
+import { BudgetEditType, BudgetResponseType } from '@/types/budget'
 
 const budgetApiSlice = bcaApiSlice.injectEndpoints({
     overrideExisting: true,

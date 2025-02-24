@@ -7,11 +7,11 @@ import {
     Tooltip,
     Typography,
 } from '@mui/material'
-import ChangeTheme from '~components/theme/ChangeTheme'
+import ChangeTheme from '@components/theme/ChangeTheme'
 import { LogoutOutlined } from '@mui/icons-material'
-import UserMenu from '~/components/menu/User/User'
-import { useAppDispatch } from '~/redux/hooks'
-import { logout } from '~/redux/features/login/loginSlice'
+import UserMenu from '@/components/menu/User/User'
+import { useAppDispatch } from '@/redux/hooks'
+import { logout } from '@/redux/features/login/loginSlice'
 
 export default function ApplicationBar() {
     const dispatch = useAppDispatch()

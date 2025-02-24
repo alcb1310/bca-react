@@ -1,8 +1,8 @@
 import { Outlet } from 'react-router-dom'
 import { Box } from '@mui/material'
 
-import Sidebar from '~components/sidebar/SideBar'
-import ApplicationBar from '~components/appbar/AppBar'
+import Sidebar from '@components/sidebar/SideBar'
+import ApplicationBar from '@components/appbar/AppBar'
 
 function AuthenticatedLayout() {
     return (

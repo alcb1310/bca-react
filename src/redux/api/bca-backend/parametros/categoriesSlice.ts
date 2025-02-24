@@ -1,5 +1,5 @@
 import { bcaApiSlice } from '../bcaSlice'
-import { CategoryType } from '~types/categories'
+import { CategoryType } from '@/types/categories'
 
 const categorySlice = bcaApiSlice.injectEndpoints({
     overrideExisting: true,

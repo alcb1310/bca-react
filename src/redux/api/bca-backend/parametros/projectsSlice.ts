@@ -1,5 +1,5 @@
 import { bcaApiSlice } from '../bcaSlice'
-import { ProjectType } from '~types/project'
+import { ProjectType } from '@/types/project'
 
 const projectApiSlice = bcaApiSlice.injectEndpoints({
     overrideExisting: true,

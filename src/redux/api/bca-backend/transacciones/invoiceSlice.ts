@@ -1,5 +1,5 @@
 import { bcaApiSlice } from '../bcaSlice'
-import { InvoiceCreateType, InvoiceResponseType } from '~types/invoice'
+import { InvoiceCreateType, InvoiceResponseType } from '@/types/invoice'
 
 const invoiceApiSlice = bcaApiSlice.injectEndpoints({
     overrideExisting: true,

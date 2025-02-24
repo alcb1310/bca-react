@@ -3,15 +3,15 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Typography } from '@mui/material'
 
-import { supplierSchema, SupplierType } from '~types/supplier'
-import DrawerTitle from '~/components/titles/DrawerTitle/DrawerTitle'
-import BcaDrawer from '~components/drawers/BcaDrawer/BcaDrawer'
-import BcaTextField from '~/components/input/BcaTextField/BcaTextField'
-import ButtonGroup from '~components/buttons/button-group'
+import { supplierSchema, SupplierType } from '@/types/supplier'
+import DrawerTitle from '@/components/titles/DrawerTitle/DrawerTitle'
+import BcaDrawer from '@components/drawers/BcaDrawer/BcaDrawer'
+import BcaTextField from '@/components/input/BcaTextField/BcaTextField'
+import ButtonGroup from '@components/buttons/button-group'
 import {
     useCreateSupplierMutation,
     useUpdateSupplierMutation,
-} from '~redux/api/bca-backend/parametros/supplierSlice'
+} from '@redux/api/bca-backend/parametros/supplierSlice'
 
 type SupplierDrawerProps = {
     open: boolean

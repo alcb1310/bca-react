@@ -7,8 +7,8 @@ import {
     GridRowParams,
 } from '@mui/x-data-grid'
 
-import { CategoryType } from '~types/categories'
-import CategoriesDrawer from '~components/drawers/Settings/Categories/CategoriesDrawer'
+import { CategoryType } from '@/types/categories'
+import CategoriesDrawer from '@components/drawers/Settings/Categories/CategoriesDrawer'
 
 type AllCategoriesTableProps = {
     data: CategoryType[]

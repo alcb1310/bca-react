@@ -1,10 +1,10 @@
 import { useNavigate } from 'react-router-dom'
 import { CircularProgress } from '@mui/material'
 
-import AllRubrosTable from '~components/settings/rubros/AllRubrosTable'
-import EditToolbar from '~components/table/headers/toolbar'
-import PageTitle from '~/components/titles/PageTitle/PageTitle'
-import { useGetAllRubrosQuery } from '~redux/api/bca-backend/parametros/rubrosSlice'
+import AllRubrosTable from '@components/settings/rubros/AllRubrosTable'
+import EditToolbar from '@components/table/headers/toolbar'
+import PageTitle from '@/components/titles/PageTitle/PageTitle'
+import { useGetAllRubrosQuery } from '@redux/api/bca-backend/parametros/rubrosSlice'
 
 export default function Items() {
     const { data, isLoading } = useGetAllRubrosQuery()

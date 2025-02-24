@@ -3,8 +3,8 @@ import {
     BalanceResponseType,
     SpentDetailsType,
     SpentResponseType,
-} from '~types/reports'
-import { BudgetResponseType } from '~types/budget'
+} from '@/types/reports'
+import { BudgetResponseType } from '@/types/budget'
 
 type LevelType = {
     key: string
