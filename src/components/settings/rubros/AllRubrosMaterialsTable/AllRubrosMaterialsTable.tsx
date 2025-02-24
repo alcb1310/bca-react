@@ -10,12 +10,12 @@ import {
 import {
     useDeleteRubrosMaterialMutation,
     useGetAllRubrosMaterialsQuery,
-} from '~redux/api/bca-backend/parametros/rubroMaterialSlice'
+} from '@redux/api/bca-backend/parametros/rubroMaterialSlice'
 import {
     RubroMaterialResponseTye,
     RubroMaterialType,
-} from '~types/rubro-material'
-import RubroMaterialsDrawer from '~components/drawers/Settings/RubroMaterial/RubroMaterialsDrawer'
+} from '@/types/rubro-material'
+import RubroMaterialsDrawer from '@components/drawers/Settings/RubroMaterial/RubroMaterialsDrawer'
 
 type AllRubrosMaterialsTableProps = {
     rubroId: string

@@ -1,5 +1,5 @@
 import { bcaApiSlice } from '../bcaSlice'
-import { MaterialType } from '~types/materials'
+import { MaterialType } from '@/types/materials'
 
 const materialsApi = bcaApiSlice.injectEndpoints({
     overrideExisting: true,

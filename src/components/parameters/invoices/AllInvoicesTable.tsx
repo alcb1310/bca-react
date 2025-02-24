@@ -7,8 +7,8 @@ import {
 } from '@mui/x-data-grid'
 import { DeleteOutlined, EditOutlined } from '@mui/icons-material'
 
-import { InvoiceResponseType } from '~types/invoice'
-import { useDeleteInvoiceMutation } from '~redux/api/bca-backend/transacciones/invoiceSlice'
+import { InvoiceResponseType } from '@/types/invoice'
+import { useDeleteInvoiceMutation } from '@redux/api/bca-backend/transacciones/invoiceSlice'
 
 type AllInvoicesTableProps = {
     data: InvoiceResponseType[]

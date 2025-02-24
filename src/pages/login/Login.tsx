@@ -11,10 +11,10 @@ import {
 import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 
-import { LoginInput, loginSchema } from '~types/login'
-import { useAppDispatch, useAppSelector } from '~redux/hooks'
-import { login } from '~redux/features/login/loginSlice'
-import { useLoginMutation } from '~redux/api/bca-backend/auth/authentication'
+import { LoginInput, loginSchema } from '@/types/login'
+import { useAppDispatch, useAppSelector } from '@redux/hooks'
+import { login } from '@redux/features/login/loginSlice'
+import { useLoginMutation } from '@redux/api/bca-backend/auth/authentication'
 
 export default function Login() {
     const [error, setError] = useState<string | null>(null)

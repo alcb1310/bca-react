@@ -7,8 +7,8 @@ import {
 } from '@mui/x-data-grid'
 import { EditOutlined } from '@mui/icons-material'
 
-import { MaterialType } from '~types/materials'
-import MaterialsDrawer from '~components/drawers/Settings/Materials/MaterialsDrawer'
+import { MaterialType } from '@/types/materials'
+import MaterialsDrawer from '@components/drawers/Settings/Materials/MaterialsDrawer'
 
 type AllMaterialsTableProps = {
     data: MaterialType[]

@@ -3,12 +3,12 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { Box } from '@mui/material'
 import { useForm } from 'react-hook-form'
 
-import BcaDrawer from '~components/drawers/BcaDrawer/BcaDrawer'
-import DrawerTitle from '~/components/titles/DrawerTitle/DrawerTitle'
-import ButtonGroup from '~components/buttons/button-group'
-import { passwordSchema, PasswordType } from '~types/user'
-import BcaTextField from '~/components/input/BcaTextField/BcaTextField'
-import { useUpdatePasswordMutation } from '~redux/api/bca-backend/user/userSlice'
+import BcaDrawer from '@components/drawers/BcaDrawer/BcaDrawer'
+import DrawerTitle from '@/components/titles/DrawerTitle/DrawerTitle'
+import ButtonGroup from '@components/buttons/button-group'
+import { passwordSchema, PasswordType } from '@/types/user'
+import BcaTextField from '@/components/input/BcaTextField/BcaTextField'
+import { useUpdatePasswordMutation } from '@redux/api/bca-backend/user/userSlice'
 
 type ChangePasswordProps = {
     onClose: () => void

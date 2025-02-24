@@ -7,8 +7,8 @@ import {
     GridRowParams,
 } from '@mui/x-data-grid'
 
-import { ProjectType } from '~types/project'
-import ProjectDrawer from '~components/drawers/Settings/Projects/ProjectDrawer'
+import { ProjectType } from '@/types/project'
+import ProjectDrawer from '@components/drawers/Settings/Projects/ProjectDrawer'
 
 type AllProjectsTableProps = {
     data: ProjectType[]

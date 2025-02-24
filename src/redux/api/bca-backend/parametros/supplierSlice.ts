@@ -1,5 +1,5 @@
 import { bcaApiSlice } from '../bcaSlice'
-import { SupplierType } from '~types/supplier'
+import { SupplierType } from '@/types/supplier'
 
 const supplierSlice = bcaApiSlice.injectEndpoints({
     overrideExisting: true,

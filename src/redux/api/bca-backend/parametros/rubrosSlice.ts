@@ -1,5 +1,5 @@
 import { bcaApiSlice } from '../bcaSlice'
-import { RubrosType } from '~types/rubros'
+import { RubrosType } from '@/types/rubros'
 
 const rubrosApiSlice = bcaApiSlice.injectEndpoints({
     overrideExisting: true,

@@ -7,7 +7,7 @@ import {
 } from '@mui/x-data-grid'
 import { EditOutlined } from '@mui/icons-material'
 
-import { RubrosType } from '~types/rubros'
+import { RubrosType } from '@/types/rubros'
 
 type AllRubrosTableProps = {
     data: RubrosType[]

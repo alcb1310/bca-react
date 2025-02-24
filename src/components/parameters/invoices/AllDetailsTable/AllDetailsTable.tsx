@@ -1,8 +1,8 @@
 import { DataGrid, GridActionsCellItem, GridColDef } from '@mui/x-data-grid'
 import { DeleteOutlined } from '@mui/icons-material'
 
-import { InvoiceDetailsResponseType } from '~types/invoiceDetails'
-import { useDeleteInvoiceDetailsMutation } from '~redux/api/bca-backend/transacciones/invoiceDetailsSlice'
+import { InvoiceDetailsResponseType } from '@/types/invoiceDetails'
+import { useDeleteInvoiceDetailsMutation } from '@redux/api/bca-backend/transacciones/invoiceDetailsSlice'
 
 type AllDetailsTableProps = {
     data: InvoiceDetailsResponseType[]

@@ -12,10 +12,10 @@ import {
     useAllUsersQuery,
     useDeleteUserMutation,
     useMeQuery,
-} from '~redux/api/bca-backend/user/userSlice'
-import ConfirmationDialog from '~components/dialog/ConfirmationDialog'
-import UsersDrawer from '~components/drawers/Users/UsersDrawer'
-import { UserResponse } from '~types/user'
+} from '@redux/api/bca-backend/user/userSlice'
+import ConfirmationDialog from '@components/dialog/ConfirmationDialog'
+import UsersDrawer from '@components/drawers/Users/UsersDrawer'
+import { UserResponse } from '@/types/user'
 
 export default function AllUsersTable() {
     const [confirmationDialogOpen, setConfirmationDialogOpen] =

@@ -2,9 +2,9 @@ import { useState } from 'react'
 import { Alert, Checkbox } from '@mui/material'
 import { DataGrid, GridColDef } from '@mui/x-data-grid'
 
-import { BalanceResponseType } from '~types/reports'
-import { InvoiceResponseType } from '~types/invoice'
-import { useSetBalancedInvoiceMutation } from '~redux/api/bca-backend/reports/commonSlice'
+import { BalanceResponseType } from '@/types/reports'
+import { InvoiceResponseType } from '@/types/invoice'
+import { useSetBalancedInvoiceMutation } from '@redux/api/bca-backend/reports/commonSlice'
 
 type BalanceTableProps = {
     data: BalanceResponseType

@@ -9,14 +9,14 @@ import {
     userCreateSchema,
     UserResponse,
     userResponseSchema,
-} from '~types/user'
-import DrawerTitle from '~/components/titles/DrawerTitle/DrawerTitle'
-import ButtonGroup from '~components/buttons/button-group'
+} from '@/types/user'
+import DrawerTitle from '@/components/titles/DrawerTitle/DrawerTitle'
+import ButtonGroup from '@components/buttons/button-group'
 import {
     useCreateUserMutation,
     useUpdateUserMutation,
-} from '~redux/api/bca-backend/user/userSlice'
-import BcaTextField from '~/components/input/BcaTextField/BcaTextField'
+} from '@redux/api/bca-backend/user/userSlice'
+import BcaTextField from '@/components/input/BcaTextField/BcaTextField'
 
 type UsersDrawerProps = {
     open: boolean

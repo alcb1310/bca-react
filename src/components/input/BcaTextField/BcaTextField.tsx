@@ -1,7 +1,7 @@
 import { FormHelperText, TextField, TextFieldProps } from '@mui/material'
 import { Controller } from 'react-hook-form'
 
-import { BcaField } from '~types/fields'
+import { BcaField } from '@/types/fields'
 
 type BcaTextFieldProps = BcaField<TextFieldProps>
 

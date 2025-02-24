@@ -7,10 +7,10 @@ export default defineConfig({
     plugins: [react()],
     resolve: {
         alias: {
-            '~': path.resolve(__dirname, './src'),
-            '~components': path.resolve(__dirname, './src/components'),
-            '~types': path.resolve(__dirname, './src/types'),
-            '~redux': path.resolve(__dirname, './src/redux'),
+            '@': path.resolve(__dirname, './src'),
+            '@components': path.resolve(__dirname, './src/components'),
+            '@types': path.resolve(__dirname, './src/types'),
+            '@redux': path.resolve(__dirname, './src/redux'),
         },
     },
 })

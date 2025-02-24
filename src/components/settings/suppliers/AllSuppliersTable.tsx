@@ -7,8 +7,8 @@ import {
 } from '@mui/x-data-grid'
 import { EditOutlined } from '@mui/icons-material'
 
-import { SupplierType } from '~types/supplier'
-import SupplierDrawer from '~components/drawers/Settings/Suppliers/SupplierDrawer'
+import { SupplierType } from '@/types/supplier'
+import SupplierDrawer from '@components/drawers/Settings/Suppliers/SupplierDrawer'
 
 type AllSuppliersTableProps = {
     data: SupplierType[]
