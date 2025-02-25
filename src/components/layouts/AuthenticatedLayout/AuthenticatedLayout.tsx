@@ -1,13 +1,14 @@
 import { Outlet } from 'react-router-dom'
 import { Box } from '@mui/material'
 
-import Sidebar from '@components/sidebar/SideBar'
+import AppSidebar from '@components/sidebar/SideBar'
 import ApplicationBar from '@components/appbar/AppBar'
+import { SidebarProvider } from '@/components/ui/sidebar'
 
 function AuthenticatedLayout() {
     return (
-        <Box display='flex' width='100%' height='100%'>
-            <Sidebar />
+        <SidebarProvider>
+            <AppSidebar />
             <Box
                 flexGrow={1}
                 height='100%'
@@ -30,7 +31,7 @@ function AuthenticatedLayout() {
                     <Outlet />
                 </Box>
             </Box>
-        </Box>
+        </SidebarProvider>
     )
 }
 

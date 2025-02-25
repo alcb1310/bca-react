@@ -1,14 +1,18 @@
+import { SidebarProvider } from '@/components/ui/sidebar'
 import TransactionsMenu from '../Transactions/Transactions'
 
 describe('<TransactionsMenu />', () => {
     beforeEach(() => {
-        cy.wrapper(<TransactionsMenu />)
+        cy.wrapper(
+            <SidebarProvider>
+                <TransactionsMenu />
+            </SidebarProvider>
+        )
     })
 
     it('should display the transactions menu', () => {
         cy.getByTestId('menu.transactions').should('have.text', 'Transacciones')
-        cy.getByTestId('menu.transactions.open-chevron').should('be.visible')
-        cy.getByTestId('menu.transactions.closed-chevron').should('not.exist')
+        cy.getByTestId('menu.transactions.closed-chevron').should('be.visible')
 
         cy.getByTestId('menu.transactions.budget')
             .should('be.visible')
@@ -29,7 +33,6 @@ describe('<TransactionsMenu />', () => {
         })
 
         it('should hide the menu', () => {
-            cy.getByTestId('menu.transactions.open-chevron').should('not.exist')
             cy.getByTestId('menu.transactions.closed-chevron').should('be.visible')
 
             cy.getByTestId('menu.transactions.budget').should('not.exist')
@@ -39,8 +42,7 @@ describe('<TransactionsMenu />', () => {
 
         it('should show the menu', () => {
             cy.getByTestId('menu.transactions').click()
-            cy.getByTestId('menu.transactions.open-chevron').should('be.visible')
-            cy.getByTestId('menu.transactions.closed-chevron').should('not.exist')
+            cy.getByTestId('menu.transactions.closed-chevron').should('be.visible')
 
             cy.getByTestId('menu.transactions.budget')
                 .should('be.visible')

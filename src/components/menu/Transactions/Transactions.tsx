@@ -1,114 +1,66 @@
+import { Link } from 'react-router-dom'
 import {
-    AccountBalanceOutlined,
-    ChevronRightOutlined,
-    ExpandMoreOutlined,
-    PointOfSaleOutlined,
-    ReceiptOutlined,
-} from '@mui/icons-material'
+    ChevronDown,
+    CopyPlusIcon,
+    ReceiptIcon,
+    ShoppingBagIcon,
+} from 'lucide-react'
+
 import {
-    Box,
-    Collapse,
-    List,
-    ListItemButton,
-    ListItemIcon,
-    ListItemText,
-} from '@mui/material'
-import { useState } from 'react'
-import { NavLink, useLocation } from 'react-router-dom'
+    Collapsible,
+    CollapsibleContent,
+    CollapsibleTrigger,
+} from '@/components/ui/collapsible'
+import {
+    SidebarMenu,
+    SidebarMenuButton,
+    SidebarMenuItem,
+    SidebarMenuSub,
+    SidebarMenuSubItem,
+} from '@/components/ui/sidebar'
 
 export default function TransactionsMenu() {
-    const [open, setOpen] = useState<boolean>(true)
-    const str = useLocation().pathname
-
     return (
-        <Box>
-            <ListItemButton
-                onClick={() => setOpen((prev) => !prev)}
-                sx={{
-                    backgroundColor: 'primary.main',
-                    color: 'white',
-                    borderRadius: 2,
-                }}
-            >
-                <ListItemText
-                    primary='Transacciones'
-                    data-testid='menu.transactions'
-                    primaryTypographyProps={{
-                        fontWeight: 'bold',
-                        fontSize: '0.85rem',
-                        lineHeight: '1rem',
-                        textTransform: 'uppercase',
-                    }}
-                />
-                {open ? (
-                    <ExpandMoreOutlined data-testid='menu.transactions.open-chevron' />
-                ) : (
-                    <ChevronRightOutlined data-testid='menu.transactions.closed-chevron' />
-                )}
-            </ListItemButton>
-            <Collapse in={open} timeout='auto' unmountOnExit>
-                <List component='div' disablePadding dense>
-                    <ListItemButton
-                        component={NavLink}
-                        to='/transacciones/presupuestos'
-                        sx={{ borderRadius: 2 }}
-                        selected={str.toLowerCase() === '/transacciones/presupuesto'}
-                    >
-                        <ListItemIcon sx={{ minWidth: 30 }}>
-                            <PointOfSaleOutlined sx={{ fontSize: '0.75rem' }} />
-                        </ListItemIcon>
+        <SidebarMenu>
+            <Collapsible defaultOpen className='group/collapsible'>
+                <SidebarMenuItem>
+                    <CollapsibleTrigger asChild>
+                        <SidebarMenuButton
+                            className='flex justify-between px-4 py-2 uppercase bg-primary text-primary-foreground hover:bg-primary/80'
+                            size='lg'
+                            data-testid='menu.transactions'
+                        >
+                            <p>Transacciones</p>
+                            <ChevronDown data-testid='menu.transactions.closed-chevron' />
+                        </SidebarMenuButton>
+                    </CollapsibleTrigger>
 
-                        <ListItemText
-                            primary='Presupuesto'
-                            data-testid='menu.transactions.budget'
-                            primaryTypographyProps={{
-                                fontSize: '0.75rem',
-                                textTransform: 'uppercase',
-                            }}
-                        />
-                    </ListItemButton>
+                    <CollapsibleContent>
+                        <SidebarMenuSub>
+                            <SidebarMenuSubItem className='uppercase text-sm p-3'>
+                                <Link to='/transacciones/presupuestos' className='flex gap-1'>
+                                    <ShoppingBagIcon size={12} />
+                                    <p data-testid='menu.transactions.budget'>Presupuesto</p>
+                                </Link>
+                            </SidebarMenuSubItem>
 
-                    <ListItemButton
-                        component={NavLink}
-                        to='/transacciones/facturas'
-                        sx={{ borderRadius: 2 }}
-                        selected={str.toLowerCase() === '/transacciones/factura'}
-                    >
-                        <ListItemIcon sx={{ minWidth: 30 }}>
-                            <ReceiptOutlined sx={{ fontSize: '0.75rem' }} />
-                        </ListItemIcon>
+                            <SidebarMenuSubItem className='uppercase text-sm p-3'>
+                                <Link to='/transacciones/facturas' className='flex gap-1'>
+                                    <ReceiptIcon size={12} />
+                                    <p data-testid='menu.transactions.invoices'>Facturas</p>
+                                </Link>
+                            </SidebarMenuSubItem>
 
-                        <ListItemText
-                            primary='Facturas'
-                            data-testid='menu.transactions.invoices'
-                            primaryTypographyProps={{
-                                fontSize: '0.75rem',
-                                textTransform: 'uppercase',
-                            }}
-                        />
-                    </ListItemButton>
-
-                    <ListItemButton
-                        component={NavLink}
-                        to='/transacciones/cierre'
-                        sx={{ borderRadius: 2 }}
-                        selected={str.toLowerCase() === '/transacciones/cierre'}
-                    >
-                        <ListItemIcon sx={{ minWidth: 30 }}>
-                            <AccountBalanceOutlined sx={{ fontSize: '0.75rem' }} />
-                        </ListItemIcon>
-
-                        <ListItemText
-                            primary='Cierre Mensual'
-                            data-testid='menu.transactions.closure'
-                            primaryTypographyProps={{
-                                fontSize: '0.75rem',
-                                textTransform: 'uppercase',
-                            }}
-                        />
-                    </ListItemButton>
-                </List>
-            </Collapse>
-        </Box>
+                            <SidebarMenuSubItem className='uppercase text-sm p-3'>
+                                <Link to='/transaciones/cierre' className='flex gap-1'>
+                                    <CopyPlusIcon size={12} />
+                                    <p data-testid='menu.transactions.closure'>Cierre Mensual</p>
+                                </Link>
+                            </SidebarMenuSubItem>
+                        </SidebarMenuSub>
+                    </CollapsibleContent>
+                </SidebarMenuItem>
+            </Collapsible>
+        </SidebarMenu>
     )
 }
