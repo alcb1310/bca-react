@@ -1,93 +1,52 @@
-import { useState } from 'react'
 import {
-    Box,
-    Collapse,
-    List,
-    ListItemButton,
-    ListItemIcon,
-    ListItemText,
-} from '@mui/material'
-import { NavLink, useLocation } from 'react-router-dom'
+    Collapsible,
+    CollapsibleContent,
+    CollapsibleTrigger,
+} from '@/components/ui/collapsible'
 import {
-    AnalyticsOutlined,
-    ChevronRightOutlined,
-    ExpandMoreOutlined,
-    ProductionQuantityLimitsOutlined,
-} from '@mui/icons-material'
+    SidebarMenu,
+    SidebarMenuButton,
+    SidebarMenuItem,
+    SidebarMenuSub,
+    SidebarMenuSubItem,
+} from '@/components/ui/sidebar'
+import { ChartNetworkIcon, ChevronDown, ShoppingCartIcon } from 'lucide-react'
+import { Link } from 'react-router-dom'
 
 export default function AnalysisMenu() {
-    const [open, setOpen] = useState<boolean>(true)
-    const str = useLocation().pathname
-
     return (
-        <Box>
-            <ListItemButton
-                onClick={() => setOpen((prev) => !prev)}
-                sx={{
-                    backgroundColor: 'primary.main',
-                    color: 'white',
-                    borderRadius: 2,
-                }}
-            >
-                <ListItemText
-                    primary='Analisis'
-                    data-testid='menu.analysis'
-                    primaryTypographyProps={{
-                        fontWeight: 'bold',
-                        fontSize: '0.85rem',
-                        lineHeight: '1rem',
-                        textTransform: 'uppercase',
-                    }}
-                />
-                {open ? (
-                    <ExpandMoreOutlined data-testid='menu.analysis.open-chevron' />
-                ) : (
-                    <ChevronRightOutlined data-testid='menu.analysis.closed-chevron' />
-                )}
-            </ListItemButton>
-            <Collapse in={open} timeout='auto' unmountOnExit>
-                <List component='div' disablePadding dense>
-                    <ListItemButton
-                        component={NavLink}
-                        to='/analisis/cantidad'
-                        sx={{ mb: 1, borderRadius: 2 }}
-                        selected={str.toLowerCase() === '/analisis/cantidad'}
-                    >
-                        <ListItemIcon sx={{ minWidth: 30 }}>
-                            <ProductionQuantityLimitsOutlined sx={{ fontSize: '0.75rem' }} />
-                        </ListItemIcon>
+        <SidebarMenu>
+            <Collapsible defaultOpen className='group/collapsible'>
+                <SidebarMenuItem>
+                    <CollapsibleTrigger asChild>
+                        <SidebarMenuButton
+                            className='flex justify-between px-4 py-2 uppercase bg-primary text-primary-foreground hover:bg-primary/80'
+                            size='lg'
+                        >
+                            <p data-testid='menu.analysis'>Analisis</p>
+                            <ChevronDown data-testid='menu.analysis.closed-chevron' />
+                        </SidebarMenuButton>
+                    </CollapsibleTrigger>
 
-                        <ListItemText
-                            primary='Cantidades'
-                            data-testid='menu.analysis.quantities'
-                            primaryTypographyProps={{
-                                fontSize: '0.75rem',
-                                textTransform: 'uppercase',
-                            }}
-                        />
-                    </ListItemButton>
+                    <CollapsibleContent>
+                        <SidebarMenuSub>
+                            <SidebarMenuSubItem className='uppercase text-sm p-3'>
+                                <Link to='/analisis/cantidad' className='flex gap-1'>
+                                    <ShoppingCartIcon size={12} />
+                                    <p data-testid='menu.analysis.quantities'>Cantidades</p>
+                                </Link>
+                            </SidebarMenuSubItem>
 
-                    <ListItemButton
-                        component={NavLink}
-                        to='/analisis/analisis'
-                        sx={{ mb: 1, borderRadius: 2 }}
-                        selected={str.toLowerCase() === '/analisis/analisis'}
-                    >
-                        <ListItemIcon sx={{ minWidth: 30 }}>
-                            <AnalyticsOutlined sx={{ fontSize: '0.75rem' }} />
-                        </ListItemIcon>
-
-                        <ListItemText
-                            primary='Analisis'
-                            data-testid='menu.analysis.analysis'
-                            primaryTypographyProps={{
-                                fontSize: '0.75rem',
-                                textTransform: 'uppercase',
-                            }}
-                        />
-                    </ListItemButton>
-                </List>
-            </Collapse>
-        </Box>
+                            <SidebarMenuSubItem className='uppercase text-sm p-3'>
+                                <Link to='/analisis/analisis' className='flex gap-1'>
+                                    <ChartNetworkIcon size={12} />
+                                    <p data-testid='menu.analysis.analysis'>Analisis</p>
+                                </Link>
+                            </SidebarMenuSubItem>
+                        </SidebarMenuSub>
+                    </CollapsibleContent>
+                </SidebarMenuItem>
+            </Collapsible>
+        </SidebarMenu>
     )
 }
