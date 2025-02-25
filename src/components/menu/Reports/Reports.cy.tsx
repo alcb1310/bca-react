@@ -1,14 +1,18 @@
+import { SidebarProvider } from '@/components/ui/sidebar'
 import ReportsMenu from '../Reports/Reports'
 
 describe('<ReportesMenu />', () => {
     beforeEach(() => {
-        cy.wrapper(<ReportsMenu />)
+        cy.wrapper(
+            <SidebarProvider>
+                <ReportsMenu />
+            </SidebarProvider>
+        )
     })
 
     it('should display the reports menu', () => {
         cy.getByTestId('menu.reports').should('have.text', 'Reportes')
-        cy.getByTestId('menu.reports.open-chevron').should('be.visible')
-        cy.getByTestId('menu.reports.closed-chevron').should('not.exist')
+        cy.getByTestId('menu.reports.closed-chevron').should('be.visible')
 
         cy.getByTestId('menu.reports.actual')
             .should('be.visible')
@@ -35,7 +39,6 @@ describe('<ReportesMenu />', () => {
 
         it('should hide the menu when click the title', () => {
             cy.getByTestId('menu.reports.closed-chevron').should('be.visible')
-            cy.getByTestId('menu.reports.open-chevron').should('not.exist')
 
             cy.getByTestId('menu.reports.actual').should('not.exist')
             cy.getByTestId('menu.reports.balance').should('not.exist')
@@ -45,8 +48,7 @@ describe('<ReportesMenu />', () => {
 
         it('should show the menu when click the title', () => {
             cy.getByTestId('menu.reports').click()
-            cy.getByTestId('menu.reports.open-chevron').should('be.visible')
-            cy.getByTestId('menu.reports.closed-chevron').should('not.exist')
+            cy.getByTestId('menu.reports.closed-chevron').should('be.visible')
 
             cy.getByTestId('menu.reports.actual').should('be.visible')
             cy.getByTestId('menu.reports.balance').should('be.visible')

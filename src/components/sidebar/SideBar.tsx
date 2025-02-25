@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 
 import TransactionsMenu from '@/components/menu/Transactions/Transactions'
-// import ReportsMenu from '@/components/menu/Reports/Reports'
+import ReportsMenu from '@/components/menu/Reports/Reports'
 // import ParametersMenu from '@/components/menu/Parameters/Parameters'
 // import AnalysisMenu from '@/components/menu/Analysis/Analysis'
 
@@ -25,6 +25,7 @@ export default function AppSidebar() {
 
             <SidebarContent>
                 <TransactionsMenu />
+                <ReportsMenu />
             </SidebarContent>
         </Sidebar>
     )
