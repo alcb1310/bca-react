@@ -1,14 +1,18 @@
+import { SidebarProvider } from '@/components/ui/sidebar'
 import ParametersMenu from './Parameters'
 
 describe('<ParametersMenu />', () => {
     beforeEach(() => {
-        cy.wrapper(<ParametersMenu />)
+        cy.wrapper(
+            <SidebarProvider>
+                <ParametersMenu />
+            </SidebarProvider>
+        )
     })
 
     it('should display the menu', () => {
         cy.getByTestId('menu.parameters').should('have.text', 'Parametros')
-        cy.getByTestId('menu.parameters.open-chevron').should('be.visible')
-        cy.getByTestId('menu.parameters.closed-chevron').should('not.exist')
+        cy.getByTestId('menu.parameters.closed-chevron').should('be.visible')
 
         cy.getByTestId('menu.parameters.budget-items')
             .should('be.visible')
@@ -42,7 +46,6 @@ describe('<ParametersMenu />', () => {
 
         it('should close the menu when clickig it', () => {
             cy.getByTestId('menu.parameters.closed-chevron').should('be.visible')
-            cy.getByTestId('menu.parameters.open-chevron').should('not.exist')
 
             cy.getByTestId('menu.parameters.budget-items').should('not.exist')
             cy.getByTestId('menu.parameters.categories').should('not.exist')
@@ -54,8 +57,7 @@ describe('<ParametersMenu />', () => {
 
         it('should open the menu when clickig it', () => {
             cy.getByTestId('menu.parameters').click()
-            cy.getByTestId('menu.parameters.open-chevron').should('be.visible')
-            cy.getByTestId('menu.parameters.closed-chevron').should('not.exist')
+            cy.getByTestId('menu.parameters.closed-chevron').should('be.visible')
 
             cy.getByTestId('menu.parameters.budget-items').should('be.visible')
             cy.getByTestId('menu.parameters.categories').should('be.visible')

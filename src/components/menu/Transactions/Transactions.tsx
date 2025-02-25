@@ -52,7 +52,7 @@ export default function TransactionsMenu() {
                             </SidebarMenuSubItem>
 
                             <SidebarMenuSubItem className='uppercase text-sm p-3'>
-                                <Link to='/transaciones/cierre' className='flex gap-1'>
+                                <Link to='/transacciones/cierre' className='flex gap-1'>
                                     <CopyPlusIcon size={12} />
                                     <p data-testid='menu.transactions.closure'>Cierre Mensual</p>
                                 </Link>
