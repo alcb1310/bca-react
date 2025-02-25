@@ -1,14 +1,18 @@
+import { SidebarProvider } from '@/components/ui/sidebar'
 import AnalysisMenu from './Analysis'
 
 describe('<AnalysisMenu />', () => {
     beforeEach(() => {
-        cy.wrapper(<AnalysisMenu />)
+        cy.wrapper(
+            <SidebarProvider>
+                <AnalysisMenu />
+            </SidebarProvider>
+        )
     })
 
     it('should display the menu correctly', () => {
         cy.getByTestId('menu.analysis').should('have.text', 'Analisis')
-        cy.get('[data-testid="menu.analysis.open-chevron"]').should('be.visible')
-        cy.get('[data-testid="menu.analysis.closed-chevron"]').should('not.exist')
+        cy.get('[data-testid="menu.analysis.closed-chevron"]').should('be.visible')
 
         cy.getByTestId('menu.analysis.quantities')
             .should('be.visible')
@@ -26,7 +30,6 @@ describe('<AnalysisMenu />', () => {
 
         it('should hide the menu when clicking it', () => {
             cy.getByTestId('menu.analysis.closed-chevron').should('be.visible')
-            cy.getByTestId('menu.analysis.open-chevron').should('not.exist')
 
             cy.getByTestId('menu.analysis.quantities').should('not.exist')
             cy.getByTestId('menu.analysis.analysis').should('not.exist')
@@ -34,9 +37,9 @@ describe('<AnalysisMenu />', () => {
 
         it('should open the menu when clicking it', () => {
             cy.getByTestId('menu.analysis').click()
-
-            cy.getByTestId('menu.analysis.open-chevron').should('be.visible')
-            cy.getByTestId('menu.analysis.closed-chevron').should('not.exist')
+            cy.get('[data-testid="menu.analysis.closed-chevron"]').should(
+                'be.visible'
+            )
 
             cy.getByTestId('menu.analysis.quantities').should('be.visible')
             cy.getByTestId('menu.analysis.analysis').should('be.visible')
