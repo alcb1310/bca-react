@@ -8,29 +8,29 @@ import { useGetAllCategoriesQuery } from '@redux/api/bca-backend/parametros/cate
 import CategoriesDrawer from '@components/drawers/Settings/Categories/CategoriesDrawer'
 
 export default function Categories() {
-    const [open, setOpen] = useState<boolean>(false)
-    const { data, isLoading } = useGetAllCategoriesQuery()
+  const [open, setOpen] = useState<boolean>(false)
+  const { data, isLoading } = useGetAllCategoriesQuery()
 
-    function handleClick() {
-        setOpen((prev) => !prev)
-    }
+  function handleClick() {
+    setOpen((prev) => !prev)
+  }
 
-    return (
-        <>
-            <PageTitle title='Categorias' />
+  return (
+    <>
+      <PageTitle title='Categorias' />
 
-            {isLoading && (
-                <CircularProgress data-testid='page.parametros.categorias.loading' />
-            )}
-            <EditToolbar title='Crear Categoria' onClick={handleClick} />
-            <AllCategoriesTable data={data!} />
-            <CategoriesDrawer
-                open={open}
-                onClose={handleClick}
-                defaultValues={{
-                    name: '',
-                }}
-            />
-        </>
-    )
+      {isLoading && (
+        <CircularProgress data-testid='page.parametros.categorias.loading' />
+      )}
+      <EditToolbar title='Crear Categoria' onClick={handleClick} />
+      <AllCategoriesTable data={data!} />
+      <CategoriesDrawer
+        open={open}
+        onClose={handleClick}
+        defaultValues={{
+          name: '',
+        }}
+      />
+    </>
+  )
 }

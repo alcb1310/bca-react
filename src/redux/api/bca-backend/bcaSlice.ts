@@ -5,35 +5,35 @@ import { RootState } from '@redux/store'
 const SERVER_API_URL = import.meta.env.VITE_BACKEND_SERVER
 
 export const bcaApiSlice = createApi({
-    reducerPath: 'bcaApi',
-    baseQuery: fetchBaseQuery({
-        baseUrl: SERVER_API_URL,
+  reducerPath: 'bcaApi',
+  baseQuery: fetchBaseQuery({
+    baseUrl: SERVER_API_URL,
 
-        prepareHeaders(headers, { getState }) {
-            const token = (getState() as RootState).login.token
-            if (token) {
-                headers.set('Authorization', `Bearer ${token}`)
-            }
+    prepareHeaders(headers, { getState }) {
+      const token = (getState() as RootState).login.token
+      if (token) {
+        headers.set('Authorization', `Bearer ${token}`)
+      }
 
-            headers.set('Content-Type', 'application/json')
-            return headers
-        },
-    }),
+      headers.set('Content-Type', 'application/json')
+      return headers
+    },
+  }),
 
-    tagTypes: [
-        'categorias',
-        'cuadre',
-        'detalle',
-        'facturas',
-        'materiales',
-        'partidas',
-        'presupuesto',
-        'proyectos',
-        'rubro-material',
-        'rubros',
-        'suppliers',
-        'users',
-    ],
+  tagTypes: [
+    'categorias',
+    'cuadre',
+    'detalle',
+    'facturas',
+    'materiales',
+    'partidas',
+    'presupuesto',
+    'proyectos',
+    'rubro-material',
+    'rubros',
+    'suppliers',
+    'users',
+  ],
 
-    endpoints: () => ({}),
+  endpoints: () => ({}),
 })

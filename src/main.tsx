@@ -5,7 +5,7 @@ import AppWrapper from '@components/wrappers/AppWrapper.tsx'
 import './index.css'
 
 createRoot(document.getElementById('root')!).render(
-    <StrictMode>
-        <AppWrapper />
-    </StrictMode>
+  <StrictMode>
+    <AppWrapper />
+  </StrictMode>
 )
