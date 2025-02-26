@@ -6,29 +6,29 @@ import ParametersMenu from '@/components/menu/Parameters/Parameters'
 import AnalysisMenu from '@/components/menu/Analysis/Analysis'
 
 import {
-    Sidebar,
-    SidebarHeader,
-    SidebarContent,
-    SidebarSeparator,
+  Sidebar,
+  SidebarHeader,
+  SidebarContent,
+  SidebarSeparator,
 } from '../ui/sidebar'
 
 export default function AppSidebar() {
-    return (
-        <Sidebar>
-            <SidebarHeader className='flex items-center justify-center'>
-                <Link to='/'>
-                    <img src='/favicon.ico' alt='logo' height={50} />
-                </Link>
-            </SidebarHeader>
+  return (
+    <Sidebar>
+      <SidebarHeader className='flex items-center justify-center'>
+        <Link to='/'>
+          <img src='/favicon.ico' alt='logo' height={50} />
+        </Link>
+      </SidebarHeader>
 
-            <SidebarSeparator className='mt-1 mb-3' />
+      <SidebarSeparator className='mb-3 mt-1' />
 
-            <SidebarContent>
-                <TransactionsMenu />
-                <ReportsMenu />
-                <ParametersMenu />
-                <AnalysisMenu />
-            </SidebarContent>
-        </Sidebar>
-    )
+      <SidebarContent>
+        <TransactionsMenu />
+        <ReportsMenu />
+        <ParametersMenu />
+        <AnalysisMenu />
+      </SidebarContent>
+    </Sidebar>
+  )
 }

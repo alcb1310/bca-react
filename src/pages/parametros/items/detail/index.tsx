@@ -10,50 +10,50 @@ import RubroMaterialsDrawer from '@components/drawers/Settings/RubroMaterial/Rub
 import RubrosForm from '@/components/forms/Rubros/Rubros'
 
 export default function IndividualItem() {
-    const [open, setOpen] = useState<boolean>(false)
-    const location = useLocation()
-    const rubroId = location.pathname.split('/')[3]
-    const { data: rubro, isLoading } = useGetOneRubroQuery(rubroId!)
+  const [open, setOpen] = useState<boolean>(false)
+  const location = useLocation()
+  const rubroId = location.pathname.split('/')[3]
+  const { data: rubro, isLoading } = useGetOneRubroQuery(rubroId!)
 
-    const title = rubroId
-        ? rubroId.toLowerCase() === 'crear'
-            ? 'Crear Rubro'
-            : 'Editar Rubro'
-        : 'Crear Rubro'
+  const title = rubroId
+    ? rubroId.toLowerCase() === 'crear'
+      ? 'Crear Rubro'
+      : 'Editar Rubro'
+    : 'Crear Rubro'
 
-    const showTable = title === 'Crear Rubro'
+  const showTable = title === 'Crear Rubro'
 
-    return (
+  return (
+    <>
+      <PageTitle title={title} />
+      {isLoading ? (
+        <CircularProgress data-testid='page.parameters.item.detail.loading' />
+      ) : (
         <>
-            <PageTitle title={title} />
-            {isLoading ? (
-                <CircularProgress data-testid='page.parameters.item.detail.loading' />
-            ) : (
-                <>
-                    <Box sx={{ width: '50%', mx: 'auto', mt: 2 }}>
-                        <RubrosForm rubroId={rubroId!} rubro={rubro!} />
-                    </Box>
-                    {!showTable && (
-                        <Box sx={{ mt: 2 }}>
-                            <EditToolbar
-                                title='Agregar Material'
-                                onClick={() => setOpen(true)}
-                                color='success'
-                            />
-                            <AllRubrosMaterialsTable rubroId={rubroId!} />
-                            <RubroMaterialsDrawer
-                                open={open}
-                                onClose={() => setOpen(false)}
-                                defaultValues={{
-                                    item_id: rubroId!,
-                                    material_id: '',
-                                    quantity: 0,
-                                }}
-                            />
-                        </Box>
-                    )}
-                </>
-            )}
+          <Box sx={{ width: '50%', mx: 'auto', mt: 2 }}>
+            <RubrosForm rubroId={rubroId!} rubro={rubro!} />
+          </Box>
+          {!showTable && (
+            <Box sx={{ mt: 2 }}>
+              <EditToolbar
+                title='Agregar Material'
+                onClick={() => setOpen(true)}
+                color='success'
+              />
+              <AllRubrosMaterialsTable rubroId={rubroId!} />
+              <RubroMaterialsDrawer
+                open={open}
+                onClose={() => setOpen(false)}
+                defaultValues={{
+                  item_id: rubroId!,
+                  material_id: '',
+                  quantity: 0,
+                }}
+              />
+            </Box>
+          )}
         </>
-    )
+      )}
+    </>
+  )
 }

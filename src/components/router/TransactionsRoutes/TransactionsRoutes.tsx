@@ -7,32 +7,32 @@ import IndividualInvoice from '@/pages/transacciones/factura/detail'
 import Cierre from '@/pages/transacciones/cierre'
 
 export const transactionsRoute: RouteObject = {
-    path: 'transacciones',
-    children: [
+  path: 'transacciones',
+  children: [
+    {
+      index: true,
+      element: <Transacciones />,
+    },
+    {
+      path: 'presupuestos',
+      element: <Presupuesto />,
+    },
+    {
+      path: 'facturas',
+      children: [
         {
-            index: true,
-            element: <Transacciones />,
+          index: true,
+          element: <Factura />,
         },
         {
-            path: 'presupuestos',
-            element: <Presupuesto />,
+          path: ':invoiceId',
+          element: <IndividualInvoice />,
         },
-        {
-            path: 'facturas',
-            children: [
-                {
-                    index: true,
-                    element: <Factura />,
-                },
-                {
-                    path: ':invoiceId',
-                    element: <IndividualInvoice />,
-                },
-            ],
-        },
-        {
-            path: 'cierre',
-            element: <Cierre />,
-        },
-    ],
+      ],
+    },
+    {
+      path: 'cierre',
+      element: <Cierre />,
+    },
+  ],
 }

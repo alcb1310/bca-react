@@ -9,110 +9,110 @@ import BcaDrawer from '@components/drawers/BcaDrawer/BcaDrawer'
 import BcaTextField from '@/components/input/BcaTextField/BcaTextField'
 import ButtonGroup from '@components/buttons/button-group'
 import {
-    useCreateSupplierMutation,
-    useUpdateSupplierMutation,
+  useCreateSupplierMutation,
+  useUpdateSupplierMutation,
 } from '@redux/api/bca-backend/parametros/supplierSlice'
 
 type SupplierDrawerProps = {
-    open: boolean
-    onClose: () => void
-    defaultValues: SupplierType
+  open: boolean
+  onClose: () => void
+  defaultValues: SupplierType
 }
 
 export default function SupplierDrawer({
-    open,
-    onClose,
-    defaultValues,
+  open,
+  onClose,
+  defaultValues,
 }: SupplierDrawerProps) {
-    const [conflictError, setConflictError] = useState<string>('')
-    const { control, reset, handleSubmit } = useForm<SupplierType>({
-        defaultValues,
-        resolver: zodResolver(supplierSchema),
-    })
+  const [conflictError, setConflictError] = useState<string>('')
+  const { control, reset, handleSubmit } = useForm<SupplierType>({
+    defaultValues,
+    resolver: zodResolver(supplierSchema),
+  })
 
-    const [createSupplier] = useCreateSupplierMutation()
-    const [updateSupplier] = useUpdateSupplierMutation()
+  const [createSupplier] = useCreateSupplierMutation()
+  const [updateSupplier] = useUpdateSupplierMutation()
 
-    useEffect(() => {
-        reset(defaultValues)
-    }, [open])
+  useEffect(() => {
+    reset(defaultValues)
+  }, [open])
 
-    async function hadleSubmit(data: SupplierType) {
-        if (!defaultValues.id) {
-            const res = await createSupplier(data)
-            if ('data' in res) {
-                onClose()
-                reset
-            }
+  async function hadleSubmit(data: SupplierType) {
+    if (!defaultValues.id) {
+      const res = await createSupplier(data)
+      if ('data' in res) {
+        onClose()
+        reset
+      }
 
-            // @ts-expect-error data is a property of the error message
-            setConflictError(res.error.data.error)
-            return
-        }
-        const res = await updateSupplier(data)
-        if ('data' in res) {
-            onClose()
-            return
-        }
-
-        // @ts-expect-error data is a property of the error message
-        setConflictError(res.error.data.error)
+      // @ts-expect-error data is a property of the error message
+      setConflictError(res.error.data.error)
+      return
+    }
+    const res = await updateSupplier(data)
+    if ('data' in res) {
+      onClose()
+      return
     }
 
-    return (
-        <BcaDrawer open={open} onClose={onClose}>
-            <DrawerTitle
-                title={defaultValues.id ? 'Editar Proveedor' : 'Crear Proveedor'}
-                close={onClose}
-            />
+    // @ts-expect-error data is a property of the error message
+    setConflictError(res.error.data.error)
+  }
 
-            <form
-                className='mt-5 flex flex-col gap-5'
-                onSubmit={handleSubmit(hadleSubmit)}
-            >
-                {conflictError && (
-                    <Typography color='error'>{conflictError}</Typography>
-                )}
-                <BcaTextField
-                    datatestid='component.drawer.settings.supplier.supplier_id'
-                    name='supplier_id'
-                    control={control}
-                    label='Ruc'
-                />
+  return (
+    <BcaDrawer open={open} onClose={onClose}>
+      <DrawerTitle
+        title={defaultValues.id ? 'Editar Proveedor' : 'Crear Proveedor'}
+        close={onClose}
+      />
 
-                <BcaTextField
-                    datatestid='component.drawer.settings.supplier.name'
-                    name='name'
-                    control={control}
-                    label='Nombre'
-                />
+      <form
+        className='mt-5 flex flex-col gap-5'
+        onSubmit={handleSubmit(hadleSubmit)}
+      >
+        {conflictError && (
+          <Typography color='error'>{conflictError}</Typography>
+        )}
+        <BcaTextField
+          datatestid='component.drawer.settings.supplier.supplier_id'
+          name='supplier_id'
+          control={control}
+          label='Ruc'
+        />
 
-                <BcaTextField
-                    name='contact_name'
-                    datatestid='component.drawer.settings.supplier.contact_name'
-                    control={control}
-                    label='Nombre Contacto'
-                />
+        <BcaTextField
+          datatestid='component.drawer.settings.supplier.name'
+          name='name'
+          control={control}
+          label='Nombre'
+        />
 
-                <BcaTextField
-                    name='contact_email'
-                    datatestid='component.drawer.settings.supplier.contact_email'
-                    control={control}
-                    label='Email Contacto'
-                />
+        <BcaTextField
+          name='contact_name'
+          datatestid='component.drawer.settings.supplier.contact_name'
+          control={control}
+          label='Nombre Contacto'
+        />
 
-                <BcaTextField
-                    name='contact_phone'
-                    datatestid='component.drawer.settings.supplier.contact_phone'
-                    control={control}
-                    label='Telefono Contacto'
-                />
+        <BcaTextField
+          name='contact_email'
+          datatestid='component.drawer.settings.supplier.contact_email'
+          control={control}
+          label='Email Contacto'
+        />
 
-                <ButtonGroup
-                    saveFunction={handleSubmit(hadleSubmit)}
-                    cancelFunction={onClose}
-                />
-            </form>
-        </BcaDrawer>
-    )
+        <BcaTextField
+          name='contact_phone'
+          datatestid='component.drawer.settings.supplier.contact_phone'
+          control={control}
+          label='Telefono Contacto'
+        />
+
+        <ButtonGroup
+          saveFunction={handleSubmit(hadleSubmit)}
+          cancelFunction={onClose}
+        />
+      </form>
+    </BcaDrawer>
+  )
 }

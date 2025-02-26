@@ -10,44 +10,44 @@ import Suppliers from '@/pages/parametros/suppliers'
 import IndividualItem from '@/pages/parametros/items/detail'
 
 export const parametersRoutes: RouteObject = {
-    path: 'parametros',
-    children: [
+  path: 'parametros',
+  children: [
+    {
+      index: true,
+      element: <Parameters />,
+    },
+    {
+      path: 'partidas',
+      element: <BudgetItems />,
+    },
+    {
+      path: 'categorias',
+      element: <Categories />,
+    },
+    {
+      path: 'materiales',
+      element: <Materials />,
+    },
+    {
+      path: 'proveedores',
+      element: <Suppliers />,
+    },
+    {
+      path: 'proyectos',
+      element: <Projects />,
+    },
+    {
+      path: 'rubros',
+      children: [
         {
-            index: true,
-            element: <Parameters />,
+          index: true,
+          element: <Items />,
         },
         {
-            path: 'partidas',
-            element: <BudgetItems />,
+          path: ':rubroId',
+          element: <IndividualItem />,
         },
-        {
-            path: 'categorias',
-            element: <Categories />,
-        },
-        {
-            path: 'materiales',
-            element: <Materials />,
-        },
-        {
-            path: 'proveedores',
-            element: <Suppliers />,
-        },
-        {
-            path: 'proyectos',
-            element: <Projects />,
-        },
-        {
-            path: 'rubros',
-            children: [
-                {
-                    index: true,
-                    element: <Items />,
-                },
-                {
-                    path: ':rubroId',
-                    element: <IndividualItem />,
-                },
-            ],
-        },
-    ],
+      ],
+    },
+  ],
 }
