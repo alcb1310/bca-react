@@ -1,177 +1,88 @@
 import {
-    AccountTreeOutlined,
-    CategoryOutlined,
-    ChevronRightOutlined,
-    ExpandMoreOutlined,
-    FactoryOutlined,
-    InfoOutlined,
-    InventoryOutlined,
-    ViewKanbanOutlined,
-} from '@mui/icons-material'
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from '@/components/ui/collapsible'
 import {
-    Box,
-    Collapse,
-    List,
-    ListItemButton,
-    ListItemIcon,
-    ListItemText,
-} from '@mui/material'
-import { useState } from 'react'
-import { NavLink, useLocation } from 'react-router-dom'
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  SidebarMenuSub,
+  SidebarMenuSubItem,
+} from '@/components/ui/sidebar'
+import {
+  BrickWallIcon,
+  ChartColumnStackedIcon,
+  ChevronDown,
+  FolderGit2Icon,
+  LayoutListIcon,
+  ListChecksIcon,
+  SquareUserRoundIcon,
+} from 'lucide-react'
+import { Link } from 'react-router-dom'
 
 export default function ParametersMenu() {
-    const [open, setOpen] = useState<boolean>(true)
-    const str = useLocation().pathname
-
-    return (
-        <Box>
-            <ListItemButton
-                onClick={() => setOpen((prev) => !prev)}
-                sx={{
-                    backgroundColor: 'primary.main',
-                    color: 'white',
-                    borderRadius: 2,
-                }}
+  return (
+    <SidebarMenu>
+      <Collapsible defaultOpen className='group/collapsible'>
+        <SidebarMenuItem>
+          <CollapsibleTrigger asChild>
+            <SidebarMenuButton
+              className='flex justify-between bg-primary px-4 py-2 uppercase text-primary-foreground hover:bg-primary/80'
+              size='lg'
             >
-                <ListItemText
-                    primary='Parametros'
-                    data-testid='menu.parameters'
-                    primaryTypographyProps={{
-                        fontWeight: 'bold',
-                        fontSize: '0.85rem',
-                        lineHeight: '1rem',
-                        textTransform: 'uppercase',
-                    }}
-                />
-                {open ? (
-                    <ExpandMoreOutlined data-testid='menu.parameters.open-chevron' />
-                ) : (
-                    <ChevronRightOutlined data-testid='menu.parameters.closed-chevron' />
-                )}
-            </ListItemButton>
-            <Collapse in={open} timeout='auto' unmountOnExit>
-                <List component='div' disablePadding dense>
-                    <ListItemButton
-                        component={NavLink}
-                        to='/parametros/partidas'
-                        sx={{ borderRadius: 2 }}
-                        selected={str.toLowerCase() === '/parametros/partidas'}
-                    >
-                        <ListItemIcon sx={{ minWidth: 30 }}>
-                            <ViewKanbanOutlined sx={{ fontSize: '0.75rem' }} />
-                        </ListItemIcon>
+              <p data-testid='menu.parameters'>Parametros</p>
+              <ChevronDown data-testid='menu.parameters.closed-chevron' />
+            </SidebarMenuButton>
+          </CollapsibleTrigger>
 
-                        <ListItemText
-                            primary='Partidas'
-                            data-testid='menu.parameters.budget-items'
-                            primaryTypographyProps={{
-                                fontSize: '0.75rem',
-                                textTransform: 'uppercase',
-                            }}
-                        />
-                    </ListItemButton>
+          <CollapsibleContent>
+            <SidebarMenuSub>
+              <SidebarMenuSubItem className='p-3 text-sm uppercase'>
+                <Link to='/parametros/partidas' className='flex gap-1'>
+                  <ListChecksIcon size={12} />
+                  <p data-testid='menu.parameters.budget-items'>Partidas</p>
+                </Link>
+              </SidebarMenuSubItem>
 
-                    <ListItemButton
-                        component={NavLink}
-                        to='/parametros/categorias'
-                        sx={{ borderRadius: 2 }}
-                        selected={str.toLowerCase() === '/parametros/categorias'}
-                    >
-                        <ListItemIcon sx={{ minWidth: 30 }}>
-                            <CategoryOutlined sx={{ fontSize: '0.75rem' }} />
-                        </ListItemIcon>
+              <SidebarMenuSubItem className='p-3 text-sm uppercase'>
+                <Link to='/parametros/categorias' className='flex gap-1'>
+                  <ChartColumnStackedIcon size={12} />
+                  <p data-testid='menu.parameters.categories'>Categorias</p>
+                </Link>
+              </SidebarMenuSubItem>
 
-                        <ListItemText
-                            primary='Categorias'
-                            data-testid='menu.parameters.categories'
-                            primaryTypographyProps={{
-                                fontSize: '0.75rem',
-                                textTransform: 'uppercase',
-                            }}
-                        />
-                    </ListItemButton>
+              <SidebarMenuSubItem className='p-3 text-sm uppercase'>
+                <Link to='/parametros/materiales' className='flex gap-1'>
+                  <BrickWallIcon size={12} />
+                  <p data-testid='menu.parameters.materials'>Materiales</p>
+                </Link>
+              </SidebarMenuSubItem>
 
-                    <ListItemButton
-                        component={NavLink}
-                        to='/parametros/materiales'
-                        sx={{ borderRadius: 2 }}
-                        selected={str.toLowerCase() === '/parametros/materiales'}
-                    >
-                        <ListItemIcon sx={{ minWidth: 30 }}>
-                            <InventoryOutlined sx={{ fontSize: '0.75rem' }} />
-                        </ListItemIcon>
+              <SidebarMenuSubItem className='p-3 text-sm uppercase'>
+                <Link to='/parametros/proyectos' className='flex gap-1'>
+                  <FolderGit2Icon size={12} />
+                  <p data-testid='menu.parameters.projects'>Proyectos</p>
+                </Link>
+              </SidebarMenuSubItem>
 
-                        <ListItemText
-                            primary='Materiales'
-                            data-testid='menu.parameters.materials'
-                            primaryTypographyProps={{
-                                fontSize: '0.75rem',
-                                textTransform: 'uppercase',
-                            }}
-                        />
-                    </ListItemButton>
+              <SidebarMenuSubItem className='p-3 text-sm uppercase'>
+                <Link to='/parametros/proveedores' className='flex gap-1'>
+                  <SquareUserRoundIcon size={12} />
+                  <p data-testid='menu.parameters.suppliers'>Proveedores</p>
+                </Link>
+              </SidebarMenuSubItem>
 
-                    <ListItemButton
-                        component={NavLink}
-                        to='/parametros/proyectos'
-                        sx={{ borderRadius: 2 }}
-                        selected={str.toLowerCase() === '/parametros/proyectos'}
-                    >
-                        <ListItemIcon sx={{ minWidth: 30 }}>
-                            <AccountTreeOutlined sx={{ fontSize: '0.75rem' }} />
-                        </ListItemIcon>
-
-                        <ListItemText
-                            primary='Proyectos'
-                            data-testid='menu.parameters.projects'
-                            primaryTypographyProps={{
-                                fontSize: '0.75rem',
-                                textTransform: 'uppercase',
-                            }}
-                        />
-                    </ListItemButton>
-
-                    <ListItemButton
-                        component={NavLink}
-                        to='/parametros/proveedores'
-                        sx={{ borderRadius: 2 }}
-                        selected={str.toLowerCase() === '/parametros/proveedores'}
-                    >
-                        <ListItemIcon sx={{ minWidth: 30 }}>
-                            <FactoryOutlined sx={{ fontSize: '0.75rem' }} />
-                        </ListItemIcon>
-
-                        <ListItemText
-                            primary='Proveedores'
-                            data-testid='menu.parameters.suppliers'
-                            primaryTypographyProps={{
-                                fontSize: '0.75rem',
-                                textTransform: 'uppercase',
-                            }}
-                        />
-                    </ListItemButton>
-
-                    <ListItemButton
-                        component={NavLink}
-                        to='/parametros/rubros'
-                        sx={{ borderRadius: 2 }}
-                        selected={str.toLowerCase() === '/parametros/rubros'}
-                    >
-                        <ListItemIcon sx={{ minWidth: 30 }}>
-                            <InfoOutlined sx={{ fontSize: '0.75rem' }} />
-                        </ListItemIcon>
-
-                        <ListItemText
-                            primary='Rubros'
-                            data-testid='menu.parameters.items'
-                            primaryTypographyProps={{
-                                fontSize: '0.75rem',
-                                textTransform: 'uppercase',
-                            }}
-                        />
-                    </ListItemButton>
-                </List>
-            </Collapse>
-        </Box>
-    )
+              <SidebarMenuSubItem className='p-3 text-sm uppercase'>
+                <Link to='/parametros/rubros' className='flex gap-1'>
+                  <LayoutListIcon size={12} />
+                  <p data-testid='menu.parameters.items'>Rubros</p>
+                </Link>
+              </SidebarMenuSubItem>
+            </SidebarMenuSub>
+          </CollapsibleContent>
+        </SidebarMenuItem>
+      </Collapsible>
+    </SidebarMenu>
+  )
 }
