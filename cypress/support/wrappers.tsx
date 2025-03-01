@@ -2,6 +2,7 @@ import { mount } from 'cypress/react'
 import { Provider } from 'react-redux'
 import { BrowserRouter, MemoryRouter } from 'react-router-dom'
 import { testStore } from '../../src/redux/testStore.ts'
+import '@/index.css'
 
 Cypress.Commands.add('wrapper', (children) => {
     return mount(
