@@ -14,7 +14,9 @@ export default function ApplicationBar() {
   return (
     <div className='flex h-[60px] w-full items-center justify-between bg-primary px-5 text-white'>
       <h1 className='text-2xl font-semibold'>
-        <Link to='/'>Sistema Control Prespuestario </Link>
+        <Link to='/' data-testid='title'>
+          Sistema Control Prespuestario
+        </Link>
       </h1>
       <div className='flex gap-3'>
         <UserMenu />

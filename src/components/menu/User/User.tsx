@@ -28,17 +28,26 @@ export default function UserMenu() {
       <Menubar className='bg-primary text-white'>
         <MenubarMenu>
           <MenubarTrigger className='bg-primary text-white hover:cursor-pointer'>
-            <UserCircleIcon size={22} strokeWidth={1} />
+            <UserCircleIcon size={22} strokeWidth={1} data-testid='user-icon' />
           </MenubarTrigger>
 
-          <MenubarContent>
-            <MenubarItem onClick={() => userNavigation('/usuarios')}>
+          <MenubarContent data-testid='user-menu'>
+            <MenubarItem
+              onClick={() => userNavigation('/usuarios')}
+              data-testid='user-profile'
+            >
               Perfil
             </MenubarItem>
-            <MenubarItem onClick={() => userNavigation('/usuarios/admin')}>
+            <MenubarItem
+              onClick={() => userNavigation('/usuarios/admin')}
+              data-testid='user-admin'
+            >
               Administrar
             </MenubarItem>
-            <MenubarItem onClick={() => openPasswordDrawer()}>
+            <MenubarItem
+              onClick={() => openPasswordDrawer()}
+              data-testid='user-password'
+            >
               Cambiar contraseña
             </MenubarItem>
           </MenubarContent>
