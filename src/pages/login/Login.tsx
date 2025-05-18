@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Navigate } from "react-router-dom";
+import { useState } from 'react'
+import { Navigate } from 'react-router-dom'
 import {
   Box,
   Button,
@@ -7,18 +7,18 @@ import {
   FormHelperText,
   TextField,
   Typography,
-} from "@mui/material";
-import { Controller, useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+} from '@mui/material'
+import { Controller, useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
 
-import { type LoginInput, loginSchema } from "~types/login";
-import { useAppDispatch, useAppSelector } from "~redux/hooks";
-import { login } from "~redux/features/login/loginSlice";
-import { useMutation } from "@tanstack/react-query";
-import { loginUser } from "~/queries/auth/authentication";
+import { type LoginInput, loginSchema } from '~types/login'
+import { useAppDispatch, useAppSelector } from '~redux/hooks'
+import { login } from '~redux/features/login/loginSlice'
+import { useMutation } from '@tanstack/react-query'
+import { loginUser } from '~/queries/auth/authentication'
 
 export default function Login() {
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null)
 
   const {
     control,
@@ -26,112 +26,112 @@ export default function Login() {
     formState: { errors },
   } = useForm<LoginInput>({
     defaultValues: {
-      email: "",
-      password: "",
+      email: '',
+      password: '',
     },
     resolver: zodResolver(loginSchema),
-  });
-  const isLoggedIn = useAppSelector((state) => state.login.isLoggedIn);
-  const dispatch = useAppDispatch();
+  })
+  const isLoggedIn = useAppSelector((state) => state.login.isLoggedIn)
+  const dispatch = useAppDispatch()
   const { mutate } = useMutation({
     mutationFn: loginUser,
     onSuccess: (data) => {
-      dispatch(login(data.token));
+      dispatch(login(data.token))
     },
     onError: (error) => {
-      console.log(error);
-      setError(error.message);
+      console.log(error)
+      setError(error.message)
     },
-  });
+  })
 
   async function onSubmit(data: LoginInput) {
-    mutate(data);
+    mutate(data)
   }
 
   if (isLoggedIn) {
-    const dir = window.history.state?.usr?.from?.pathname;
-    return <Navigate to={dir || "/"} replace />;
+    const dir = window.history.state?.usr?.from?.pathname
+    return <Navigate to={dir || '/'} replace />
   }
 
   return (
     <>
       <Box
-        width="50%"
+        width='50%'
         sx={{
-          display: "flex",
-          flexDirection: "column",
-          gap: "1rem",
-          alignItems: "center",
-          justifyContent: "center",
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '1rem',
+          alignItems: 'center',
+          justifyContent: 'center',
         }}
       >
         <Typography
-          variant="h5"
-          data-testid="pages.login.title"
-          component="h5"
-          textTransform="uppercase"
-          sx={{ textAlign: "center" }}
+          variant='h5'
+          data-testid='pages.login.title'
+          component='h5'
+          textTransform='uppercase'
+          sx={{ textAlign: 'center' }}
         >
           Login
         </Typography>
 
         {error && (
           <Typography
-            color="error"
-            variant="body2"
-            component="p"
-            data-testid="pages.login.error"
-            sx={{ textAlign: "left", width: "100%" }}
+            color='error'
+            variant='body2'
+            component='p'
+            data-testid='pages.login.error'
+            sx={{ textAlign: 'left', width: '100%' }}
           >
             {error}
           </Typography>
         )}
 
-        <form className="w-full" onSubmit={handleSubmit(onSubmit)}>
+        <form className='w-full' onSubmit={handleSubmit(onSubmit)}>
           <FormControl
             sx={{
-              display: "flex",
-              flexDirection: "column",
-              gap: "1rem",
-              width: "100%",
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '1rem',
+              width: '100%',
             }}
           >
             <Controller
-              name="email"
+              name='email'
               control={control}
               render={({ field }) => (
                 <TextField
                   {...field}
-                  data-testid="pages.login.form.email"
-                  size="small"
-                  label="Email"
-                  variant="outlined"
+                  data-testid='pages.login.form.email'
+                  size='small'
+                  label='Email'
+                  variant='outlined'
                 />
               )}
             />
             {errors.email && (
-              <FormHelperText data-testid="pages.login.form.email.error" error>
+              <FormHelperText data-testid='pages.login.form.email.error' error>
                 {errors.email?.message}
               </FormHelperText>
             )}
 
             <Controller
-              name="password"
+              name='password'
               control={control}
               render={({ field }) => (
                 <TextField
                   {...field}
-                  data-testid="pages.login.form.password"
-                  size="small"
-                  label="Contraseña"
-                  type="password"
-                  variant="outlined"
+                  data-testid='pages.login.form.password'
+                  size='small'
+                  label='Contraseña'
+                  type='password'
+                  variant='outlined'
                 />
               )}
             />
             {errors.password && (
               <FormHelperText
-                data-testid="pages.login.form.password.error"
+                data-testid='pages.login.form.password.error'
                 error
               >
                 {errors.password?.message}
@@ -139,10 +139,10 @@ export default function Login() {
             )}
 
             <Button
-              variant="contained"
-              data-testid="pages.login.form.submit"
-              type="submit"
-              color="primary"
+              variant='contained'
+              data-testid='pages.login.form.submit'
+              type='submit'
+              color='primary'
               onClick={handleSubmit(onSubmit)}
             >
               Login
@@ -151,5 +151,5 @@ export default function Login() {
         </form>
       </Box>
     </>
-  );
+  )
 }
