@@ -1,22 +1,10 @@
-import type { UserCreate, UserResponse } from '~types/user'
+import type { UserResponse } from '~types/user'
 import { bcaApiSlice } from '../bcaSlice'
 
 const userEndPoints = bcaApiSlice.injectEndpoints({
   overrideExisting: true,
 
   endpoints: (builder) => ({
-    createUser: builder.mutation<UserResponse, UserCreate>({
-      query(body) {
-        return {
-          url: '/users',
-          method: 'POST',
-          body,
-        }
-      },
-
-      invalidatesTags: ['users'],
-    }),
-
     updateUser: builder.mutation<UserResponse, UserResponse>({
       query(body) {
         return {
@@ -43,8 +31,5 @@ const userEndPoints = bcaApiSlice.injectEndpoints({
   }),
 })
 
-export const {
-  useCreateUserMutation,
-  useUpdateUserMutation,
-  useUpdatePasswordMutation,
-} = userEndPoints
+export const { useUpdateUserMutation, useUpdatePasswordMutation } =
+  userEndPoints

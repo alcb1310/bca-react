@@ -1,15 +1,14 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Box, Typography } from '@mui/material'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-
 import BcaTextField from '~/components/input/BcaTextField/BcaTextField'
 import DrawerTitle from '~/components/titles/DrawerTitle/DrawerTitle'
+import { useCreateUserMutation } from '~/queries/user/user'
+import { useAppSelector } from '~/redux/hooks'
 import ButtonGroup from '~components/buttons/button-group'
-import {
-  useCreateUserMutation,
-  useUpdateUserMutation,
-} from '~redux/api/bca-backend/user/userSlice'
+import { useUpdateUserMutation } from '~redux/api/bca-backend/user/userSlice'
 import {
   type UserCreate,
   type UserResponse,
@@ -29,7 +28,19 @@ export default function UsersDrawer({
   onClose,
   userData,
 }: UsersDrawerProps) {
-  const [createUser] = useCreateUserMutation()
+  const token = useAppSelector((state) => state.login.token)
+  const queryClient = useQueryClient()
+  const { mutate: createUser } = useMutation({
+    mutationFn: useCreateUserMutation,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['users'] })
+      reset()
+      onClose()
+    },
+    onError: (error) => {
+      setConflictError(error.message)
+    },
+  })
   const [updateUser] = useUpdateUserMutation()
   const [conflictError, setConflictError] = useState<string>('')
 
@@ -55,15 +66,7 @@ export default function UsersDrawer({
   async function hadleSubmit(data: UserCreate | UserResponse) {
     setConflictError('')
     if ('password' in data) {
-      const res = await createUser(data)
-      if ('data' in res) {
-        onClose()
-        reset()
-        return
-      }
-
-      // @ts-expect-error data property is part of the res.error object
-      setConflictError(res.error.data.error)
+      createUser({ token, user: data })
     } else {
       const res = await updateUser(data)
       if ('data' in res) {
