@@ -1,4 +1,4 @@
-import type { UserResponse } from '~/types/user'
+import type { UserCreate, UserResponse } from '~/types/user'
 
 const url = import.meta.env.VITE_BACKEND_SERVER
 if (!url) throw new Error('VITE_BACKEND_SERVER environment variable not set')
@@ -55,4 +55,25 @@ export async function useDeleteUserMutation({
   }
 
   return
+}
+
+export async function useCreateUserMutation({
+  token,
+  user,
+}: Readonly<{ token: string; user: UserCreate }>) {
+  const response = await fetch(`${url}/users`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(user),
+  })
+
+  if (!response.ok) {
+    const err = await response.json()
+    throw new Error(err.error())
+  }
+
+  return (await response.json()) as UserResponse
 }
