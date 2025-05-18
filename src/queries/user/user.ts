@@ -36,3 +36,23 @@ export async function useAllUsersQuery({ token }: Readonly<{ token: string }>) {
 
   return (await response.json()) as UserResponse[]
 }
+
+export async function useDeleteUserMutation({
+  token,
+  id,
+}: Readonly<{ token: string; id: string }>) {
+  const response = await fetch(`${url}/users/${id}`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  })
+
+  if (!response.ok) {
+    const err = await response.json()
+    throw new Error(err.error())
+  }
+
+  return
+}
