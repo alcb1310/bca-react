@@ -7,13 +7,13 @@ import {
   TextField,
   Typography,
 } from '@mui/material'
+import { useMutation } from '@tanstack/react-query'
 import { useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { Navigate } from 'react-router-dom'
-
-import { useLoginMutation } from '~redux/api/bca-backend/auth/authentication'
+import { useLoginMutation } from '~/queries/auth/authentication'
 import { login } from '~redux/features/login/loginSlice'
-import { useAppDispatch, useAppSelector } from '~redux/hooks'
+import { useAppDispatch } from '~redux/hooks'
 import { type LoginInput, loginSchema } from '~types/login'
 
 export default function Login() {
@@ -30,25 +30,20 @@ export default function Login() {
     },
     resolver: zodResolver(loginSchema),
   })
-  const isLoggedIn = useAppSelector((state) => state.login.isLoggedIn)
   const dispatch = useAppDispatch()
-
-  const [loginInfo] = useLoginMutation()
-
+  const { mutate } = useMutation({
+    mutationFn: useLoginMutation,
+    onError: (error) => {
+      setError(error.message)
+    },
+    onSuccess: (data) => {
+      dispatch(login(data.token))
+      const dir = window.history.state?.usr?.from?.pathname
+      return <Navigate to={dir || '/'} replace />
+    },
+  })
   async function onSubmit(data: LoginInput) {
-    const res = await loginInfo(data)
-
-    if (!('error' in res)) {
-      dispatch(login(res.data.token))
-    } else {
-      // @ts-expect-error error property is part of the res.error object
-      setError(res.error.error)
-    }
-  }
-
-  if (isLoggedIn) {
-    const dir = window.history.state?.usr?.from?.pathname
-    return <Navigate to={dir || '/'} replace />
+    mutate(data)
   }
 
   return (
