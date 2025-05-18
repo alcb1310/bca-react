@@ -36,10 +36,10 @@
 //   }
 // }
 
-Cypress.Commands.add('getByTestId', (selector) => {
-    return cy.get(`[data-testid="${selector}"]`)
-})
+Cypress.Commands.add("getByTestId", (selector) => {
+	return cy.get(`[data-testid="${selector}"]`);
+});
 
-Cypress.Commands.add('findByTestId', (selector) => {
-    return cy.find(`[data-testid="${selector}"]`)
-})
+Cypress.Commands.add("findByTestId", (selector) => {
+	return cy.find(`[data-testid="${selector}"]`);
+});

@@ -1,11 +1,12 @@
-import { ReactNode } from 'react'
+import type { ReactNode } from 'react'
 
 export type BcaFieldBase<T> = T & {
-    helperText?: ReactNode
-    control?: any
+  helperText?: ReactNode
+  // biome-ignore lint/suspicious/noExplicitAny: should run when open changes
+  control?: any
 }
 
 export type BcaField<T> = T & {
-    name: string
-    datatestid?: string
+  name: string
+  datatestid?: string
 } & BcaFieldBase<T>
