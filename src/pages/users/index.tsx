@@ -1,10 +1,15 @@
 import { Box, CircularProgress, Typography } from '@mui/material'
-
+import { useQuery } from '@tanstack/react-query'
 import PageTitle from '~/components/titles/PageTitle/PageTitle'
-import { useMeQuery } from '~redux/api/bca-backend/user/userSlice'
+import { useMeQuery } from '~/queries/user/user'
+import { useAppSelector } from '~/redux/hooks'
 
 export default function UsersHome() {
-  const { data, isLoading } = useMeQuery()
+  const token = useAppSelector((state) => state.login.token)
+  const { data, isFetching } = useQuery({
+    queryKey: ['users', 'me'],
+    queryFn: () => useMeQuery({ token }),
+  })
 
   const componentLayout = (
     <>
@@ -51,7 +56,7 @@ export default function UsersHome() {
     <>
       <PageTitle title='Perfil' />
       <Box sx={{ marginTop: 2 }}>
-        {isLoading ? (
+        {isFetching ? (
           <CircularProgress data-testid='page.user.loading' />
         ) : (
           componentLayout
