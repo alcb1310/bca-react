@@ -1,14 +1,14 @@
-import { Provider } from "react-redux";
-import { LocalizationProvider } from "@mui/x-date-pickers";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { CssBaseline } from "@mui/material";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { CssBaseline } from '@mui/material'
+import { LocalizationProvider } from '@mui/x-date-pickers'
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { Provider } from 'react-redux'
+import AppRouter from '~components/router/Router'
+import Theme from '~components/theme/Theme'
+import { store } from '~redux/store'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 
-import { store } from "~redux/store";
-import Theme from "~components/theme/Theme";
-import AppRouter from "~components/router/Router";
-
-const queryClient = new QueryClient();
+const queryClient = new QueryClient()
 
 export default function AppWrapper() {
   return (
@@ -20,7 +20,9 @@ export default function AppWrapper() {
             <AppRouter />
           </LocalizationProvider>
         </Theme>
+
+        <ReactQueryDevtools />
       </QueryClientProvider>
     </Provider>
-  );
+  )
 }
