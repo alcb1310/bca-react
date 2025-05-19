@@ -47,6 +47,16 @@ export default function BudgetItemDrawer({
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['budget-items'] })
       onClose()
+    },
+    onError: (error) => {
+      setConflictError(error.message)
+    },
+  })
+  const { mutate: createBudgetItem } = useMutation({
+    mutationFn: useCreateBudgetItemMutation,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['budget-items'] })
+      onClose()
       return
     },
     onError: (error) => {
@@ -140,105 +150,4 @@ export default function BudgetItemDrawer({
       <DevTool control={control} />
     </BcaDrawer>
   )
-}
-
-const { mutate: createBudgetItem } = useMutation({
-  mutationFn: useCreateBudgetItemMutation,
-  onSuccess: () => {
-    queryClient.invalidateQueries({ queryKey: ['budget-items'] })
-    onClose()
-    return
-  },
-  onError: (error) => {
-    setConflictError(error.message)
-  },
-})
-const { data, isLoading } = useQuery({
-  queryKey: ['budget-items', 'accum'],
-  queryFn: () => useGetAllBudgetItemsQuery({ token, accum: true }),
-})
-
-// biome-ignore lint/correctness/useExhaustiveDependencies: should run only on open change
-useEffect(() => {
-  setConflictError('')
-  reset(defaultValues)
-}, [open])
-
-async function hadleSubmit(data: BudgetItem) {
-  setConflictError('')
-  if (defaultValues.id) {
-    await updateBudgetItem(data)
-    onClose()
-    return
-  }
-  createBudgetItem({ token, budgetItem: data })
-}
-
-return (
-  <BcaDrawer open={open} onClose={onClose}>
-    <DrawerTitle
-      title={defaultValues.id ? 'Editar Partida' : 'Crear Partida'}
-      close={onClose}
-    />
-
-    <Box mt={2}>
-      <form
-        className='w-full flex flex-col gap-5'
-        onSubmit={handleSubmit(hadleSubmit)}
-      >
-        {isLoading && <CircularProgress />}
-        {conflictError && (
-          <Typography color='error' sx={{ fontSize: '0.85rem' }}>
-            {conflictError}
-          </Typography>
-        )}
-
-        <BcaTextField
-          datatestid='component.drawer.settings.budget.item.code'
-          name='code'
-          label='Código'
-          control={control}
-        />
-
-        <BcaTextField
-          datatestid='component.drawer.settings.budget.item.name'
-          name='name'
-          label='Nombre'
-          control={control}
-        />
-
-        <BcaSelect
-          name='parent_id'
-          datatestid='component.drawer.settings.budget.item.parent'
-          label='Padre'
-          control={control}
-          disabled={!!defaultValues.id}
-        >
-          <option value=''>Seleccione una partida</option>
-          {data?.map((budgetItem) => (
-            <option key={budgetItem.id} value={budgetItem.id}>
-              {budgetItem.name}
-            </option>
-          ))}
-        </BcaSelect>
-
-        <FormControlLabel
-          name='accumulates'
-          data-testid='component.drawer.settings.budget.item.accumulate'
-          labelPlacement='end'
-          label='Acumula'
-          control={
-            <RhfSwitch name='accumulate' control={control} size='small' />
-          }
-        />
-
-        <ButtonGroup
-          saveFunction={handleSubmit(hadleSubmit)}
-          cancelFunction={onClose}
-        />
-      </form>
-    </Box>
-    <DevTool control={control} />
-  </BcaDrawer>
-)
 }

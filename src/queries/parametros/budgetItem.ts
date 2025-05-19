@@ -33,7 +33,7 @@ export async function useCreateBudgetItemMutation({
   budgetItem,
 }: Readonly<{ token: string; budgetItem: BudgetItem }>) {
   const response = await fetch(`${url}/parametros/partidas`, {
-    method: 'GET',
+    method: 'POST',
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`,
@@ -67,5 +67,5 @@ export async function useUpdateBudgetItemMutation({
     throw new Error(err.error)
   }
 
-  return (await response.json()) as BudgetItem
+  return
 }
