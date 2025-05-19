@@ -77,3 +77,24 @@ export async function useCreateUserMutation({
 
   return (await response.json()) as UserResponse
 }
+
+export async function useUpdateUserMutation({
+  token,
+  user,
+}: Readonly<{ token: string; user: UserResponse }>) {
+  const response = await fetch(`${url}/users/${user.id}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(user),
+  })
+
+  if (!response.ok) {
+    const err = await response.json()
+    throw new Error(err.error())
+  }
+
+  return (await response.json()) as UserResponse
+}
