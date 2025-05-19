@@ -1,4 +1,4 @@
-import type { BudgetItemResponse } from '~/types/partidas'
+import type { BudgetItem, BudgetItemResponse } from '~/types/partidas'
 
 const url = import.meta.env.VITE_BACKEND_SERVER
 if (!url) throw new Error('VITE_BACKEND_SERVER environment variable not set')
@@ -26,4 +26,25 @@ export async function useGetAllBudgetItemsQuery({
   }
 
   return (await response.json()) as BudgetItemResponse[]
+}
+
+export async function useCreateBudgetItemMutation({
+  token,
+  budgetItem,
+}: Readonly<{ token: string; budgetItem: BudgetItem }>) {
+  const response = await fetch(`${url}/parametros/partidas`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(budgetItem),
+  })
+
+  if (!response.ok) {
+    const err = await response.json()
+    throw new Error(err.error)
+  }
+
+  return (await response.json()) as BudgetItem
 }
