@@ -48,3 +48,24 @@ export async function useCreateBudgetItemMutation({
 
   return (await response.json()) as BudgetItem
 }
+
+export async function useUpdateBudgetItemMutation({
+  token,
+  budgetItem,
+}: Readonly<{ token: string; budgetItem: BudgetItem }>) {
+  const response = await fetch(`${url}/parametros/partidas/${budgetItem.id}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(budgetItem),
+  })
+
+  if (!response.ok) {
+    const err = await response.json()
+    throw new Error(err.error)
+  }
+
+  return (await response.json()) as BudgetItem
+}
