@@ -6,6 +6,7 @@ import {
   FormControlLabel,
   Typography,
 } from '@mui/material'
+import { useQuery } from '@tanstack/react-query'
 import { RhfSwitch } from 'mui-rhf-integration'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
@@ -13,11 +14,12 @@ import { useForm } from 'react-hook-form'
 import BcaSelect from '~/components/input/BcaSelect/BcaSelect'
 import BcaTextField from '~/components/input/BcaTextField/BcaTextField'
 import DrawerTitle from '~/components/titles/DrawerTitle/DrawerTitle'
+import { useGetAllBudgetItemsQuery } from '~/queries/parametros/budgetItem'
+import { useAppSelector } from '~/redux/hooks'
 import ButtonGroup from '~components/buttons/button-group'
 import BcaDrawer from '~components/drawers/BcaDrawer/BcaDrawer'
 import {
   useCreateBudgetItemMutation,
-  useGetAllBudgetItemsQuery,
   useUpdateBudgetItemMutation,
 } from '~redux/api/bca-backend/parametros/budgetItemSlice'
 import { type BudgetItem, budgetItemSchema } from '~types/partidas'
@@ -33,6 +35,7 @@ export default function BudgetItemDrawer({
   onClose,
   defaultValues,
 }: BudgetItemDrawerProps) {
+  const token = useAppSelector((state) => state.login.token)
   const { control, reset, handleSubmit } = useForm<BudgetItem>({
     defaultValues,
     resolver: zodResolver(budgetItemSchema),
@@ -41,8 +44,9 @@ export default function BudgetItemDrawer({
 
   const [createBudgetItem] = useCreateBudgetItemMutation()
   const [updateBudgetItem] = useUpdateBudgetItemMutation()
-  const { data, isLoading } = useGetAllBudgetItemsQuery({
-    accum: true,
+  const { data, isLoading } = useQuery({
+    queryKey: ['budget-items', 'accum'],
+    queryFn: () => useGetAllBudgetItemsQuery({ token, accum: true }),
   })
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: should run only on open change

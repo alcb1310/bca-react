@@ -6,7 +6,7 @@ describe('<BudgetItemDrawer />', () => {
       cy.wrapper(
         <BudgetItemDrawer
           open={true}
-          onClose={(): void => {}}
+          onClose={(): void => { }}
           defaultValues={{
             id: '',
             code: '',
@@ -99,7 +99,7 @@ describe('<BudgetItemDrawer />', () => {
       cy.wrapper(
         <BudgetItemDrawer
           open={true}
-          onClose={(): void => {}}
+          onClose={(): void => { }}
           defaultValues={{
             id: '661129c8-f4ac-4a9a-b484-c40f9ec4d3e4',
             code: '200',
@@ -142,7 +142,7 @@ describe('<BudgetItemDrawer />', () => {
     })
 
     it('should display all the fields with a parent', () => {
-      cy.intercept('GET', '**parametros/partidas**', {
+      cy.intercept('GET', '**/parametros/partidas**', {
         statusCode: 200,
         fixture: 'parameters/budget_items/accum.json',
       }).as('budgetItem')
@@ -150,7 +150,7 @@ describe('<BudgetItemDrawer />', () => {
       cy.wrapper(
         <BudgetItemDrawer
           open={true}
-          onClose={(): void => {}}
+          onClose={(): void => { }}
           defaultValues={{
             id: '661129c8-f4ac-4a9a-b484-c40f9ec4d3e4',
             code: '200',
