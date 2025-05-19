@@ -98,3 +98,25 @@ export async function useUpdateUserMutation({
 
   return (await response.json()) as UserResponse
 }
+
+export async function useUpdatePasswordMutation({
+  token,
+  password,
+}: Readonly<{ token: string; password: string }>) {
+  const pass = { password }
+  const response = await fetch(`${url}/users`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(pass),
+  })
+
+  if (!response.ok) {
+    const err = await response.json()
+    throw new Error(err.error())
+  }
+
+  return
+}
