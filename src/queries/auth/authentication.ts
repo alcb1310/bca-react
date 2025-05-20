@@ -3,8 +3,6 @@ import type { UserResponse } from '~types/user'
 
 const url = import.meta.env.VITE_BACKEND_SERVER
 
-if (!url) throw new Error('VITE_BACKEND_SERVER environment variable not set')
-
 type loginResponse = {
   token: string
   user: UserResponse

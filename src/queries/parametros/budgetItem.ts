@@ -1,7 +1,6 @@
 import type { BudgetItem, BudgetItemResponse } from '~/types/partidas'
 
 const url = import.meta.env.VITE_BACKEND_SERVER
-if (!url) throw new Error('VITE_BACKEND_SERVER environment variable not set')
 
 export async function useGetAllBudgetItemsQuery({
   token,

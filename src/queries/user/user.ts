@@ -1,7 +1,6 @@
 import type { UserCreate, UserResponse } from '~/types/user'
 
 const url = import.meta.env.VITE_BACKEND_SERVER
-if (!url) throw new Error('VITE_BACKEND_SERVER environment variable not set')
 
 export async function useMeQuery({ token }: Readonly<{ token: string }>) {
   const response = await fetch(`${url}/users/me`, {
