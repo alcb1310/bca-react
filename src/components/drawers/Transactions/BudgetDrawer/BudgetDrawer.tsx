@@ -41,8 +41,10 @@ export default function BudgetDrawer({
         : results.quantity
       : 0
     const c = results.cost ? (Number.isNaN(results.cost) ? 0 : results.cost) : 0
+    const r = q * c
 
-    return q * c
+    if (Number.isNaN(r)) return 0
+    return r
   }
 
   const results = useWatch({ control })
