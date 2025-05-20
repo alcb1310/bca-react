@@ -1,16 +1,15 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Box, Typography } from '@mui/material'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-
 import BcaTextField from '~/components/input/BcaTextField/BcaTextField'
 import DrawerTitle from '~/components/titles/DrawerTitle/DrawerTitle'
+import { useCreateCategoryMutation } from '~/queries/parametros/categories'
+import { useAppSelector } from '~/redux/hooks'
 import ButtonGroup from '~components/buttons/button-group'
 import BcaDrawer from '~components/drawers/BcaDrawer/BcaDrawer'
-import {
-  useCreateCategoryMutation,
-  useUpdateCategoryMutation,
-} from '~redux/api/bca-backend/parametros/categoriesSlice'
+import { useUpdateCategoryMutation } from '~redux/api/bca-backend/parametros/categoriesSlice'
 import { type CategoryType, categorySchema } from '~types/categories'
 
 type CategoriesDrawerProps = {
@@ -24,6 +23,8 @@ export default function CategoriesDrawer({
   onClose,
   defaultValues,
 }: CategoriesDrawerProps) {
+  const token = useAppSelector((state) => state.login.token)
+  const queryClient = useQueryClient()
   const [conflictError, setConflictError] = useState<string>('')
 
   const { control, reset, handleSubmit } = useForm<CategoryType>({
@@ -31,7 +32,18 @@ export default function CategoriesDrawer({
     resolver: zodResolver(categorySchema),
   })
 
-  const [createCategory] = useCreateCategoryMutation()
+  // const [createCategory] = useCreateCategoryMutation()
+  const { mutate } = useMutation({
+    mutationFn: useCreateCategoryMutation,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['categories'] })
+      onClose()
+      return
+    },
+    onError: (error) => {
+      setConflictError(error.message)
+    },
+  })
   const [updateCategory] = useUpdateCategoryMutation()
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: should open only on open change
@@ -41,17 +53,8 @@ export default function CategoriesDrawer({
 
   async function hadleSubmit(data: CategoryType) {
     if (!defaultValues.id) {
-      const res = await createCategory(data)
-      if ('data' in res) {
-        onClose()
-        return
-      }
-
-      if ('error' in res) {
-        // @ts-expect-error data property is part of the res.error object
-        setConflictError(res.error.data.error)
-        return
-      }
+      mutate({ token, category: data })
+      return
     }
 
     const res = await updateCategory(data)

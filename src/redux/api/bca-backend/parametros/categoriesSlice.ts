@@ -6,18 +6,6 @@ const categorySlice = bcaApiSlice.injectEndpoints({
 
   endpoints(builder) {
     return {
-      createCategory: builder.mutation<CategoryType, CategoryType>({
-        query(data) {
-          return {
-            url: '/parametros/categorias',
-            method: 'POST',
-            body: data,
-          }
-        },
-
-        invalidatesTags: ['categorias'],
-      }),
-
       updateCategory: builder.mutation<CategoryType, CategoryType>({
         query(data) {
           return {
@@ -33,5 +21,4 @@ const categorySlice = bcaApiSlice.injectEndpoints({
   },
 })
 
-export const { useCreateCategoryMutation, useUpdateCategoryMutation } =
-  categorySlice
+export const { useUpdateCategoryMutation } = categorySlice
