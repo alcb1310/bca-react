@@ -5,11 +5,13 @@ import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import BcaTextField from '~/components/input/BcaTextField/BcaTextField'
 import DrawerTitle from '~/components/titles/DrawerTitle/DrawerTitle'
-import { useCreateCategoryMutation } from '~/queries/parametros/categories'
+import {
+  useCreateCategoryMutation,
+  useUpdateCategoryMutation,
+} from '~/queries/parametros/categories'
 import { useAppSelector } from '~/redux/hooks'
 import ButtonGroup from '~components/buttons/button-group'
 import BcaDrawer from '~components/drawers/BcaDrawer/BcaDrawer'
-import { useUpdateCategoryMutation } from '~redux/api/bca-backend/parametros/categoriesSlice'
 import { type CategoryType, categorySchema } from '~types/categories'
 
 type CategoriesDrawerProps = {
@@ -32,8 +34,7 @@ export default function CategoriesDrawer({
     resolver: zodResolver(categorySchema),
   })
 
-  // const [createCategory] = useCreateCategoryMutation()
-  const { mutate } = useMutation({
+  const { mutate: createCategory } = useMutation({
     mutationFn: useCreateCategoryMutation,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['categories'] })
@@ -44,7 +45,18 @@ export default function CategoriesDrawer({
       setConflictError(error.message)
     },
   })
-  const [updateCategory] = useUpdateCategoryMutation()
+
+  const { mutate } = useMutation({
+    mutationFn: useUpdateCategoryMutation,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['categories'] })
+      onClose()
+      return
+    },
+    onError: (error) => {
+      setConflictError(error.message)
+    },
+  })
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: should open only on open change
   useEffect(() => {
@@ -53,21 +65,10 @@ export default function CategoriesDrawer({
 
   async function hadleSubmit(data: CategoryType) {
     if (!defaultValues.id) {
-      mutate({ token, category: data })
+      createCategory({ token, category: data })
       return
     }
-
-    const res = await updateCategory(data)
-    if ('data' in res) {
-      onClose()
-      return
-    }
-
-    if ('error' in res) {
-      // @ts-expect-error data property is part of the res.error object
-      setConflictError(res.error.data.error)
-      return
-    }
+    mutate({ token, category: data })
   }
 
   return (
