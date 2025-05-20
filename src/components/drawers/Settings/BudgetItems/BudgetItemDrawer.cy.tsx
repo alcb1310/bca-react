@@ -3,6 +3,10 @@ import BudgetItemDrawer from './BudgetItemDrawer'
 describe('<BudgetItemDrawer />', () => {
   describe('Create Budget Item', () => {
     beforeEach(() => {
+      cy.intercept('GET', '**/parametros/partidas**', {
+        statusCode: 200,
+        fixture: 'parameters/budget_items/accum.json',
+      }).as('budgetItem')
       cy.wrapper(
         <BudgetItemDrawer
           open={true}
@@ -15,6 +19,8 @@ describe('<BudgetItemDrawer />', () => {
           }}
         />,
       )
+
+      cy.wait('@budgetItem')
     })
 
     it('should display the drawer', () => {
