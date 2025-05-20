@@ -1,14 +1,15 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { CircularProgress, Typography } from '@mui/material'
+import { useQuery } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-
 import BcaSelect from '~/components/input/BcaSelect/BcaSelect'
 import BcaTextField from '~/components/input/BcaTextField/BcaTextField'
 import DrawerTitle from '~/components/titles/DrawerTitle/DrawerTitle'
+import { useGetAllCategoriesQuery } from '~/queries/parametros/categories'
+import { useAppSelector } from '~/redux/hooks'
 import ButtonGroup from '~components/buttons/button-group'
 import BcaDrawer from '~components/drawers/BcaDrawer/BcaDrawer'
-import { useGetAllCategoriesQuery } from '~redux/api/bca-backend/parametros/categoriesSlice'
 import {
   useCreateMaterialMutation,
   useUpdateMaterialMutation,
@@ -26,6 +27,7 @@ export default function MaterialsDrawer({
   onClose,
   defaultValues,
 }: MaterialsDrawerProps) {
+  const token = useAppSelector((state) => state.login.token)
   const [conflictError, setConflictError] = useState<string>('')
 
   const { control, reset, handleSubmit } = useForm<MaterialType>({
@@ -33,7 +35,10 @@ export default function MaterialsDrawer({
     resolver: zodResolver(materialSchema),
   })
 
-  const { data: categories, isLoading } = useGetAllCategoriesQuery()
+  const { data: categories, isLoading } = useQuery({
+    queryKey: ['categories'],
+    queryFn: () => useGetAllCategoriesQuery({ token }),
+  })
   const [createMaterial] = useCreateMaterialMutation()
   const [updateMaterial] = useUpdateMaterialMutation()
 
