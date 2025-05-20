@@ -1,21 +1,25 @@
 import { CssBaseline } from '@mui/material'
 import { LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { Provider } from 'react-redux'
-
 import AppRouter from '~components/router/Router'
 import Theme from '~components/theme/Theme'
 import { store } from '~redux/store'
 
+const queryClient = new QueryClient()
+
 export default function AppWrapper() {
   return (
     <Provider store={store}>
-      <Theme>
-        <CssBaseline />
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <AppRouter />
-        </LocalizationProvider>
-      </Theme>
+      <QueryClientProvider client={queryClient}>
+        <Theme>
+          <CssBaseline />
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <AppRouter />
+          </LocalizationProvider>
+        </Theme>
+      </QueryClientProvider>
     </Provider>
   )
 }
