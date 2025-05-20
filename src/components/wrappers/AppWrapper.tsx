@@ -2,6 +2,7 @@ import { CssBaseline } from '@mui/material'
 import { LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { Provider } from 'react-redux'
 import AppRouter from '~components/router/Router'
 import Theme from '~components/theme/Theme'
@@ -19,6 +20,8 @@ export default function AppWrapper() {
             <AppRouter />
           </LocalizationProvider>
         </Theme>
+
+        <ReactQueryDevtools />
       </QueryClientProvider>
     </Provider>
   )
