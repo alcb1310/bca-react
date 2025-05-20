@@ -8,11 +8,13 @@ import BcaSelect from '~/components/input/BcaSelect/BcaSelect'
 import BcaTextField from '~/components/input/BcaTextField/BcaTextField'
 import DrawerTitle from '~/components/titles/DrawerTitle/DrawerTitle'
 import { useGetAllCategoriesQuery } from '~/queries/parametros/categories'
-import { useCreateMaterialMutation } from '~/queries/parametros/materials'
+import {
+  useCreateMaterialMutation,
+  useUpdateMaterialMutation,
+} from '~/queries/parametros/materials'
 import { useAppSelector } from '~/redux/hooks'
 import ButtonGroup from '~components/buttons/button-group'
 import BcaDrawer from '~components/drawers/BcaDrawer/BcaDrawer'
-import { useUpdateMaterialMutation } from '~redux/api/bca-backend/parametros/materialsSlice'
 import { type MaterialType, materialSchema } from '~types/materials'
 
 type MaterialsDrawerProps = {
@@ -39,9 +41,19 @@ export default function MaterialsDrawer({
     queryKey: ['categories'],
     queryFn: () => useGetAllCategoriesQuery({ token }),
   })
-  const [updateMaterial] = useUpdateMaterialMutation()
   const { mutate: createMaterial } = useMutation({
     mutationFn: useCreateMaterialMutation,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['materials'] })
+      onClose()
+      return
+    },
+    onError: (error) => {
+      setConflictError(error.message)
+    },
+  })
+  const { mutate: updateMaterial } = useMutation({
+    mutationFn: useUpdateMaterialMutation,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['materials'] })
       onClose()
@@ -61,15 +73,7 @@ export default function MaterialsDrawer({
     if (!defaultValues.id) {
       createMaterial({ token, material: data })
     }
-
-    const res = await updateMaterial(data)
-    if ('data' in res) {
-      onClose()
-      return
-    }
-
-    // @ts-expect-error data is part of the response
-    setConflictError(res.error.data.message)
+    updateMaterial({ token, material: data })
   }
 
   return (
