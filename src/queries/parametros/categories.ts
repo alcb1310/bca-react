@@ -41,3 +41,24 @@ export async function useCreateCategoryMutation({
 
   return
 }
+
+export async function useUpdateCategoryMutation({
+  token,
+  category,
+}: Readonly<{ token: string; category: CategoryType }>) {
+  const response = await fetch(`${url}/parametros/categorias/${category.id}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(category),
+  })
+
+  if (!response.ok) {
+    const err = await response.json()
+    throw new Error(err.error)
+  }
+
+  return
+}
