@@ -62,6 +62,7 @@ export default function AllProjectsTable({ data }: AllProjectsTableProps) {
       width: 10,
       getActions: (params: GridRowParams) => [
         <GridActionsCellItem
+          key={params.row.id}
           icon=<EditOutlined color='warning' />
           label='Edit'
           onClick={() => {

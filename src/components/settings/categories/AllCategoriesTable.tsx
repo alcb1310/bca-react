@@ -37,6 +37,7 @@ export default function AllCategoriesTable({ data }: AllCategoriesTableProps) {
       width: 10,
       getActions: (params: GridRowParams) => [
         <GridActionsCellItem
+          key={params.row.id}
           icon=<EditOutlined color='warning' />
           label='Edit'
           onClick={() => {

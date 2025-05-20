@@ -68,6 +68,7 @@ export default function AllRubrosMaterialsTable({
       width: 10,
       getActions: (params: GridRowParams) => [
         <GridActionsCellItem
+          key={params.row.id}
           icon=<EditOutlined color='warning' />
           label='Editar'
           showInMenu
@@ -84,6 +85,7 @@ export default function AllRubrosMaterialsTable({
         />,
 
         <GridActionsCellItem
+          key={params.row.id}
           icon=<DeleteOutline color='error' />
           label='Borrar'
           showInMenu
