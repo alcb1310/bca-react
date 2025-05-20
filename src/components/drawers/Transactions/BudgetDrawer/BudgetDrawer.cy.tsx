@@ -16,7 +16,7 @@ describe('<BudgetDrawer />', () => {
       cy.wrapper(
         <BudgetDrawer
           open={true}
-          onClose={() => {}}
+          onClose={() => { }}
           defaultValues={{
             project_id: '',
             budget_item_id: '',
@@ -83,17 +83,15 @@ describe('<BudgetDrawer />', () => {
     })
 
     describe('validate input data', () => {
-      describe('should multiply the quantity and cost', () => {
-        it('should use decimals in both quantity and cost', () => {
-          cy.getByTestId('component.drawer.budget.quantity').type('1.234')
-          cy.getByTestId('component.drawer.budget.cost').type('1.234')
+      it('should use decimals in both quantity and cost', () => {
+        cy.getByTestId('component.drawer.budget.quantity').type('1.234')
+        cy.getByTestId('component.drawer.budget.cost').type('1.234')
 
-          cy.getByTestId('component.drawer.budget.total')
-            .find('input')
-            .should('be.visible')
-            .should('be.disabled')
-            .should('have.value', '1.522756')
-        })
+        cy.getByTestId('component.drawer.budget.total')
+          .find('input')
+          .should('be.visible')
+          .should('be.disabled')
+          .should('have.value', '1.522756')
       })
 
       describe('before submiting', () => {
@@ -245,7 +243,7 @@ describe('<BudgetDrawer />', () => {
       cy.wrapper(
         <BudgetDrawer
           open={true}
-          onClose={() => {}}
+          onClose={() => { }}
           defaultValues={{
             project_id: 'e4b2eaf2-1d98-4493-bf2d-15938ef3057b',
             budget_item_id: '3c10969f-b514-4a8c-a934-fc0438766492',
