@@ -32,6 +32,7 @@ export default function AllBudgetsTable({ data }: AllBudgetsTableProps) {
       width: 10,
       getActions: (params: GridRowParams<BudgetResponseType>) => [
         <GridActionsCellItem
+          key={`${params.row.project.id}-${params.row.budget_item.id}`}
           icon=<EditOutlined color='warning' />
           label='Editar'
           onClick={() => {

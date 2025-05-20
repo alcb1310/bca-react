@@ -53,6 +53,7 @@ export default function AllUsersTable() {
       width: 10,
       getActions: (params: GridRowParams<UserResponse>) => [
         <GridActionsCellItem
+          key={params.row.id}
           icon=<EditOutlined color='warning' />
           label='Edit'
           onClick={() => {
@@ -62,6 +63,7 @@ export default function AllUsersTable() {
         />,
 
         <GridActionsCellItem
+          key={params.row.id}
           disabled={me?.id === params.row.id}
           icon=<DeleteOutline color='error' />
           showInMenu
