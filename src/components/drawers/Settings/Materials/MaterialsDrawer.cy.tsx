@@ -11,7 +11,7 @@ describe('<MaterialsDrawer />', () => {
       cy.wrapper(
         <MaterialsDrawer
           open={true}
-          onClose={() => { }}
+          onClose={() => {}}
           defaultValues={{
             id: '',
             code: '',
@@ -191,7 +191,7 @@ describe('<MaterialsDrawer />', () => {
       cy.wrapper(
         <MaterialsDrawer
           open={true}
-          onClose={() => { }}
+          onClose={() => {}}
           defaultValues={{
             id: 'd8fb01ee-14f0-4c45-88eb-179281aaf703',
             code: 'cem',

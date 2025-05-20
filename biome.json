@@ -7,13 +7,7 @@
   },
   "files": {
     "ignoreUnknown": true,
-    "ignore": [
-      "node_modules",
-      "dist",
-      "src/routeTree.gen.ts",
-      "biome.json",
-      "src/components/ui"
-    ],
+    "ignore": ["node_modules", "dist"],
     "include": ["src/**"]
   },
   "formatter": {
