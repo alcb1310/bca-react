@@ -4,18 +4,6 @@ import { bcaApiSlice } from '../bcaSlice'
 const materialsApi = bcaApiSlice.injectEndpoints({
   overrideExisting: true,
   endpoints: (builder) => ({
-    createMaterial: builder.mutation<MaterialType, MaterialType>({
-      query(data) {
-        return {
-          url: '/parametros/materiales',
-          method: 'POST',
-          body: data,
-        }
-      },
-
-      invalidatesTags: ['materiales'],
-    }),
-
     updateMaterial: builder.mutation<MaterialType, MaterialType>({
       query(data) {
         return {
@@ -30,5 +18,4 @@ const materialsApi = bcaApiSlice.injectEndpoints({
   }),
 })
 
-export const { useCreateMaterialMutation, useUpdateMaterialMutation } =
-  materialsApi
+export const { useUpdateMaterialMutation } = materialsApi

@@ -1,19 +1,18 @@
+import { DevTool } from '@hookform/devtools'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { CircularProgress, Typography } from '@mui/material'
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import BcaSelect from '~/components/input/BcaSelect/BcaSelect'
 import BcaTextField from '~/components/input/BcaTextField/BcaTextField'
 import DrawerTitle from '~/components/titles/DrawerTitle/DrawerTitle'
 import { useGetAllCategoriesQuery } from '~/queries/parametros/categories'
+import { useCreateMaterialMutation } from '~/queries/parametros/materials'
 import { useAppSelector } from '~/redux/hooks'
 import ButtonGroup from '~components/buttons/button-group'
 import BcaDrawer from '~components/drawers/BcaDrawer/BcaDrawer'
-import {
-  useCreateMaterialMutation,
-  useUpdateMaterialMutation,
-} from '~redux/api/bca-backend/parametros/materialsSlice'
+import { useUpdateMaterialMutation } from '~redux/api/bca-backend/parametros/materialsSlice'
 import { type MaterialType, materialSchema } from '~types/materials'
 
 type MaterialsDrawerProps = {
@@ -28,6 +27,7 @@ export default function MaterialsDrawer({
   defaultValues,
 }: MaterialsDrawerProps) {
   const token = useAppSelector((state) => state.login.token)
+  const queryClient = useQueryClient()
   const [conflictError, setConflictError] = useState<string>('')
 
   const { control, reset, handleSubmit } = useForm<MaterialType>({
@@ -39,8 +39,18 @@ export default function MaterialsDrawer({
     queryKey: ['categories'],
     queryFn: () => useGetAllCategoriesQuery({ token }),
   })
-  const [createMaterial] = useCreateMaterialMutation()
   const [updateMaterial] = useUpdateMaterialMutation()
+  const { mutate: createMaterial } = useMutation({
+    mutationFn: useCreateMaterialMutation,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['materials'] })
+      onClose()
+      return
+    },
+    onError: (error) => {
+      setConflictError(error.message)
+    },
+  })
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: should run only on open change
   useEffect(() => {
@@ -49,15 +59,7 @@ export default function MaterialsDrawer({
 
   async function hadleSubmit(data: MaterialType) {
     if (!defaultValues.id) {
-      const res = await createMaterial(data)
-      if ('data' in res) {
-        onClose()
-        return
-      }
-
-      // @ts-expect-error data is part of the response
-      setConflictError(res.error.data.message)
-      return
+      createMaterial({ token, material: data })
     }
 
     const res = await updateMaterial(data)
@@ -123,6 +125,7 @@ export default function MaterialsDrawer({
           saveFunction={handleSubmit(hadleSubmit)}
           cancelFunction={onClose}
         />
+        <DevTool control={control} />
       </form>
     </BcaDrawer>
   )
