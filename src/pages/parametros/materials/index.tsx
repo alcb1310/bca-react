@@ -1,20 +1,25 @@
 import { CircularProgress } from '@mui/material'
+import { useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
-
 import PageTitle from '~/components/titles/PageTitle/PageTitle'
+import { useGetAllMaterialsQuery } from '~/queries/parametros/materials'
+import { useAppSelector } from '~/redux/hooks'
 import MaterialsDrawer from '~components/drawers/Settings/Materials/MaterialsDrawer'
 import AllMaterialsTable from '~components/settings/materials/AllMaterialsTable'
 import EditToolbar from '~components/table/headers/toolbar'
-import { useGetAllMaterialsQuery } from '~redux/api/bca-backend/parametros/materialsSlice'
 
 export default function Materials() {
+  const token = useAppSelector((state) => state.login.token)
   const [open, setOpen] = useState<boolean>(false)
-  const { data, isLoading } = useGetAllMaterialsQuery()
+  const { data, isFetching } = useQuery({
+    queryKey: ['materials'],
+    queryFn: () => useGetAllMaterialsQuery({ token }),
+  })
 
   return (
     <>
       <PageTitle title='Materiales' />
-      {isLoading && (
+      {isFetching && (
         <CircularProgress data-testid='page.parameters.materials.loading' />
       )}
 
