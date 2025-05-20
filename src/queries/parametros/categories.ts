@@ -20,3 +20,24 @@ export async function useGetAllCategoriesQuery({
 
   return (await response.json()) as CategoryType[]
 }
+
+export async function useCreateCategoryMutation({
+  token,
+  category,
+}: Readonly<{ token: string; category: CategoryType }>) {
+  const response = await fetch(`${url}/parametros/categorias`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(category),
+  })
+
+  if (!response.ok) {
+    const err = await response.json()
+    throw new Error(err.error)
+  }
+
+  return
+}
