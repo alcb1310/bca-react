@@ -41,3 +41,24 @@ export async function useCreateMaterialMutation({
 
   return (await response.json()) as MaterialType[]
 }
+
+export async function useUpdateMaterialMutation({
+  token,
+  material,
+}: Readonly<{ token: string; material: MaterialType }>) {
+  const response = await fetch(`${url}/parametros/materiales/${material.id}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(material),
+  })
+
+  if (!response.ok) {
+    const err = await response.json()
+    throw new Error(err.error)
+  }
+
+  return (await response.json()) as MaterialType[]
+}
