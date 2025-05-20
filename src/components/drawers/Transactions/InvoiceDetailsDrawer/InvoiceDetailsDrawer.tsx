@@ -46,7 +46,9 @@ export default function InvoiceDetailsDrawer({
 
     const c = results.cost ? (Number.isNaN(results.cost) ? 0 : results.cost) : 0
 
-    return q * c
+    const r = q * c
+    if (Number.isNaN(r)) return 0
+    return r
   }
 
   const results = useWatch({ control })
