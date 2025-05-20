@@ -7,17 +7,26 @@ import {
   TextField,
   Typography,
 } from '@mui/material'
+import { useMutation } from '@tanstack/react-query'
 import { useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { Navigate } from 'react-router-dom'
-
-import { useLoginMutation } from '~redux/api/bca-backend/auth/authentication'
+import { useLoginMutation } from '~/queries/auth/authentication'
 import { login } from '~redux/features/login/loginSlice'
 import { useAppDispatch, useAppSelector } from '~redux/hooks'
 import { type LoginInput, loginSchema } from '~types/login'
 
 export default function Login() {
   const [error, setError] = useState<string | null>(null)
+  const { mutate } = useMutation({
+    mutationFn: useLoginMutation,
+    onSuccess: (data) => {
+      dispatch(login(data.token))
+    },
+    onError: (error) => {
+      setError(error.message)
+    },
+  })
 
   const {
     control,
@@ -33,17 +42,9 @@ export default function Login() {
   const isLoggedIn = useAppSelector((state) => state.login.isLoggedIn)
   const dispatch = useAppDispatch()
 
-  const [loginInfo] = useLoginMutation()
-
   async function onSubmit(data: LoginInput) {
-    const res = await loginInfo(data)
-
-    if (!('error' in res)) {
-      dispatch(login(res.data.token))
-    } else {
-      // @ts-expect-error error property is part of the res.error object
-      setError(res.error.error)
-    }
+    setError('')
+    mutate({ login: data })
   }
 
   if (isLoggedIn) {
