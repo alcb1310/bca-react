@@ -6,18 +6,20 @@ import {
   type GridColDef,
   type GridRowParams,
 } from '@mui/x-data-grid'
+import { useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
-
+import { useMeQuery } from '~/queries/user/user'
+import { useAppSelector } from '~/redux/hooks'
 import ConfirmationDialog from '~components/dialog/ConfirmationDialog'
 import UsersDrawer from '~components/drawers/Users/UsersDrawer'
 import {
   useAllUsersQuery,
   useDeleteUserMutation,
-  useMeQuery,
 } from '~redux/api/bca-backend/user/userSlice'
 import type { UserResponse } from '~types/user'
 
 export default function AllUsersTable() {
+  const token = useAppSelector((state) => state.login.token)
   const [confirmationDialogOpen, setConfirmationDialogOpen] =
     useState<boolean>(false)
   const [userIdToDelete, setUserIdToDelete] = useState<string>('')
@@ -26,7 +28,10 @@ export default function AllUsersTable() {
   const [userData, setUserData] = useState<UserResponse | null>(null)
 
   const { data, isLoading } = useAllUsersQuery()
-  const { data: me } = useMeQuery()
+  const { data: me } = useQuery({
+    queryKey: ['users', 'me'],
+    queryFn: () => useMeQuery({ token }),
+  })
   const [deleteUser] = useDeleteUserMutation()
 
   function setOpenConfirmationDialog(open: boolean, id: string, name: string) {

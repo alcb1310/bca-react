@@ -1,12 +1,18 @@
 import { CircularProgress, Typography } from '@mui/material'
-
-import { useMeQuery } from '~redux/api/bca-backend/user/userSlice'
+import { useQuery } from '@tanstack/react-query'
+import { useMeQuery } from '~/queries/user/user'
+import { useAppSelector } from '~/redux/hooks'
 
 export default function Home() {
-  const { data, isLoading } = useMeQuery()
+  const token = useAppSelector((state) => state.login.token)
+  const { data, isFetching } = useQuery({
+    queryKey: ['users', 'me'],
+    queryFn: () => useMeQuery({ token }),
+  })
+
   return (
     <>
-      {isLoading ? (
+      {isFetching ? (
         <CircularProgress data-testid='pages.home.spinner' />
       ) : (
         <Typography
