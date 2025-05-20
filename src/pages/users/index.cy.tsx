@@ -2,7 +2,7 @@ import UsersHome from '.'
 
 describe('<UsersHome />', () => {
   it('should display the page', () => {
-    cy.intercept('GET', '**/users/me', {
+    cy.intercept('GET', '/api/v1/users/me', {
       statusCode: 200,
       fixture: 'users/me.json',
     }).as('me')

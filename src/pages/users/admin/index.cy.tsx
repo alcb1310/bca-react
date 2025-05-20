@@ -5,11 +5,11 @@ const title = ['name', 'email']
 
 describe('<Admin />', () => {
   beforeEach(() => {
-    cy.intercept('GET', '**/users/me', {
+    cy.intercept('GET', '/api/v1/users/me', {
       statusCode: 200,
       fixture: '/users/me.json',
     }).as('me')
-    cy.intercept('GET', '**/users', {
+    cy.intercept('GET', '/api/v1/users', {
       statusCode: 200,
       fixture: '/users/getAllUsers.json',
     }).as('users')
