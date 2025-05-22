@@ -1,15 +1,13 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Box, Typography } from '@mui/material'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-
 import BcaTextField from '~/components/input/BcaTextField/BcaTextField'
 import DrawerTitle from '~/components/titles/DrawerTitle/DrawerTitle'
+import { useAppSelector } from '~/redux/hooks'
 import ButtonGroup from '~components/buttons/button-group'
-import {
-  useCreateUserMutation,
-  useUpdateUserMutation,
-} from '~redux/api/bca-backend/user/userSlice'
+import { useUpdateUserMutation } from '~redux/api/bca-backend/user/userSlice'
 import {
   type UserCreate,
   type UserResponse,
@@ -17,6 +15,7 @@ import {
   userResponseSchema,
 } from '~types/user'
 import BcaDrawer from '../BcaDrawer/BcaDrawer'
+import { useCreateUserMutation } from '~/queries/user/user'
 
 type UsersDrawerProps = {
   open: boolean
@@ -29,9 +28,22 @@ export default function UsersDrawer({
   onClose,
   userData,
 }: UsersDrawerProps) {
-  const [createUser] = useCreateUserMutation()
+  const token = useAppSelector((state) => state.login.token)
+  const queryClient = useQueryClient()
   const [updateUser] = useUpdateUserMutation()
   const [conflictError, setConflictError] = useState<string>('')
+  const { mutate: createUser } = useMutation({
+    mutationFn: useCreateUserMutation,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['users'] })
+      onClose()
+      reset()
+      return
+    },
+    onError: (error) => {
+      setConflictError(error.message)
+    },
+  })
 
   const resolver =
     'id' in userData
@@ -48,28 +60,20 @@ export default function UsersDrawer({
   useEffect(() => {
     setConflictError('')
     reset(userData)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userData])
 
   async function hadleSubmit(data: UserCreate | UserResponse) {
     setConflictError('')
     if ('password' in data) {
-      const res = await createUser(data)
-      if ('data' in res) {
-        onClose()
-        reset()
-        return
-      }
+      createUser({ token, user: data })
+      return
+    }
 
-      // @ts-expect-error data property is part of the res.error object
-      setConflictError(res.error.data.error)
-    } else {
-      const res = await updateUser(data)
-      if ('data' in res) {
-        onClose()
-        reset()
-        return
-      }
+    const res = await updateUser(data)
+    if ('data' in res) {
+      onClose()
+      reset()
+      return
     }
   }
 
