@@ -18,3 +18,22 @@ export async function useMeQuery({ token }: Readonly<{ token: string }>) {
 
   return (await response.json()) as UserResponse
 }
+
+export async function useGetAllUsersQuery({
+  token,
+}: Readonly<{ token: string }>) {
+  const response = await fetch(`${url}/users`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  })
+
+  if (!response.ok) {
+    const err = await response.json()
+    throw new Error(err.error)
+  }
+
+  return (await response.json()) as UserResponse[]
+}
