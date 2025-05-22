@@ -1,13 +1,14 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Box } from '@mui/material'
+import { useMutation } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-
 import BcaTextField from '~/components/input/BcaTextField/BcaTextField'
 import DrawerTitle from '~/components/titles/DrawerTitle/DrawerTitle'
+import { useUpdatePasswordMutation } from '~/queries/user/user'
+import { useAppSelector } from '~/redux/hooks'
 import ButtonGroup from '~components/buttons/button-group'
 import BcaDrawer from '~components/drawers/BcaDrawer/BcaDrawer'
-import { useUpdatePasswordMutation } from '~redux/api/bca-backend/user/userSlice'
 import { type PasswordType, passwordSchema } from '~types/user'
 
 type ChangePasswordProps = {
@@ -15,6 +16,7 @@ type ChangePasswordProps = {
 }
 
 export default function ChangePassword({ onClose }: ChangePasswordProps) {
+  const token = useAppSelector((state) => state.login.token)
   const [open, setOpen] = useState<boolean>(true)
   const { control, reset, handleSubmit } = useForm<PasswordType>({
     defaultValues: {
@@ -23,11 +25,16 @@ export default function ChangePassword({ onClose }: ChangePasswordProps) {
     resolver: zodResolver(passwordSchema),
   })
 
-  const [updatePassword] = useUpdatePasswordMutation()
+  const { mutate } = useMutation({
+    mutationFn: useUpdatePasswordMutation,
+    onSuccess: () => {
+      handleClose()
+    },
+    // onError: (error) => { },
+  })
 
   useEffect(() => {
     reset()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   function handleClose() {
@@ -36,8 +43,7 @@ export default function ChangePassword({ onClose }: ChangePasswordProps) {
   }
 
   function hadleSubmit(data: PasswordType) {
-    updatePassword(data)
-    handleClose()
+    mutate({ token, password: data })
   }
 
   return (
