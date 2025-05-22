@@ -7,7 +7,6 @@ import BcaTextField from '~/components/input/BcaTextField/BcaTextField'
 import DrawerTitle from '~/components/titles/DrawerTitle/DrawerTitle'
 import { useAppSelector } from '~/redux/hooks'
 import ButtonGroup from '~components/buttons/button-group'
-import { useUpdateUserMutation } from '~redux/api/bca-backend/user/userSlice'
 import {
   type UserCreate,
   type UserResponse,
@@ -15,7 +14,10 @@ import {
   userResponseSchema,
 } from '~types/user'
 import BcaDrawer from '../BcaDrawer/BcaDrawer'
-import { useCreateUserMutation } from '~/queries/user/user'
+import {
+  useCreateUserMutation,
+  useUpdateUserMutation,
+} from '~/queries/user/user'
 import { toast } from 'sonner'
 
 type UsersDrawerProps = {
@@ -31,7 +33,6 @@ export default function UsersDrawer({
 }: UsersDrawerProps) {
   const token = useAppSelector((state) => state.login.token)
   const queryClient = useQueryClient()
-  const [updateUser] = useUpdateUserMutation()
   const [conflictError, setConflictError] = useState<string>('')
   const { mutate: createUser } = useMutation({
     mutationFn: useCreateUserMutation,
@@ -44,6 +45,17 @@ export default function UsersDrawer({
     },
     onError: (error) => {
       toast.error(`Error al crear el usuario ${error.message}`)
+      setConflictError(error.message)
+    },
+  })
+  const { mutate: updateUser } = useMutation({
+    mutationFn: useUpdateUserMutation,
+    onSuccess: () => {
+      onClose()
+      reset()
+      return
+    },
+    onError: (error) => {
       setConflictError(error.message)
     },
   })
@@ -72,12 +84,8 @@ export default function UsersDrawer({
       return
     }
 
-    const res = await updateUser(data)
-    if ('data' in res) {
-      onClose()
-      reset()
-      return
-    }
+    // TODO: update user is note being called, need to fix it
+    updateUser({ token, user: data })
   }
 
   return (
