@@ -8,6 +8,7 @@ import {
 } from '@mui/x-data-grid'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
+import { toast } from 'sonner'
 import {
   useDeleteUserMutation,
   useGetAllUsersQuery,
@@ -39,7 +40,11 @@ export default function AllUsersTable() {
   const { mutate: deleteUser } = useMutation({
     mutationFn: useDeleteUserMutation,
     onSuccess: () => {
+      toast.success('Usuario borrado')
       queryClient.invalidateQueries({ queryKey: ['users'] })
+    },
+    onError: (error) => {
+      toast.error(`Error al borrar el usuario: ${error.message}`)
     },
   })
 
