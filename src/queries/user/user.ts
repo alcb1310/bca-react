@@ -78,3 +78,23 @@ export async function useDeleteUserMutation({
 
   return
 }
+
+export async function useUpdateUserMutation({
+  token,
+  user,
+}: Readonly<{ token: string; user: UserResponse }>) {
+  const response = await fetch(`${url}/users/${user.id}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  })
+
+  if (!response.ok) {
+    const err = await response.json()
+    throw new Error(err.error)
+  }
+
+  return
+}
