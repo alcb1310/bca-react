@@ -7,6 +7,7 @@ import { Provider } from 'react-redux'
 import AppRouter from '~components/router/Router'
 import Theme from '~components/theme/Theme'
 import { store } from '~redux/store'
+import { Toaster } from 'sonner'
 
 const queryClient = new QueryClient()
 
@@ -18,6 +19,7 @@ export default function AppWrapper() {
           <CssBaseline />
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <AppRouter />
+            <Toaster />
           </LocalizationProvider>
         </Theme>
 
