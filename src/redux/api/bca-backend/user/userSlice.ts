@@ -5,17 +5,6 @@ const userEndPoints = bcaApiSlice.injectEndpoints({
   overrideExisting: true,
 
   endpoints: (builder) => ({
-    allUsers: builder.query<UserResponse[], void>({
-      query() {
-        return {
-          url: '/users',
-          method: 'GET',
-        }
-      },
-
-      providesTags: ['users'],
-    }),
-
     createUser: builder.mutation<UserResponse, UserCreate>({
       query(body) {
         return {
@@ -66,7 +55,6 @@ const userEndPoints = bcaApiSlice.injectEndpoints({
 })
 
 export const {
-  useAllUsersQuery,
   useCreateUserMutation,
   useDeleteUserMutation,
   useUpdateUserMutation,

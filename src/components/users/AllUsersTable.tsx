@@ -8,14 +8,11 @@ import {
 } from '@mui/x-data-grid'
 import { useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
-import { useMeQuery } from '~/queries/user/user'
+import { useGetAllUsersQuery, useMeQuery } from '~/queries/user/user'
 import { useAppSelector } from '~/redux/hooks'
 import ConfirmationDialog from '~components/dialog/ConfirmationDialog'
 import UsersDrawer from '~components/drawers/Users/UsersDrawer'
-import {
-  useAllUsersQuery,
-  useDeleteUserMutation,
-} from '~redux/api/bca-backend/user/userSlice'
+import { useDeleteUserMutation } from '~redux/api/bca-backend/user/userSlice'
 import type { UserResponse } from '~types/user'
 
 export default function AllUsersTable() {
@@ -27,7 +24,10 @@ export default function AllUsersTable() {
   const [openUserDrawer, setOpenUserDrawer] = useState<boolean>(false)
   const [userData, setUserData] = useState<UserResponse | null>(null)
 
-  const { data, isLoading } = useAllUsersQuery()
+  const { data, isFetching } = useQuery({
+    queryKey: ['users'],
+    queryFn: () => useGetAllUsersQuery({ token }),
+  })
   const { data: me } = useQuery({
     queryKey: ['users', 'me'],
     queryFn: () => useMeQuery({ token }),
@@ -45,7 +45,7 @@ export default function AllUsersTable() {
     setOpenUserDrawer(open)
   }
 
-  if (isLoading) {
+  if (isFetching) {
     return <CircularProgress data-testid='component.users.table.loading' />
   }
 
