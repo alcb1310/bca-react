@@ -6,17 +6,21 @@ import {
   type GridColDef,
   type GridRowParams,
 } from '@mui/x-data-grid'
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
-import { useGetAllUsersQuery, useMeQuery } from '~/queries/user/user'
+import {
+  useDeleteUserMutation,
+  useGetAllUsersQuery,
+  useMeQuery,
+} from '~/queries/user/user'
 import { useAppSelector } from '~/redux/hooks'
 import ConfirmationDialog from '~components/dialog/ConfirmationDialog'
 import UsersDrawer from '~components/drawers/Users/UsersDrawer'
-import { useDeleteUserMutation } from '~redux/api/bca-backend/user/userSlice'
 import type { UserResponse } from '~types/user'
 
 export default function AllUsersTable() {
   const token = useAppSelector((state) => state.login.token)
+  const queryClient = useQueryClient()
   const [confirmationDialogOpen, setConfirmationDialogOpen] =
     useState<boolean>(false)
   const [userIdToDelete, setUserIdToDelete] = useState<string>('')
@@ -32,7 +36,12 @@ export default function AllUsersTable() {
     queryKey: ['users', 'me'],
     queryFn: () => useMeQuery({ token }),
   })
-  const [deleteUser] = useDeleteUserMutation()
+  const { mutate: deleteUser } = useMutation({
+    mutationFn: useDeleteUserMutation,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['users'] })
+    },
+  })
 
   function setOpenConfirmationDialog(open: boolean, id: string, name: string) {
     setUserIdToDelete(id)
@@ -104,7 +113,7 @@ export default function AllUsersTable() {
           setOpen={setConfirmationDialogOpen}
           message={message}
           confirm={() => {
-            deleteUser(userIdToDelete)
+            deleteUser({ token, id: userIdToDelete })
           }}
         />
       )}
