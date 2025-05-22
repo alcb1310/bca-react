@@ -1,4 +1,4 @@
-import type { UserCreate, UserResponse } from '~/types/user'
+import type { PasswordType, UserCreate, UserResponse } from '~/types/user'
 
 const url = import.meta.env.VITE_BACKEND_SERVER
 
@@ -89,6 +89,28 @@ export async function useUpdateUserMutation({
       'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`,
     },
+    body: JSON.stringify(user),
+  })
+
+  if (!response.ok) {
+    const err = await response.json()
+    throw new Error(err.error)
+  }
+
+  return
+}
+
+export async function useUpdatePasswordMutation({
+  token,
+  password,
+}: Readonly<{ token: string; password: PasswordType }>) {
+  const response = await fetch(`${url}/users`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(password),
   })
 
   if (!response.ok) {
