@@ -16,6 +16,7 @@ import {
 } from '~types/user'
 import BcaDrawer from '../BcaDrawer/BcaDrawer'
 import { useCreateUserMutation } from '~/queries/user/user'
+import { toast } from 'sonner'
 
 type UsersDrawerProps = {
   open: boolean
@@ -35,12 +36,14 @@ export default function UsersDrawer({
   const { mutate: createUser } = useMutation({
     mutationFn: useCreateUserMutation,
     onSuccess: () => {
+      toast.success('Usuario creado')
       queryClient.invalidateQueries({ queryKey: ['users'] })
       onClose()
       reset()
       return
     },
     onError: (error) => {
+      toast.error(`Error al crear el usuario ${error.message}`)
       setConflictError(error.message)
     },
   })
