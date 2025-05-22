@@ -3,6 +3,7 @@ import { Box } from '@mui/material'
 import { useMutation } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
 import BcaTextField from '~/components/input/BcaTextField/BcaTextField'
 import DrawerTitle from '~/components/titles/DrawerTitle/DrawerTitle'
 import { useUpdatePasswordMutation } from '~/queries/user/user'
@@ -28,9 +29,12 @@ export default function ChangePassword({ onClose }: ChangePasswordProps) {
   const { mutate } = useMutation({
     mutationFn: useUpdatePasswordMutation,
     onSuccess: () => {
+      toast.success('Contraseña actualizada')
       handleClose()
     },
-    // onError: (error) => { },
+    onError: (error) => {
+      toast.error(`Error al actualizar la contraseña: ${error.message}`)
+    },
   })
 
   useEffect(() => {
