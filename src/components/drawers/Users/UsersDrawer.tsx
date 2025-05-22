@@ -51,11 +51,13 @@ export default function UsersDrawer({
   const { mutate: updateUser } = useMutation({
     mutationFn: useUpdateUserMutation,
     onSuccess: () => {
+      toast.success('Usuario actualizado')
       onClose()
       reset()
       return
     },
     onError: (error) => {
+      toast.error(`Error al actualizar el usuario ${error.message}`)
       setConflictError(error.message)
     },
   })
