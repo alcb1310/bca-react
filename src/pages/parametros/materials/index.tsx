@@ -11,7 +11,6 @@ import EditToolbar from '~components/table/headers/toolbar'
 export default function Materials() {
   const token = useAppSelector((state) => state.login.token)
   const [open, setOpen] = useState<boolean>(false)
-  // const { data, isLoading } = useGetAllMaterialsQuery()
   const { data, isLoading } = useQuery({
     queryKey: ['materials'],
     queryFn: () => useGetAllMaterialsQuery({ token }),
