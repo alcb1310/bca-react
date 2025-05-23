@@ -6,21 +6,21 @@ import {
   FormControlLabel,
   Typography,
 } from '@mui/material'
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { RhfSwitch } from 'mui-rhf-integration'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import BcaSelect from '~/components/input/BcaSelect/BcaSelect'
 import BcaTextField from '~/components/input/BcaTextField/BcaTextField'
 import DrawerTitle from '~/components/titles/DrawerTitle/DrawerTitle'
-import { useGetAllBudgetItemsQuery } from '~/queries/parametros/partidas'
+import {
+  useCreateBudgetItemMutation,
+  useGetAllBudgetItemsQuery,
+} from '~/queries/parametros/partidas'
 import { useAppSelector } from '~/redux/hooks'
 import ButtonGroup from '~components/buttons/button-group'
 import BcaDrawer from '~components/drawers/BcaDrawer/BcaDrawer'
-import {
-  useCreateBudgetItemMutation,
-  useUpdateBudgetItemMutation,
-} from '~redux/api/bca-backend/parametros/budgetItemSlice'
+import { useUpdateBudgetItemMutation } from '~redux/api/bca-backend/parametros/budgetItemSlice'
 import { type BudgetItem, budgetItemSchema } from '~types/partidas'
 
 type BudgetItemDrawerProps = {
@@ -35,23 +35,34 @@ export default function BudgetItemDrawer({
   defaultValues,
 }: BudgetItemDrawerProps) {
   const token = useAppSelector((state) => state.login.token)
+  const queryClient = useQueryClient()
   const { control, reset, handleSubmit } = useForm<BudgetItem>({
     defaultValues,
     resolver: zodResolver(budgetItemSchema),
   })
   const [conflictError, setConflictError] = useState<string>('')
 
-  const [createBudgetItem] = useCreateBudgetItemMutation()
+  // const [createBudgetItem] = useCreateBudgetItemMutation()
   const [updateBudgetItem] = useUpdateBudgetItemMutation()
   const { data, isLoading } = useQuery({
     queryKey: ['budget-items', 'accum'],
     queryFn: () => useGetAllBudgetItemsQuery({ token, accum: true }),
   })
+  const { mutate: createBudgetItem } = useMutation({
+    mutationFn: useCreateBudgetItemMutation,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['budget-items'] })
+      onClose()
+      return
+    },
+    onError: (error) => {
+      setConflictError(error.message)
+    },
+  })
 
   useEffect(() => {
     setConflictError('')
     reset(defaultValues)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open])
 
   async function hadleSubmit(data: BudgetItem) {
@@ -61,14 +72,8 @@ export default function BudgetItemDrawer({
       onClose()
       return
     }
-    const res = await createBudgetItem(data)
-    if ('data' in res) {
-      onClose()
-      return
-    }
 
-    // @ts-expect-error data property is part of the res.error object
-    setConflictError(res.error.data.error)
+    createBudgetItem({ token, budgetItem: data })
   }
 
   return (
