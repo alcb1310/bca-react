@@ -3,6 +3,7 @@ import { CircularProgress, Typography } from '@mui/material'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
 import BcaSelect from '~/components/input/BcaSelect/BcaSelect'
 import BcaTextField from '~/components/input/BcaTextField/BcaTextField'
 import DrawerTitle from '~/components/titles/DrawerTitle/DrawerTitle'
@@ -45,9 +46,11 @@ export default function MaterialsDrawer({
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['materials'] })
       onClose()
+      toast.success('Material creado')
     },
     onError: (error) => {
       setConflictError(error.message)
+      toast.error(`Error al crear el material: ${error.message}`)
     },
   })
 
