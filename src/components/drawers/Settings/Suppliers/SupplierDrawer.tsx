@@ -50,10 +50,12 @@ export default function SupplierDrawer({
     mutationFn: useUpdateSupplierMutation,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['suppliers'] })
+      toast.success('Proveedor actualizado')
       onClose()
     },
     onError: (error) => {
       setConflictError(error.message)
+      toast.error(`Error al actualizar el proveedor: ${error.message}`)
     },
   })
 
