@@ -24,3 +24,24 @@ export async function useGetAllSuppliersQuery({
 
   return (await response.json()) as SupplierType[]
 }
+
+export async function useCreateSupplierMutation({
+  token,
+  supplier,
+}: Readonly<{ token: string; supplier: SupplierType }>) {
+  const response = await fetch(`${url}/parametros/proveedores`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(supplier),
+  })
+
+  if (!response.ok) {
+    const err = await response.json()
+    throw new Error(err.error)
+  }
+
+  return
+}
