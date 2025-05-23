@@ -47,3 +47,24 @@ export async function useCreateProjectMutation({
 
   return (await response.json()) as ProjectType
 }
+
+export async function useUpdateProjectMutation({
+  token,
+  project,
+}: Readonly<{ token: string; project: ProjectType }>) {
+  const response = await fetch(`${url}/parametros/proyectos/${project.id}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(project),
+  })
+
+  if (!response.ok) {
+    const err = await response.json()
+    throw new Error(err.error)
+  }
+
+  return (await response.json()) as ProjectType
+}
