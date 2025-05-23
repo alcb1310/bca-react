@@ -8,11 +8,13 @@ import BcaSelect from '~/components/input/BcaSelect/BcaSelect'
 import BcaTextField from '~/components/input/BcaTextField/BcaTextField'
 import DrawerTitle from '~/components/titles/DrawerTitle/DrawerTitle'
 import { useGetAllCategoriesQuery } from '~/queries/parametros/categorias'
-import { useCreateMaterialMutation } from '~/queries/parametros/materiales'
+import {
+  useCreateMaterialMutation,
+  useUpdateMaterialMutation,
+} from '~/queries/parametros/materiales'
 import { useAppSelector } from '~/redux/hooks'
 import ButtonGroup from '~components/buttons/button-group'
 import BcaDrawer from '~components/drawers/BcaDrawer/BcaDrawer'
-import { useUpdateMaterialMutation } from '~redux/api/bca-backend/parametros/materialsSlice'
 import { type MaterialType, materialSchema } from '~types/materials'
 
 type MaterialsDrawerProps = {
@@ -35,13 +37,11 @@ export default function MaterialsDrawer({
     resolver: zodResolver(materialSchema),
   })
 
-  // const [createMaterial] = useCreateMaterialMutation()
-  const [updateMaterial] = useUpdateMaterialMutation()
   const { data: categories, isLoading } = useQuery({
     queryKey: ['categories'],
     queryFn: () => useGetAllCategoriesQuery({ token }),
   })
-  const { mutate } = useMutation({
+  const { mutate: createMaterial } = useMutation({
     mutationFn: useCreateMaterialMutation,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['materials'] })
@@ -53,6 +53,16 @@ export default function MaterialsDrawer({
       toast.error(`Error al crear el material: ${error.message}`)
     },
   })
+  const { mutate: updateMaterial } = useMutation({
+    mutationFn: useUpdateMaterialMutation,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['materials'] })
+      onClose()
+    },
+    onError: (error) => {
+      setConflictError(error.message)
+    },
+  })
 
   useEffect(() => {
     reset(defaultValues)
@@ -60,18 +70,11 @@ export default function MaterialsDrawer({
 
   async function hadleSubmit(data: MaterialType) {
     if (!defaultValues.id) {
-      mutate({ token, material: data })
+      createMaterial({ token, material: data })
       return
     }
 
-    const res = await updateMaterial(data)
-    if ('data' in res) {
-      onClose()
-      return
-    }
-
-    // @ts-expect-error data is part of the response
-    setConflictError(res.error.data.message)
+    updateMaterial({ token, material: data })
   }
 
   return (

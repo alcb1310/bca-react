@@ -17,5 +17,3 @@ const materialsApi = bcaApiSlice.injectEndpoints({
     }),
   }),
 })
-
-export const { useUpdateMaterialMutation } = materialsApi
