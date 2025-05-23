@@ -5,7 +5,7 @@ const title = ['code', 'name', 'level', 'accumulate', 'parent_code']
 
 describe('<BudgetItems />', () => {
   beforeEach(() => {
-    cy.intercept('GET', '**/parametros/partidas?query=', {
+    cy.intercept('GET', '**/parametros/partidas?', {
       statusCode: 200,
       fixture: 'parameters/budget_items/getAllBudgetItem.json',
     }).as('partidas')
