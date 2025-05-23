@@ -45,3 +45,24 @@ export async function useCreateSupplierMutation({
 
   return
 }
+
+export async function useUpdateSupplierMutation({
+  token,
+  supplier,
+}: Readonly<{ token: string; supplier: SupplierType }>) {
+  const response = await fetch(`${url}/parametros/proveedores/${supplier.id}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(supplier),
+  })
+
+  if (!response.ok) {
+    const err = await response.json()
+    throw new Error(err.error)
+  }
+
+  return
+}
