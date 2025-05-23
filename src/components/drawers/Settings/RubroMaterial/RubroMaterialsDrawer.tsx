@@ -1,14 +1,15 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Typography } from '@mui/material'
+import { useQuery } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-
 import BcaSelect from '~/components/input/BcaSelect/BcaSelect'
 import BcaTextField from '~/components/input/BcaTextField/BcaTextField'
 import DrawerTitle from '~/components/titles/DrawerTitle/DrawerTitle'
+import { useGetAllMaterialsQuery } from '~/queries/parametros/materiales'
+import { useAppSelector } from '~/redux/hooks'
 import ButtonGroup from '~components/buttons/button-group'
 import BcaDrawer from '~components/drawers/BcaDrawer/BcaDrawer'
-import { useGetAllMaterialsQuery } from '~redux/api/bca-backend/parametros/materialsSlice'
 import {
   useCreateRubrosMaterialMutation,
   useUpdateRubrosMaterialMutation,
@@ -29,6 +30,7 @@ function RubroMaterialsDrawer({
   onClose,
   defaultValues,
 }: RubroMaterialsDrawerProps) {
+  const token = useAppSelector((state) => state.login.token)
   const [confilctError, setConflictError] = useState<string>('')
   const { control, reset, handleSubmit, register } = useForm<RubroMaterialType>(
     {
@@ -37,9 +39,14 @@ function RubroMaterialsDrawer({
     },
   )
 
-  const { data: allMaterials } = useGetAllMaterialsQuery()
+  // const { data: allMaterials } = useGetAllMaterialsQuery()
   const [createRubroMaterial] = useCreateRubrosMaterialMutation()
   const [updateRubroMaterial] = useUpdateRubrosMaterialMutation()
+
+  const { data: allMaterials } = useQuery({
+    queryKey: ['materials'],
+    queryFn: () => useGetAllMaterialsQuery({ token }),
+  })
 
   useEffect(() => {
     reset(defaultValues)
