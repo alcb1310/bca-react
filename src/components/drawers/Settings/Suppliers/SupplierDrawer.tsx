@@ -3,6 +3,7 @@ import { Typography } from '@mui/material'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
 import BcaTextField from '~/components/input/BcaTextField/BcaTextField'
 import DrawerTitle from '~/components/titles/DrawerTitle/DrawerTitle'
 import { useCreateSupplierMutation } from '~/queries/parametros/proveedor'
@@ -36,10 +37,12 @@ export default function SupplierDrawer({
     mutationFn: useCreateSupplierMutation,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['suppliers'] })
+      toast.success('Proveedor creado')
       onClose()
     },
     onError: (error) => {
       setConflictError(error.message)
+      toast.error(`Error al crear el proveedor: ${error.message}`)
     },
   })
 
