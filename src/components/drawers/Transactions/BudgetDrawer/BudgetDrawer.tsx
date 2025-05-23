@@ -1,15 +1,16 @@
 import { DevTool } from '@hookform/devtools'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Box, Typography } from '@mui/material'
+import { useQuery } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
 import { useForm, useWatch } from 'react-hook-form'
-
 import BcaSelect from '~/components/input/BcaSelect/BcaSelect'
 import BcaTextField from '~/components/input/BcaTextField/BcaTextField'
 import DrawerTitle from '~/components/titles/DrawerTitle/DrawerTitle'
+import { useGetAllBudgetItemsQuery } from '~/queries/parametros/partidas'
+import { useAppSelector } from '~/redux/hooks'
 import ButtonGroup from '~components/buttons/button-group'
 import BcaDrawer from '~components/drawers/BcaDrawer/BcaDrawer'
-import { useGetAllBudgetItemsQuery } from '~redux/api/bca-backend/parametros/budgetItemSlice'
 import { useGetAllProjectsQuery } from '~redux/api/bca-backend/parametros/projectsSlice'
 import {
   useCreateBudgetMutation,
@@ -28,6 +29,7 @@ export default function BudgetDrawer({
   onClose,
   defaultValues,
 }: BudgetDrawerProps) {
+  const token = useAppSelector((state) => state.login.token)
   const [conflictError, setConflictError] = useState<string>('')
   const { control, reset, handleSubmit } = useForm<BudgetEditType>({
     defaultValues,
@@ -53,8 +55,9 @@ export default function BudgetDrawer({
   const { data: projects } = useGetAllProjectsQuery({
     active: true,
   })
-  const { data: budgetItems } = useGetAllBudgetItemsQuery({
-    accum: false,
+  const { data: budgetItems } = useQuery({
+    queryKey: ['budget-items', 'nonaccum'],
+    queryFn: () => useGetAllBudgetItemsQuery({ token, accum: false }),
   })
 
   const [createBudget] = useCreateBudgetMutation()

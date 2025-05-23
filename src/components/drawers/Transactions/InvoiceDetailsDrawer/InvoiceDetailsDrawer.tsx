@@ -1,14 +1,15 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Stack, Typography } from '@mui/material'
+import { useQuery } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
 import { useForm, useWatch } from 'react-hook-form'
-
 import BcaSelect from '~/components/input/BcaSelect/BcaSelect'
 import BcaTextField from '~/components/input/BcaTextField/BcaTextField'
 import DrawerTitle from '~/components/titles/DrawerTitle/DrawerTitle'
+import { useGetAllBudgetItemsQuery } from '~/queries/parametros/partidas'
+import { useAppSelector } from '~/redux/hooks'
 import ButtonGroup from '~components/buttons/button-group'
 import BcaDrawer from '~components/drawers/BcaDrawer/BcaDrawer'
-import { useGetAllBudgetItemsQuery } from '~redux/api/bca-backend/parametros/budgetItemSlice'
 import { useCreateIvoiceDetailsMutation } from '~redux/api/bca-backend/transacciones/invoiceDetailsSlice'
 import {
   type InvoiceDetailsCreateType,
@@ -26,11 +27,16 @@ export default function InvoiceDetailsDrawer({
   onClose,
   invoiceId,
 }: InvoiceDetailsDrawerProps) {
+  const token = useAppSelector((state) => state.login.token)
   const [conflictError, setConflictError] = useState<string>('')
-  const { data: budgetItems } = useGetAllBudgetItemsQuery({ accum: false })
   const { control, reset, handleSubmit } = useForm<InvoiceDetailsCreateType>({
     defaultValues: { budget_item_id: '', quantity: 0, cost: 0, total: 0 },
     resolver: zodResolver(invoiceDetailsCreateSchema),
+  })
+
+  const { data: budgetItems } = useQuery({
+    queryKey: ['budget-items'],
+    queryFn: () => useGetAllBudgetItemsQuery({ token }),
   })
 
   useEffect(() => {
