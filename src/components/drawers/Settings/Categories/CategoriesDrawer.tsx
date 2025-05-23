@@ -52,11 +52,13 @@ export default function CategoriesDrawer({
     mutationFn: useUpdateCategoryMutation,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['categories'] })
+      toast.success('Categoria actualizada')
       onClose()
       return
     },
     onError: (error) => {
       setConflictError(error.message)
+      toast.error(`Error al actualizar la categoria: ${error.message}`)
     },
   })
 
