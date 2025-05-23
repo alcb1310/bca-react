@@ -10,6 +10,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { RhfSwitch } from 'mui-rhf-integration'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
 import BcaSelect from '~/components/input/BcaSelect/BcaSelect'
 import BcaTextField from '~/components/input/BcaTextField/BcaTextField'
 import DrawerTitle from '~/components/titles/DrawerTitle/DrawerTitle'
@@ -51,12 +52,14 @@ export default function BudgetItemDrawer({
   const { mutate: createBudgetItem } = useMutation({
     mutationFn: useCreateBudgetItemMutation,
     onSuccess: () => {
+      toast.success('Partida creada')
       queryClient.invalidateQueries({ queryKey: ['budget-items'] })
       onClose()
       return
     },
     onError: (error) => {
       setConflictError(error.message)
+      toast.error(`Error al crear la partida: ${error.message}`)
     },
   })
 
