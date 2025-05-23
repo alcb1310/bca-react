@@ -3,6 +3,7 @@ import { Box, Typography } from '@mui/material'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
 import BcaTextField from '~/components/input/BcaTextField/BcaTextField'
 import DrawerTitle from '~/components/titles/DrawerTitle/DrawerTitle'
 import { useCreateCategoryMutation } from '~/queries/parametros/categorias'
@@ -37,11 +38,13 @@ export default function CategoriesDrawer({
     mutationFn: useCreateCategoryMutation,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['categories'] })
+      toast.success('Categoria creada')
       onClose()
       return
     },
     onError: (error) => {
       setConflictError(error.message)
+      toast.error(`Error al crear la categoria: ${error.message}`)
     },
   })
 
