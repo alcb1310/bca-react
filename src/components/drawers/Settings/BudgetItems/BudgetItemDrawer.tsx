@@ -17,11 +17,11 @@ import DrawerTitle from '~/components/titles/DrawerTitle/DrawerTitle'
 import {
   useCreateBudgetItemMutation,
   useGetAllBudgetItemsQuery,
+  useUpdateBudgetItemMutation,
 } from '~/queries/parametros/partidas'
 import { useAppSelector } from '~/redux/hooks'
 import ButtonGroup from '~components/buttons/button-group'
 import BcaDrawer from '~components/drawers/BcaDrawer/BcaDrawer'
-import { useUpdateBudgetItemMutation } from '~redux/api/bca-backend/parametros/budgetItemSlice'
 import { type BudgetItem, budgetItemSchema } from '~types/partidas'
 
 type BudgetItemDrawerProps = {
@@ -43,8 +43,6 @@ export default function BudgetItemDrawer({
   })
   const [conflictError, setConflictError] = useState<string>('')
 
-  // const [createBudgetItem] = useCreateBudgetItemMutation()
-  const [updateBudgetItem] = useUpdateBudgetItemMutation()
   const { data, isLoading } = useQuery({
     queryKey: ['budget-items', 'accum'],
     queryFn: () => useGetAllBudgetItemsQuery({ token, accum: true }),
@@ -62,6 +60,17 @@ export default function BudgetItemDrawer({
       toast.error(`Error al crear la partida: ${error.message}`)
     },
   })
+  const { mutate: updateBudgetItem } = useMutation({
+    mutationFn: useUpdateBudgetItemMutation,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['budget-items'] })
+      onClose()
+      return
+    },
+    onError: (error) => {
+      setConflictError(error.message)
+    },
+  })
 
   useEffect(() => {
     setConflictError('')
@@ -70,9 +79,9 @@ export default function BudgetItemDrawer({
 
   async function hadleSubmit(data: BudgetItem) {
     setConflictError('')
-    if (defaultValues.id) {
-      await updateBudgetItem(data)
-      onClose()
+    console.log(data)
+    if (data.id) {
+      updateBudgetItem({ token, budgetItem: data })
       return
     }
 
