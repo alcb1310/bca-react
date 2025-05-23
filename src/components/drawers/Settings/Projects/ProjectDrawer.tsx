@@ -1,17 +1,16 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { FormControlLabel, Typography } from '@mui/material'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { RhfSwitch } from 'mui-rhf-integration'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-
 import BcaTextField from '~/components/input/BcaTextField/BcaTextField'
 import DrawerTitle from '~/components/titles/DrawerTitle/DrawerTitle'
+import { useCreateProjectMutation } from '~/queries/parametros/proyectos'
+import { useAppSelector } from '~/redux/hooks'
 import ButtonGroup from '~components/buttons/button-group'
 import BcaDrawer from '~components/drawers/BcaDrawer/BcaDrawer'
-import {
-  useCreateProjectMutation,
-  useUpdateProjectMutation,
-} from '~redux/api/bca-backend/parametros/projectsSlice'
+import { useUpdateProjectMutation } from '~redux/api/bca-backend/parametros/projectsSlice'
 import { type ProjectType, projectSchema } from '~types/project'
 
 type ProjectDrawerProps = {
@@ -25,14 +24,25 @@ export default function ProjectDrawer({
   onClose,
   defaultValues,
 }: ProjectDrawerProps) {
+  const token = useAppSelector((state) => state.login.token)
+  const queryClient = useQueryClient()
   const [conflictError, setConflictError] = useState<string>('')
   const { control, reset, handleSubmit } = useForm<ProjectType>({
     defaultValues,
     resolver: zodResolver(projectSchema),
   })
 
-  const [createProject] = useCreateProjectMutation()
   const [updateProject] = useUpdateProjectMutation()
+  const { mutate: createProject } = useMutation({
+    mutationFn: useCreateProjectMutation,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['projects'] })
+      onClose()
+    },
+    onError: (error) => {
+      setConflictError(error.message)
+    },
+  })
 
   useEffect(() => {
     reset()
@@ -45,14 +55,7 @@ export default function ProjectDrawer({
     data.net_area = Number.parseFloat(data.net_area?.toString() || '0')
 
     if (!defaultValues.id) {
-      const res = await createProject(data)
-      if ('data' in res) {
-        onClose()
-        return
-      }
-
-      // @ts-expect-error data property is part of the res.error object
-      setConflictError(res.error.data.error)
+      createProject({ token, project: data })
       return
     }
 
