@@ -17,7 +17,7 @@ const title = [
 
 describe('<Suppliers />', () => {
   beforeEach(() => {
-    cy.intercept('GET', '**/parametros/proveedores?query=', {
+    cy.intercept('GET', '**/parametros/proveedores?', {
       statusCode: 200,
       fixture: 'parameters/suppliers/getAllSuppliers.json',
     }).as('suppliers')
