@@ -6,11 +6,13 @@ import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import BcaTextField from '~/components/input/BcaTextField/BcaTextField'
 import DrawerTitle from '~/components/titles/DrawerTitle/DrawerTitle'
-import { useCreateSupplierMutation } from '~/queries/parametros/proveedor'
+import {
+  useCreateSupplierMutation,
+  useUpdateSupplierMutation,
+} from '~/queries/parametros/proveedor'
 import { useAppSelector } from '~/redux/hooks'
 import ButtonGroup from '~components/buttons/button-group'
 import BcaDrawer from '~components/drawers/BcaDrawer/BcaDrawer'
-import { useUpdateSupplierMutation } from '~redux/api/bca-backend/parametros/supplierSlice'
 import { type SupplierType, supplierSchema } from '~types/supplier'
 
 type SupplierDrawerProps = {
@@ -32,7 +34,6 @@ export default function SupplierDrawer({
     resolver: zodResolver(supplierSchema),
   })
 
-  const [updateSupplier] = useUpdateSupplierMutation()
   const { mutate: createSupplier } = useMutation({
     mutationFn: useCreateSupplierMutation,
     onSuccess: () => {
@@ -45,6 +46,16 @@ export default function SupplierDrawer({
       toast.error(`Error al crear el proveedor: ${error.message}`)
     },
   })
+  const { mutate: updateSupplier } = useMutation({
+    mutationFn: useUpdateSupplierMutation,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['suppliers'] })
+      onClose()
+    },
+    onError: (error) => {
+      setConflictError(error.message)
+    },
+  })
 
   useEffect(() => {
     reset(defaultValues)
@@ -55,14 +66,7 @@ export default function SupplierDrawer({
       createSupplier({ token, supplier: data })
       return
     }
-    const res = await updateSupplier(data)
-    if ('data' in res) {
-      onClose()
-      return
-    }
-
-    // @ts-expect-error data is a property of the error message
-    setConflictError(res.error.data.error)
+    updateSupplier({ token, supplier: data })
   }
 
   return (
