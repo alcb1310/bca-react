@@ -7,11 +7,13 @@ import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import BcaTextField from '~/components/input/BcaTextField/BcaTextField'
 import DrawerTitle from '~/components/titles/DrawerTitle/DrawerTitle'
-import { useCreateProjectMutation } from '~/queries/parametros/proyectos'
+import {
+  useCreateProjectMutation,
+  useUpdateProjectMutation,
+} from '~/queries/parametros/proyectos'
 import { useAppSelector } from '~/redux/hooks'
 import ButtonGroup from '~components/buttons/button-group'
 import BcaDrawer from '~components/drawers/BcaDrawer/BcaDrawer'
-import { useUpdateProjectMutation } from '~redux/api/bca-backend/parametros/projectsSlice'
 import { type ProjectType, projectSchema } from '~types/project'
 
 type ProjectDrawerProps = {
@@ -33,9 +35,10 @@ export default function ProjectDrawer({
     resolver: zodResolver(projectSchema),
   })
 
-  const [updateProject] = useUpdateProjectMutation()
   const { mutate: createProject } = useMutation({
     mutationFn: useCreateProjectMutation,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['projects'] })
       toast.success('Proyecto creado')
       onClose()
     },
@@ -43,6 +46,9 @@ export default function ProjectDrawer({
       setConflictError(error.message)
       toast.error(`Error al crear el proyecto: ${error.message}`)
     },
+  })
+  const { mutate: updateProject } = useMutation({
+    mutationFn: useUpdateProjectMutation,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['projects'] })
       onClose()
@@ -66,15 +72,7 @@ export default function ProjectDrawer({
       createProject({ token, project: data })
       return
     }
-
-    const res = await updateProject(data)
-    if ('data' in res) {
-      onClose()
-      return
-    }
-
-    // @ts-expect-error data property is part of the res.error object
-    setConflictError(res.error.data.error)
+    updateProject({ token, project: data })
   }
 
   return (
