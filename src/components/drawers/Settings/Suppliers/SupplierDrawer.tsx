@@ -1,16 +1,15 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Typography } from '@mui/material'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-
 import BcaTextField from '~/components/input/BcaTextField/BcaTextField'
 import DrawerTitle from '~/components/titles/DrawerTitle/DrawerTitle'
+import { useCreateSupplierMutation } from '~/queries/parametros/proveedor'
+import { useAppSelector } from '~/redux/hooks'
 import ButtonGroup from '~components/buttons/button-group'
 import BcaDrawer from '~components/drawers/BcaDrawer/BcaDrawer'
-import {
-  useCreateSupplierMutation,
-  useUpdateSupplierMutation,
-} from '~redux/api/bca-backend/parametros/supplierSlice'
+import { useUpdateSupplierMutation } from '~redux/api/bca-backend/parametros/supplierSlice'
 import { type SupplierType, supplierSchema } from '~types/supplier'
 
 type SupplierDrawerProps = {
@@ -24,14 +23,25 @@ export default function SupplierDrawer({
   onClose,
   defaultValues,
 }: SupplierDrawerProps) {
+  const token = useAppSelector((state) => state.login.token)
+  const queryClient = useQueryClient()
   const [conflictError, setConflictError] = useState<string>('')
   const { control, reset, handleSubmit } = useForm<SupplierType>({
     defaultValues,
     resolver: zodResolver(supplierSchema),
   })
 
-  const [createSupplier] = useCreateSupplierMutation()
   const [updateSupplier] = useUpdateSupplierMutation()
+  const { mutate: createSupplier } = useMutation({
+    mutationFn: useCreateSupplierMutation,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['suppliers'] })
+      onClose()
+    },
+    onError: (error) => {
+      setConflictError(error.message)
+    },
+  })
 
   useEffect(() => {
     reset(defaultValues)
@@ -39,14 +49,7 @@ export default function SupplierDrawer({
 
   async function hadleSubmit(data: SupplierType) {
     if (!defaultValues.id) {
-      const res = await createSupplier(data)
-      if ('data' in res) {
-        onClose()
-        reset
-      }
-
-      // @ts-expect-error data is a property of the error message
-      setConflictError(res.error.data.error)
+      createSupplier({ token, supplier: data })
       return
     }
     const res = await updateSupplier(data)
