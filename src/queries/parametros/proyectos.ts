@@ -26,3 +26,24 @@ export async function useGetAllProjectsQuery({
 
   return (await response.json()) as ProjectType[]
 }
+
+export async function useCreateProjectMutation({
+  token,
+  project,
+}: Readonly<{ token: string; project: ProjectType }>) {
+  const response = await fetch(`${url}/parametros/proyectos`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(project),
+  })
+
+  if (!response.ok) {
+    const err = await response.json()
+    throw new Error(err.error)
+  }
+
+  return (await response.json()) as ProjectType
+}
