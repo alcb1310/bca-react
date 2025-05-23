@@ -64,11 +64,13 @@ export default function BudgetItemDrawer({
     mutationFn: useUpdateBudgetItemMutation,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['budget-items'] })
+      toast.success('Partida actualizada')
       onClose()
       return
     },
     onError: (error) => {
       setConflictError(error.message)
+      toast.error(`Error al actualizar la partida: ${error.message}`)
     },
   })
 
