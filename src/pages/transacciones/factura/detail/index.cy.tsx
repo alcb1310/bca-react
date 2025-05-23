@@ -18,7 +18,7 @@ describe('<IndividualInvoice />', () => {
         statusCode: 200,
         fixture: 'parameters/projects/active.json',
       }).as('projects')
-      cy.intercept('GET', '**/parametros/proveedores?query=', {
+      cy.intercept('GET', '**/parametros/proveedores?', {
         statusCode: 200,
         fixture: 'parameters/suppliers/getAllSuppliers.json',
       }).as('suppliers')
@@ -146,10 +146,22 @@ describe('<IndividualInvoice />', () => {
         statusCode: 200,
         body: [],
       }).as('details')
-      cy.intercept('GET', '**/parametros/partidas?accum=false', {
+      // cy.intercept('GET', '**/parametros/partidas?accum=false', {
+      //   statusCode: 200,
+      //   fixture: 'parameters/budget_items/nonaccum.json',
+      // }).as('budget_items')
+      cy.intercept('GET', '**/parametros/proyectos?active=true', {
+        statusCode: 200,
+        fixture: 'parameters/projects/active.json',
+      }).as('projects')
+      cy.intercept('GET', '**/parametros/proveedores?', {
+        statusCode: 200,
+        fixture: 'parameters/suppliers/getAllSuppliers.json',
+      }).as('suppliers')
+      cy.intercept('GET', '**/parametros/partidas?', {
         statusCode: 200,
         fixture: 'parameters/budget_items/nonaccum.json',
-      }).as('budget_items')
+      }).as('all_budget_items')
 
       cy.pageWrapper(
         <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -162,7 +174,14 @@ describe('<IndividualInvoice />', () => {
       cy.getByTestId('page.transactions.invoice.details.loading').should(
         'be.visible',
       )
-      cy.wait(['@invoices', '@details', '@budget_items'])
+      cy.wait([
+        '@invoices',
+        '@details',
+        // '@budget_items',
+        '@projects',
+        '@suppliers',
+        '@all_budget_items',
+      ])
       cy.getByTestId('page.transactions.invoice.details.loading').should(
         'not.exist',
       )
