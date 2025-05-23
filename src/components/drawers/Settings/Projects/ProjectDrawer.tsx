@@ -51,10 +51,12 @@ export default function ProjectDrawer({
     mutationFn: useUpdateProjectMutation,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['projects'] })
+      toast.success('Proyecto actualizado')
       onClose()
     },
     onError: (error) => {
       setConflictError(error.message)
+      toast.error(`Error al actualizar el proyecto: ${error.message}`)
     },
   })
 
