@@ -1,17 +1,22 @@
 import { CircularProgress, Grid2, TextField } from '@mui/material'
+import { useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
-
 import PageTitle from '~/components/titles/PageTitle/PageTitle'
+import { useGetAllSuppliersQuery } from '~/queries/parametros/proveedor'
+import { useAppSelector } from '~/redux/hooks'
 import SupplierDrawer from '~components/drawers/Settings/Suppliers/SupplierDrawer'
 import AllSuppliersTable from '~components/settings/suppliers/AllSuppliersTable'
 import EditToolbar from '~components/table/headers/toolbar'
-import { useGetAllSuppliersQuery } from '~redux/api/bca-backend/parametros/supplierSlice'
 
 export default function Suppliers() {
+  const token = useAppSelector((state) => state.login.token)
   const [query, setQuery] = useState<string>('')
   const [open, setOpen] = useState<boolean>(false)
 
-  const { data, isLoading } = useGetAllSuppliersQuery({ search: query })
+  const { data, isLoading } = useQuery({
+    queryKey: ['suppliers', query],
+    queryFn: () => useGetAllSuppliersQuery({ token, search: query }),
+  })
 
   return (
     <>

@@ -5,18 +5,6 @@ const supplierSlice = bcaApiSlice.injectEndpoints({
   overrideExisting: true,
 
   endpoints: (builder) => ({
-    getAllSuppliers: builder.query<SupplierType[], { search: string }>({
-      query: ({ search }) => ({
-        url: '/parametros/proveedores',
-        method: 'GET',
-        params: {
-          query: search,
-        },
-      }),
-
-      providesTags: ['suppliers'],
-    }),
-
     createSupplier: builder.mutation<SupplierType, SupplierType>({
       query: (supplier) => ({
         url: '/parametros/proveedores',
@@ -39,8 +27,5 @@ const supplierSlice = bcaApiSlice.injectEndpoints({
   }),
 })
 
-export const {
-  useGetAllSuppliersQuery,
-  useCreateSupplierMutation,
-  useUpdateSupplierMutation,
-} = supplierSlice
+export const { useCreateSupplierMutation, useUpdateSupplierMutation } =
+  supplierSlice

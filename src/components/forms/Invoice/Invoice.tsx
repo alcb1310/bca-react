@@ -7,10 +7,10 @@ import { useNavigate } from 'react-router-dom'
 import BcaDateTextField from '~/components/input/BcaDateTextField/BcaDateTextField'
 import BcaSelect from '~/components/input/BcaSelect/BcaSelect'
 import BcaTextField from '~/components/input/BcaTextField/BcaTextField'
+import { useGetAllSuppliersQuery } from '~/queries/parametros/proveedor'
 import { useGetAllProjectsQuery } from '~/queries/parametros/proyectos'
 import { useAppSelector } from '~/redux/hooks'
 import ButtonGroup from '~components/buttons/button-group'
-import { useGetAllSuppliersQuery } from '~redux/api/bca-backend/parametros/supplierSlice'
 import {
   useCreateInvoiceMutation,
   useUpdateInvoiceMutation,
@@ -35,7 +35,10 @@ function InvoiceForm({ invoiceId, invoice }: InvoiceFormProps) {
     queryKey: ['projects', 'active'],
     queryFn: () => useGetAllProjectsQuery({ token, active: true }),
   })
-  const { data: suppliers } = useGetAllSuppliersQuery({ search: '' })
+  const { data: suppliers } = useQuery({
+    queryKey: ['suppliers'],
+    queryFn: () => useGetAllSuppliersQuery({ token }),
+  })
   const [createInvoice] = useCreateInvoiceMutation()
   const [updateInvoice] = useUpdateInvoiceMutation()
 
