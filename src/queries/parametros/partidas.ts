@@ -1,6 +1,6 @@
 import type { BudgetItem, BudgetItemResponse } from '~/types/partidas'
 
-const url = import.meta.env.VITE_SERVER_URL
+const url = import.meta.env.VITE_BACKEND_SERVER
 
 export async function useGetAllBudgetItemsQuery({
   token,
@@ -11,13 +11,12 @@ export async function useGetAllBudgetItemsQuery({
   if (query) params.append('query', query)
   if (accum !== undefined) params.append('accum', accum ? 'true' : 'false')
 
-  const response = await fetch(`${url}/parametros/partidas`, {
+  const response = await fetch(`${url}/parametros/partidas?${params}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`,
     },
-    body: params,
   })
 
   if (!response.ok) {
@@ -33,7 +32,7 @@ export async function useCreateBudgetItemMutation({
   budgetItem,
 }: Readonly<{ token: string; budgetItem: BudgetItem }>) {
   const response = await fetch(`${url}/parametros/partidas`, {
-    method: 'GET',
+    method: 'POST',
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`,
