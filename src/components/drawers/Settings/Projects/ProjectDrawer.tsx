@@ -4,6 +4,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { RhfSwitch } from 'mui-rhf-integration'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
 import BcaTextField from '~/components/input/BcaTextField/BcaTextField'
 import DrawerTitle from '~/components/titles/DrawerTitle/DrawerTitle'
 import { useCreateProjectMutation } from '~/queries/parametros/proyectos'
@@ -35,6 +36,13 @@ export default function ProjectDrawer({
   const [updateProject] = useUpdateProjectMutation()
   const { mutate: createProject } = useMutation({
     mutationFn: useCreateProjectMutation,
+      toast.success('Proyecto creado')
+      onClose()
+    },
+    onError: (error) => {
+      setConflictError(error.message)
+      toast.error(`Error al crear el proyecto: ${error.message}`)
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['projects'] })
       onClose()
