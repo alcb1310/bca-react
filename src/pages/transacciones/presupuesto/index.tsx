@@ -5,16 +5,18 @@ import {
   Stack,
   TextField,
 } from '@mui/material'
+import { useQuery } from '@tanstack/react-query'
 import { type ChangeEvent, useState } from 'react'
-
 import BudgetDrawer from '~/components/drawers/Transactions/BudgetDrawer/BudgetDrawer'
 import PageTitle from '~/components/titles/PageTitle/PageTitle'
+import { useGetAllProjectsQuery } from '~/queries/parametros/proyectos'
+import { useAppSelector } from '~/redux/hooks'
 import AllBudgetsTable from '~components/parameters/budgets/AllBudgetsTable'
 import EditToolbar from '~components/table/headers/toolbar'
-import { useGetAllProjectsQuery } from '~redux/api/bca-backend/parametros/projectsSlice'
 import { useGetAllBudgetsQuery } from '~redux/api/bca-backend/transacciones/budgetSlice'
 
 export default function Presupuesto() {
+  const token = useAppSelector((state) => state.login.token)
   const [open, setOpen] = useState<boolean>(false)
   const [search, setSearch] = useState<string>('')
   const [selectedProject, setSelectedProject] = useState<string>('')
@@ -22,7 +24,11 @@ export default function Presupuesto() {
     query: search,
     project: selectedProject,
   })
-  const { data: projects } = useGetAllProjectsQuery({ active: true })
+
+  const { data: projects } = useQuery({
+    queryKey: ['projects', 'active'],
+    queryFn: () => useGetAllProjectsQuery({ token, active: true }),
+  })
 
   return (
     <Stack spacing={3}>

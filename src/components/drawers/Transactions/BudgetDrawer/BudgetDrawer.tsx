@@ -8,10 +8,10 @@ import BcaSelect from '~/components/input/BcaSelect/BcaSelect'
 import BcaTextField from '~/components/input/BcaTextField/BcaTextField'
 import DrawerTitle from '~/components/titles/DrawerTitle/DrawerTitle'
 import { useGetAllBudgetItemsQuery } from '~/queries/parametros/partidas'
+import { useGetAllProjectsQuery } from '~/queries/parametros/proyectos'
 import { useAppSelector } from '~/redux/hooks'
 import ButtonGroup from '~components/buttons/button-group'
 import BcaDrawer from '~components/drawers/BcaDrawer/BcaDrawer'
-import { useGetAllProjectsQuery } from '~redux/api/bca-backend/parametros/projectsSlice'
 import {
   useCreateBudgetMutation,
   useUpdateBudgetMutation,
@@ -52,8 +52,9 @@ export default function BudgetDrawer({
   const results = useWatch({ control })
   const total = calculateTotal()
 
-  const { data: projects } = useGetAllProjectsQuery({
-    active: true,
+  const { data: projects } = useQuery({
+    queryKey: ['projects', 'active'],
+    queryFn: () => useGetAllProjectsQuery({ token, active: true }),
   })
   const { data: budgetItems } = useQuery({
     queryKey: ['budget-items', 'nonaccum'],

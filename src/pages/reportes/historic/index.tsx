@@ -1,17 +1,17 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { CircularProgress, Stack } from '@mui/material'
+import { useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
-
 import BcaDateTextField from '~/components/input/BcaDateTextField/BcaDateTextField'
 import BcaSelect from '~/components/input/BcaSelect/BcaSelect'
 import ActualTable from '~/components/reports/ActualTable/ActualTable'
 import PageTitle from '~/components/titles/PageTitle/PageTitle'
+import { useGetAllProjectsQuery } from '~/queries/parametros/proyectos'
 import { normalizeDate } from '~/utils/date'
 import { downloadExcelFile } from '~/utils/download'
 import EditToolbar from '~components/table/headers/toolbar'
-import { useGetAllProjectsQuery } from '~redux/api/bca-backend/parametros/projectsSlice'
 import {
   useGetAllHistoricQuery,
   useGetAllLevelsQuery,
@@ -32,6 +32,7 @@ const reportSchema = z.object({
 type ReportTypes = z.infer<typeof reportSchema>
 
 export default function Historic() {
+  const token = useAppSelector((state) => state.login.token)
   const [selectedReport, setSelectedReport] = useState<{
     project_id: string
     level: string
@@ -50,10 +51,13 @@ export default function Historic() {
     resolver: zodResolver(reportSchema),
   })
 
-  const { data: projects } = useGetAllProjectsQuery({})
   const { data: levels } = useGetAllLevelsQuery()
   const { data: budgets, isFetching } = useGetAllHistoricQuery(selectedReport)
-  const token = useAppSelector((state) => state.login.token)
+
+  const { data: projects } = useQuery({
+    queryKey: ['projects'],
+    queryFn: () => useGetAllProjectsQuery({ token }),
+  })
 
   function generateReport(data: ReportTypes) {
     const reportData = {

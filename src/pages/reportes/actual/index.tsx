@@ -1,15 +1,15 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { CircularProgress, Stack } from '@mui/material'
+import { useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
-
 import BcaSelect from '~/components/input/BcaSelect/BcaSelect'
 import ActualTable from '~/components/reports/ActualTable/ActualTable'
 import PageTitle from '~/components/titles/PageTitle/PageTitle'
+import { useGetAllProjectsQuery } from '~/queries/parametros/proyectos'
 import { downloadExcelFile } from '~/utils/download'
 import EditToolbar from '~components/table/headers/toolbar'
-import { useGetAllProjectsQuery } from '~redux/api/bca-backend/parametros/projectsSlice'
 import { useGetAllLevelsQuery } from '~redux/api/bca-backend/reports/commonSlice'
 import { useGetAllBudgetsByProjectAndLevelQuery } from '~redux/api/bca-backend/transacciones/budgetSlice'
 import { useAppSelector } from '~redux/hooks'
@@ -26,10 +26,14 @@ const reportSchema = z.object({
 type ReportTypes = z.infer<typeof reportSchema>
 
 export default function Actual() {
+  const token = useAppSelector((state) => state.login.token)
   const { control, handleSubmit } = useForm<ReportTypes>({
     resolver: zodResolver(reportSchema),
   })
-  const { data: projects } = useGetAllProjectsQuery({ active: true })
+  const { data: projects } = useQuery({
+    queryKey: ['projects', 'active'],
+    queryFn: () => useGetAllProjectsQuery({ token, active: true }),
+  })
   const { data: levels } = useGetAllLevelsQuery()
   const [selectedReport, setSelectedReport] = useState<ReportTypes>({
     project_id: '',
@@ -37,8 +41,6 @@ export default function Actual() {
   })
   const { data, isFetching } =
     useGetAllBudgetsByProjectAndLevelQuery(selectedReport)
-
-  const token = useAppSelector((state) => state.login.token)
 
   function hadleSubmit(data: ReportTypes) {
     setSelectedReport(data)

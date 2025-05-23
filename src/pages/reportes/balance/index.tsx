@@ -1,17 +1,17 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { CircularProgress, Grid2, Stack, Typography } from '@mui/material'
+import { useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
-
 import BcaDateTextField from '~/components/input/BcaDateTextField/BcaDateTextField'
 import BcaSelect from '~/components/input/BcaSelect/BcaSelect'
 import BalanceTable from '~/components/reports/BalanceTable/BalanceTable'
 import PageTitle from '~/components/titles/PageTitle/PageTitle'
+import { useGetAllProjectsQuery } from '~/queries/parametros/proyectos'
 import { normalizeDate } from '~/utils/date'
 import { downloadExcelFile } from '~/utils/download'
 import EditToolbar from '~components/table/headers/toolbar'
-import { useGetAllProjectsQuery } from '~redux/api/bca-backend/parametros/projectsSlice'
 import { useGetBalanceReportQuery } from '~redux/api/bca-backend/reports/commonSlice'
 import { useAppSelector } from '~redux/hooks'
 
@@ -25,6 +25,7 @@ const reportSchema = z.object({
 type ReportType = z.infer<typeof reportSchema>
 
 export default function Balance() {
+  const token = useAppSelector((state) => state.login.token)
   const { control, handleSubmit } = useForm<ReportType>({
     defaultValues: {
       project_id: '',
@@ -37,9 +38,11 @@ export default function Balance() {
     project_id: '',
     date: '',
   })
-  const { data: projects } = useGetAllProjectsQuery({ active: true })
+  const { data: projects } = useQuery({
+    queryKey: ['projects', 'active'],
+    queryFn: () => useGetAllProjectsQuery({ token, active: true }),
+  })
   const { data, isFetching } = useGetBalanceReportQuery(selectedData!)
-  const token = useAppSelector((state) => state.login.token)
 
   function generateReport(data: ReportType) {
     setSelectedData({

@@ -1,14 +1,15 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Stack, Typography } from '@mui/material'
+import { useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
-
 import BcaDateTextField from '~/components/input/BcaDateTextField/BcaDateTextField'
 import BcaSelect from '~/components/input/BcaSelect/BcaSelect'
 import BcaTextField from '~/components/input/BcaTextField/BcaTextField'
+import { useGetAllProjectsQuery } from '~/queries/parametros/proyectos'
+import { useAppSelector } from '~/redux/hooks'
 import ButtonGroup from '~components/buttons/button-group'
-import { useGetAllProjectsQuery } from '~redux/api/bca-backend/parametros/projectsSlice'
 import { useGetAllSuppliersQuery } from '~redux/api/bca-backend/parametros/supplierSlice'
 import {
   useCreateInvoiceMutation,
@@ -22,6 +23,7 @@ type InvoiceFormProps = {
 }
 
 function InvoiceForm({ invoiceId, invoice }: InvoiceFormProps) {
+  const token = useAppSelector((state) => state.login.token)
   const [conflictError, setConflictError] = useState<string>('')
   const navigate = useNavigate()
   const { control, handleSubmit } = useForm<InvoiceCreateType>({
@@ -29,7 +31,10 @@ function InvoiceForm({ invoiceId, invoice }: InvoiceFormProps) {
     resolver: zodResolver(invoiceCreateSchema),
   })
 
-  const { data: projects } = useGetAllProjectsQuery({ active: true })
+  const { data: projects } = useQuery({
+    queryKey: ['projects', 'active'],
+    queryFn: () => useGetAllProjectsQuery({ token, active: true }),
+  })
   const { data: suppliers } = useGetAllSuppliersQuery({ search: '' })
   const [createInvoice] = useCreateInvoiceMutation()
   const [updateInvoice] = useUpdateInvoiceMutation()

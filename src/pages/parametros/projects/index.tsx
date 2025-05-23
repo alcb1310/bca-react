@@ -1,23 +1,28 @@
 import { CircularProgress, TextField } from '@mui/material'
 import Grid from '@mui/material/Grid2'
+import { useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
-
 import PageTitle from '~/components/titles/PageTitle/PageTitle'
+import { useGetAllProjectsQuery } from '~/queries/parametros/proyectos'
+import { useAppSelector } from '~/redux/hooks'
 import ProjectDrawer from '~components/drawers/Settings/Projects/ProjectDrawer'
 import AllProjectsTable from '~components/settings/projects/AllProjectsTable'
 import EditToolbar from '~components/table/headers/toolbar'
-import { useGetAllProjectsQuery } from '~redux/api/bca-backend/parametros/projectsSlice'
 
 export default function Projects() {
+  const token = useAppSelector((state) => state.login.token)
   const [open, setOpen] = useState<boolean>(false)
   const [query, setQuery] = useState<string>('')
-  const { data, isLoading } = useGetAllProjectsQuery({ query })
+  const { data, isFetching } = useQuery({
+    queryKey: ['projects', query],
+    queryFn: () => useGetAllProjectsQuery({ token, query }),
+  })
 
   return (
     <>
       <PageTitle title='Proyectos' />
 
-      {isLoading && (
+      {isFetching && (
         <CircularProgress data-testid='page.parameters.projects.loading' />
       )}
 
