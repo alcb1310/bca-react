@@ -5,7 +5,7 @@ const title = ['name', 'net_area', 'gross_area', 'is_active']
 
 describe('<Projects />', () => {
   beforeEach(() => {
-    cy.intercept('GET', '**/parametros/proyectos?query=', {
+    cy.intercept('GET', '**/parametros/proyectos?', {
       statusCode: 200,
       fixture: 'parameters/projects/getAllProjects.json',
     }).as('projects')
