@@ -5,15 +5,6 @@ const rubrosApiSlice = bcaApiSlice.injectEndpoints({
   overrideExisting: true,
 
   endpoints: (builder) => ({
-    getAllRubros: builder.query<RubrosType[], void>({
-      query: () => ({
-        url: '/parametros/rubros',
-        method: 'GET',
-      }),
-
-      providesTags: ['rubros'],
-    }),
-
     getOneRubro: builder.query<RubrosType, string>({
       query: (rubroId) => ({
         url: `/parametros/rubros/${rubroId}`,
@@ -50,7 +41,6 @@ const rubrosApiSlice = bcaApiSlice.injectEndpoints({
 })
 
 export const {
-  useGetAllRubrosQuery,
   useGetOneRubroQuery,
   useCreateRubroMutation,
   useUpdateRubroMutation,

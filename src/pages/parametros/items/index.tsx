@@ -1,13 +1,18 @@
 import { CircularProgress } from '@mui/material'
+import { useQuery } from '@tanstack/react-query'
 import { useNavigate } from 'react-router-dom'
-
 import PageTitle from '~/components/titles/PageTitle/PageTitle'
+import { useGetAllRubrosQuery } from '~/queries/parametros/rubros'
+import { useAppSelector } from '~/redux/hooks'
 import AllRubrosTable from '~components/settings/rubros/AllRubrosTable'
 import EditToolbar from '~components/table/headers/toolbar'
-import { useGetAllRubrosQuery } from '~redux/api/bca-backend/parametros/rubrosSlice'
 
 export default function Items() {
-  const { data, isLoading } = useGetAllRubrosQuery()
+  const token = useAppSelector((state) => state.login.token)
+  const { data, isLoading } = useQuery({
+    queryKey: ['items'],
+    queryFn: () => useGetAllRubrosQuery({ token }),
+  })
   const navigate = useNavigate()
 
   return (
