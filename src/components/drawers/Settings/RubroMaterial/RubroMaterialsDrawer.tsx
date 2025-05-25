@@ -8,11 +8,13 @@ import BcaSelect from '~/components/input/BcaSelect/BcaSelect'
 import BcaTextField from '~/components/input/BcaTextField/BcaTextField'
 import DrawerTitle from '~/components/titles/DrawerTitle/DrawerTitle'
 import { useGetAllMaterialsQuery } from '~/queries/parametros/materiales'
-import { useCreateRubrosMaterialMutation } from '~/queries/parametros/rubro-materal'
+import {
+  useCreateRubrosMaterialMutation,
+  useUpdateRubrosMaterialMutation,
+} from '~/queries/parametros/rubro-materal'
 import { useAppSelector } from '~/redux/hooks'
 import ButtonGroup from '~components/buttons/button-group'
 import BcaDrawer from '~components/drawers/BcaDrawer/BcaDrawer'
-import { useUpdateRubrosMaterialMutation } from '~redux/api/bca-backend/parametros/rubroMaterialSlice'
 import {
   type RubroMaterialType,
   rubroMaterialSchema,
@@ -39,8 +41,7 @@ function RubroMaterialsDrawer({
     },
   )
 
-  const [updateRubroMaterial] = useUpdateRubrosMaterialMutation()
-  const { mutate } = useMutation({
+  const { mutate: createRubroMaterial } = useMutation({
     mutationFn: useCreateRubrosMaterialMutation,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['item-materials'] })
@@ -50,6 +51,16 @@ function RubroMaterialsDrawer({
     onError: (error) => {
       setConflictError(error.message)
       toast.error(`Error al agregar el material: ${error.message}`)
+    },
+  })
+  const { mutate: updateRubroMaterial } = useMutation({
+    mutationFn: useUpdateRubrosMaterialMutation,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['item-materials'] })
+      onClose()
+    },
+    onError: (error) => {
+      setConflictError(error.message)
     },
   })
 
@@ -71,18 +82,10 @@ function RubroMaterialsDrawer({
     setConflictError('')
 
     if (!defaultValues.material_id) {
-      mutate({ token, rubro: material })
+      createRubroMaterial({ token, rubro: material })
       return
     }
-
-    const res = await updateRubroMaterial(material)
-    if ('data' in res) {
-      onClose()
-      return
-    }
-
-    // @ts-expect-error data is a property of the res.error object
-    setConflictError(res.error.data.error)
+    updateRubroMaterial({ token, rubro: material })
   }
 
   return (
