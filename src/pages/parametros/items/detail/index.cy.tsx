@@ -8,6 +8,7 @@ describe('<IndividualItem />', () => {
     beforeEach(() => {
       cy.intercept('GET', '**/parametros/rubros/crear', {
         statusCode: 200,
+        fixture: 'parameters/rubros/crear.json',
       }).as('item')
       cy.pageWrapper(<IndividualItem />, ['/parametros/rubros/crear'])
     })
