@@ -40,3 +40,24 @@ export async function useGetOneRubroQuery({
 
   return (await response.json()) as RubrosType
 }
+
+export async function useCreateRubroMutation({
+  token,
+  item,
+}: Readonly<{ token: string; item: RubrosType }>) {
+  const response = await fetch(`${url}/parametros/rubros`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(item),
+  })
+
+  if (!response.ok) {
+    const err = await response.json()
+    throw new Error(err.error)
+  }
+
+  return (await response.json()) as RubrosType
+}
