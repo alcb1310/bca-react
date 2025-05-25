@@ -8,17 +8,6 @@ const rubroMaterialApilice = bcaApiSlice.injectEndpoints({
   overrideExisting: true,
 
   endpoints: (builder) => ({
-    getAllRubrosMaterials: builder.query<RubroMaterialResponseTye[], string>({
-      query: (rubroId) => {
-        return {
-          url: `/parametros/rubros/${rubroId}/materiales`,
-          method: 'GET',
-        }
-      },
-
-      providesTags: ['rubro-material'],
-    }),
-
     createRubrosMaterial: builder.mutation<
       RubroMaterialResponseTye,
       RubroMaterialType
@@ -63,7 +52,6 @@ const rubroMaterialApilice = bcaApiSlice.injectEndpoints({
 })
 
 export const {
-  useGetAllRubrosMaterialsQuery,
   useCreateRubrosMaterialMutation,
   useDeleteRubrosMaterialMutation,
   useUpdateRubrosMaterialMutation,

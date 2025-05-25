@@ -1,17 +1,17 @@
 import { DeleteOutline, EditOutlined } from '@mui/icons-material'
+import { CircularProgress } from '@mui/material'
 import {
   DataGrid,
   GridActionsCellItem,
   type GridColDef,
   type GridRowParams,
 } from '@mui/x-data-grid'
+import { useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
-
+import { useGetAllRubrosMaterialsQuery } from '~/queries/parametros/rubro-materal'
+import { useAppSelector } from '~/redux/hooks'
 import RubroMaterialsDrawer from '~components/drawers/Settings/RubroMaterial/RubroMaterialsDrawer'
-import {
-  useDeleteRubrosMaterialMutation,
-  useGetAllRubrosMaterialsQuery,
-} from '~redux/api/bca-backend/parametros/rubroMaterialSlice'
+import { useDeleteRubrosMaterialMutation } from '~redux/api/bca-backend/parametros/rubroMaterialSlice'
 import type {
   RubroMaterialResponseTye,
   RubroMaterialType,
@@ -24,11 +24,16 @@ type AllRubrosMaterialsTableProps = {
 export default function AllRubrosMaterialsTable({
   rubroId,
 }: AllRubrosMaterialsTableProps) {
+  const token = useAppSelector((state) => state.login.token)
   const [open, setOpen] = useState<boolean>(false)
   const [selectedRubroMaterial, setSelectedRubroMaterial] =
     useState<RubroMaterialType | null>(null)
-  const { data: materials } = useGetAllRubrosMaterialsQuery(rubroId!)
   const [deleteRubroMaterial] = useDeleteRubrosMaterialMutation()
+
+  const { data: materials, isFetching } = useQuery({
+    queryKey: ['item-materials'],
+    queryFn: () => useGetAllRubrosMaterialsQuery({ token, rubroId }),
+  })
 
   const cols: GridColDef<RubroMaterialResponseTye>[] = [
     {
@@ -102,6 +107,9 @@ export default function AllRubrosMaterialsTable({
 
   return (
     <>
+      {isFetching && (
+        <CircularProgress data-testid='component.rubros.materals.table.loading' />
+      )}
       <DataGrid
         columns={cols}
         rows={materials!}
