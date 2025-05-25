@@ -1,15 +1,14 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Stack, Typography } from '@mui/material'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
-
 import BcaTextField from '~/components/input/BcaTextField/BcaTextField'
+import { useCreateRubroMutation } from '~/queries/parametros/rubros'
+import { useAppSelector } from '~/redux/hooks'
 import ButtonGroup from '~components/buttons/button-group'
-import {
-  useCreateRubroMutation,
-  useUpdateRubroMutation,
-} from '~redux/api/bca-backend/parametros/rubrosSlice'
+import { useUpdateRubroMutation } from '~redux/api/bca-backend/parametros/rubrosSlice'
 import { type RubrosType, rubrosSchema } from '~types/rubros'
 
 type RubrosFromProps = {
@@ -18,26 +17,30 @@ type RubrosFromProps = {
 }
 
 function RubrosForm({ rubroId, rubro }: RubrosFromProps) {
+  const token = useAppSelector((state) => state.login.token)
+  const queryClient = useQueryClient()
   const [conflictError, setConflictError] = useState<string>('')
   const navigate = useNavigate()
-  const [createRubro] = useCreateRubroMutation()
   const [updateRubro] = useUpdateRubroMutation()
   const { control, handleSubmit } = useForm<RubrosType>({
     defaultValues: rubro,
     resolver: zodResolver(rubrosSchema),
   })
+  const { mutate } = useMutation({
+    mutationFn: useCreateRubroMutation,
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ['items', data.id] })
+      navigate(`/parametros/rubros/${data?.id}`)
+    },
+    onError: (error) => {
+      setConflictError(error.message)
+    },
+  })
 
   async function hadleSubmit(data: RubrosType) {
     setConflictError('')
     if (rubroId?.toLowerCase() === 'crear') {
-      const res = await createRubro(data)
-      if ('data' in res) {
-        navigate(`/parametros/rubros/${res.data?.id}`)
-        return
-      }
-
-      // @ts-expect-error data is a property of the error object
-      setConflictError(res.error.data.error)
+      mutate({ token, item: data })
       return
     }
 
