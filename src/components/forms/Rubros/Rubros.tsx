@@ -44,9 +44,11 @@ function RubrosForm({ rubroId, rubro }: RubrosFromProps) {
     mutationFn: useUpdateRubroMutation,
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ['items', data.id] })
+      toast.success('Rubro actualizado')
     },
     onError: (error) => {
       setConflictError(error.message)
+      toast.error(`Error al actualizar el rubro: ${error.message}`)
     },
   })
 
