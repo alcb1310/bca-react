@@ -6,12 +6,14 @@ import {
   type GridColDef,
   type GridRowParams,
 } from '@mui/x-data-grid'
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
-import { useGetAllRubrosMaterialsQuery } from '~/queries/parametros/rubro-materal'
+import {
+  useDeleteRubrosMaterialMutation,
+  useGetAllRubrosMaterialsQuery,
+} from '~/queries/parametros/rubro-materal'
 import { useAppSelector } from '~/redux/hooks'
 import RubroMaterialsDrawer from '~components/drawers/Settings/RubroMaterial/RubroMaterialsDrawer'
-import { useDeleteRubrosMaterialMutation } from '~redux/api/bca-backend/parametros/rubroMaterialSlice'
 import type {
   RubroMaterialResponseTye,
   RubroMaterialType,
@@ -25,10 +27,17 @@ export default function AllRubrosMaterialsTable({
   rubroId,
 }: AllRubrosMaterialsTableProps) {
   const token = useAppSelector((state) => state.login.token)
+  const queryClient = useQueryClient()
   const [open, setOpen] = useState<boolean>(false)
   const [selectedRubroMaterial, setSelectedRubroMaterial] =
     useState<RubroMaterialType | null>(null)
-  const [deleteRubroMaterial] = useDeleteRubrosMaterialMutation()
+  const { mutate: deleteRubroMaterial } = useMutation({
+    mutationFn: useDeleteRubrosMaterialMutation,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['item-materials'] })
+    },
+    onError: (error) => { },
+  })
 
   const { data: materials, isFetching } = useQuery({
     queryKey: ['item-materials'],
@@ -96,6 +105,7 @@ export default function AllRubrosMaterialsTable({
           showInMenu
           onClick={() => {
             deleteRubroMaterial({
+              token,
               rubroId: params.row.item.id,
               materialId: params.row.material.id,
             })
