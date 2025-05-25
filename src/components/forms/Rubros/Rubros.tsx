@@ -4,6 +4,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
+import { toast } from 'sonner'
 import BcaTextField from '~/components/input/BcaTextField/BcaTextField'
 import { useCreateRubroMutation } from '~/queries/parametros/rubros'
 import { useAppSelector } from '~/redux/hooks'
@@ -30,10 +31,12 @@ function RubrosForm({ rubroId, rubro }: RubrosFromProps) {
     mutationFn: useCreateRubroMutation,
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ['items', data.id] })
+      toast.success('Rubro creado')
       navigate(`/parametros/rubros/${data?.id}`)
     },
     onError: (error) => {
       setConflictError(error.message)
+      toast.error(`Error al crear el rubro: ${error.message}`)
     },
   })
 
