@@ -57,10 +57,12 @@ function RubroMaterialsDrawer({
     mutationFn: useUpdateRubrosMaterialMutation,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['item-materials'] })
+      toast.success('Material actualizado')
       onClose()
     },
     onError: (error) => {
       setConflictError(error.message)
+      toast.error(`Error al actualizar el material: ${error.message}`)
     },
   })
 
