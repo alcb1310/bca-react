@@ -1,19 +1,17 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Typography } from '@mui/material'
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import BcaSelect from '~/components/input/BcaSelect/BcaSelect'
 import BcaTextField from '~/components/input/BcaTextField/BcaTextField'
 import DrawerTitle from '~/components/titles/DrawerTitle/DrawerTitle'
 import { useGetAllMaterialsQuery } from '~/queries/parametros/materiales'
+import { useCreateRubrosMaterialMutation } from '~/queries/parametros/rubro-materal'
 import { useAppSelector } from '~/redux/hooks'
 import ButtonGroup from '~components/buttons/button-group'
 import BcaDrawer from '~components/drawers/BcaDrawer/BcaDrawer'
-import {
-  useCreateRubrosMaterialMutation,
-  useUpdateRubrosMaterialMutation,
-} from '~redux/api/bca-backend/parametros/rubroMaterialSlice'
+import { useUpdateRubrosMaterialMutation } from '~redux/api/bca-backend/parametros/rubroMaterialSlice'
 import {
   type RubroMaterialType,
   rubroMaterialSchema,
@@ -31,6 +29,7 @@ function RubroMaterialsDrawer({
   defaultValues,
 }: RubroMaterialsDrawerProps) {
   const token = useAppSelector((state) => state.login.token)
+  const queryClient = useQueryClient()
   const [confilctError, setConflictError] = useState<string>('')
   const { control, reset, handleSubmit, register } = useForm<RubroMaterialType>(
     {
@@ -39,9 +38,17 @@ function RubroMaterialsDrawer({
     },
   )
 
-  // const { data: allMaterials } = useGetAllMaterialsQuery()
-  const [createRubroMaterial] = useCreateRubrosMaterialMutation()
   const [updateRubroMaterial] = useUpdateRubrosMaterialMutation()
+  const { mutate } = useMutation({
+    mutationFn: useCreateRubrosMaterialMutation,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['item-materials'] })
+      onClose()
+    },
+    onError: (error) => {
+      setConflictError(error.message)
+    },
+  })
 
   const { data: allMaterials } = useQuery({
     queryKey: ['materials'],
@@ -61,14 +68,8 @@ function RubroMaterialsDrawer({
     setConflictError('')
 
     if (!defaultValues.material_id) {
-      const res = await createRubroMaterial(material)
-      if ('data' in res) {
-        onClose()
-        return
-      }
-
-      // @ts-expect-error data is a property of the res.error object
-      setConflictError(res.error.data.error)
+      mutate({ token, rubro: material })
+      return
     }
 
     const res = await updateRubroMaterial(material)

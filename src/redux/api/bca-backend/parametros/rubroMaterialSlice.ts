@@ -1,28 +1,10 @@
-import type {
-  RubroMaterialResponseTye,
-  RubroMaterialType,
-} from '~types/rubro-material'
+import type { RubroMaterialType } from '~types/rubro-material'
 import { bcaApiSlice } from '../bcaSlice'
 
 const rubroMaterialApilice = bcaApiSlice.injectEndpoints({
   overrideExisting: true,
 
   endpoints: (builder) => ({
-    createRubrosMaterial: builder.mutation<
-      RubroMaterialResponseTye,
-      RubroMaterialType
-    >({
-      query: (data) => {
-        return {
-          url: `/parametros/rubros/${data.item_id}/materiales`,
-          method: 'POST',
-          body: data,
-        }
-      },
-
-      invalidatesTags: ['rubro-material'],
-    }),
-
     deleteRubrosMaterial: builder.mutation<
       void,
       { rubroId: string; materialId: string }
@@ -52,7 +34,6 @@ const rubroMaterialApilice = bcaApiSlice.injectEndpoints({
 })
 
 export const {
-  useCreateRubrosMaterialMutation,
   useDeleteRubrosMaterialMutation,
   useUpdateRubrosMaterialMutation,
 } = rubroMaterialApilice
