@@ -72,3 +72,26 @@ export async function useUpdateRubrosMaterialMutation({
   }
   return
 }
+
+export async function useDeleteRubrosMaterialMutation({
+  token,
+  rubroId,
+  materialId,
+}: Readonly<{ token: string; rubroId: string; materialId: string }>) {
+  const response = await fetch(
+    `${url}/parametros/rubros/${rubroId}/materiales/${materialId}`,
+    {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  )
+
+  if (!response.ok) {
+    const err = await response.json()
+    throw new Error(err.error)
+  }
+  return
+}
