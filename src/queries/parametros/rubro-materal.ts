@@ -49,3 +49,26 @@ export async function useCreateRubrosMaterialMutation({
   }
   return
 }
+
+export async function useUpdateRubrosMaterialMutation({
+  token,
+  rubro,
+}: Readonly<{ token: string; rubro: RubroMaterialType }>) {
+  const response = await fetch(
+    `${url}/parametros/rubros/${rubro.item_id}/materiales/${rubro.material_id}`,
+    {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(rubro),
+    },
+  )
+
+  if (!response.ok) {
+    const err = await response.json()
+    throw new Error(err.error)
+  }
+  return
+}
