@@ -8,6 +8,7 @@ import {
 } from '@mui/x-data-grid'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
+import { toast } from 'sonner'
 import {
   useDeleteRubrosMaterialMutation,
   useGetAllRubrosMaterialsQuery,
@@ -35,8 +36,11 @@ export default function AllRubrosMaterialsTable({
     mutationFn: useDeleteRubrosMaterialMutation,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['item-materials'] })
+      toast.success('Material eliminado')
     },
-    onError: (error) => { },
+    onError: (error) => {
+      toast.error(`Error al elimianar el material: ${error.message}`)
+    },
   })
 
   const { data: materials, isFetching } = useQuery({
