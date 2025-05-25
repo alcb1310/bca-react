@@ -3,6 +3,7 @@ import { Typography } from '@mui/material'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
 import BcaSelect from '~/components/input/BcaSelect/BcaSelect'
 import BcaTextField from '~/components/input/BcaTextField/BcaTextField'
 import DrawerTitle from '~/components/titles/DrawerTitle/DrawerTitle'
@@ -43,10 +44,12 @@ function RubroMaterialsDrawer({
     mutationFn: useCreateRubrosMaterialMutation,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['item-materials'] })
+      toast.success('Material agregado')
       onClose()
     },
     onError: (error) => {
       setConflictError(error.message)
+      toast.error(`Error al agregar el material: ${error.message}`)
     },
   })
 
