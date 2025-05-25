@@ -6,10 +6,12 @@ import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
 import BcaTextField from '~/components/input/BcaTextField/BcaTextField'
-import { useCreateRubroMutation } from '~/queries/parametros/rubros'
+import {
+  useCreateRubroMutation,
+  useUpdateRubroMutation,
+} from '~/queries/parametros/rubros'
 import { useAppSelector } from '~/redux/hooks'
 import ButtonGroup from '~components/buttons/button-group'
-import { useUpdateRubroMutation } from '~redux/api/bca-backend/parametros/rubrosSlice'
 import { type RubrosType, rubrosSchema } from '~types/rubros'
 
 type RubrosFromProps = {
@@ -22,12 +24,11 @@ function RubrosForm({ rubroId, rubro }: RubrosFromProps) {
   const queryClient = useQueryClient()
   const [conflictError, setConflictError] = useState<string>('')
   const navigate = useNavigate()
-  const [updateRubro] = useUpdateRubroMutation()
   const { control, handleSubmit } = useForm<RubrosType>({
     defaultValues: rubro,
     resolver: zodResolver(rubrosSchema),
   })
-  const { mutate } = useMutation({
+  const { mutate: createRubro } = useMutation({
     mutationFn: useCreateRubroMutation,
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ['items', data.id] })
@@ -39,19 +40,24 @@ function RubrosForm({ rubroId, rubro }: RubrosFromProps) {
       toast.error(`Error al crear el rubro: ${error.message}`)
     },
   })
+  const { mutate } = useMutation({
+    mutationFn: useUpdateRubroMutation,
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ['items', data.id] })
+    },
+    onError: (error) => {
+      setConflictError(error.message)
+    },
+  })
 
   async function hadleSubmit(data: RubrosType) {
     setConflictError('')
     if (rubroId?.toLowerCase() === 'crear') {
-      mutate({ token, item: data })
+      createRubro({ token, item: data })
       return
     }
 
-    const res = await updateRubro(data)
-    if ('error' in res) {
-      // @ts-expect-error data is a property of the error object
-      setConflictError(res.error.data.error)
-    }
+    mutate({ token, item: data })
   }
   return (
     <>
