@@ -1,4 +1,4 @@
-import type { BudgetResponseType } from '~/types/budget'
+import type { BudgetEditType, BudgetResponseType } from '~/types/budget'
 
 const url = import.meta.env.VITE_BACKEND_SERVER
 
@@ -50,4 +50,25 @@ export async function useGetAllBudgetsByProjectAndLevelQuery({
   }
 
   return (await response.json()) as BudgetResponseType[]
+}
+
+export async function useCreateBudgetMutation({
+  token,
+  budget,
+}: Readonly<{ token: string; budget: BudgetEditType }>) {
+  const response = await fetch(`${url}/transacciones/presupuestos`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(budget),
+  })
+
+  if (!response.ok) {
+    const err = await response.json()
+    throw new Error(err.error)
+  }
+
+  return (await response.json()) as BudgetResponseType
 }
