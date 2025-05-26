@@ -80,9 +80,11 @@ export default function BudgetDrawer({
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['budget'] })
       onClose()
+      toast.success('Presupuesto actualizado')
     },
     onError: (error) => {
       setConflictError(error.message)
+      toast.error(`Error al actualizar el presupuesto: ${error.message}`)
     },
   })
 
