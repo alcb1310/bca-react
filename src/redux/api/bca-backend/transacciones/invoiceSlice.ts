@@ -1,21 +1,10 @@
-import type { InvoiceCreateType, InvoiceResponseType } from '~types/invoice'
+import type { InvoiceCreateType } from '~types/invoice'
 import { bcaApiSlice } from '../bcaSlice'
 
 const invoiceApiSlice = bcaApiSlice.injectEndpoints({
   overrideExisting: true,
 
   endpoints: (builder) => ({
-    getAllInvoices: builder.query<InvoiceResponseType[], void>({
-      query: () => {
-        return {
-          url: '/transacciones/facturas',
-          method: 'GET',
-        }
-      },
-
-      providesTags: ['facturas', 'partidas', 'suppliers'],
-    }),
-
     getOneInvoice: builder.query<InvoiceCreateType, string>({
       query: (id) => {
         return {
@@ -79,7 +68,6 @@ const invoiceApiSlice = bcaApiSlice.injectEndpoints({
 })
 
 export const {
-  useGetAllInvoicesQuery,
   useGetOneInvoiceQuery,
   useCreateInvoiceMutation,
   useUpdateInvoiceMutation,
