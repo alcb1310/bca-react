@@ -5,26 +5,28 @@ import {
   Stack,
   TextField,
 } from '@mui/material'
-import { useQuery } from '@tanstack/react-query'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { type ChangeEvent, useState } from 'react'
 import BudgetDrawer from '~/components/drawers/Transactions/BudgetDrawer/BudgetDrawer'
 import PageTitle from '~/components/titles/PageTitle/PageTitle'
 import { useGetAllProjectsQuery } from '~/queries/parametros/proyectos'
+import { useGetAllBudgetsQuery } from '~/queries/transacciones/presupuesto'
 import { useAppSelector } from '~/redux/hooks'
 import AllBudgetsTable from '~components/parameters/budgets/AllBudgetsTable'
 import EditToolbar from '~components/table/headers/toolbar'
-import { useGetAllBudgetsQuery } from '~redux/api/bca-backend/transacciones/budgetSlice'
 
 export default function Presupuesto() {
   const token = useAppSelector((state) => state.login.token)
+  const queryClient = useQueryClient()
   const [open, setOpen] = useState<boolean>(false)
   const [search, setSearch] = useState<string>('')
   const [selectedProject, setSelectedProject] = useState<string>('')
-  const { data, isLoading } = useGetAllBudgetsQuery({
-    query: search,
-    project: selectedProject,
-  })
 
+  const { data, isFetching } = useQuery({
+    queryKey: ['budget', search, selectedProject],
+    queryFn: () =>
+      useGetAllBudgetsQuery({ token, query: search, project: selectedProject }),
+  })
   const { data: projects } = useQuery({
     queryKey: ['projects', 'active'],
     queryFn: () => useGetAllProjectsQuery({ token, active: true }),
@@ -49,7 +51,12 @@ export default function Presupuesto() {
             variant='outlined'
             className='w-full'
             value={selectedProject}
-            onChange={(e) => setSelectedProject(e.target.value)}
+            onChange={(e) => {
+              setSelectedProject(e.target.value)
+              queryClient.invalidateQueries({
+                queryKey: ['budget', search, selectedProject],
+              })
+            }}
           >
             <option value=''>Seleccione un proyecto</option>
             {projects?.map((project) => (
@@ -73,7 +80,7 @@ export default function Presupuesto() {
           />
         </Grid2>
       </Grid2>
-      {isLoading && (
+      {isFetching && (
         <CircularProgress data-testid='page.transactions.budget.loading' />
       )}
       <AllBudgetsTable data={data} />
