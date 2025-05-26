@@ -89,9 +89,15 @@ describe('<IndividualInvoice />', () => {
         .find('label')
         .should('have.text', 'Fecha de Factura')
 
+      const dt = new Date()
+      let month = (dt.getMonth() + 1).toString()
+      if (month.length === 1) month = `0${month}`
+      let day = dt.getDate().toString()
+      if (day.length === 1) day = `0${day}`
+      const dtText = `${month}/${day}/${dt.getFullYear()}`
       cy.getByTestId('components.forms.invoice.date')
         .find('input')
-        .should('have.value', 'MM/DD/YYYY')
+        .should('have.value', dtText)
 
       cy.getByTestId('component.button.group.save')
         .should('be.visible')
@@ -119,9 +125,6 @@ describe('<IndividualInvoice />', () => {
         cy.getByTestId('components.forms.invoice.number.error')
           .should('be.visible')
           .should('have.text', 'Ingrese el numero de la Factura')
-        cy.getByTestId('components.forms.invoice.date')
-          .find('.MuiFormHelperText-root')
-          .should('have.text', 'Invalid date')
       })
     })
   })
