@@ -10,11 +10,13 @@ import BcaTextField from '~/components/input/BcaTextField/BcaTextField'
 import DrawerTitle from '~/components/titles/DrawerTitle/DrawerTitle'
 import { useGetAllBudgetItemsQuery } from '~/queries/parametros/partidas'
 import { useGetAllProjectsQuery } from '~/queries/parametros/proyectos'
-import { useCreateBudgetMutation } from '~/queries/transacciones/presupuesto'
+import {
+  useCreateBudgetMutation,
+  useUpdateBudgetMutation,
+} from '~/queries/transacciones/presupuesto'
 import { useAppSelector } from '~/redux/hooks'
 import ButtonGroup from '~components/buttons/button-group'
 import BcaDrawer from '~components/drawers/BcaDrawer/BcaDrawer'
-import { useUpdateBudgetMutation } from '~redux/api/bca-backend/transacciones/budgetSlice'
 import { type BudgetEditType, budgetEditSchema } from '~types/budget'
 
 type BudgetDrawerProps = {
@@ -61,9 +63,7 @@ export default function BudgetDrawer({
     queryFn: () => useGetAllBudgetItemsQuery({ token, accum: false }),
   })
 
-  // const [createBudget] = useCreateBudgetMutation()
-  const [updateBudget] = useUpdateBudgetMutation()
-  const { mutate } = useMutation({
+  const { mutate: createBudget } = useMutation({
     mutationFn: useCreateBudgetMutation,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['budget'] })
@@ -75,9 +75,20 @@ export default function BudgetDrawer({
       toast.error(`Error al crear el presupuesto: ${error.message}`)
     },
   })
+  const { mutate: updateBudget } = useMutation({
+    mutationFn: useUpdateBudgetMutation,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['budget'] })
+      onClose()
+    },
+    onError: (error) => {
+      setConflictError(error.message)
+    },
+  })
 
   useEffect(() => {
     reset(defaultValues)
+    setConflictError('')
   }, [open])
 
   async function hadleSubmit(data: BudgetEditType) {
@@ -93,18 +104,10 @@ export default function BudgetDrawer({
     }
 
     if (!defaultValues.project_id) {
-      mutate({ token, budget: dataToSave })
+      createBudget({ token, budget: dataToSave })
       return
     }
-
-    const res = await updateBudget(dataToSave)
-    if ('data' in res) {
-      onClose()
-      return
-    }
-
-    // @ts-expect-error data property is part of the res.error object
-    setConflictError(res.error.data.erro)
+    updateBudget({ token, budget: dataToSave })
   }
 
   return (
