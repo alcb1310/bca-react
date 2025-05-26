@@ -5,18 +5,6 @@ const budgetApiSlice = bcaApiSlice.injectEndpoints({
   overrideExisting: true,
 
   endpoints: (builder) => ({
-    createBudget: builder.mutation<BudgetResponseType, BudgetEditType>({
-      query(body) {
-        return {
-          url: '/transacciones/presupuestos',
-          method: 'POST',
-          body,
-        }
-      },
-
-      invalidatesTags: ['presupuesto'],
-    }),
-
     updateBudget: builder.mutation<BudgetResponseType, BudgetEditType>({
       query(body) {
         return {
@@ -31,5 +19,4 @@ const budgetApiSlice = bcaApiSlice.injectEndpoints({
   }),
 })
 
-export const { useCreateBudgetMutation, useUpdateBudgetMutation } =
-  budgetApiSlice
+export const { useUpdateBudgetMutation } = budgetApiSlice

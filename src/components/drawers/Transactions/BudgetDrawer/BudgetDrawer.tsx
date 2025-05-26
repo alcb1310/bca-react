@@ -1,7 +1,7 @@
 import { DevTool } from '@hookform/devtools'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Box, Typography } from '@mui/material'
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
 import { useForm, useWatch } from 'react-hook-form'
 import BcaSelect from '~/components/input/BcaSelect/BcaSelect'
@@ -9,13 +9,11 @@ import BcaTextField from '~/components/input/BcaTextField/BcaTextField'
 import DrawerTitle from '~/components/titles/DrawerTitle/DrawerTitle'
 import { useGetAllBudgetItemsQuery } from '~/queries/parametros/partidas'
 import { useGetAllProjectsQuery } from '~/queries/parametros/proyectos'
+import { useCreateBudgetMutation } from '~/queries/transacciones/presupuesto'
 import { useAppSelector } from '~/redux/hooks'
 import ButtonGroup from '~components/buttons/button-group'
 import BcaDrawer from '~components/drawers/BcaDrawer/BcaDrawer'
-import {
-  useCreateBudgetMutation,
-  useUpdateBudgetMutation,
-} from '~redux/api/bca-backend/transacciones/budgetSlice'
+import { useUpdateBudgetMutation } from '~redux/api/bca-backend/transacciones/budgetSlice'
 import { type BudgetEditType, budgetEditSchema } from '~types/budget'
 
 type BudgetDrawerProps = {
@@ -30,6 +28,7 @@ export default function BudgetDrawer({
   defaultValues,
 }: BudgetDrawerProps) {
   const token = useAppSelector((state) => state.login.token)
+  const queryClient = useQueryClient()
   const [conflictError, setConflictError] = useState<string>('')
   const { control, reset, handleSubmit } = useForm<BudgetEditType>({
     defaultValues,
@@ -61,8 +60,18 @@ export default function BudgetDrawer({
     queryFn: () => useGetAllBudgetItemsQuery({ token, accum: false }),
   })
 
-  const [createBudget] = useCreateBudgetMutation()
+  // const [createBudget] = useCreateBudgetMutation()
   const [updateBudget] = useUpdateBudgetMutation()
+  const { mutate } = useMutation({
+    mutationFn: useCreateBudgetMutation,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['budget'] })
+      onClose()
+    },
+    onError: (error) => {
+      setConflictError(error.message)
+    },
+  })
 
   useEffect(() => {
     reset(defaultValues)
@@ -81,14 +90,7 @@ export default function BudgetDrawer({
     }
 
     if (!defaultValues.project_id) {
-      const res = await createBudget(dataToSave)
-      if ('data' in res) {
-        onClose()
-        return
-      }
-
-      // @ts-expect-error data property is part of the res.error object
-      setConflictError(res.error.data.error)
+      mutate({ token, budget: dataToSave })
       return
     }
 
