@@ -8,10 +8,10 @@ import BcaSelect from '~/components/input/BcaSelect/BcaSelect'
 import ActualTable from '~/components/reports/ActualTable/ActualTable'
 import PageTitle from '~/components/titles/PageTitle/PageTitle'
 import { useGetAllProjectsQuery } from '~/queries/parametros/proyectos'
+import { useGetAllBudgetsByProjectAndLevelQuery } from '~/queries/transacciones/presupuesto'
 import { downloadExcelFile } from '~/utils/download'
 import EditToolbar from '~components/table/headers/toolbar'
 import { useGetAllLevelsQuery } from '~redux/api/bca-backend/reports/commonSlice'
-import { useGetAllBudgetsByProjectAndLevelQuery } from '~redux/api/bca-backend/transacciones/budgetSlice'
 import { useAppSelector } from '~redux/hooks'
 
 const reportSchema = z.object({
@@ -39,8 +39,15 @@ export default function Actual() {
     project_id: '',
     level: '',
   })
-  const { data, isFetching } =
-    useGetAllBudgetsByProjectAndLevelQuery(selectedReport)
+  const { data, isFetching } = useQuery({
+    queryKey: ['budget', selectedReport.level, selectedReport.project_id],
+    queryFn: () =>
+      useGetAllBudgetsByProjectAndLevelQuery({
+        token,
+        project_id: selectedReport.project_id,
+        level: selectedReport.level,
+      }),
+  })
 
   function hadleSubmit(data: ReportTypes) {
     setSelectedReport(data)
