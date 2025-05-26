@@ -72,3 +72,27 @@ export async function useCreateBudgetMutation({
 
   return (await response.json()) as BudgetResponseType
 }
+
+export async function useUpdateBudgetMutation({
+  token,
+  budget,
+}: Readonly<{ token: string; budget: BudgetEditType }>) {
+  const response = await fetch(
+    `${url}/transacciones/presupuestos/${budget.project_id}/${budget.budget_item_id}`,
+    {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(budget),
+    },
+  )
+
+  if (!response.ok) {
+    const err = await response.json()
+    throw new Error(err.error)
+  }
+
+  return
+}
