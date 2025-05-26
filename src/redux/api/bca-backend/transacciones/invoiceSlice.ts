@@ -5,31 +5,6 @@ const invoiceApiSlice = bcaApiSlice.injectEndpoints({
   overrideExisting: true,
 
   endpoints: (builder) => ({
-    getOneInvoice: builder.query<InvoiceCreateType, string>({
-      query: (id) => {
-        return {
-          url: `/transacciones/facturas/${id}`,
-          method: 'GET',
-        }
-      },
-
-      // @ts-expect-error empty date
-      transformResponse: (response: InvoiceCreateType) => {
-        if (!response.id) {
-          return {
-            project_id: '',
-            supplier_id: '',
-            invoice_number: '',
-            invoice_date: '',
-            invoice_total: 0,
-          }
-        }
-        return response
-      },
-
-      providesTags: ['facturas', 'partidas', 'suppliers'],
-    }),
-
     createInvoice: builder.mutation<InvoiceCreateType, InvoiceCreateType>({
       query: (body) => {
         return {
@@ -68,7 +43,6 @@ const invoiceApiSlice = bcaApiSlice.injectEndpoints({
 })
 
 export const {
-  useGetOneInvoiceQuery,
   useCreateInvoiceMutation,
   useUpdateInvoiceMutation,
   useDeleteInvoiceMutation,

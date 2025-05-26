@@ -1,20 +1,25 @@
 import { Box, CircularProgress } from '@mui/material'
+import { useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
 import { useLocation } from 'react-router-dom'
-
 import InvoiceDetailsDrawer from '~/components/drawers/Transactions/InvoiceDetailsDrawer/InvoiceDetailsDrawer'
 import InvoiceForm from '~/components/forms/Invoice/Invoice'
 import AllDetailsTable from '~/components/parameters/invoices/AllDetailsTable/AllDetailsTable'
 import PageTitle from '~/components/titles/PageTitle/PageTitle'
+import { useGetOneInvoiceQuery } from '~/queries/transacciones/facturas'
+import { useAppSelector } from '~/redux/hooks'
 import EditToolbar from '~components/table/headers/toolbar'
 import { useGetAllInvoiceDetailsQuery } from '~redux/api/bca-backend/transacciones/invoiceDetailsSlice'
-import { useGetOneInvoiceQuery } from '~redux/api/bca-backend/transacciones/invoiceSlice'
 
 export default function IndividualInvoice() {
+  const token = useAppSelector((state) => state.login.token)
   const [open, setOpen] = useState<boolean>(false)
   const location = useLocation()
   const invoiceId = location.pathname.split('/')[3]
-  const { data: invoice, isLoading } = useGetOneInvoiceQuery(invoiceId!)
+  const { data: invoice, isLoading } = useQuery({
+    queryKey: ['invoice', invoiceId],
+    queryFn: () => useGetOneInvoiceQuery({ token, id: invoiceId! }),
+  })
   const { data } = useGetAllInvoiceDetailsQuery({ id: invoiceId! })
 
   return (

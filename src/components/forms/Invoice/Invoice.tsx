@@ -27,7 +27,10 @@ function InvoiceForm({ invoiceId, invoice }: InvoiceFormProps) {
   const [conflictError, setConflictError] = useState<string>('')
   const navigate = useNavigate()
   const { control, handleSubmit } = useForm<InvoiceCreateType>({
-    defaultValues: invoice,
+    defaultValues: {
+      ...invoice,
+      invoice_date: invoiceId === 'crear' ? new Date() : invoice.invoice_date,
+    },
     resolver: zodResolver(invoiceCreateSchema),
   })
 
