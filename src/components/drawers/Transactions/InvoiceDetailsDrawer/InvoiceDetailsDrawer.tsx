@@ -1,16 +1,16 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Stack, Typography } from '@mui/material'
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
 import { useForm, useWatch } from 'react-hook-form'
 import BcaSelect from '~/components/input/BcaSelect/BcaSelect'
 import BcaTextField from '~/components/input/BcaTextField/BcaTextField'
 import DrawerTitle from '~/components/titles/DrawerTitle/DrawerTitle'
 import { useGetAllBudgetItemsQuery } from '~/queries/parametros/partidas'
+import { useCreateIvoiceDetailsMutation } from '~/queries/transacciones/detalle'
 import { useAppSelector } from '~/redux/hooks'
 import ButtonGroup from '~components/buttons/button-group'
 import BcaDrawer from '~components/drawers/BcaDrawer/BcaDrawer'
-import { useCreateIvoiceDetailsMutation } from '~redux/api/bca-backend/transacciones/invoiceDetailsSlice'
 import {
   type InvoiceDetailsCreateType,
   invoiceDetailsCreateSchema,
@@ -28,6 +28,7 @@ export default function InvoiceDetailsDrawer({
   invoiceId,
 }: InvoiceDetailsDrawerProps) {
   const token = useAppSelector((state) => state.login.token)
+  const queryClient = useQueryClient()
   const [conflictError, setConflictError] = useState<string>('')
   const { control, reset, handleSubmit } = useForm<InvoiceDetailsCreateType>({
     defaultValues: { budget_item_id: '', quantity: 0, cost: 0, total: 0 },
@@ -60,20 +61,21 @@ export default function InvoiceDetailsDrawer({
   const results = useWatch({ control })
   const total = calculateTotal()
 
-  const [createInvoiceDetail] = useCreateIvoiceDetailsMutation()
+  const { mutate: createDetail } = useMutation({
+    mutationFn: useCreateIvoiceDetailsMutation,
+    onSuccess: () => { },
+    onError: (error) => {
+      setConflictError(error.message)
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ['invoice', invoiceId] })
+      queryClient.invalidateQueries({ queryKey: ['details'] })
+    },
+  })
 
   async function hadleSubmit(data: InvoiceDetailsCreateType) {
     setConflictError('')
-    const res = await createInvoiceDetail({
-      body: data!,
-      id: invoiceId,
-    })
-
-    if ('error' in res) {
-      console.log(res.error)
-      // @ts-expect-error data is part of the error object
-      setConflictError(res.error.data.error)
-    }
+    createDetail({ token, id: invoiceId, detail: data })
   }
 
   return (
