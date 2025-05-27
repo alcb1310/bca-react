@@ -81,3 +81,24 @@ export async function useDeleteInvoiceMutation({
 
   return
 }
+
+export async function useUpdateInvoiceMutation({
+  token,
+  invoice,
+}: Readonly<{ token: string; invoice: InvoiceCreateType }>) {
+  const response = await fetch(`${url}/transacciones/facturas/${invoice.id}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(invoice),
+  })
+
+  if (!response.ok) {
+    const err = await response.json()
+    throw new Error(err.error)
+  }
+
+  return
+}
