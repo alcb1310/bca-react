@@ -1,6 +1,6 @@
 import { Box, CircularProgress } from '@mui/material'
 import { useQuery } from '@tanstack/react-query'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import InvoiceDetailsDrawer from '~/components/drawers/Transactions/InvoiceDetailsDrawer/InvoiceDetailsDrawer'
 import InvoiceForm from '~/components/forms/Invoice/Invoice'
@@ -15,12 +15,16 @@ export default function IndividualInvoice() {
   const token = useAppSelector((state) => state.login.token)
   const [open, setOpen] = useState<boolean>(false)
   const location = useLocation()
-  const invoiceId = location.pathname.split('/')[3]
-  const { data: invoice, isLoading } = useQuery({
+  const [invoiceId, setInvoiceId] = useState<string | undefined>(undefined)
+  const { data: invoice, isFetching } = useQuery({
     queryKey: ['invoice', invoiceId],
     queryFn: () => useGetOneInvoiceQuery({ token, id: invoiceId! }),
+    enabled: invoiceId !== undefined,
   })
   const { data } = useGetAllInvoiceDetailsQuery({ id: invoiceId! })
+  useEffect(() => {
+    setInvoiceId(location.pathname.split('/')[3])
+  }, [])
 
   return (
     <>
@@ -32,7 +36,7 @@ export default function IndividualInvoice() {
         }
       />
 
-      {isLoading ? (
+      {isFetching || !invoiceId ? (
         <CircularProgress data-testid='page.transactions.invoice.details.loading' />
       ) : (
         <>

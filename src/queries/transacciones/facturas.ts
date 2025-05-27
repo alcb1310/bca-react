@@ -40,3 +40,24 @@ export async function useGetOneInvoiceQuery({
 
   return (await response.json()) as InvoiceCreateType
 }
+
+export async function useCreateInvoiceMutation({
+  token,
+  invoice,
+}: Readonly<{ token: string; invoice: InvoiceCreateType }>) {
+  const response = await fetch(`${url}/transacciones/facturas`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(invoice),
+  })
+
+  if (!response.ok) {
+    const err = await response.json()
+    throw new Error(err.error)
+  }
+
+  return (await response.json()) as InvoiceCreateType
+}
