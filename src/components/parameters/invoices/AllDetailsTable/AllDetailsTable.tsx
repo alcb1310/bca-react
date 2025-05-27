@@ -4,8 +4,9 @@ import {
   GridActionsCellItem,
   type GridColDef,
 } from '@mui/x-data-grid'
-
-import { useDeleteInvoiceDetailsMutation } from '~redux/api/bca-backend/transacciones/invoiceDetailsSlice'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useDeleteInvoiceDetailsMutation } from '~/queries/transacciones/detalle'
+import { useAppSelector } from '~/redux/hooks'
 import type { InvoiceDetailsResponseType } from '~types/invoiceDetails'
 
 type AllDetailsTableProps = {
@@ -17,7 +18,18 @@ export default function AllDetailsTable({
   data,
   invoiceId,
 }: AllDetailsTableProps) {
-  const [deleteDetail] = useDeleteInvoiceDetailsMutation()
+  const token = useAppSelector((state) => state.login.token)
+  const queryClient = useQueryClient()
+  const { mutate } = useMutation({
+    mutationFn: useDeleteInvoiceDetailsMutation,
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ['invoice', invoiceId] })
+      queryClient.invalidateQueries({ queryKey: ['details'] })
+    },
+    onError: (error) => {
+      console.error(error)
+    },
+  })
 
   const cols: GridColDef<InvoiceDetailsResponseType>[] = [
     {
@@ -76,10 +88,7 @@ export default function AllDetailsTable({
           icon={<DeleteOutlined color='error' />}
           label='Borrar'
           onClick={() =>
-            deleteDetail({
-              invoiceId,
-              detailId: params.row.budget_item_id,
-            })
+            mutate({ token, invoiceId, detailId: params.row.budget_item_id })
           }
         />,
       ],
