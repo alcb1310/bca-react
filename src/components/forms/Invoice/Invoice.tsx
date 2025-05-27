@@ -10,10 +10,12 @@ import BcaSelect from '~/components/input/BcaSelect/BcaSelect'
 import BcaTextField from '~/components/input/BcaTextField/BcaTextField'
 import { useGetAllSuppliersQuery } from '~/queries/parametros/proveedor'
 import { useGetAllProjectsQuery } from '~/queries/parametros/proyectos'
-import { useCreateInvoiceMutation } from '~/queries/transacciones/facturas'
+import {
+  useCreateInvoiceMutation,
+  useUpdateInvoiceMutation,
+} from '~/queries/transacciones/facturas'
 import { useAppSelector } from '~/redux/hooks'
 import ButtonGroup from '~components/buttons/button-group'
-import { useUpdateInvoiceMutation } from '~redux/api/bca-backend/transacciones/invoiceSlice'
 import { type InvoiceCreateType, invoiceCreateSchema } from '~types/invoice'
 
 type InvoiceFormProps = {
@@ -42,7 +44,6 @@ function InvoiceForm({ invoiceId, invoice }: InvoiceFormProps) {
     queryKey: ['suppliers'],
     queryFn: () => useGetAllSuppliersQuery({ token }),
   })
-  const [updateInvoice] = useUpdateInvoiceMutation()
   const { mutate: createInvoice } = useMutation({
     mutationFn: useCreateInvoiceMutation,
     onSuccess: (data) => {
@@ -55,6 +56,15 @@ function InvoiceForm({ invoiceId, invoice }: InvoiceFormProps) {
       toast.error(`Error al crear la factura: ${error.message}`)
     },
   })
+  const { mutate: updateInvoice } = useMutation({
+    mutationFn: useUpdateInvoiceMutation,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['invoice', invoiceId] })
+    },
+    onError: (error) => {
+      setConflictError(error.message)
+    },
+  })
 
   async function hadleSubmit(data: InvoiceCreateType) {
     setConflictError('')
@@ -63,11 +73,7 @@ function InvoiceForm({ invoiceId, invoice }: InvoiceFormProps) {
       return
     }
 
-    const res = await updateInvoice(data)
-    if ('error' in res) {
-      // @ts-expect-error error type is string
-      setConflictError(res.error.data.error)
-    }
+    updateInvoice({ token, invoice: data })
   }
 
   return (
