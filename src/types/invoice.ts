@@ -17,7 +17,7 @@ export const invoiceResponseSchema = z.object({
 export type InvoiceResponseType = z.infer<typeof invoiceResponseSchema>
 
 export const invoiceCreateSchema = z.object({
-  id: z.string().uuid().optional(),
+  id: z.string().uuid().nullable(),
   supplier_id: z.string().uuid('Seleccione un proveedor'),
   project_id: z.string().uuid('Seleccione un proyecto'),
   invoice_number: z.string().min(1, 'Ingrese el numero de la Factura'),
