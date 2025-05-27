@@ -5,18 +5,6 @@ const invoiceApiSlice = bcaApiSlice.injectEndpoints({
   overrideExisting: true,
 
   endpoints: (builder) => ({
-    createInvoice: builder.mutation<InvoiceCreateType, InvoiceCreateType>({
-      query: (body) => {
-        return {
-          url: '/transacciones/facturas',
-          method: 'POST',
-          body,
-        }
-      },
-
-      invalidatesTags: ['facturas'],
-    }),
-
     updateInvoice: builder.mutation<InvoiceCreateType, InvoiceCreateType>({
       query: (body) => {
         return {
@@ -42,8 +30,5 @@ const invoiceApiSlice = bcaApiSlice.injectEndpoints({
   }),
 })
 
-export const {
-  useCreateInvoiceMutation,
-  useUpdateInvoiceMutation,
-  useDeleteInvoiceMutation,
-} = invoiceApiSlice
+export const { useUpdateInvoiceMutation, useDeleteInvoiceMutation } =
+  invoiceApiSlice

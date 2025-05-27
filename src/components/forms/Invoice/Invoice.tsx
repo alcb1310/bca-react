@@ -1,6 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Stack, Typography } from '@mui/material'
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
@@ -9,12 +9,10 @@ import BcaSelect from '~/components/input/BcaSelect/BcaSelect'
 import BcaTextField from '~/components/input/BcaTextField/BcaTextField'
 import { useGetAllSuppliersQuery } from '~/queries/parametros/proveedor'
 import { useGetAllProjectsQuery } from '~/queries/parametros/proyectos'
+import { useCreateInvoiceMutation } from '~/queries/transacciones/facturas'
 import { useAppSelector } from '~/redux/hooks'
 import ButtonGroup from '~components/buttons/button-group'
-import {
-  useCreateInvoiceMutation,
-  useUpdateInvoiceMutation,
-} from '~redux/api/bca-backend/transacciones/invoiceSlice'
+import { useUpdateInvoiceMutation } from '~redux/api/bca-backend/transacciones/invoiceSlice'
 import { type InvoiceCreateType, invoiceCreateSchema } from '~types/invoice'
 
 type InvoiceFormProps = {
@@ -24,6 +22,7 @@ type InvoiceFormProps = {
 
 function InvoiceForm({ invoiceId, invoice }: InvoiceFormProps) {
   const token = useAppSelector((state) => state.login.token)
+  const queryClient = useQueryClient()
   const [conflictError, setConflictError] = useState<string>('')
   const navigate = useNavigate()
   const { control, handleSubmit } = useForm<InvoiceCreateType>({
@@ -42,19 +41,22 @@ function InvoiceForm({ invoiceId, invoice }: InvoiceFormProps) {
     queryKey: ['suppliers'],
     queryFn: () => useGetAllSuppliersQuery({ token }),
   })
-  const [createInvoice] = useCreateInvoiceMutation()
   const [updateInvoice] = useUpdateInvoiceMutation()
+  const { mutate: createInvoice } = useMutation({
+    mutationFn: useCreateInvoiceMutation,
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ['invoice', data.id] })
+      navigate(`/transacciones/facturas/${data.id}`)
+    },
+    onError: (error) => {
+      setConflictError(error.message)
+    },
+  })
 
   async function hadleSubmit(data: InvoiceCreateType) {
     setConflictError('')
     if (invoiceId?.toLowerCase() === 'crear') {
-      const res = await createInvoice(data)
-      if ('error' in res) {
-        // @ts-expect-error error type is string
-        setConflictError(res.error.data.error)
-      }
-
-      navigate(`/transacciones/facturas/${res.data?.id}`)
+      createInvoice({ token, invoice: data })
       return
     }
 
