@@ -61,3 +61,23 @@ export async function useCreateInvoiceMutation({
 
   return (await response.json()) as InvoiceCreateType
 }
+
+export async function useDeleteInvoiceMutation({
+  token,
+  id,
+}: Readonly<{ token: string; id: string }>) {
+  const response = await fetch(`${url}/transacciones/facturas/${id}`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  })
+
+  if (!response.ok) {
+    const err = await response.json()
+    throw new Error(err.error)
+  }
+
+  return
+}
