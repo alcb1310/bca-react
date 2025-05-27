@@ -6,10 +6,10 @@ import InvoiceDetailsDrawer from '~/components/drawers/Transactions/InvoiceDetai
 import InvoiceForm from '~/components/forms/Invoice/Invoice'
 import AllDetailsTable from '~/components/parameters/invoices/AllDetailsTable/AllDetailsTable'
 import PageTitle from '~/components/titles/PageTitle/PageTitle'
+import { useGetAllInvoiceDetailsQuery } from '~/queries/transacciones/detalle'
 import { useGetOneInvoiceQuery } from '~/queries/transacciones/facturas'
 import { useAppSelector } from '~/redux/hooks'
 import EditToolbar from '~components/table/headers/toolbar'
-import { useGetAllInvoiceDetailsQuery } from '~redux/api/bca-backend/transacciones/invoiceDetailsSlice'
 
 export default function IndividualInvoice() {
   const token = useAppSelector((state) => state.login.token)
@@ -21,7 +21,13 @@ export default function IndividualInvoice() {
     queryFn: () => useGetOneInvoiceQuery({ token, id: invoiceId! }),
     enabled: invoiceId !== undefined,
   })
-  const { data } = useGetAllInvoiceDetailsQuery({ id: invoiceId! })
+  const { data } = useQuery({
+    queryKey: ['details'],
+    queryFn: () => useGetAllInvoiceDetailsQuery({ token, id: invoiceId! }),
+    enabled: invoiceId !== undefined,
+  })
+
+  // const { data } = useGetAllInvoiceDetailsQuery({ id: invoiceId! })
   useEffect(() => {
     setInvoiceId(location.pathname.split('/')[3])
   }, [location])

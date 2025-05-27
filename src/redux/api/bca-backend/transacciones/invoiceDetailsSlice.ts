@@ -8,20 +8,6 @@ const invoiceDetailsApiSlice = bcaApiSlice.injectEndpoints({
   overrideExisting: true,
 
   endpoints: (builder) => ({
-    getAllInvoiceDetails: builder.query<
-      InvoiceDetailsResponseType[],
-      { id: string }
-    >({
-      query: ({ id }) => {
-        return {
-          url: `/transacciones/facturas/${id}/detalle`,
-          method: 'GET',
-        }
-      },
-
-      providesTags: ['detalle', 'facturas', 'partidas'],
-    }),
-
     createIvoiceDetails: builder.mutation<
       InvoiceDetailsResponseType,
       { body: InvoiceDetailsCreateType; id: string }
@@ -54,7 +40,6 @@ const invoiceDetailsApiSlice = bcaApiSlice.injectEndpoints({
 })
 
 export const {
-  useGetAllInvoiceDetailsQuery,
   useCreateIvoiceDetailsMutation,
   useDeleteInvoiceDetailsMutation,
 } = invoiceDetailsApiSlice
