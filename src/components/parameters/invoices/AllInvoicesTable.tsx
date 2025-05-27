@@ -7,6 +7,7 @@ import {
 } from '@mui/x-data-grid'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useNavigate } from 'react-router-dom'
+import { toast } from 'sonner'
 import { useDeleteInvoiceMutation } from '~/queries/transacciones/facturas'
 import { useAppSelector } from '~/redux/hooks'
 import type { InvoiceResponseType } from '~types/invoice'
@@ -23,6 +24,10 @@ export default function AllInvoicesTable({ data }: AllInvoicesTableProps) {
     mutationFn: useDeleteInvoiceMutation,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['invoices'] })
+      toast.success('Factura borrada')
+    },
+    onError: (error) => {
+      toast.error(`Error al borrar la factura: ${error.message}`)
     },
   })
 
