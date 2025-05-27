@@ -5,6 +5,7 @@ import {
   type GridColDef,
 } from '@mui/x-data-grid'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { toast } from 'sonner'
 import { useDeleteInvoiceDetailsMutation } from '~/queries/transacciones/detalle'
 import { useAppSelector } from '~/redux/hooks'
 import type { InvoiceDetailsResponseType } from '~types/invoiceDetails'
@@ -27,7 +28,10 @@ export default function AllDetailsTable({
       queryClient.invalidateQueries({ queryKey: ['details'] })
     },
     onError: (error) => {
-      console.error(error)
+      toast.error(`Error al borrar el detalle: ${error.message}`)
+    },
+    onSuccess: () => {
+      toast.success('Detalle borrado')
     },
   })
 
