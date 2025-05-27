@@ -16,19 +16,7 @@ const invoiceApiSlice = bcaApiSlice.injectEndpoints({
 
       invalidatesTags: ['facturas'],
     }),
-
-    deleteInvoice: builder.mutation<void, { id: string }>({
-      query: ({ id }) => {
-        return {
-          url: `/transacciones/facturas/${id}`,
-          method: 'DELETE',
-        }
-      },
-
-      invalidatesTags: ['facturas'],
-    }),
   }),
 })
 
-export const { useUpdateInvoiceMutation, useDeleteInvoiceMutation } =
-  invoiceApiSlice
+export const { useUpdateInvoiceMutation } = invoiceApiSlice

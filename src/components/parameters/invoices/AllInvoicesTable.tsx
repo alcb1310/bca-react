@@ -5,9 +5,10 @@ import {
   type GridColDef,
   type GridRowParams,
 } from '@mui/x-data-grid'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useNavigate } from 'react-router-dom'
-
-import { useDeleteInvoiceMutation } from '~redux/api/bca-backend/transacciones/invoiceSlice'
+import { useDeleteInvoiceMutation } from '~/queries/transacciones/facturas'
+import { useAppSelector } from '~/redux/hooks'
 import type { InvoiceResponseType } from '~types/invoice'
 
 type AllInvoicesTableProps = {
@@ -15,8 +16,15 @@ type AllInvoicesTableProps = {
 }
 
 export default function AllInvoicesTable({ data }: AllInvoicesTableProps) {
+  const token = useAppSelector((state) => state.login.token)
+  const queryClient = useQueryClient()
   const navigate = useNavigate()
-  const [deletInvoice] = useDeleteInvoiceMutation()
+  const { mutate: deleteInvoice } = useMutation({
+    mutationFn: useDeleteInvoiceMutation,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['invoices'] })
+    },
+  })
 
   const cols: GridColDef<InvoiceResponseType>[] = [
     {
@@ -79,11 +87,7 @@ export default function AllInvoicesTable({ data }: AllInvoicesTableProps) {
           icon=<DeleteOutlined color='error' />
           label='Borrar'
           showInMenu
-          onClick={() =>
-            deletInvoice({
-              id: params.id as string,
-            })
-          }
+          onClick={() => deleteInvoice({ token, id: params.id as string })}
         />,
       ],
     },
