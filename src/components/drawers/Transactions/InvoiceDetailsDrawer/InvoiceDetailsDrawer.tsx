@@ -3,6 +3,7 @@ import { Stack, Typography } from '@mui/material'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
 import { useForm, useWatch } from 'react-hook-form'
+import { toast } from 'sonner'
 import BcaSelect from '~/components/input/BcaSelect/BcaSelect'
 import BcaTextField from '~/components/input/BcaTextField/BcaTextField'
 import DrawerTitle from '~/components/titles/DrawerTitle/DrawerTitle'
@@ -63,9 +64,12 @@ export default function InvoiceDetailsDrawer({
 
   const { mutate: createDetail } = useMutation({
     mutationFn: useCreateIvoiceDetailsMutation,
-    onSuccess: () => { },
+    onSuccess: () => {
+      toast.success('Detalle creado')
+    },
     onError: (error) => {
       setConflictError(error.message)
+      toast.error(`Error al crear el detalle: ${error.message}`)
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ['invoice', invoiceId] })
