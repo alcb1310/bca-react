@@ -4,6 +4,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
+import { toast } from 'sonner'
 import BcaDateTextField from '~/components/input/BcaDateTextField/BcaDateTextField'
 import BcaSelect from '~/components/input/BcaSelect/BcaSelect'
 import BcaTextField from '~/components/input/BcaTextField/BcaTextField'
@@ -46,10 +47,12 @@ function InvoiceForm({ invoiceId, invoice }: InvoiceFormProps) {
     mutationFn: useCreateInvoiceMutation,
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ['invoice', data.id] })
+      toast.success('Factura creada')
       navigate(`/transacciones/facturas/${data.id}`)
     },
     onError: (error) => {
       setConflictError(error.message)
+      toast.error(`Error al crear la factura: ${error.message}`)
     },
   })
 
