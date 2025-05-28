@@ -1,4 +1,5 @@
 import type { BudgetResponseType } from '~/types/budget'
+import { BalanceResponseType } from '~/types/reports'
 
 const url = import.meta.env.VITE_BACKEND_SERVER
 
@@ -56,4 +57,29 @@ export async function useGetAllHistoricQuery({
   }
 
   return (await response.json()) as BudgetResponseType[]
+}
+
+export async function useGetBalanceReportQuery({
+  token,
+  project_id,
+  date,
+}: Readonly<{ token: string; project_id: string; date: string }>) {
+  const params = new URLSearchParams()
+  params.append('project_id', project_id)
+  params.append('date', date)
+
+  const response = await fetch(`${url}/reportes/cuadre?${params}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  })
+
+  if (!response.ok) {
+    const err = await response.json()
+    throw new Error(err.error)
+  }
+
+  return (await response.json()) as BalanceResponseType
 }
