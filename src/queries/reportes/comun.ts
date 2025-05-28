@@ -1,5 +1,5 @@
 import type { BudgetResponseType } from '~/types/budget'
-import { BalanceResponseType } from '~/types/reports'
+import type { BalanceResponseType, SpentResponseType } from '~/types/reports'
 
 const url = import.meta.env.VITE_BACKEND_SERVER
 
@@ -102,4 +102,36 @@ export async function useSetBalancedInvoiceMutation({
   }
 
   return
+}
+
+export async function useGetSpentQuery({
+  token,
+  project_id,
+  level,
+  date,
+}: Readonly<{
+  token: string
+  project_id: string
+  level: string
+  date: string
+}>) {
+  const params = new URLSearchParams()
+  params.append('project_id', project_id)
+  params.append('level', level)
+  params.append('date', date)
+
+  const response = await fetch(`${url}/reportes/gastado?${params}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  })
+
+  if (!response.ok) {
+    const err = await response.json()
+    throw new Error(err.error)
+  }
+
+  return (await response.json()) as SpentResponseType
 }
