@@ -1,25 +1,9 @@
-import type { SpentDetailsType, SpentResponseType } from '~types/reports'
+import type { SpentDetailsType } from '~types/reports'
 import { bcaApiSlice } from '../bcaSlice'
 
 const commonApiSlice = bcaApiSlice.injectEndpoints({
   overrideExisting: true,
   endpoints: (builder) => ({
-    getSpent: builder.query<
-      SpentResponseType,
-      {
-        project_id: string
-        level: string
-        date: string
-      }
-    >({
-      query: (params) => {
-        return {
-          url: '/reportes/gastado',
-          method: 'GET',
-          params,
-        }
-      },
-    }),
     getSpentDetails: builder.query<
       SpentDetailsType[],
       {
@@ -41,4 +25,4 @@ const commonApiSlice = bcaApiSlice.injectEndpoints({
   }),
 })
 
-export const { useGetSpentQuery, useGetSpentDetailsQuery } = commonApiSlice
+export const { useGetSpentDetailsQuery } = commonApiSlice

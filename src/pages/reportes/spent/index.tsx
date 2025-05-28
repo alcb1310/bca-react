@@ -9,12 +9,14 @@ import BcaSelect from '~/components/input/BcaSelect/BcaSelect'
 import SpentTable from '~/components/reports/SpentTable/SpentTable'
 import PageTitle from '~/components/titles/PageTitle/PageTitle'
 import { useGetAllProjectsQuery } from '~/queries/parametros/proyectos'
-import { useGetAllLevelsQuery } from '~/queries/reportes/comun'
+import {
+  useGetAllLevelsQuery,
+  useGetSpentQuery,
+} from '~/queries/reportes/comun'
 import { normalizeDate } from '~/utils/date'
 import { downloadExcelFile } from '~/utils/download'
 import SpentDetailsDrawer from '~components/drawers/Reports/Spent/SpentDetailsDrawer'
 import EditToolbar from '~components/table/headers/toolbar'
-import { useGetSpentQuery } from '~redux/api/bca-backend/reports/commonSlice'
 import { useAppSelector } from '~redux/hooks'
 import type { Spent as SpentType } from '~types/reports'
 
@@ -58,7 +60,16 @@ export default function Spent() {
     queryKey: ['levels'],
     queryFn: () => useGetAllLevelsQuery({ token }),
   })
-  const { data, isFetching } = useGetSpentQuery(selectedReport!)
+  const { data, isFetching } = useQuery({
+    queryKey: ['spent'],
+    queryFn: () =>
+      useGetSpentQuery({
+        token,
+        project_id: selectedReport.project_id,
+        level: selectedReport.level,
+        date: selectedReport.date,
+      }),
+  })
 
   const { data: projects } = useQuery({
     queryKey: ['projects'],
