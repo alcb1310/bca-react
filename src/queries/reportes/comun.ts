@@ -1,5 +1,9 @@
 import type { BudgetResponseType } from '~/types/budget'
-import type { BalanceResponseType, SpentResponseType } from '~/types/reports'
+import type {
+  BalanceResponseType,
+  SpentDetailsType,
+  SpentResponseType,
+} from '~/types/reports'
 
 const url = import.meta.env.VITE_BACKEND_SERVER
 
@@ -134,4 +138,34 @@ export async function useGetSpentQuery({
   }
 
   return (await response.json()) as SpentResponseType
+}
+
+export async function useGetSpentDetailsQuery({
+  token,
+  project_id,
+  budget_item_id,
+  date,
+}: Readonly<{
+  token: string
+  project_id: string
+  budget_item_id: string
+  date: string
+}>) {
+  const response = await fetch(
+    `${url}/reportes/gastado/${project_id}/${budget_item_id}/${date}`,
+    {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  )
+
+  if (!response.ok) {
+    const err = await response.json()
+    throw new Error(err.error)
+  }
+
+  return (await response.json()) as SpentDetailsType[]
 }
