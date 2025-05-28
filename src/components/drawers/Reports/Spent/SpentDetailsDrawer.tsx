@@ -1,9 +1,10 @@
 import { Button, CircularProgress } from '@mui/material'
 import { DataGrid, type GridColDef } from '@mui/x-data-grid'
-
+import { useQuery } from '@tanstack/react-query'
 import DrawerTitle from '~/components/titles/DrawerTitle/DrawerTitle'
+import { useGetSpentDetailsQuery } from '~/queries/reportes/comun'
+import { useAppSelector } from '~/redux/hooks'
 import BcaDrawer from '~components/drawers/BcaDrawer/BcaDrawer'
-import { useGetSpentDetailsQuery } from '~redux/api/bca-backend/reports/commonSlice'
 import type { Spent, SpentDetailsType } from '~types/reports'
 
 type SpentDetailsDrawerProps = {
@@ -21,10 +22,16 @@ export default function SpentDetailsDrawer({
   selectedProject,
   selectedDate,
 }: SpentDetailsDrawerProps) {
-  const { data, isLoading } = useGetSpentDetailsQuery({
-    project_id: selectedProject,
-    budget_item_id: selectedData.budget_item.id!,
-    date: selectedDate,
+  const token = useAppSelector((state) => state.login.token)
+  const { data, isLoading } = useQuery({
+    queryKey: ['spent-detail'],
+    queryFn: () =>
+      useGetSpentDetailsQuery({
+        token,
+        project_id: selectedProject,
+        budget_item_id: selectedData.budget_item.id!,
+        date: selectedDate,
+      }),
   })
 
   const cols: GridColDef<SpentDetailsType>[] = [
