@@ -9,11 +9,13 @@ import BcaSelect from '~/components/input/BcaSelect/BcaSelect'
 import ActualTable from '~/components/reports/ActualTable/ActualTable'
 import PageTitle from '~/components/titles/PageTitle/PageTitle'
 import { useGetAllProjectsQuery } from '~/queries/parametros/proyectos'
-import { useGetAllLevelsQuery } from '~/queries/reportes/comun'
+import {
+  useGetAllHistoricQuery,
+  useGetAllLevelsQuery,
+} from '~/queries/reportes/comun'
 import { normalizeDate } from '~/utils/date'
 import { downloadExcelFile } from '~/utils/download'
 import EditToolbar from '~components/table/headers/toolbar'
-import { useGetAllHistoricQuery } from '~redux/api/bca-backend/reports/commonSlice'
 import { useAppSelector } from '~redux/hooks'
 
 const reportSchema = z.object({
@@ -53,7 +55,17 @@ export default function Historic() {
     queryKey: ['levels'],
     queryFn: () => useGetAllLevelsQuery({ token }),
   })
-  const { data: budgets, isFetching } = useGetAllHistoricQuery(selectedReport)
+  const { data: budgets, isFetching } = useQuery({
+    queryKey: ['historic'],
+    queryFn: () =>
+      useGetAllHistoricQuery({
+        token,
+        project_id: selectedReport.project_id,
+        level: selectedReport.level,
+        date: selectedReport.date,
+      }),
+  })
+  // const { data: budgets, isFetching } = useGetAllHistoricQuery(selectedReport)
 
   const { data: projects } = useQuery({
     queryKey: ['projects'],
