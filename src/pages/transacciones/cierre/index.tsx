@@ -6,6 +6,7 @@ import { Box, Button, CircularProgress, Stack, Typography } from '@mui/material'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
 import BcaDateTextField from '~/components/input/BcaDateTextField/BcaDateTextField'
 import BcaSelect from '~/components/input/BcaSelect/BcaSelect'
 import PageTitle from '~/components/titles/PageTitle/PageTitle'
@@ -33,6 +34,11 @@ export default function Cierre() {
     mutationFn: useCreateClosureMutation,
     onError: (error) => {
       setConflictError(error.message)
+      toast.error(`Error al ejecutar el cierre: ${error.message}`)
+    },
+    onSuccess: () => {
+      setConflictError('')
+      toast.success('Cierre completado')
     },
     onSettled: () => {
       setOpen(false)
@@ -45,7 +51,6 @@ export default function Cierre() {
 
   function hadleSubmit(data: CierreTypes) {
     const dateString = normalizeDate(data.date)
-    console.log(dateString)
     setCierreData({
       project_id: data.project_id,
       // @ts-expect-error testing fix purposes
