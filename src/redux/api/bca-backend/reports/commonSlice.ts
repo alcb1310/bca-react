@@ -4,17 +4,6 @@ import { bcaApiSlice } from '../bcaSlice'
 const commonApiSlice = bcaApiSlice.injectEndpoints({
   overrideExisting: true,
   endpoints: (builder) => ({
-    setBalancedInvoice: builder.mutation<void, { invoice_id: string }>({
-      query: (data) => {
-        return {
-          url: `/reportes/cuadre/${data.invoice_id}`,
-          method: 'PUT',
-        }
-      },
-
-      invalidatesTags: ['cuadre'],
-    }),
-
     getSpent: builder.query<
       SpentResponseType,
       {
@@ -52,8 +41,4 @@ const commonApiSlice = bcaApiSlice.injectEndpoints({
   }),
 })
 
-export const {
-  useSetBalancedInvoiceMutation,
-  useGetSpentQuery,
-  useGetSpentDetailsQuery,
-} = commonApiSlice
+export const { useGetSpentQuery, useGetSpentDetailsQuery } = commonApiSlice

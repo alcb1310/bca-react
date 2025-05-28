@@ -1,8 +1,9 @@
 import { Alert, Checkbox } from '@mui/material'
 import { DataGrid, type GridColDef } from '@mui/x-data-grid'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
-
-import { useSetBalancedInvoiceMutation } from '~redux/api/bca-backend/reports/commonSlice'
+import { useSetBalancedInvoiceMutation } from '~/queries/reportes/comun'
+import { useAppSelector } from '~/redux/hooks'
 import type { InvoiceResponseType } from '~types/invoice'
 import type { BalanceResponseType } from '~types/reports'
 
@@ -11,18 +12,24 @@ type BalanceTableProps = {
 }
 
 export default function BalanceTable({ data }: BalanceTableProps) {
+  const token = useAppSelector((state) => state.login.token)
+  const queryClient = useQueryClient()
   const [alert, setAlert] = useState<boolean>(false)
   const [msg, setMsg] = useState<string>('')
-  const [setBalanced] = useSetBalancedInvoiceMutation()
+  const { mutate } = useMutation({
+    mutationFn: useSetBalancedInvoiceMutation,
+    onError: (error) => {
+      setMsg(error.message)
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ['balance'] })
+    },
+  })
+  // const [setBalanced] = useSetBalancedInvoiceMutation()
 
   async function handleClick(data: InvoiceResponseType) {
     setAlert(false)
-    const res = await setBalanced({ invoice_id: data.id })
-    if ('error' in res) {
-      setAlert(true)
-      // @ts-expect-error data is a property of error
-      setMsg(res?.error.data)
-    }
+    mutate({ token, id: data.id })
   }
 
   const cols: GridColDef<InvoiceResponseType>[] = [
