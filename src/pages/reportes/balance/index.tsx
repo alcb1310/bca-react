@@ -9,10 +9,10 @@ import BcaSelect from '~/components/input/BcaSelect/BcaSelect'
 import BalanceTable from '~/components/reports/BalanceTable/BalanceTable'
 import PageTitle from '~/components/titles/PageTitle/PageTitle'
 import { useGetAllProjectsQuery } from '~/queries/parametros/proyectos'
+import { useGetBalanceReportQuery } from '~/queries/reportes/comun'
 import { normalizeDate } from '~/utils/date'
 import { downloadExcelFile } from '~/utils/download'
 import EditToolbar from '~components/table/headers/toolbar'
-import { useGetBalanceReportQuery } from '~redux/api/bca-backend/reports/commonSlice'
 import { useAppSelector } from '~redux/hooks'
 
 const reportSchema = z.object({
@@ -42,7 +42,15 @@ export default function Balance() {
     queryKey: ['projects', 'active'],
     queryFn: () => useGetAllProjectsQuery({ token, active: true }),
   })
-  const { data, isFetching } = useGetBalanceReportQuery(selectedData!)
+  const { data, isFetching } = useQuery({
+    queryKey: ['balance'],
+    queryFn: () =>
+      useGetBalanceReportQuery({
+        token,
+        project_id: selectedData.project_id,
+        date: selectedData.date,
+      }),
+  })
 
   function generateReport(data: ReportType) {
     setSelectedData({

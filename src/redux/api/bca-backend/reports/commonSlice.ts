@@ -1,31 +1,9 @@
-import type {
-  BalanceResponseType,
-  SpentDetailsType,
-  SpentResponseType,
-} from '~types/reports'
+import type { SpentDetailsType, SpentResponseType } from '~types/reports'
 import { bcaApiSlice } from '../bcaSlice'
 
 const commonApiSlice = bcaApiSlice.injectEndpoints({
   overrideExisting: true,
   endpoints: (builder) => ({
-    getBalanceReport: builder.query<
-      BalanceResponseType,
-      {
-        project_id: string
-        date: string
-      }
-    >({
-      query: (params) => {
-        return {
-          url: '/reportes/cuadre',
-          method: 'GET',
-          params,
-        }
-      },
-
-      providesTags: ['cuadre'],
-    }),
-
     setBalancedInvoice: builder.mutation<void, { invoice_id: string }>({
       query: (data) => {
         return {
@@ -75,7 +53,6 @@ const commonApiSlice = bcaApiSlice.injectEndpoints({
 })
 
 export const {
-  useGetBalanceReportQuery,
   useSetBalancedInvoiceMutation,
   useGetSpentQuery,
   useGetSpentDetailsQuery,
