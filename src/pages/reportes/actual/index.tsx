@@ -8,10 +8,10 @@ import BcaSelect from '~/components/input/BcaSelect/BcaSelect'
 import ActualTable from '~/components/reports/ActualTable/ActualTable'
 import PageTitle from '~/components/titles/PageTitle/PageTitle'
 import { useGetAllProjectsQuery } from '~/queries/parametros/proyectos'
+import { useGetAllLevelsQuery } from '~/queries/reportes/comun'
 import { useGetAllBudgetsByProjectAndLevelQuery } from '~/queries/transacciones/presupuesto'
 import { downloadExcelFile } from '~/utils/download'
 import EditToolbar from '~components/table/headers/toolbar'
-import { useGetAllLevelsQuery } from '~redux/api/bca-backend/reports/commonSlice'
 import { useAppSelector } from '~redux/hooks'
 
 const reportSchema = z.object({
@@ -34,7 +34,10 @@ export default function Actual() {
     queryKey: ['projects', 'active'],
     queryFn: () => useGetAllProjectsQuery({ token, active: true }),
   })
-  const { data: levels } = useGetAllLevelsQuery()
+  const { data: levels } = useQuery({
+    queryKey: ['levels'],
+    queryFn: () => useGetAllLevelsQuery({ token }),
+  })
   const [selectedReport, setSelectedReport] = useState<ReportTypes>({
     project_id: '',
     level: '',

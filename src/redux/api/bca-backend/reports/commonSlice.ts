@@ -6,23 +6,9 @@ import type {
 } from '~types/reports'
 import { bcaApiSlice } from '../bcaSlice'
 
-type LevelType = {
-  key: string
-  value: string
-}
-
 const commonApiSlice = bcaApiSlice.injectEndpoints({
   overrideExisting: true,
   endpoints: (builder) => ({
-    getAllLevels: builder.query<LevelType[], void>({
-      query: () => {
-        return {
-          url: '/reportes/levels',
-          method: 'GET',
-        }
-      },
-    }),
-
     getAllHistoric: builder.query<
       BudgetResponseType[],
       {
@@ -107,7 +93,6 @@ const commonApiSlice = bcaApiSlice.injectEndpoints({
 })
 
 export const {
-  useGetAllLevelsQuery,
   useGetAllHistoricQuery,
   useGetBalanceReportQuery,
   useSetBalancedInvoiceMutation,
