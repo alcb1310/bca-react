@@ -1,7 +1,7 @@
-import { Alert, Checkbox } from '@mui/material'
+import { Checkbox } from '@mui/material'
 import { DataGrid, type GridColDef } from '@mui/x-data-grid'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { useState } from 'react'
+import { toast } from 'sonner'
 import { useSetBalancedInvoiceMutation } from '~/queries/reportes/comun'
 import { useAppSelector } from '~/redux/hooks'
 import type { InvoiceResponseType } from '~types/invoice'
@@ -14,21 +14,20 @@ type BalanceTableProps = {
 export default function BalanceTable({ data }: BalanceTableProps) {
   const token = useAppSelector((state) => state.login.token)
   const queryClient = useQueryClient()
-  const [alert, setAlert] = useState<boolean>(false)
-  const [msg, setMsg] = useState<string>('')
   const { mutate } = useMutation({
     mutationFn: useSetBalancedInvoiceMutation,
     onError: (error) => {
-      setMsg(error.message)
+      toast.error(`Error al actualizar la factura: ${error.message}`)
+    },
+    onSuccess: () => {
+      toast.success('Factura actualizada')
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ['balance'] })
     },
   })
-  // const [setBalanced] = useSetBalancedInvoiceMutation()
 
   async function handleClick(data: InvoiceResponseType) {
-    setAlert(false)
     mutate({ token, id: data.id })
   }
 
@@ -96,11 +95,6 @@ export default function BalanceTable({ data }: BalanceTableProps) {
 
   return (
     <>
-      {alert && (
-        <Alert severity='error' onClose={() => setAlert(false)}>
-          {msg}
-        </Alert>
-      )}
       <DataGrid
         columns={cols}
         rows={data?.invoices}
