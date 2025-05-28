@@ -83,3 +83,23 @@ export async function useGetBalanceReportQuery({
 
   return (await response.json()) as BalanceResponseType
 }
+
+export async function useSetBalancedInvoiceMutation({
+  token,
+  id,
+}: Readonly<{ token: string; id: string }>) {
+  const response = await fetch(`${url}/reportes/cuadre/${id}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  })
+
+  if (!response.ok) {
+    const err = await response.json()
+    throw new Error(err.error)
+  }
+
+  return
+}
