@@ -3,17 +3,17 @@ import { DevTool } from '@hookform/devtools'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { SaveOutlined } from '@mui/icons-material'
 import { Box, Button, CircularProgress, Stack, Typography } from '@mui/material'
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import BcaDateTextField from '~/components/input/BcaDateTextField/BcaDateTextField'
 import BcaSelect from '~/components/input/BcaSelect/BcaSelect'
 import PageTitle from '~/components/titles/PageTitle/PageTitle'
 import { useGetAllProjectsQuery } from '~/queries/parametros/proyectos'
+import { useCreateClosureMutation } from '~/queries/transacciones/cierre'
 import { useAppSelector } from '~/redux/hooks'
 import { normalizeDate } from '~/utils/date'
 import ConfirmationDialog from '~components/dialog/ConfirmationDialog'
-import { useCreateClosureMutation } from '~redux/api/bca-backend/transacciones/closureSlice'
 import { type CierreTypes, cierreSchema } from '~types/cierre'
 
 export default function Cierre() {
@@ -29,7 +29,15 @@ export default function Cierre() {
     },
     resolver: zodResolver(cierreSchema),
   })
-  const [generateCierre] = useCreateClosureMutation()
+  const { mutate } = useMutation({
+    mutationFn: useCreateClosureMutation,
+    onError: (error) => {
+      setConflictError(error.message)
+    },
+    onSettled: () => {
+      setOpen(false)
+    },
+  })
   const { data: projects, isLoading } = useQuery({
     queryKey: ['projects', 'active'],
     queryFn: () => useGetAllProjectsQuery({ token, active: true }),
@@ -37,6 +45,7 @@ export default function Cierre() {
 
   function hadleSubmit(data: CierreTypes) {
     const dateString = normalizeDate(data.date)
+    console.log(dateString)
     setCierreData({
       project_id: data.project_id,
       // @ts-expect-error testing fix purposes
@@ -100,12 +109,7 @@ export default function Cierre() {
           setOpen={setOpen}
           message={'Desea generar el cierre'}
           confirm={async () => {
-            const res = await generateCierre(cierreData!)
-            if ('error' in res) {
-              // @ts-expect-error error property is part of the res.error object
-              setConflictError(res.error.data.error)
-            }
-            setOpen(false)
+            mutate({ token, cierre: cierreData! })
           }}
         />
       )}
