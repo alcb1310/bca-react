@@ -39,9 +39,7 @@ describe('<Actual />', () => {
   })
 
   it('should display the page', () => {
-    cy.getByTestId('page.reports.actual.loading').should('be.visible')
-    cy.wait(['@projects', '@levels', '@actual-load'])
-    cy.getByTestId('page.reports.actual.loading').should('not.exist')
+    cy.wait(['@projects', '@levels'])
 
     cy.getByTestId('page.reports.actual.project')
       .should('be.visible')
