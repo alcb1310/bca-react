@@ -37,9 +37,9 @@ export default function ActualReportTable({ data }: AllBudgetsTableProps) {
       valueFormatter: (params: { Float64: number; Valid: boolean }) => {
         return params.Valid
           ? params.Float64.toLocaleString('es-EC', {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2,
-          })
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+            })
           : ''
       },
     },
@@ -51,9 +51,9 @@ export default function ActualReportTable({ data }: AllBudgetsTableProps) {
       valueFormatter: (params: { Float64: number; Valid: boolean }) => {
         return params.Valid
           ? params.Float64.toLocaleString('es-EC', {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2,
-          })
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+            })
           : ''
       },
     },
@@ -77,9 +77,9 @@ export default function ActualReportTable({ data }: AllBudgetsTableProps) {
       valueFormatter: (params: { Float64: number; Valid: boolean }) => {
         return params.Valid
           ? params.Float64.toLocaleString('es-EC', {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2,
-          })
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+            })
           : ''
       },
     },
@@ -103,9 +103,9 @@ export default function ActualReportTable({ data }: AllBudgetsTableProps) {
       valueFormatter: (params: { Float64: number; Valid: boolean }) => {
         return params.Valid
           ? params.Float64.toLocaleString('es-EC', {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2,
-          })
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+            })
           : ''
       },
     },
@@ -117,9 +117,9 @@ export default function ActualReportTable({ data }: AllBudgetsTableProps) {
       valueFormatter: (params: { Float64: number; Valid: boolean }) => {
         return params.Valid
           ? params.Float64.toLocaleString('es-EC', {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2,
-          })
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+            })
           : ''
       },
     },
