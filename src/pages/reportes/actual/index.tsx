@@ -1,11 +1,11 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { CircularProgress, Stack } from '@mui/material'
-import { useQuery } from '@tanstack/react-query'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import BcaSelect from '~/components/input/BcaSelect/BcaSelect'
-import ActualTable from '~/components/reports/ActualTable/ActualTable'
+import ActualReportTable from '~/components/reports/ActualTable/ActualReportTable'
 import PageTitle from '~/components/titles/PageTitle/PageTitle'
 import { useGetAllProjectsQuery } from '~/queries/parametros/proyectos'
 import { useGetAllLevelsQuery } from '~/queries/reportes/comun'
@@ -27,6 +27,7 @@ type ReportTypes = z.infer<typeof reportSchema>
 
 export default function Actual() {
   const token = useAppSelector((state) => state.login.token)
+  const queryClient = useQueryClient()
   const { control, handleSubmit } = useForm<ReportTypes>({
     resolver: zodResolver(reportSchema),
   })
@@ -43,7 +44,8 @@ export default function Actual() {
     level: '',
   })
   const { data, isFetching } = useQuery({
-    queryKey: ['budget', selectedReport.level, selectedReport.project_id],
+    enabled: selectedReport.project_id !== '' && selectedReport.level !== '',
+    queryKey: ['actual'],
     queryFn: () =>
       useGetAllBudgetsByProjectAndLevelQuery({
         token,
@@ -54,6 +56,7 @@ export default function Actual() {
 
   function hadleSubmit(data: ReportTypes) {
     setSelectedReport(data)
+    queryClient.invalidateQueries({ queryKey: ['actual'] })
   }
 
   async function exportClick(data: ReportTypes) {
@@ -121,7 +124,7 @@ export default function Actual() {
         <CircularProgress data-testid='page.reports.actual.loading' />
       )}
 
-      <ActualTable data={data!} />
+      <ActualReportTable data={data!} />
     </>
   )
 }

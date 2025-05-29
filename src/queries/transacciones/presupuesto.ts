@@ -36,7 +36,7 @@ export async function useGetAllBudgetsByProjectAndLevelQuery({
   if (project_id) params.append('project_id', project_id)
   if (level) params.append('level', level)
 
-  const response = await fetch(`${url}/transacciones/presupuestos?${params}`, {
+  const response = await fetch(`${url}/reportes/actual?${params}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
