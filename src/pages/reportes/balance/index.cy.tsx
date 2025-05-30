@@ -23,7 +23,7 @@ describe('<Balance />', () => {
   })
 
   it('should display the page', () => {
-    cy.wait(['@projects', '@balance-load'])
+    cy.wait(['@projects'])
 
     cy.getByTestId('page.reports.balance.project')
       .should('be.visible')

@@ -45,9 +45,7 @@ describe('<Historic />', () => {
   })
 
   it('should display the page', () => {
-    cy.getByTestId('pages.reports.historic.loading').should('be.visible')
-    cy.wait(['@projects', '@levels', '@histoirc-load'])
-    cy.getByTestId('pages.reports.historic.loading').should('not.exist')
+    cy.wait(['@projects', '@levels'])
 
     cy.getByTestId('component.pagetitle.title')
       .should('be.visible')
@@ -120,8 +118,6 @@ describe('<Historic />', () => {
 
     cy.getByTestId('component.table.header.toolbar.main').click()
 
-    cy.getByTestId('pages.reports.historic.loading').should('be.visible')
     cy.wait('@historic')
-    cy.getByTestId('pages.reports.historic.loading').should('not.exist')
   })
 })

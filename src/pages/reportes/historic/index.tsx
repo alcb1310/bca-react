@@ -1,12 +1,12 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { CircularProgress, Stack } from '@mui/material'
-import { useQuery } from '@tanstack/react-query'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import BcaDateTextField from '~/components/input/BcaDateTextField/BcaDateTextField'
 import BcaSelect from '~/components/input/BcaSelect/BcaSelect'
-import ActualTable from '~/components/reports/ActualTable/ActualTable'
+import ActualReportTable from '~/components/reports/ActualTable/ActualReportTable'
 import PageTitle from '~/components/titles/PageTitle/PageTitle'
 import { useGetAllProjectsQuery } from '~/queries/parametros/proyectos'
 import {
@@ -33,6 +33,7 @@ type ReportTypes = z.infer<typeof reportSchema>
 
 export default function Historic() {
   const token = useAppSelector((state) => state.login.token)
+  const queryClient = useQueryClient()
   const [selectedReport, setSelectedReport] = useState<{
     project_id: string
     level: string
@@ -64,8 +65,8 @@ export default function Historic() {
         level: selectedReport.level,
         date: selectedReport.date,
       }),
+    enabled: !!selectedReport.project_id && !!selectedReport.level,
   })
-  // const { data: budgets, isFetching } = useGetAllHistoricQuery(selectedReport)
 
   const { data: projects } = useQuery({
     queryKey: ['projects'],
@@ -73,12 +74,21 @@ export default function Historic() {
   })
 
   function generateReport(data: ReportTypes) {
-    const reportData = {
+    setSelectedReport({
       project_id: data.project_id,
       level: data.level,
       date: normalizeDate(data.date),
-    }
-    setSelectedReport(reportData)
+    })
+    queryClient.invalidateQueries({ queryKey: ['historic'] })
+    queryClient.setQueryData(
+      ['historic'],
+      useGetAllHistoricQuery({
+        token,
+        project_id: data.project_id,
+        level: data.level,
+        date: normalizeDate(data.date),
+      }),
+    )
   }
 
   async function exportReport(data: ReportTypes) {
@@ -157,7 +167,7 @@ export default function Historic() {
           <CircularProgress data-testid='pages.reports.historic.loading' />
         )}
 
-        <ActualTable data={budgets!} />
+        <ActualReportTable data={budgets!} />
       </form>
     </>
   )

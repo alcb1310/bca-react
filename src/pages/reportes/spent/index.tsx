@@ -1,6 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { CircularProgress, Grid2, Stack, Typography } from '@mui/material'
-import { useQuery } from '@tanstack/react-query'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
@@ -35,6 +35,7 @@ type ReportTypes = z.infer<typeof reportSchema>
 
 export default function Spent() {
   const token = useAppSelector((state) => state.login.token)
+  const queryClient = useQueryClient()
   const [selectedReport, setSelectedReport] = useState<{
     project_id: string
     level: string
@@ -69,6 +70,10 @@ export default function Spent() {
         level: selectedReport.level,
         date: selectedReport.date,
       }),
+    enabled:
+      selectedReport.project_id !== '' &&
+      selectedReport.level !== '' &&
+      selectedReport.date !== '',
   })
 
   const { data: projects } = useQuery({
@@ -84,6 +89,7 @@ export default function Spent() {
       date,
     }
     setSelectedReport(reportData)
+    queryClient.invalidateQueries({ queryKey: ['spent'] })
   }
 
   async function exportClick(info: ReportTypes) {

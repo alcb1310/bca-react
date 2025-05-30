@@ -43,7 +43,7 @@ export default function Balance() {
     queryKey: ['projects', 'active'],
     queryFn: () => useGetAllProjectsQuery({ token, active: true }),
   })
-  const { data, isFetching } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ['balance'],
     queryFn: () =>
       useGetBalanceReportQuery({
@@ -120,7 +120,7 @@ export default function Balance() {
           />
         </Stack>
       </form>
-      {isFetching && (
+      {isLoading && (
         <CircularProgress data-testid='page.reports.balance.loading' />
       )}
 

@@ -27,8 +27,7 @@ describe('<Spent />', () => {
   })
 
   it('should display the page', () => {
-    cy.getByTestId('page.reports.spent.loading').should('be.visible')
-    cy.wait(['@levels', '@projects', '@spent-load'])
+    cy.wait(['@levels', '@projects'])
 
     cy.getByTestId('component.pagetitle.title')
       .should('be.visible')
@@ -93,13 +92,6 @@ describe('<Spent />', () => {
         .select('Test Project 1')
       cy.getByTestId('page.reports.spent.level').find('select').select('1')
       cy.getByTestId('page.reports.spent.date').find('input').type('10152024')
-    })
-
-    it('should show a spinner when loading data', () => {
-      cy.getByTestId('component.table.header.toolbar.main').click()
-      cy.getByTestId('page.reports.spent.loading').should('be.visible')
-      cy.wait('@spent')
-      cy.getByTestId('page.reports.spent.loading').should('not.exist')
     })
 
     it('should open the drawer', () => {

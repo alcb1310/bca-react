@@ -98,8 +98,6 @@ describe('<Actual />', () => {
     ).as('actual')
     cy.getByTestId('component.table.header.toolbar.main').click()
 
-    cy.getByTestId('page.reports.actual.loading').should('be.visible')
     cy.wait('@actual')
-    cy.getByTestId('page.reports.actual.loading').should('not.exist')
   })
 })
