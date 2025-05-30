@@ -22,11 +22,10 @@ jobs:
         with:
           install: true
           component: true
-          record: true
-          parallel: true
-          group: 'BCA-Components'
-          wait-on: 'http://localhost:5173'
-
-        env:
-          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
-          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+          # record: true
+          # parallel: true
+          # group: 'BCA-Components'
+        #
+        # env:
+        #   CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+        #   GITHUB_TOKEN: ${{ secrets.TOKEN }}
