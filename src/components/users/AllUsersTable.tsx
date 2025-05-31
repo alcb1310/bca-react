@@ -14,13 +14,11 @@ import {
   useGetAllUsersQuery,
   useMeQuery,
 } from '~/queries/user/user'
-import { useAppSelector } from '~/redux/hooks'
 import ConfirmationDialog from '~components/dialog/ConfirmationDialog'
 import UsersDrawer from '~components/drawers/Users/UsersDrawer'
 import type { UserResponse } from '~types/user'
 
 export default function AllUsersTable() {
-  const token = useAppSelector((state) => state.login.token)
   const queryClient = useQueryClient()
   const [confirmationDialogOpen, setConfirmationDialogOpen] =
     useState<boolean>(false)
@@ -31,11 +29,11 @@ export default function AllUsersTable() {
 
   const { data, isFetching } = useQuery({
     queryKey: ['users'],
-    queryFn: () => useGetAllUsersQuery({ token }),
+    queryFn: () => useGetAllUsersQuery(),
   })
   const { data: me } = useQuery({
     queryKey: ['users', 'me'],
-    queryFn: () => useMeQuery({ token }),
+    queryFn: () => useMeQuery(),
   })
   const { mutate: deleteUser } = useMutation({
     mutationFn: useDeleteUserMutation,
@@ -118,7 +116,7 @@ export default function AllUsersTable() {
           setOpen={setConfirmationDialogOpen}
           message={message}
           confirm={() => {
-            deleteUser({ token, id: userIdToDelete })
+            deleteUser({ id: userIdToDelete })
           }}
         />
       )}

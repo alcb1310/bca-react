@@ -2,13 +2,11 @@ import { Box, CircularProgress, Typography } from '@mui/material'
 import { useQuery } from '@tanstack/react-query'
 import PageTitle from '~/components/titles/PageTitle/PageTitle'
 import { useMeQuery } from '~/queries/user/user'
-import { useAppSelector } from '~/redux/hooks'
 
 export default function UsersHome() {
-  const token = useAppSelector((state) => state.login.token)
   const { data, isFetching } = useQuery({
     queryKey: ['users', 'me'],
-    queryFn: () => useMeQuery({ token }),
+    queryFn: () => useMeQuery(),
   })
 
   const componentLayout = (

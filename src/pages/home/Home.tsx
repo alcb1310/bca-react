@@ -1,13 +1,11 @@
 import { CircularProgress, Typography } from '@mui/material'
 import { useQuery } from '@tanstack/react-query'
 import { useMeQuery } from '~/queries/user/user'
-import { useAppSelector } from '~/redux/hooks'
 
 export default function Home() {
-  const token = useAppSelector((state) => state.login.token)
   const { data, isFetching } = useQuery({
     queryKey: ['users', 'me'],
-    queryFn: () => useMeQuery({ token }),
+    queryFn: () => useMeQuery(),
   })
 
   return (

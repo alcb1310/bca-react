@@ -5,7 +5,6 @@ const url = import.meta.env.VITE_BACKEND_SERVER
 const token = loginStore.state.token
 
 export async function useMeQuery() {
-  console.log(token)
   const response = await fetch(`${url}/users/me`, {
     method: 'GET',
     headers: {

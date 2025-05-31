@@ -10,7 +10,6 @@ import {
   useCreateUserMutation,
   useUpdateUserMutation,
 } from '~/queries/user/user'
-import { useAppSelector } from '~/redux/hooks'
 import ButtonGroup from '~components/buttons/button-group'
 import {
   type UserCreate,
@@ -31,7 +30,6 @@ export default function UsersDrawer({
   onClose,
   userData,
 }: UsersDrawerProps) {
-  const token = useAppSelector((state) => state.login.token)
   const queryClient = useQueryClient()
   const [conflictError, setConflictError] = useState<string>('')
   const { mutate: createUser } = useMutation({
@@ -82,12 +80,12 @@ export default function UsersDrawer({
   async function hadleSubmit(data: UserCreate | UserResponse) {
     setConflictError('')
     if ('password' in data) {
-      createUser({ token, user: data })
+      createUser({ user: data })
       return
     }
 
     // TODO: update user is note being called, need to fix it
-    updateUser({ token, user: data })
+    updateUser({ user: data })
   }
 
   return (

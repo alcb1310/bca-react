@@ -7,7 +7,6 @@ import { toast } from 'sonner'
 import BcaTextField from '~/components/input/BcaTextField/BcaTextField'
 import DrawerTitle from '~/components/titles/DrawerTitle/DrawerTitle'
 import { useUpdatePasswordMutation } from '~/queries/user/user'
-import { useAppSelector } from '~/redux/hooks'
 import ButtonGroup from '~components/buttons/button-group'
 import BcaDrawer from '~components/drawers/BcaDrawer/BcaDrawer'
 import { type PasswordType, passwordSchema } from '~types/user'
@@ -17,7 +16,6 @@ type ChangePasswordProps = {
 }
 
 export default function ChangePassword({ onClose }: ChangePasswordProps) {
-  const token = useAppSelector((state) => state.login.token)
   const [open, setOpen] = useState<boolean>(true)
   const { control, reset, handleSubmit } = useForm<PasswordType>({
     defaultValues: {
@@ -47,7 +45,7 @@ export default function ChangePassword({ onClose }: ChangePasswordProps) {
   }
 
   function hadleSubmit(data: PasswordType) {
-    mutate({ token, password: data })
+    mutate({ password: data })
   }
 
   return (
