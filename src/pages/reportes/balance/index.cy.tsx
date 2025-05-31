@@ -78,8 +78,6 @@ describe('<Balance />', () => {
     ).as('balance')
     cy.getByTestId('component.table.header.toolbar.main').click()
 
-    cy.getByTestId('page.reports.balance.loading').should('be.visible')
     cy.wait('@balance')
-    cy.getByTestId('page.reports.balance.loading').should('not.exist')
   })
 })

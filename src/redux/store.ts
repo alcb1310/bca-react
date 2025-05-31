@@ -1,6 +1,4 @@
 import { configureStore } from '@reduxjs/toolkit'
-
-import { bcaApiSlice } from './api/bca-backend/bcaSlice'
 import { loginSlice } from './features/login/loginSlice'
 import { themeSlice } from './features/theme/themeSlice'
 
@@ -8,10 +6,6 @@ export const store = configureStore({
   reducer: {
     theme: themeSlice.reducer,
     login: loginSlice.reducer,
-    [bcaApiSlice.reducerPath]: bcaApiSlice.reducer,
-  },
-  middleware: (getDefaultMiddleware) => {
-    return getDefaultMiddleware().concat(bcaApiSlice.middleware)
   },
 })
 
