@@ -10,7 +10,6 @@ import {
   useCreateCategoryMutation,
   useUpdateCategoryMutation,
 } from '~/queries/parametros/categorias'
-import { useAppSelector } from '~/redux/hooks'
 import ButtonGroup from '~components/buttons/button-group'
 import BcaDrawer from '~components/drawers/BcaDrawer/BcaDrawer'
 import { type CategoryType, categorySchema } from '~types/categories'
@@ -26,7 +25,6 @@ export default function CategoriesDrawer({
   onClose,
   defaultValues,
 }: CategoriesDrawerProps) {
-  const token = useAppSelector((state) => state.login.token)
   const queryClient = useQueryClient()
   const [conflictError, setConflictError] = useState<string>('')
 
@@ -68,10 +66,10 @@ export default function CategoriesDrawer({
 
   async function hadleSubmit(data: CategoryType) {
     if (!defaultValues.id) {
-      createCategory({ token, category: data })
+      createCategory({ category: data })
       return
     }
-    updateCategory({ token, category: data })
+    updateCategory({ category: data })
   }
 
   return (
