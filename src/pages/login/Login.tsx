@@ -12,6 +12,7 @@ import { useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { Navigate } from 'react-router-dom'
 import { useLoginMutation } from '~/queries/auth/authentication'
+import { loginApplication } from '~/store/login'
 import { login } from '~redux/features/login/loginSlice'
 import { useAppDispatch, useAppSelector } from '~redux/hooks'
 import { type LoginInput, loginSchema } from '~types/login'
@@ -22,6 +23,7 @@ export default function Login() {
     mutationFn: useLoginMutation,
     onSuccess: (data) => {
       dispatch(login(data.token))
+      loginApplication(data.token)
     },
     onError: (error) => {
       setError(error.message)

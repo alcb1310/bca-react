@@ -9,15 +9,12 @@ import {
   Typography,
 } from '@mui/material'
 import UserMenu from '~/components/menu/User/User'
-import { logout } from '~/redux/features/login/loginSlice'
-import { useAppDispatch } from '~/redux/hooks'
+import { logout } from '~/store/login'
 import ChangeTheme from '~components/theme/ChangeTheme'
 
 export default function ApplicationBar() {
-  const dispatch = useAppDispatch()
-
   function handleLogout() {
-    dispatch(logout())
+    logout()
   }
 
   return (
