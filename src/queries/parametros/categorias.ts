@@ -1,10 +1,10 @@
+import { loginStore } from '~/store/login'
 import type { CategoryType } from '~/types/categories'
 
 const url = import.meta.env.VITE_BACKEND_SERVER
+const token = loginStore.state.token
 
-export async function useGetAllCategoriesQuery({
-  token,
-}: Readonly<{ token: string }>) {
+export async function useGetAllCategoriesQuery() {
   const response = await fetch(`${url}/parametros/categorias`, {
     method: 'GET',
     headers: {
@@ -22,9 +22,8 @@ export async function useGetAllCategoriesQuery({
 }
 
 export async function useCreateCategoryMutation({
-  token,
   category,
-}: Readonly<{ token: string; category: CategoryType }>) {
+}: Readonly<{ category: CategoryType }>) {
   const response = await fetch(`${url}/parametros/categorias`, {
     method: 'POST',
     headers: {
@@ -43,9 +42,8 @@ export async function useCreateCategoryMutation({
 }
 
 export async function useUpdateCategoryMutation({
-  token,
   category,
-}: Readonly<{ token: string; category: CategoryType }>) {
+}: Readonly<{ category: CategoryType }>) {
   const response = await fetch(`${url}/parametros/categorias/${category.id}`, {
     method: 'PUT',
     headers: {
