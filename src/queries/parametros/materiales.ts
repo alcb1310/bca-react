@@ -1,10 +1,10 @@
+import { loginStore } from '~/store/login'
 import type { MaterialType } from '~/types/materials'
 
 const url = import.meta.env.VITE_BACKEND_SERVER
+const token = loginStore.state.token
 
-export async function useGetAllMaterialsQuery({
-  token,
-}: Readonly<{ token: string }>) {
+export async function useGetAllMaterialsQuery() {
   const response = await fetch(`${url}/parametros/materiales`, {
     method: 'GET',
     headers: {
@@ -22,9 +22,8 @@ export async function useGetAllMaterialsQuery({
 }
 
 export async function useCreateMaterialMutation({
-  token,
   material,
-}: Readonly<{ token: string; material: MaterialType }>) {
+}: Readonly<{ material: MaterialType }>) {
   const body = {
     ...material,
     category_id: material.category.id,
@@ -47,9 +46,8 @@ export async function useCreateMaterialMutation({
 }
 
 export async function useUpdateMaterialMutation({
-  token,
   material,
-}: Readonly<{ token: string; material: MaterialType }>) {
+}: Readonly<{ material: MaterialType }>) {
   const body = {
     ...material,
     category_id: material.category.id,
