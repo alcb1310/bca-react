@@ -1,8 +1,11 @@
+import { loginStore } from '~/store/login'
 import type { PasswordType, UserCreate, UserResponse } from '~/types/user'
 
 const url = import.meta.env.VITE_BACKEND_SERVER
+const token = loginStore.state.token
 
-export async function useMeQuery({ token }: Readonly<{ token: string }>) {
+export async function useMeQuery() {
+  console.log(token)
   const response = await fetch(`${url}/users/me`, {
     method: 'GET',
     headers: {
@@ -19,9 +22,7 @@ export async function useMeQuery({ token }: Readonly<{ token: string }>) {
   return (await response.json()) as UserResponse
 }
 
-export async function useGetAllUsersQuery({
-  token,
-}: Readonly<{ token: string }>) {
+export async function useGetAllUsersQuery() {
   const response = await fetch(`${url}/users`, {
     method: 'GET',
     headers: {
@@ -39,9 +40,8 @@ export async function useGetAllUsersQuery({
 }
 
 export async function useCreateUserMutation({
-  token,
   user,
-}: Readonly<{ token: string; user: UserCreate }>) {
+}: Readonly<{ user: UserCreate }>) {
   const response = await fetch(`${url}/users`, {
     method: 'POST',
     headers: {
@@ -59,10 +59,7 @@ export async function useCreateUserMutation({
   return
 }
 
-export async function useDeleteUserMutation({
-  token,
-  id,
-}: Readonly<{ token: string; id: string }>) {
+export async function useDeleteUserMutation({ id }: Readonly<{ id: string }>) {
   const response = await fetch(`${url}/users/${id}`, {
     method: 'DELETE',
     headers: {
@@ -80,9 +77,8 @@ export async function useDeleteUserMutation({
 }
 
 export async function useUpdateUserMutation({
-  token,
   user,
-}: Readonly<{ token: string; user: UserResponse }>) {
+}: Readonly<{ user: UserResponse }>) {
   const response = await fetch(`${url}/users/${user.id}`, {
     method: 'PUT',
     headers: {
@@ -101,9 +97,8 @@ export async function useUpdateUserMutation({
 }
 
 export async function useUpdatePasswordMutation({
-  token,
   password,
-}: Readonly<{ token: string; password: PasswordType }>) {
+}: Readonly<{ password: PasswordType }>) {
   const response = await fetch(`${url}/users`, {
     method: 'PUT',
     headers: {
