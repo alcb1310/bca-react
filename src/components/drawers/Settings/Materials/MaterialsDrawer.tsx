@@ -12,7 +12,6 @@ import {
   useCreateMaterialMutation,
   useUpdateMaterialMutation,
 } from '~/queries/parametros/materiales'
-import { useAppSelector } from '~/redux/hooks'
 import ButtonGroup from '~components/buttons/button-group'
 import BcaDrawer from '~components/drawers/BcaDrawer/BcaDrawer'
 import { type MaterialType, materialSchema } from '~types/materials'
@@ -28,7 +27,6 @@ export default function MaterialsDrawer({
   onClose,
   defaultValues,
 }: MaterialsDrawerProps) {
-  const token = useAppSelector((state) => state.login.token)
   const queryClient = useQueryClient()
   const [conflictError, setConflictError] = useState<string>('')
 
@@ -72,11 +70,11 @@ export default function MaterialsDrawer({
 
   async function hadleSubmit(data: MaterialType) {
     if (!defaultValues.id) {
-      createMaterial({ token, material: data })
+      createMaterial({ material: data })
       return
     }
 
-    updateMaterial({ token, material: data })
+    updateMaterial({ material: data })
   }
 
   return (

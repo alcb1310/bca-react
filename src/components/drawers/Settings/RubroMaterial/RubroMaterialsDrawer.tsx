@@ -68,7 +68,7 @@ function RubroMaterialsDrawer({
 
   const { data: allMaterials } = useQuery({
     queryKey: ['materials'],
-    queryFn: () => useGetAllMaterialsQuery({ token }),
+    queryFn: () => useGetAllMaterialsQuery(),
   })
 
   useEffect(() => {
