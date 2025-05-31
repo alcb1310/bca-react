@@ -1,12 +1,13 @@
+import { loginStore } from '~/store/login'
 import type { BudgetItem, BudgetItemResponse } from '~/types/partidas'
 
 const url = import.meta.env.VITE_BACKEND_SERVER
+const token = loginStore.state.token
 
 export async function useGetAllBudgetItemsQuery({
-  token,
   query,
   accum,
-}: Readonly<{ token: string; query?: string; accum?: boolean }>) {
+}: Readonly<{ query?: string; accum?: boolean }>) {
   const params = new URLSearchParams()
   if (query) params.append('query', query)
   if (accum !== undefined) params.append('accum', accum ? 'true' : 'false')
@@ -28,9 +29,8 @@ export async function useGetAllBudgetItemsQuery({
 }
 
 export async function useCreateBudgetItemMutation({
-  token,
   budgetItem,
-}: Readonly<{ token: string; budgetItem: BudgetItem }>) {
+}: Readonly<{ budgetItem: BudgetItem }>) {
   const response = await fetch(`${url}/parametros/partidas`, {
     method: 'POST',
     headers: {
@@ -49,9 +49,8 @@ export async function useCreateBudgetItemMutation({
 }
 
 export async function useUpdateBudgetItemMutation({
-  token,
   budgetItem,
-}: Readonly<{ token: string; budgetItem: BudgetItem }>) {
+}: Readonly<{ budgetItem: BudgetItem }>) {
   const response = await fetch(`${url}/parametros/partidas/${budgetItem.id}`, {
     method: 'PUT',
     headers: {

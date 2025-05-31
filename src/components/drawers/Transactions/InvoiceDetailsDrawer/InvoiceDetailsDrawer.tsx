@@ -38,7 +38,7 @@ export default function InvoiceDetailsDrawer({
 
   const { data: budgetItems } = useQuery({
     queryKey: ['budget-items'],
-    queryFn: () => useGetAllBudgetItemsQuery({ token }),
+    queryFn: () => useGetAllBudgetItemsQuery({}),
   })
 
   useEffect(() => {

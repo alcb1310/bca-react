@@ -60,7 +60,7 @@ export default function BudgetDrawer({
   })
   const { data: budgetItems } = useQuery({
     queryKey: ['budget-items', 'nonaccum'],
-    queryFn: () => useGetAllBudgetItemsQuery({ token, accum: false }),
+    queryFn: () => useGetAllBudgetItemsQuery({ accum: false }),
   })
 
   const { mutate: createBudget } = useMutation({

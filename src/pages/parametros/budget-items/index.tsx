@@ -4,19 +4,17 @@ import { useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
 import PageTitle from '~/components/titles/PageTitle/PageTitle'
 import { useGetAllBudgetItemsQuery } from '~/queries/parametros/partidas'
-import { useAppSelector } from '~/redux/hooks'
 import BudgetItemDrawer from '~components/drawers/Settings/BudgetItems/BudgetItemDrawer'
 import AllBudgetItemsTable from '~components/settings/budget-items/AllBudgetItemsTable'
 import EditToolbar from '~components/table/headers/toolbar'
 import type { BudgetItem } from '~types/partidas'
 
 export default function BudgetItems() {
-  const token = useAppSelector((state) => state.login.token)
   const [open, setOpen] = useState<boolean>(false)
   const [query, setQuery] = useState<string>('')
   const { data, isLoading } = useQuery({
     queryKey: ['budget-items'],
-    queryFn: () => useGetAllBudgetItemsQuery({ token, query }),
+    queryFn: () => useGetAllBudgetItemsQuery({}),
   })
 
   function handleClick() {

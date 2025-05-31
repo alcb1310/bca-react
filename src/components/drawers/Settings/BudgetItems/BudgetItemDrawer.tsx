@@ -19,7 +19,6 @@ import {
   useGetAllBudgetItemsQuery,
   useUpdateBudgetItemMutation,
 } from '~/queries/parametros/partidas'
-import { useAppSelector } from '~/redux/hooks'
 import ButtonGroup from '~components/buttons/button-group'
 import BcaDrawer from '~components/drawers/BcaDrawer/BcaDrawer'
 import { type BudgetItem, budgetItemSchema } from '~types/partidas'
@@ -35,7 +34,6 @@ export default function BudgetItemDrawer({
   onClose,
   defaultValues,
 }: BudgetItemDrawerProps) {
-  const token = useAppSelector((state) => state.login.token)
   const queryClient = useQueryClient()
   const { control, reset, handleSubmit } = useForm<BudgetItem>({
     defaultValues,
@@ -45,7 +43,7 @@ export default function BudgetItemDrawer({
 
   const { data, isLoading } = useQuery({
     queryKey: ['budget-items', 'accum'],
-    queryFn: () => useGetAllBudgetItemsQuery({ token, accum: true }),
+    queryFn: () => useGetAllBudgetItemsQuery({ accum: true }),
   })
   const { mutate: createBudgetItem } = useMutation({
     mutationFn: useCreateBudgetItemMutation,
@@ -83,11 +81,11 @@ export default function BudgetItemDrawer({
     setConflictError('')
     console.log(data)
     if (data.id) {
-      updateBudgetItem({ token, budgetItem: data })
+      updateBudgetItem({ budgetItem: data })
       return
     }
 
-    createBudgetItem({ token, budgetItem: data })
+    createBudgetItem({ budgetItem: data })
   }
 
   return (
