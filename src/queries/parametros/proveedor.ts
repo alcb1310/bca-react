@@ -1,11 +1,12 @@
+import { loginStore } from '~/store/login'
 import type { SupplierType } from '~/types/supplier'
 
 const url = import.meta.env.VITE_BACKEND_SERVER
+const token = loginStore.state.token
 
 export async function useGetAllSuppliersQuery({
-  token,
   search,
-}: Readonly<{ token: string; search?: string }>) {
+}: Readonly<{ search?: string }>) {
   const params = new URLSearchParams()
   if (search) params.append('search', search)
 
@@ -26,9 +27,8 @@ export async function useGetAllSuppliersQuery({
 }
 
 export async function useCreateSupplierMutation({
-  token,
   supplier,
-}: Readonly<{ token: string; supplier: SupplierType }>) {
+}: Readonly<{ supplier: SupplierType }>) {
   const response = await fetch(`${url}/parametros/proveedores`, {
     method: 'POST',
     headers: {
@@ -47,9 +47,8 @@ export async function useCreateSupplierMutation({
 }
 
 export async function useUpdateSupplierMutation({
-  token,
   supplier,
-}: Readonly<{ token: string; supplier: SupplierType }>) {
+}: Readonly<{ supplier: SupplierType }>) {
   const response = await fetch(`${url}/parametros/proveedores/${supplier.id}`, {
     method: 'PUT',
     headers: {

@@ -42,7 +42,7 @@ function InvoiceForm({ invoiceId, invoice }: InvoiceFormProps) {
   })
   const { data: suppliers } = useQuery({
     queryKey: ['suppliers'],
-    queryFn: () => useGetAllSuppliersQuery({ token }),
+    queryFn: () => useGetAllSuppliersQuery({}),
   })
   const { mutate: createInvoice } = useMutation({
     mutationFn: useCreateInvoiceMutation,

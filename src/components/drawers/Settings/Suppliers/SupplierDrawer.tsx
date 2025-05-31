@@ -10,7 +10,6 @@ import {
   useCreateSupplierMutation,
   useUpdateSupplierMutation,
 } from '~/queries/parametros/proveedor'
-import { useAppSelector } from '~/redux/hooks'
 import ButtonGroup from '~components/buttons/button-group'
 import BcaDrawer from '~components/drawers/BcaDrawer/BcaDrawer'
 import { type SupplierType, supplierSchema } from '~types/supplier'
@@ -26,7 +25,6 @@ export default function SupplierDrawer({
   onClose,
   defaultValues,
 }: SupplierDrawerProps) {
-  const token = useAppSelector((state) => state.login.token)
   const queryClient = useQueryClient()
   const [conflictError, setConflictError] = useState<string>('')
   const { control, reset, handleSubmit } = useForm<SupplierType>({
@@ -65,10 +63,10 @@ export default function SupplierDrawer({
 
   async function hadleSubmit(data: SupplierType) {
     if (!defaultValues.id) {
-      createSupplier({ token, supplier: data })
+      createSupplier({ supplier: data })
       return
     }
-    updateSupplier({ token, supplier: data })
+    updateSupplier({ supplier: data })
   }
 
   return (
