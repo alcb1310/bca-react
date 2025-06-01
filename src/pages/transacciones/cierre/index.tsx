@@ -12,13 +12,11 @@ import BcaSelect from '~/components/input/BcaSelect/BcaSelect'
 import PageTitle from '~/components/titles/PageTitle/PageTitle'
 import { useGetAllProjectsQuery } from '~/queries/parametros/proyectos'
 import { useCreateClosureMutation } from '~/queries/transacciones/cierre'
-import { useAppSelector } from '~/redux/hooks'
 import { normalizeDate } from '~/utils/date'
 import ConfirmationDialog from '~components/dialog/ConfirmationDialog'
 import { type CierreTypes, cierreSchema } from '~types/cierre'
 
 export default function Cierre() {
-  const token = useAppSelector((state) => state.login.token)
   const [open, setOpen] = useState<boolean>(false)
   const [conflictError, setConflictError] = useState<string>('')
   const [cierreData, setCierreData] = useState<CierreTypes | null>(null)
@@ -114,7 +112,7 @@ export default function Cierre() {
           setOpen={setOpen}
           message={'Desea generar el cierre'}
           confirm={async () => {
-            mutate({ token, cierre: cierreData! })
+            mutate({ cierre: cierreData! })
           }}
         />
       )}

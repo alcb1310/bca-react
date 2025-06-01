@@ -1,11 +1,12 @@
+import { loginStore } from '~/store/login'
 import type { CierreTypes } from '~/types/cierre'
 
 const url = import.meta.env.VITE_BACKEND_SERVER
+const token = loginStore.state.token
 
 export async function useCreateClosureMutation({
-  token,
   cierre,
-}: Readonly<{ token: string; cierre: CierreTypes }>) {
+}: Readonly<{ cierre: CierreTypes }>) {
   const response = await fetch(`${url}/transacciones/cierre`, {
     method: 'POST',
     headers: {
