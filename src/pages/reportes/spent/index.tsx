@@ -1,6 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { CircularProgress, Grid2, Stack, Typography } from '@mui/material'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
+import { useStore } from '@tanstack/react-store'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
@@ -13,11 +14,11 @@ import {
   useGetAllLevelsQuery,
   useGetSpentQuery,
 } from '~/queries/reportes/comun'
+import { loginStore } from '~/store/login'
 import { normalizeDate } from '~/utils/date'
 import { downloadExcelFile } from '~/utils/download'
 import SpentDetailsDrawer from '~components/drawers/Reports/Spent/SpentDetailsDrawer'
 import EditToolbar from '~components/table/headers/toolbar'
-import { useAppSelector } from '~redux/hooks'
 import type { Spent as SpentType } from '~types/reports'
 
 const reportSchema = z.object({
@@ -34,7 +35,7 @@ const reportSchema = z.object({
 type ReportTypes = z.infer<typeof reportSchema>
 
 export default function Spent() {
-  const token = useAppSelector((state) => state.login.token)
+  const token = useStore(loginStore, (state) => state.token)
   const queryClient = useQueryClient()
   const [selectedReport, setSelectedReport] = useState<{
     project_id: string

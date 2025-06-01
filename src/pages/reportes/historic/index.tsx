@@ -1,6 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { CircularProgress, Stack } from '@mui/material'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
+import { useStore } from '@tanstack/react-store'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
@@ -13,10 +14,10 @@ import {
   useGetAllHistoricQuery,
   useGetAllLevelsQuery,
 } from '~/queries/reportes/comun'
+import { loginStore } from '~/store/login'
 import { normalizeDate } from '~/utils/date'
 import { downloadExcelFile } from '~/utils/download'
 import EditToolbar from '~components/table/headers/toolbar'
-import { useAppSelector } from '~redux/hooks'
 
 const reportSchema = z.object({
   project_id: z
@@ -32,7 +33,7 @@ const reportSchema = z.object({
 type ReportTypes = z.infer<typeof reportSchema>
 
 export default function Historic() {
-  const token = useAppSelector((state) => state.login.token)
+  const token = useStore(loginStore, (state) => state.token)
   const queryClient = useQueryClient()
   const [selectedReport, setSelectedReport] = useState<{
     project_id: string
