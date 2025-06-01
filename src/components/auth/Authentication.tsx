@@ -1,9 +1,10 @@
+import { useStore } from '@tanstack/react-store'
 import { Navigate, Outlet, useLocation } from 'react-router-dom'
-import { useAppSelector } from '~redux/hooks'
+import { loginStore } from '~/store/login'
 
 export default function ValidateAuthentication() {
-  const isAuthenticated = useAppSelector((state) => state.login.isLoggedIn)
   const location = useLocation()
+  const isAuthenticated = useStore(loginStore, (state) => state.isloggedIn)
 
   return isAuthenticated ? (
     <Outlet />
