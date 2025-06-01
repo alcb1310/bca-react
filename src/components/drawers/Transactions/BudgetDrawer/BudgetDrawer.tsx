@@ -14,7 +14,6 @@ import {
   useCreateBudgetMutation,
   useUpdateBudgetMutation,
 } from '~/queries/transacciones/presupuesto'
-import { useAppSelector } from '~/redux/hooks'
 import ButtonGroup from '~components/buttons/button-group'
 import BcaDrawer from '~components/drawers/BcaDrawer/BcaDrawer'
 import { type BudgetEditType, budgetEditSchema } from '~types/budget'
@@ -30,7 +29,6 @@ export default function BudgetDrawer({
   onClose,
   defaultValues,
 }: BudgetDrawerProps) {
-  const token = useAppSelector((state) => state.login.token)
   const queryClient = useQueryClient()
   const [conflictError, setConflictError] = useState<string>('')
   const { control, reset, handleSubmit } = useForm<BudgetEditType>({
@@ -106,10 +104,10 @@ export default function BudgetDrawer({
     }
 
     if (!defaultValues.project_id) {
-      createBudget({ token, budget: dataToSave })
+      createBudget({ budget: dataToSave })
       return
     }
-    updateBudget({ token, budget: dataToSave })
+    updateBudget({ budget: dataToSave })
   }
 
   return (

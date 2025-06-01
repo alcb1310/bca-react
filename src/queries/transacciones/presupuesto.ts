@@ -1,12 +1,13 @@
+import { loginStore } from '~/store/login'
 import type { BudgetEditType, BudgetResponseType } from '~/types/budget'
 
 const url = import.meta.env.VITE_BACKEND_SERVER
+const token = loginStore.state.token
 
 export async function useGetAllBudgetsQuery({
-  token,
   query,
   project,
-}: Readonly<{ token: string; query?: string; project?: string }>) {
+}: Readonly<{ query?: string; project?: string }>) {
   const params = new URLSearchParams()
   if (query) params.append('query', query)
   if (project) params.append('project', project)
@@ -28,10 +29,9 @@ export async function useGetAllBudgetsQuery({
 }
 
 export async function useGetAllBudgetsByProjectAndLevelQuery({
-  token,
   project_id,
   level,
-}: Readonly<{ token: string; project_id: string; level: string }>) {
+}: Readonly<{ project_id: string; level: string }>) {
   const params = new URLSearchParams()
   if (project_id) params.append('project_id', project_id)
   if (level) params.append('level', level)
@@ -53,9 +53,8 @@ export async function useGetAllBudgetsByProjectAndLevelQuery({
 }
 
 export async function useCreateBudgetMutation({
-  token,
   budget,
-}: Readonly<{ token: string; budget: BudgetEditType }>) {
+}: Readonly<{ budget: BudgetEditType }>) {
   const response = await fetch(`${url}/transacciones/presupuestos`, {
     method: 'POST',
     headers: {
@@ -74,9 +73,8 @@ export async function useCreateBudgetMutation({
 }
 
 export async function useUpdateBudgetMutation({
-  token,
   budget,
-}: Readonly<{ token: string; budget: BudgetEditType }>) {
+}: Readonly<{ budget: BudgetEditType }>) {
   const response = await fetch(
     `${url}/transacciones/presupuestos/${budget.project_id}/${budget.budget_item_id}`,
     {

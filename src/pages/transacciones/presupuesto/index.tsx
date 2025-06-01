@@ -11,12 +11,10 @@ import BudgetDrawer from '~/components/drawers/Transactions/BudgetDrawer/BudgetD
 import PageTitle from '~/components/titles/PageTitle/PageTitle'
 import { useGetAllProjectsQuery } from '~/queries/parametros/proyectos'
 import { useGetAllBudgetsQuery } from '~/queries/transacciones/presupuesto'
-import { useAppSelector } from '~/redux/hooks'
 import AllBudgetsTable from '~components/parameters/budgets/AllBudgetsTable'
 import EditToolbar from '~components/table/headers/toolbar'
 
 export default function Presupuesto() {
-  const token = useAppSelector((state) => state.login.token)
   const queryClient = useQueryClient()
   const [open, setOpen] = useState<boolean>(false)
   const [search, setSearch] = useState<string>('')
@@ -25,7 +23,7 @@ export default function Presupuesto() {
   const { data, isFetching } = useQuery({
     queryKey: ['budget', search, selectedProject],
     queryFn: () =>
-      useGetAllBudgetsQuery({ token, query: search, project: selectedProject }),
+      useGetAllBudgetsQuery({ query: search, project: selectedProject }),
   })
   const { data: projects } = useQuery({
     queryKey: ['projects', 'active'],

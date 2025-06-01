@@ -48,7 +48,6 @@ export default function Actual() {
     queryKey: ['actual'],
     queryFn: () =>
       useGetAllBudgetsByProjectAndLevelQuery({
-        token,
         project_id: selectedReport.project_id,
         level: selectedReport.level,
       }),
