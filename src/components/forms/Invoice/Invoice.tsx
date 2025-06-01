@@ -14,7 +14,6 @@ import {
   useCreateInvoiceMutation,
   useUpdateInvoiceMutation,
 } from '~/queries/transacciones/facturas'
-import { useAppSelector } from '~/redux/hooks'
 import ButtonGroup from '~components/buttons/button-group'
 import { type InvoiceCreateType, invoiceCreateSchema } from '~types/invoice'
 
@@ -24,7 +23,6 @@ type InvoiceFormProps = {
 }
 
 function InvoiceForm({ invoiceId, invoice }: InvoiceFormProps) {
-  const token = useAppSelector((state) => state.login.token)
   const queryClient = useQueryClient()
   const [conflictError, setConflictError] = useState<string>('')
   const navigate = useNavigate()
@@ -69,11 +67,11 @@ function InvoiceForm({ invoiceId, invoice }: InvoiceFormProps) {
   async function hadleSubmit(data: InvoiceCreateType) {
     setConflictError('')
     if (invoiceId?.toLowerCase() === 'crear') {
-      createInvoice({ token, invoice: data })
+      createInvoice({ invoice: data })
       return
     }
 
-    updateInvoice({ token, invoice: data })
+    updateInvoice({ invoice: data })
   }
 
   return (

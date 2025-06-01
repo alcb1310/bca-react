@@ -3,15 +3,13 @@ import { useQuery } from '@tanstack/react-query'
 import { useNavigate } from 'react-router-dom'
 import PageTitle from '~/components/titles/PageTitle/PageTitle'
 import { useGetAllInvoicesQuery } from '~/queries/transacciones/facturas'
-import { useAppSelector } from '~/redux/hooks'
 import AllInvoicesTable from '~components/parameters/invoices/AllInvoicesTable'
 import EditToolbar from '~components/table/headers/toolbar'
 
 export default function Factura() {
-  const token = useAppSelector((state) => state.login.token)
   const { data, isFetching } = useQuery({
     queryKey: ['invoices'],
-    queryFn: () => useGetAllInvoicesQuery({ token }),
+    queryFn: () => useGetAllInvoicesQuery(),
   })
   const navigate = useNavigate()
 

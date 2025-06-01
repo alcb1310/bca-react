@@ -8,17 +8,15 @@ import AllDetailsTable from '~/components/parameters/invoices/AllDetailsTable/Al
 import PageTitle from '~/components/titles/PageTitle/PageTitle'
 import { useGetAllInvoiceDetailsQuery } from '~/queries/transacciones/detalle'
 import { useGetOneInvoiceQuery } from '~/queries/transacciones/facturas'
-import { useAppSelector } from '~/redux/hooks'
 import EditToolbar from '~components/table/headers/toolbar'
 
 export default function IndividualInvoice() {
-  const token = useAppSelector((state) => state.login.token)
   const [open, setOpen] = useState<boolean>(false)
   const location = useLocation()
   const [invoiceId, setInvoiceId] = useState<string | undefined>(undefined)
   const { data: invoice, isFetching } = useQuery({
     queryKey: ['invoice', invoiceId],
-    queryFn: () => useGetOneInvoiceQuery({ token, id: invoiceId! }),
+    queryFn: () => useGetOneInvoiceQuery({ id: invoiceId! }),
     enabled: invoiceId !== undefined,
   })
   const { data } = useQuery({

@@ -9,7 +9,6 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
 import { useDeleteInvoiceMutation } from '~/queries/transacciones/facturas'
-import { useAppSelector } from '~/redux/hooks'
 import type { InvoiceResponseType } from '~types/invoice'
 
 type AllInvoicesTableProps = {
@@ -17,7 +16,6 @@ type AllInvoicesTableProps = {
 }
 
 export default function AllInvoicesTable({ data }: AllInvoicesTableProps) {
-  const token = useAppSelector((state) => state.login.token)
   const queryClient = useQueryClient()
   const navigate = useNavigate()
   const { mutate: deleteInvoice } = useMutation({
@@ -92,7 +90,7 @@ export default function AllInvoicesTable({ data }: AllInvoicesTableProps) {
           icon=<DeleteOutlined color='error' />
           label='Borrar'
           showInMenu
-          onClick={() => deleteInvoice({ token, id: params.id as string })}
+          onClick={() => deleteInvoice({ id: params.id as string })}
         />,
       ],
     },

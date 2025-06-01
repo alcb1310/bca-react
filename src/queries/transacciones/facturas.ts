@@ -1,10 +1,10 @@
+import { loginStore } from '~/store/login'
 import type { InvoiceCreateType, InvoiceResponseType } from '~/types/invoice'
 
 const url = import.meta.env.VITE_BACKEND_SERVER
+const token = loginStore.state.token
 
-export async function useGetAllInvoicesQuery({
-  token,
-}: Readonly<{ token: string }>) {
+export async function useGetAllInvoicesQuery() {
   const response = await fetch(`${url}/transacciones/facturas`, {
     method: 'GET',
     headers: {
@@ -21,10 +21,7 @@ export async function useGetAllInvoicesQuery({
   return (await response.json()) as InvoiceResponseType[]
 }
 
-export async function useGetOneInvoiceQuery({
-  token,
-  id,
-}: Readonly<{ token: string; id: string }>) {
+export async function useGetOneInvoiceQuery({ id }: Readonly<{ id: string }>) {
   const response = await fetch(`${url}/transacciones/facturas/${id}`, {
     method: 'GET',
     headers: {
@@ -42,9 +39,8 @@ export async function useGetOneInvoiceQuery({
 }
 
 export async function useCreateInvoiceMutation({
-  token,
   invoice,
-}: Readonly<{ token: string; invoice: InvoiceCreateType }>) {
+}: Readonly<{ invoice: InvoiceCreateType }>) {
   const response = await fetch(`${url}/transacciones/facturas`, {
     method: 'POST',
     headers: {
@@ -63,9 +59,8 @@ export async function useCreateInvoiceMutation({
 }
 
 export async function useDeleteInvoiceMutation({
-  token,
   id,
-}: Readonly<{ token: string; id: string }>) {
+}: Readonly<{ id: string }>) {
   const response = await fetch(`${url}/transacciones/facturas/${id}`, {
     method: 'DELETE',
     headers: {
@@ -83,9 +78,8 @@ export async function useDeleteInvoiceMutation({
 }
 
 export async function useUpdateInvoiceMutation({
-  token,
   invoice,
-}: Readonly<{ token: string; invoice: InvoiceCreateType }>) {
+}: Readonly<{ invoice: InvoiceCreateType }>) {
   const response = await fetch(`${url}/transacciones/facturas/${invoice.id}`, {
     method: 'PUT',
     headers: {
