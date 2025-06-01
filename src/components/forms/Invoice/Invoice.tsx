@@ -38,7 +38,7 @@ function InvoiceForm({ invoiceId, invoice }: InvoiceFormProps) {
 
   const { data: projects } = useQuery({
     queryKey: ['projects', 'active'],
-    queryFn: () => useGetAllProjectsQuery({ token, active: true }),
+    queryFn: () => useGetAllProjectsQuery({ active: true }),
   })
   const { data: suppliers } = useQuery({
     queryKey: ['suppliers'],

@@ -11,7 +11,6 @@ import {
   useCreateProjectMutation,
   useUpdateProjectMutation,
 } from '~/queries/parametros/proyectos'
-import { useAppSelector } from '~/redux/hooks'
 import ButtonGroup from '~components/buttons/button-group'
 import BcaDrawer from '~components/drawers/BcaDrawer/BcaDrawer'
 import { type ProjectType, projectSchema } from '~types/project'
@@ -27,7 +26,6 @@ export default function ProjectDrawer({
   onClose,
   defaultValues,
 }: ProjectDrawerProps) {
-  const token = useAppSelector((state) => state.login.token)
   const queryClient = useQueryClient()
   const [conflictError, setConflictError] = useState<string>('')
   const { control, reset, handleSubmit } = useForm<ProjectType>({
@@ -71,10 +69,10 @@ export default function ProjectDrawer({
     data.net_area = Number.parseFloat(data.net_area?.toString() || '0')
 
     if (!defaultValues.id) {
-      createProject({ token, project: data })
+      createProject({ project: data })
       return
     }
-    updateProject({ token, project: data })
+    updateProject({ project: data })
   }
 
   return (

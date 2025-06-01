@@ -46,7 +46,7 @@ export default function Cierre() {
   })
   const { data: projects, isLoading } = useQuery({
     queryKey: ['projects', 'active'],
-    queryFn: () => useGetAllProjectsQuery({ token, active: true }),
+    queryFn: () => useGetAllProjectsQuery({ active: true }),
   })
 
   function hadleSubmit(data: CierreTypes) {

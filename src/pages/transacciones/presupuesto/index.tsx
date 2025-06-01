@@ -29,7 +29,7 @@ export default function Presupuesto() {
   })
   const { data: projects } = useQuery({
     queryKey: ['projects', 'active'],
-    queryFn: () => useGetAllProjectsQuery({ token, active: true }),
+    queryFn: () => useGetAllProjectsQuery({ active: true }),
   })
 
   return (

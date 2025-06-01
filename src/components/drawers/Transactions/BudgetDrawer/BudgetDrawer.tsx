@@ -56,7 +56,7 @@ export default function BudgetDrawer({
 
   const { data: projects } = useQuery({
     queryKey: ['projects', 'active'],
-    queryFn: () => useGetAllProjectsQuery({ token, active: true }),
+    queryFn: () => useGetAllProjectsQuery({ active: true }),
   })
   const { data: budgetItems } = useQuery({
     queryKey: ['budget-items', 'nonaccum'],

@@ -41,7 +41,7 @@ export default function Balance() {
   })
   const { data: projects } = useQuery({
     queryKey: ['projects', 'active'],
-    queryFn: () => useGetAllProjectsQuery({ token, active: true }),
+    queryFn: () => useGetAllProjectsQuery({ active: true }),
   })
   const { data, isLoading } = useQuery({
     queryKey: ['balance'],

@@ -70,7 +70,7 @@ export default function Historic() {
 
   const { data: projects } = useQuery({
     queryKey: ['projects'],
-    queryFn: () => useGetAllProjectsQuery({ token }),
+    queryFn: () => useGetAllProjectsQuery({}),
   })
 
   function generateReport(data: ReportTypes) {

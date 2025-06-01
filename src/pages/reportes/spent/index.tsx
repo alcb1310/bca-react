@@ -78,7 +78,7 @@ export default function Spent() {
 
   const { data: projects } = useQuery({
     queryKey: ['projects'],
-    queryFn: () => useGetAllProjectsQuery({ token }),
+    queryFn: () => useGetAllProjectsQuery({}),
   })
 
   function generateReport(info: ReportTypes) {

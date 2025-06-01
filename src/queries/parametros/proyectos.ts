@@ -1,12 +1,13 @@
+import { loginStore } from '~/store/login'
 import type { ProjectType } from '~/types/project'
 
 const url = import.meta.env.VITE_BACKEND_SERVER
+const token = loginStore.state.token
 
 export async function useGetAllProjectsQuery({
-  token,
   query,
   active,
-}: Readonly<{ token: string; query?: string; active?: boolean }>) {
+}: Readonly<{ query?: string; active?: boolean }>) {
   const params = new URLSearchParams()
   if (query) params.append('query', query)
   if (active !== undefined) params.append('active', active ? 'true' : 'false')
@@ -28,9 +29,8 @@ export async function useGetAllProjectsQuery({
 }
 
 export async function useCreateProjectMutation({
-  token,
   project,
-}: Readonly<{ token: string; project: ProjectType }>) {
+}: Readonly<{ project: ProjectType }>) {
   const response = await fetch(`${url}/parametros/proyectos`, {
     method: 'POST',
     headers: {
@@ -49,9 +49,8 @@ export async function useCreateProjectMutation({
 }
 
 export async function useUpdateProjectMutation({
-  token,
   project,
-}: Readonly<{ token: string; project: ProjectType }>) {
+}: Readonly<{ project: ProjectType }>) {
   const response = await fetch(`${url}/parametros/proyectos/${project.id}`, {
     method: 'PUT',
     headers: {
