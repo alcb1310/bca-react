@@ -1,4 +1,4 @@
-import { type PayloadAction, createSlice } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit'
 
 const cookie =
   document.cookie
@@ -20,13 +20,6 @@ export const loginSlice = createSlice({
   name: 'login',
   initialState,
   reducers: {
-    login: (state, user: PayloadAction<string>) => {
-      state.isLoggedIn = true
-      state.token = user.payload
-
-      document.cookie = `BCA-TOKEN=${user.payload}; expires=1 day; path=/`
-    },
-
     logout: (state) => {
       state.isLoggedIn = false
       state.token = ''
@@ -37,5 +30,5 @@ export const loginSlice = createSlice({
   },
 })
 
-export const { login, logout } = loginSlice.actions
+export const { logout } = loginSlice.actions
 export default loginSlice.reducer

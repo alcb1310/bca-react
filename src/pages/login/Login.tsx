@@ -8,13 +8,12 @@ import {
   Typography,
 } from '@mui/material'
 import { useMutation } from '@tanstack/react-query'
+import { useStore } from '@tanstack/react-store'
 import { useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { Navigate } from 'react-router-dom'
 import { useLoginMutation } from '~/queries/auth/authentication'
-import { loginApplication } from '~/store/login'
-import { login } from '~redux/features/login/loginSlice'
-import { useAppDispatch, useAppSelector } from '~redux/hooks'
+import { loginApplication, loginStore } from '~/store/login'
 import { type LoginInput, loginSchema } from '~types/login'
 
 export default function Login() {
@@ -22,7 +21,6 @@ export default function Login() {
   const { mutate } = useMutation({
     mutationFn: useLoginMutation,
     onSuccess: (data) => {
-      dispatch(login(data.token))
       loginApplication(data.token)
     },
     onError: (error) => {
@@ -41,8 +39,7 @@ export default function Login() {
     },
     resolver: zodResolver(loginSchema),
   })
-  const isLoggedIn = useAppSelector((state) => state.login.isLoggedIn)
-  const dispatch = useAppDispatch()
+  const isLoggedIn = useStore(loginStore, (state) => state.isloggedIn)
 
   async function onSubmit(data: LoginInput) {
     setError('')
