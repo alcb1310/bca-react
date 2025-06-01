@@ -59,13 +59,12 @@ export default function Spent() {
 
   const { data: levels } = useQuery({
     queryKey: ['levels'],
-    queryFn: () => useGetAllLevelsQuery({ token }),
+    queryFn: () => useGetAllLevelsQuery(),
   })
   const { data, isFetching } = useQuery({
     queryKey: ['spent'],
     queryFn: () =>
       useGetSpentQuery({
-        token,
         project_id: selectedReport.project_id,
         level: selectedReport.level,
         date: selectedReport.date,

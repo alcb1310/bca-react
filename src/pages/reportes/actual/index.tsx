@@ -37,7 +37,7 @@ export default function Actual() {
   })
   const { data: levels } = useQuery({
     queryKey: ['levels'],
-    queryFn: () => useGetAllLevelsQuery({ token }),
+    queryFn: () => useGetAllLevelsQuery(),
   })
   const [selectedReport, setSelectedReport] = useState<ReportTypes>({
     project_id: '',

@@ -3,7 +3,6 @@ import { DataGrid, type GridColDef } from '@mui/x-data-grid'
 import { useQuery } from '@tanstack/react-query'
 import DrawerTitle from '~/components/titles/DrawerTitle/DrawerTitle'
 import { useGetSpentDetailsQuery } from '~/queries/reportes/comun'
-import { useAppSelector } from '~/redux/hooks'
 import BcaDrawer from '~components/drawers/BcaDrawer/BcaDrawer'
 import type { Spent, SpentDetailsType } from '~types/reports'
 
@@ -22,12 +21,10 @@ export default function SpentDetailsDrawer({
   selectedProject,
   selectedDate,
 }: SpentDetailsDrawerProps) {
-  const token = useAppSelector((state) => state.login.token)
   const { data, isLoading } = useQuery({
     queryKey: ['spent-detail'],
     queryFn: () =>
       useGetSpentDetailsQuery({
-        token,
         project_id: selectedProject,
         budget_item_id: selectedData.budget_item.id!,
         date: selectedDate,

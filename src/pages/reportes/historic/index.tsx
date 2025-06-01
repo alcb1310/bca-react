@@ -54,13 +54,12 @@ export default function Historic() {
 
   const { data: levels } = useQuery({
     queryKey: ['levels'],
-    queryFn: () => useGetAllLevelsQuery({ token }),
+    queryFn: () => useGetAllLevelsQuery(),
   })
   const { data: budgets, isFetching } = useQuery({
     queryKey: ['historic'],
     queryFn: () =>
       useGetAllHistoricQuery({
-        token,
         project_id: selectedReport.project_id,
         level: selectedReport.level,
         date: selectedReport.date,
@@ -83,7 +82,6 @@ export default function Historic() {
     queryClient.setQueryData(
       ['historic'],
       useGetAllHistoricQuery({
-        token,
         project_id: data.project_id,
         level: data.level,
         date: normalizeDate(data.date),

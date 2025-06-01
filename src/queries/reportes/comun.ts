@@ -1,3 +1,4 @@
+import { loginStore } from '~/store/login'
 import type { BudgetResponseType } from '~/types/budget'
 import type {
   BalanceResponseType,
@@ -6,15 +7,14 @@ import type {
 } from '~/types/reports'
 
 const url = import.meta.env.VITE_BACKEND_SERVER
+const token = loginStore.state.token
 
 type LevelType = {
   key: string
   value: string
 }
 
-export async function useGetAllLevelsQuery({
-  token,
-}: Readonly<{ token: string }>) {
+export async function useGetAllLevelsQuery() {
   const response = await fetch(`${url}/reportes/levels`, {
     method: 'GET',
     headers: {
@@ -32,12 +32,10 @@ export async function useGetAllLevelsQuery({
 }
 
 export async function useGetAllHistoricQuery({
-  token,
   project_id,
   level,
   date,
 }: Readonly<{
-  token: string
   project_id: string
   level: string
   date: string
@@ -64,10 +62,9 @@ export async function useGetAllHistoricQuery({
 }
 
 export async function useGetBalanceReportQuery({
-  token,
   project_id,
   date,
-}: Readonly<{ token: string; project_id: string; date: string }>) {
+}: Readonly<{ project_id: string; date: string }>) {
   const params = new URLSearchParams()
   params.append('project_id', project_id)
   params.append('date', date)
@@ -89,9 +86,8 @@ export async function useGetBalanceReportQuery({
 }
 
 export async function useSetBalancedInvoiceMutation({
-  token,
   id,
-}: Readonly<{ token: string; id: string }>) {
+}: Readonly<{ id: string }>) {
   const response = await fetch(`${url}/reportes/cuadre/${id}`, {
     method: 'PUT',
     headers: {
@@ -109,12 +105,10 @@ export async function useSetBalancedInvoiceMutation({
 }
 
 export async function useGetSpentQuery({
-  token,
   project_id,
   level,
   date,
 }: Readonly<{
-  token: string
   project_id: string
   level: string
   date: string
@@ -141,12 +135,10 @@ export async function useGetSpentQuery({
 }
 
 export async function useGetSpentDetailsQuery({
-  token,
   project_id,
   budget_item_id,
   date,
 }: Readonly<{
-  token: string
   project_id: string
   budget_item_id: string
   date: string

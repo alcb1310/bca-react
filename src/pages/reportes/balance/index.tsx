@@ -47,7 +47,6 @@ export default function Balance() {
     queryKey: ['balance'],
     queryFn: () =>
       useGetBalanceReportQuery({
-        token,
         project_id: selectedData.project_id,
         date: selectedData.date,
       }),

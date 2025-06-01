@@ -3,7 +3,6 @@ import { DataGrid, type GridColDef } from '@mui/x-data-grid'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
 import { useSetBalancedInvoiceMutation } from '~/queries/reportes/comun'
-import { useAppSelector } from '~/redux/hooks'
 import type { InvoiceResponseType } from '~types/invoice'
 import type { BalanceResponseType } from '~types/reports'
 
@@ -12,7 +11,6 @@ type BalanceTableProps = {
 }
 
 export default function BalanceTable({ data }: BalanceTableProps) {
-  const token = useAppSelector((state) => state.login.token)
   const queryClient = useQueryClient()
   const { mutate } = useMutation({
     mutationFn: useSetBalancedInvoiceMutation,
@@ -28,7 +26,7 @@ export default function BalanceTable({ data }: BalanceTableProps) {
   })
 
   async function handleClick(data: InvoiceResponseType) {
-    mutate({ token, id: data.id })
+    mutate({ id: data.id })
   }
 
   const cols: GridColDef<InvoiceResponseType>[] = [
