@@ -1,10 +1,10 @@
+import { loginStore } from '~/store/login'
 import type { RubrosType } from '~/types/rubros'
 
 const url = import.meta.env.VITE_BACKEND_SERVER
+const token = loginStore.state.token
 
-export async function useGetAllRubrosQuery({
-  token,
-}: Readonly<{ token: string }>) {
+export async function useGetAllRubrosQuery() {
   const response = await fetch(`${url}/parametros/rubros`, {
     method: 'GET',
     headers: {
@@ -21,10 +21,7 @@ export async function useGetAllRubrosQuery({
   return (await response.json()) as RubrosType[]
 }
 
-export async function useGetOneRubroQuery({
-  token,
-  id,
-}: Readonly<{ token: string; id: string }>) {
+export async function useGetOneRubroQuery({ id }: Readonly<{ id: string }>) {
   const response = await fetch(`${url}/parametros/rubros/${id}`, {
     method: 'GET',
     headers: {
@@ -42,9 +39,8 @@ export async function useGetOneRubroQuery({
 }
 
 export async function useCreateRubroMutation({
-  token,
   item,
-}: Readonly<{ token: string; item: RubrosType }>) {
+}: Readonly<{ item: RubrosType }>) {
   const response = await fetch(`${url}/parametros/rubros`, {
     method: 'POST',
     headers: {
@@ -63,9 +59,8 @@ export async function useCreateRubroMutation({
 }
 
 export async function useUpdateRubroMutation({
-  token,
   item,
-}: Readonly<{ token: string; item: RubrosType }>) {
+}: Readonly<{ item: RubrosType }>) {
   const response = await fetch(`${url}/parametros/rubros/${item.id}`, {
     method: 'PUT',
     headers: {

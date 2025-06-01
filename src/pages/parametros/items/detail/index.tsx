@@ -6,18 +6,16 @@ import RubrosForm from '~/components/forms/Rubros/Rubros'
 import AllRubrosMaterialsTable from '~/components/settings/rubros/AllRubrosMaterialsTable/AllRubrosMaterialsTable'
 import PageTitle from '~/components/titles/PageTitle/PageTitle'
 import { useGetOneRubroQuery } from '~/queries/parametros/rubros'
-import { useAppSelector } from '~/redux/hooks'
 import RubroMaterialsDrawer from '~components/drawers/Settings/RubroMaterial/RubroMaterialsDrawer'
 import EditToolbar from '~components/table/headers/toolbar'
 
 export default function IndividualItem() {
-  const token = useAppSelector((state) => state.login.token)
   const [open, setOpen] = useState<boolean>(false)
   const location = useLocation()
   const rubroId = location.pathname.split('/')[3]
   const { data: rubro, isLoading } = useQuery({
     queryKey: ['items', rubroId!],
-    queryFn: () => useGetOneRubroQuery({ token, id: rubroId! }),
+    queryFn: () => useGetOneRubroQuery({ id: rubroId! }),
   })
 
   const title = rubroId

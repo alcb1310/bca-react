@@ -10,7 +10,6 @@ import {
   useCreateRubroMutation,
   useUpdateRubroMutation,
 } from '~/queries/parametros/rubros'
-import { useAppSelector } from '~/redux/hooks'
 import ButtonGroup from '~components/buttons/button-group'
 import { type RubrosType, rubrosSchema } from '~types/rubros'
 
@@ -20,7 +19,6 @@ type RubrosFromProps = {
 }
 
 function RubrosForm({ rubroId, rubro }: RubrosFromProps) {
-  const token = useAppSelector((state) => state.login.token)
   const queryClient = useQueryClient()
   const [conflictError, setConflictError] = useState<string>('')
   const navigate = useNavigate()
@@ -55,11 +53,11 @@ function RubrosForm({ rubroId, rubro }: RubrosFromProps) {
   async function hadleSubmit(data: RubrosType) {
     setConflictError('')
     if (rubroId?.toLowerCase() === 'crear') {
-      createRubro({ token, item: data })
+      createRubro({ item: data })
       return
     }
 
-    mutate({ token, item: data })
+    mutate({ item: data })
   }
   return (
     <>
