@@ -23,7 +23,7 @@ export default function IndividualInvoice() {
   })
   const { data } = useQuery({
     queryKey: ['details'],
-    queryFn: () => useGetAllInvoiceDetailsQuery({ token, id: invoiceId! }),
+    queryFn: () => useGetAllInvoiceDetailsQuery({ id: invoiceId! }),
     enabled: invoiceId !== undefined,
   })
 

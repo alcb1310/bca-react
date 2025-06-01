@@ -7,7 +7,6 @@ import {
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
 import { useDeleteInvoiceDetailsMutation } from '~/queries/transacciones/detalle'
-import { useAppSelector } from '~/redux/hooks'
 import type { InvoiceDetailsResponseType } from '~types/invoiceDetails'
 
 type AllDetailsTableProps = {
@@ -19,7 +18,6 @@ export default function AllDetailsTable({
   data,
   invoiceId,
 }: AllDetailsTableProps) {
-  const token = useAppSelector((state) => state.login.token)
   const queryClient = useQueryClient()
   const { mutate } = useMutation({
     mutationFn: useDeleteInvoiceDetailsMutation,
@@ -92,7 +90,7 @@ export default function AllDetailsTable({
           icon={<DeleteOutlined color='error' />}
           label='Borrar'
           onClick={() =>
-            mutate({ token, invoiceId, detailId: params.row.budget_item_id })
+            mutate({ invoiceId, detailId: params.row.budget_item_id })
           }
         />,
       ],

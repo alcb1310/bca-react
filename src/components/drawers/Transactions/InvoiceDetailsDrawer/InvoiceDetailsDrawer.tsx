@@ -9,7 +9,6 @@ import BcaTextField from '~/components/input/BcaTextField/BcaTextField'
 import DrawerTitle from '~/components/titles/DrawerTitle/DrawerTitle'
 import { useGetAllBudgetItemsQuery } from '~/queries/parametros/partidas'
 import { useCreateIvoiceDetailsMutation } from '~/queries/transacciones/detalle'
-import { useAppSelector } from '~/redux/hooks'
 import ButtonGroup from '~components/buttons/button-group'
 import BcaDrawer from '~components/drawers/BcaDrawer/BcaDrawer'
 import {
@@ -28,7 +27,6 @@ export default function InvoiceDetailsDrawer({
   onClose,
   invoiceId,
 }: InvoiceDetailsDrawerProps) {
-  const token = useAppSelector((state) => state.login.token)
   const queryClient = useQueryClient()
   const [conflictError, setConflictError] = useState<string>('')
   const { control, reset, handleSubmit } = useForm<InvoiceDetailsCreateType>({
@@ -79,7 +77,7 @@ export default function InvoiceDetailsDrawer({
 
   async function hadleSubmit(data: InvoiceDetailsCreateType) {
     setConflictError('')
-    createDetail({ token, id: invoiceId, detail: data })
+    createDetail({ id: invoiceId, detail: data })
   }
 
   return (

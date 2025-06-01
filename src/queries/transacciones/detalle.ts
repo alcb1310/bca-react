@@ -1,14 +1,15 @@
+import { loginStore } from '~/store/login'
 import type {
   InvoiceDetailsCreateType,
   InvoiceDetailsResponseType,
 } from '~/types/invoiceDetails'
 
 const url = import.meta.env.VITE_BACKEND_SERVER
+const token = loginStore.state.token
 
 export async function useGetAllInvoiceDetailsQuery({
-  token,
   id,
-}: Readonly<{ token: string; id: string }>) {
+}: Readonly<{ id: string }>) {
   const response = await fetch(`${url}/transacciones/facturas/${id}/detalle`, {
     method: 'GET',
     headers: {
@@ -26,10 +27,9 @@ export async function useGetAllInvoiceDetailsQuery({
 }
 
 export async function useCreateIvoiceDetailsMutation({
-  token,
   detail,
   id,
-}: Readonly<{ token: string; id: string; detail: InvoiceDetailsCreateType }>) {
+}: Readonly<{ id: string; detail: InvoiceDetailsCreateType }>) {
   const response = await fetch(`${url}/transacciones/facturas/${id}/detalle`, {
     method: 'POST',
     headers: {
@@ -48,10 +48,9 @@ export async function useCreateIvoiceDetailsMutation({
 }
 
 export async function useDeleteInvoiceDetailsMutation({
-  token,
   invoiceId,
   detailId,
-}: Readonly<{ token: string; invoiceId: string; detailId: string }>) {
+}: Readonly<{ invoiceId: string; detailId: string }>) {
   const response = await fetch(
     `${url}/transacciones/facturas/${invoiceId}/detalle/${detailId}`,
     {
