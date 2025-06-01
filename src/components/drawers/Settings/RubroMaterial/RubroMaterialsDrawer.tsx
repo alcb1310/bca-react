@@ -12,7 +12,6 @@ import {
   useCreateRubrosMaterialMutation,
   useUpdateRubrosMaterialMutation,
 } from '~/queries/parametros/rubro-materal'
-import { useAppSelector } from '~/redux/hooks'
 import ButtonGroup from '~components/buttons/button-group'
 import BcaDrawer from '~components/drawers/BcaDrawer/BcaDrawer'
 import {
@@ -31,7 +30,6 @@ function RubroMaterialsDrawer({
   onClose,
   defaultValues,
 }: RubroMaterialsDrawerProps) {
-  const token = useAppSelector((state) => state.login.token)
   const queryClient = useQueryClient()
   const [confilctError, setConflictError] = useState<string>('')
   const { control, reset, handleSubmit, register } = useForm<RubroMaterialType>(
@@ -84,10 +82,10 @@ function RubroMaterialsDrawer({
     setConflictError('')
 
     if (!defaultValues.material_id) {
-      createRubroMaterial({ token, rubro: material })
+      createRubroMaterial({ rubro: material })
       return
     }
-    updateRubroMaterial({ token, rubro: material })
+    updateRubroMaterial({ rubro: material })
   }
 
   return (

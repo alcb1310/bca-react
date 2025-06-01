@@ -13,7 +13,6 @@ import {
   useDeleteRubrosMaterialMutation,
   useGetAllRubrosMaterialsQuery,
 } from '~/queries/parametros/rubro-materal'
-import { useAppSelector } from '~/redux/hooks'
 import RubroMaterialsDrawer from '~components/drawers/Settings/RubroMaterial/RubroMaterialsDrawer'
 import type {
   RubroMaterialResponseTye,
@@ -27,7 +26,6 @@ type AllRubrosMaterialsTableProps = {
 export default function AllRubrosMaterialsTable({
   rubroId,
 }: AllRubrosMaterialsTableProps) {
-  const token = useAppSelector((state) => state.login.token)
   const queryClient = useQueryClient()
   const [open, setOpen] = useState<boolean>(false)
   const [selectedRubroMaterial, setSelectedRubroMaterial] =
@@ -45,7 +43,7 @@ export default function AllRubrosMaterialsTable({
 
   const { data: materials, isFetching } = useQuery({
     queryKey: ['item-materials'],
-    queryFn: () => useGetAllRubrosMaterialsQuery({ token, rubroId }),
+    queryFn: () => useGetAllRubrosMaterialsQuery({ rubroId }),
   })
 
   const cols: GridColDef<RubroMaterialResponseTye>[] = [
@@ -109,7 +107,6 @@ export default function AllRubrosMaterialsTable({
           showInMenu
           onClick={() => {
             deleteRubroMaterial({
-              token,
               rubroId: params.row.item.id,
               materialId: params.row.material.id,
             })

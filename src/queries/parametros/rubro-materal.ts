@@ -1,14 +1,15 @@
+import { loginStore } from '~/store/login'
 import type {
   RubroMaterialResponseTye,
   RubroMaterialType,
 } from '~/types/rubro-material'
 
 const url = import.meta.env.VITE_BACKEND_SERVER
+const token = loginStore.state.token
 
 export async function useGetAllRubrosMaterialsQuery({
-  token,
   rubroId,
-}: Readonly<{ token: string; rubroId: string }>) {
+}: Readonly<{ rubroId: string }>) {
   const response = await fetch(
     `${url}/parametros/rubros/${rubroId}/materiales`,
     {
@@ -28,9 +29,8 @@ export async function useGetAllRubrosMaterialsQuery({
 }
 
 export async function useCreateRubrosMaterialMutation({
-  token,
   rubro,
-}: Readonly<{ token: string; rubro: RubroMaterialType }>) {
+}: Readonly<{ rubro: RubroMaterialType }>) {
   const response = await fetch(
     `${url}/parametros/rubros/${rubro.item_id}/materiales`,
     {
@@ -51,9 +51,8 @@ export async function useCreateRubrosMaterialMutation({
 }
 
 export async function useUpdateRubrosMaterialMutation({
-  token,
   rubro,
-}: Readonly<{ token: string; rubro: RubroMaterialType }>) {
+}: Readonly<{ rubro: RubroMaterialType }>) {
   const response = await fetch(
     `${url}/parametros/rubros/${rubro.item_id}/materiales/${rubro.material_id}`,
     {
@@ -74,10 +73,9 @@ export async function useUpdateRubrosMaterialMutation({
 }
 
 export async function useDeleteRubrosMaterialMutation({
-  token,
   rubroId,
   materialId,
-}: Readonly<{ token: string; rubroId: string; materialId: string }>) {
+}: Readonly<{ rubroId: string; materialId: string }>) {
   const response = await fetch(
     `${url}/parametros/rubros/${rubroId}/materiales/${materialId}`,
     {
