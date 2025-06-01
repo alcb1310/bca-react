@@ -1,6 +1,5 @@
 import { Box, Drawer } from '@mui/material'
-import { Link } from 'react-router-dom'
-
+import { Link } from '@tanstack/react-router'
 import AnalysisMenu from '~/components/menu/Analysis/Analysis'
 import ParametersMenu from '~/components/menu/Parameters/Parameters'
 import ReportsMenu from '~/components/menu/Reports/Reports'
