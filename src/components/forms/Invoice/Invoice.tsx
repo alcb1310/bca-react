@@ -1,9 +1,9 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Stack, Typography } from '@mui/material'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useNavigate } from '@tanstack/react-router'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
 import BcaDateTextField from '~/components/input/BcaDateTextField/BcaDateTextField'
 import BcaSelect from '~/components/input/BcaSelect/BcaSelect'
@@ -47,7 +47,7 @@ function InvoiceForm({ invoiceId, invoice }: InvoiceFormProps) {
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ['invoice', data.id] })
       toast.success('Factura creada')
-      navigate(`/transacciones/facturas/${data.id}`)
+      navigate({ to: `/transacciones/facturas/${data.id}` })
     },
     onError: (error) => {
       setConflictError(error.message)
@@ -142,7 +142,7 @@ function InvoiceForm({ invoiceId, invoice }: InvoiceFormProps) {
 
           <ButtonGroup
             saveFunction={handleSubmit(hadleSubmit)}
-            cancelFunction={() => navigate('/transacciones/facturas')}
+            cancelFunction={() => navigate({ to: '/transacciones/facturas' })}
           />
         </Stack>
       </form>

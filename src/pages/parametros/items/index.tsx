@@ -1,6 +1,6 @@
 import { CircularProgress } from '@mui/material'
 import { useQuery } from '@tanstack/react-query'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from '@tanstack/react-router'
 import PageTitle from '~/components/titles/PageTitle/PageTitle'
 import { useGetAllRubrosQuery } from '~/queries/parametros/rubros'
 import AllRubrosTable from '~components/settings/rubros/AllRubrosTable'
@@ -20,7 +20,7 @@ export default function Items() {
       {isLoading && <CircularProgress />}
       <EditToolbar
         title='Crear Rubro'
-        onClick={() => navigate('/parametros/rubros/crear')}
+        onClick={() => navigate({ to: '/parametros/rubros/crear' })}
       />
 
       <AllRubrosTable data={data!} />

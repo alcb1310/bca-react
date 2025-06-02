@@ -6,7 +6,7 @@ import {
   type GridRowParams,
 } from '@mui/x-data-grid'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from '@tanstack/react-router'
 import { toast } from 'sonner'
 import { useDeleteInvoiceMutation } from '~/queries/transacciones/facturas'
 import type { InvoiceResponseType } from '~types/invoice'
@@ -82,7 +82,9 @@ export default function AllInvoicesTable({ data }: AllInvoicesTableProps) {
           icon={<EditOutlined color='warning' />}
           label='Editar'
           showInMenu
-          onClick={() => navigate(`/transacciones/facturas/${params.id}`)}
+          onClick={() =>
+            navigate({ to: `/transacciones/facturas/${params.id}` })
+          }
         />,
 
         <GridActionsCellItem

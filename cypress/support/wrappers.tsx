@@ -1,5 +1,4 @@
 import { mount } from 'cypress/react'
-import { BrowserRouter, MemoryRouter } from 'react-router-dom'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
 const queryClient = new QueryClient()
@@ -7,15 +6,16 @@ const queryClient = new QueryClient()
 Cypress.Commands.add('wrapper', (children) => {
   return mount(
     <QueryClientProvider client={queryClient}>
-      <BrowserRouter>{children}</BrowserRouter>
+      {children}
     </QueryClientProvider>
   )
 })
 
 Cypress.Commands.add('pageWrapper', (children, routes) => {
+  console.log(routes)
   return mount(
     <QueryClientProvider client={queryClient}>
-      <MemoryRouter initialEntries={routes}>{children}</MemoryRouter>
+      {children}
     </QueryClientProvider>
   )
 })

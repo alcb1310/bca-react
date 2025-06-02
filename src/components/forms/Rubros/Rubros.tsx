@@ -1,9 +1,9 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Stack, Typography } from '@mui/material'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useNavigate } from '@tanstack/react-router'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
 import BcaTextField from '~/components/input/BcaTextField/BcaTextField'
 import {
@@ -31,7 +31,7 @@ function RubrosForm({ rubroId, rubro }: RubrosFromProps) {
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ['items', data.id] })
       toast.success('Rubro creado')
-      navigate(`/parametros/rubros/${data?.id}`)
+      navigate({ to: `/parametros/rubros/${data?.id}` })
     },
     onError: (error) => {
       setConflictError(error.message)
@@ -89,7 +89,7 @@ function RubrosForm({ rubroId, rubro }: RubrosFromProps) {
 
           <ButtonGroup
             saveFunction={handleSubmit(hadleSubmit)}
-            cancelFunction={() => navigate('/parametros/rubros')}
+            cancelFunction={() => navigate({ to: '/parametros/rubros' })}
           />
         </Stack>
       </form>

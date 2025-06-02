@@ -1,7 +1,7 @@
 import { Box, CircularProgress } from '@mui/material'
 import { useQuery } from '@tanstack/react-query'
+import { useLocation } from '@tanstack/react-router'
 import { useEffect, useState } from 'react'
-import { useLocation } from 'react-router-dom'
 import InvoiceDetailsDrawer from '~/components/drawers/Transactions/InvoiceDetailsDrawer/InvoiceDetailsDrawer'
 import InvoiceForm from '~/components/forms/Invoice/Invoice'
 import AllDetailsTable from '~/components/parameters/invoices/AllDetailsTable/AllDetailsTable'

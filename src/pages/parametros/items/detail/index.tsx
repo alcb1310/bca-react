@@ -1,7 +1,7 @@
 import { Box, CircularProgress } from '@mui/material'
 import { useQuery } from '@tanstack/react-query'
+import { useLocation } from '@tanstack/react-router'
 import { useState } from 'react'
-import { useLocation } from 'react-router-dom'
 import RubrosForm from '~/components/forms/Rubros/Rubros'
 import AllRubrosMaterialsTable from '~/components/settings/rubros/AllRubrosMaterialsTable/AllRubrosMaterialsTable'
 import PageTitle from '~/components/titles/PageTitle/PageTitle'
