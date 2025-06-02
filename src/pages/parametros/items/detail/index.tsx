@@ -1,19 +1,18 @@
 import { Box, CircularProgress } from '@mui/material'
-import { useQuery } from '@tanstack/react-query'
-import { useLocation } from '@tanstack/react-router'
+import { useSuspenseQuery } from '@tanstack/react-query'
 import { useState } from 'react'
 import RubrosForm from '~/components/forms/Rubros/Rubros'
 import AllRubrosMaterialsTable from '~/components/settings/rubros/AllRubrosMaterialsTable/AllRubrosMaterialsTable'
 import PageTitle from '~/components/titles/PageTitle/PageTitle'
 import { useGetOneRubroQuery } from '~/queries/parametros/rubros'
+import { Route } from '~/routes/_authenticated/parametros/rubros/$id'
 import RubroMaterialsDrawer from '~components/drawers/Settings/RubroMaterial/RubroMaterialsDrawer'
 import EditToolbar from '~components/table/headers/toolbar'
 
 export default function IndividualItem() {
   const [open, setOpen] = useState<boolean>(false)
-  const location = useLocation()
-  const rubroId = location.pathname.split('/')[3]
-  const { data: rubro, isLoading } = useQuery({
+  const rubroId = Route.useLoaderData().rubroId
+  const { data: rubro, isLoading } = useSuspenseQuery({
     queryKey: ['items', rubroId!],
     queryFn: () => useGetOneRubroQuery({ id: rubroId! }),
   })

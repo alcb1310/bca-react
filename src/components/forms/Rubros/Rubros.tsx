@@ -31,7 +31,7 @@ function RubrosForm({ rubroId, rubro }: RubrosFromProps) {
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ['items', data.id] })
       toast.success('Rubro creado')
-      navigate({ to: `/parametros/rubros/${data?.id}` })
+      navigate({ to: '/parametros/rubros/$id', params: { id: data.id! } })
     },
     onError: (error) => {
       setConflictError(error.message)
