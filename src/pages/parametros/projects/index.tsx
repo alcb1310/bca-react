@@ -1,6 +1,6 @@
 import { CircularProgress, TextField } from '@mui/material'
 import Grid from '@mui/material/Grid2'
-import { useQuery } from '@tanstack/react-query'
+import { useSuspenseQuery } from '@tanstack/react-query'
 import { useState } from 'react'
 import PageTitle from '~/components/titles/PageTitle/PageTitle'
 import { useGetAllProjectsQuery } from '~/queries/parametros/proyectos'
@@ -11,7 +11,7 @@ import EditToolbar from '~components/table/headers/toolbar'
 export default function Projects() {
   const [open, setOpen] = useState<boolean>(false)
   const [query, setQuery] = useState<string>('')
-  const { data, isFetching } = useQuery({
+  const { data, isFetching } = useSuspenseQuery({
     queryKey: ['projects', query],
     queryFn: () => useGetAllProjectsQuery({ query }),
   })
