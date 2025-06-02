@@ -18,6 +18,7 @@ import { Route as UnauthenticatedLoginImport } from './routes/_unauthenticated/l
 import { Route as AuthenticatedUsuariosIndexImport } from './routes/_authenticated/usuarios/index'
 import { Route as AuthenticatedUsuariosAdminImport } from './routes/_authenticated/usuarios/admin'
 import { Route as AuthenticatedParametrosPartidasImport } from './routes/_authenticated/parametros/partidas'
+import { Route as AuthenticatedParametrosMaterialesImport } from './routes/_authenticated/parametros/materiales'
 import { Route as AuthenticatedParametrosCategoriasImport } from './routes/_authenticated/parametros/categorias'
 
 // Create/Update Routes
@@ -67,6 +68,13 @@ const AuthenticatedParametrosPartidasRoute =
     getParentRoute: () => AuthenticatedRoute,
   } as any)
 
+const AuthenticatedParametrosMaterialesRoute =
+  AuthenticatedParametrosMaterialesImport.update({
+    id: '/parametros/materiales',
+    path: '/parametros/materiales',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+
 const AuthenticatedParametrosCategoriasRoute =
   AuthenticatedParametrosCategoriasImport.update({
     id: '/parametros/categorias',
@@ -113,6 +121,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedParametrosCategoriasImport
       parentRoute: typeof AuthenticatedImport
     }
+    '/_authenticated/parametros/materiales': {
+      id: '/_authenticated/parametros/materiales'
+      path: '/parametros/materiales'
+      fullPath: '/parametros/materiales'
+      preLoaderRoute: typeof AuthenticatedParametrosMaterialesImport
+      parentRoute: typeof AuthenticatedImport
+    }
     '/_authenticated/parametros/partidas': {
       id: '/_authenticated/parametros/partidas'
       path: '/parametros/partidas'
@@ -142,6 +157,7 @@ declare module '@tanstack/react-router' {
 interface AuthenticatedRouteChildren {
   AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
   AuthenticatedParametrosCategoriasRoute: typeof AuthenticatedParametrosCategoriasRoute
+  AuthenticatedParametrosMaterialesRoute: typeof AuthenticatedParametrosMaterialesRoute
   AuthenticatedParametrosPartidasRoute: typeof AuthenticatedParametrosPartidasRoute
   AuthenticatedUsuariosAdminRoute: typeof AuthenticatedUsuariosAdminRoute
   AuthenticatedUsuariosIndexRoute: typeof AuthenticatedUsuariosIndexRoute
@@ -151,6 +167,8 @@ const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
   AuthenticatedIndexRoute: AuthenticatedIndexRoute,
   AuthenticatedParametrosCategoriasRoute:
     AuthenticatedParametrosCategoriasRoute,
+  AuthenticatedParametrosMaterialesRoute:
+    AuthenticatedParametrosMaterialesRoute,
   AuthenticatedParametrosPartidasRoute: AuthenticatedParametrosPartidasRoute,
   AuthenticatedUsuariosAdminRoute: AuthenticatedUsuariosAdminRoute,
   AuthenticatedUsuariosIndexRoute: AuthenticatedUsuariosIndexRoute,
@@ -177,6 +195,7 @@ export interface FileRoutesByFullPath {
   '/login': typeof UnauthenticatedLoginRoute
   '/': typeof AuthenticatedIndexRoute
   '/parametros/categorias': typeof AuthenticatedParametrosCategoriasRoute
+  '/parametros/materiales': typeof AuthenticatedParametrosMaterialesRoute
   '/parametros/partidas': typeof AuthenticatedParametrosPartidasRoute
   '/usuarios/admin': typeof AuthenticatedUsuariosAdminRoute
   '/usuarios': typeof AuthenticatedUsuariosIndexRoute
@@ -187,6 +206,7 @@ export interface FileRoutesByTo {
   '/login': typeof UnauthenticatedLoginRoute
   '/': typeof AuthenticatedIndexRoute
   '/parametros/categorias': typeof AuthenticatedParametrosCategoriasRoute
+  '/parametros/materiales': typeof AuthenticatedParametrosMaterialesRoute
   '/parametros/partidas': typeof AuthenticatedParametrosPartidasRoute
   '/usuarios/admin': typeof AuthenticatedUsuariosAdminRoute
   '/usuarios': typeof AuthenticatedUsuariosIndexRoute
@@ -199,6 +219,7 @@ export interface FileRoutesById {
   '/_unauthenticated/login': typeof UnauthenticatedLoginRoute
   '/_authenticated/': typeof AuthenticatedIndexRoute
   '/_authenticated/parametros/categorias': typeof AuthenticatedParametrosCategoriasRoute
+  '/_authenticated/parametros/materiales': typeof AuthenticatedParametrosMaterialesRoute
   '/_authenticated/parametros/partidas': typeof AuthenticatedParametrosPartidasRoute
   '/_authenticated/usuarios/admin': typeof AuthenticatedUsuariosAdminRoute
   '/_authenticated/usuarios/': typeof AuthenticatedUsuariosIndexRoute
@@ -211,6 +232,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/'
     | '/parametros/categorias'
+    | '/parametros/materiales'
     | '/parametros/partidas'
     | '/usuarios/admin'
     | '/usuarios'
@@ -220,6 +242,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/'
     | '/parametros/categorias'
+    | '/parametros/materiales'
     | '/parametros/partidas'
     | '/usuarios/admin'
     | '/usuarios'
@@ -230,6 +253,7 @@ export interface FileRouteTypes {
     | '/_unauthenticated/login'
     | '/_authenticated/'
     | '/_authenticated/parametros/categorias'
+    | '/_authenticated/parametros/materiales'
     | '/_authenticated/parametros/partidas'
     | '/_authenticated/usuarios/admin'
     | '/_authenticated/usuarios/'
@@ -265,6 +289,7 @@ export const routeTree = rootRoute
       "children": [
         "/_authenticated/",
         "/_authenticated/parametros/categorias",
+        "/_authenticated/parametros/materiales",
         "/_authenticated/parametros/partidas",
         "/_authenticated/usuarios/admin",
         "/_authenticated/usuarios/"
@@ -286,6 +311,10 @@ export const routeTree = rootRoute
     },
     "/_authenticated/parametros/categorias": {
       "filePath": "_authenticated/parametros/categorias.tsx",
+      "parent": "/_authenticated"
+    },
+    "/_authenticated/parametros/materiales": {
+      "filePath": "_authenticated/parametros/materiales.tsx",
       "parent": "/_authenticated"
     },
     "/_authenticated/parametros/partidas": {
