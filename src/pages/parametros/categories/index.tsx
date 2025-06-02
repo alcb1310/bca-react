@@ -1,5 +1,5 @@
 import { CircularProgress } from '@mui/material'
-import { useQuery } from '@tanstack/react-query'
+import { useSuspenseQuery } from '@tanstack/react-query'
 import { useState } from 'react'
 import PageTitle from '~/components/titles/PageTitle/PageTitle'
 import { useGetAllCategoriesQuery } from '~/queries/parametros/categorias'
@@ -9,7 +9,7 @@ import EditToolbar from '~components/table/headers/toolbar'
 
 export default function Categories() {
   const [open, setOpen] = useState<boolean>(false)
-  const { data, isLoading } = useQuery({
+  const { data, isLoading } = useSuspenseQuery({
     queryKey: ['categories'],
     queryFn: () => useGetAllCategoriesQuery(),
   })

@@ -18,6 +18,7 @@ import { Route as UnauthenticatedLoginImport } from './routes/_unauthenticated/l
 import { Route as AuthenticatedUsuariosIndexImport } from './routes/_authenticated/usuarios/index'
 import { Route as AuthenticatedUsuariosAdminImport } from './routes/_authenticated/usuarios/admin'
 import { Route as AuthenticatedParametrosPartidasImport } from './routes/_authenticated/parametros/partidas'
+import { Route as AuthenticatedParametrosCategoriasImport } from './routes/_authenticated/parametros/categorias'
 
 // Create/Update Routes
 
@@ -66,6 +67,13 @@ const AuthenticatedParametrosPartidasRoute =
     getParentRoute: () => AuthenticatedRoute,
   } as any)
 
+const AuthenticatedParametrosCategoriasRoute =
+  AuthenticatedParametrosCategoriasImport.update({
+    id: '/parametros/categorias',
+    path: '/parametros/categorias',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
@@ -98,6 +106,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedIndexImport
       parentRoute: typeof AuthenticatedImport
     }
+    '/_authenticated/parametros/categorias': {
+      id: '/_authenticated/parametros/categorias'
+      path: '/parametros/categorias'
+      fullPath: '/parametros/categorias'
+      preLoaderRoute: typeof AuthenticatedParametrosCategoriasImport
+      parentRoute: typeof AuthenticatedImport
+    }
     '/_authenticated/parametros/partidas': {
       id: '/_authenticated/parametros/partidas'
       path: '/parametros/partidas'
@@ -126,6 +141,7 @@ declare module '@tanstack/react-router' {
 
 interface AuthenticatedRouteChildren {
   AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
+  AuthenticatedParametrosCategoriasRoute: typeof AuthenticatedParametrosCategoriasRoute
   AuthenticatedParametrosPartidasRoute: typeof AuthenticatedParametrosPartidasRoute
   AuthenticatedUsuariosAdminRoute: typeof AuthenticatedUsuariosAdminRoute
   AuthenticatedUsuariosIndexRoute: typeof AuthenticatedUsuariosIndexRoute
@@ -133,6 +149,8 @@ interface AuthenticatedRouteChildren {
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
   AuthenticatedIndexRoute: AuthenticatedIndexRoute,
+  AuthenticatedParametrosCategoriasRoute:
+    AuthenticatedParametrosCategoriasRoute,
   AuthenticatedParametrosPartidasRoute: AuthenticatedParametrosPartidasRoute,
   AuthenticatedUsuariosAdminRoute: AuthenticatedUsuariosAdminRoute,
   AuthenticatedUsuariosIndexRoute: AuthenticatedUsuariosIndexRoute,
@@ -158,6 +176,7 @@ export interface FileRoutesByFullPath {
   '': typeof UnauthenticatedRouteWithChildren
   '/login': typeof UnauthenticatedLoginRoute
   '/': typeof AuthenticatedIndexRoute
+  '/parametros/categorias': typeof AuthenticatedParametrosCategoriasRoute
   '/parametros/partidas': typeof AuthenticatedParametrosPartidasRoute
   '/usuarios/admin': typeof AuthenticatedUsuariosAdminRoute
   '/usuarios': typeof AuthenticatedUsuariosIndexRoute
@@ -167,6 +186,7 @@ export interface FileRoutesByTo {
   '': typeof UnauthenticatedRouteWithChildren
   '/login': typeof UnauthenticatedLoginRoute
   '/': typeof AuthenticatedIndexRoute
+  '/parametros/categorias': typeof AuthenticatedParametrosCategoriasRoute
   '/parametros/partidas': typeof AuthenticatedParametrosPartidasRoute
   '/usuarios/admin': typeof AuthenticatedUsuariosAdminRoute
   '/usuarios': typeof AuthenticatedUsuariosIndexRoute
@@ -178,6 +198,7 @@ export interface FileRoutesById {
   '/_unauthenticated': typeof UnauthenticatedRouteWithChildren
   '/_unauthenticated/login': typeof UnauthenticatedLoginRoute
   '/_authenticated/': typeof AuthenticatedIndexRoute
+  '/_authenticated/parametros/categorias': typeof AuthenticatedParametrosCategoriasRoute
   '/_authenticated/parametros/partidas': typeof AuthenticatedParametrosPartidasRoute
   '/_authenticated/usuarios/admin': typeof AuthenticatedUsuariosAdminRoute
   '/_authenticated/usuarios/': typeof AuthenticatedUsuariosIndexRoute
@@ -189,6 +210,7 @@ export interface FileRouteTypes {
     | ''
     | '/login'
     | '/'
+    | '/parametros/categorias'
     | '/parametros/partidas'
     | '/usuarios/admin'
     | '/usuarios'
@@ -197,6 +219,7 @@ export interface FileRouteTypes {
     | ''
     | '/login'
     | '/'
+    | '/parametros/categorias'
     | '/parametros/partidas'
     | '/usuarios/admin'
     | '/usuarios'
@@ -206,6 +229,7 @@ export interface FileRouteTypes {
     | '/_unauthenticated'
     | '/_unauthenticated/login'
     | '/_authenticated/'
+    | '/_authenticated/parametros/categorias'
     | '/_authenticated/parametros/partidas'
     | '/_authenticated/usuarios/admin'
     | '/_authenticated/usuarios/'
@@ -240,6 +264,7 @@ export const routeTree = rootRoute
       "filePath": "_authenticated.tsx",
       "children": [
         "/_authenticated/",
+        "/_authenticated/parametros/categorias",
         "/_authenticated/parametros/partidas",
         "/_authenticated/usuarios/admin",
         "/_authenticated/usuarios/"
@@ -257,6 +282,10 @@ export const routeTree = rootRoute
     },
     "/_authenticated/": {
       "filePath": "_authenticated/index.tsx",
+      "parent": "/_authenticated"
+    },
+    "/_authenticated/parametros/categorias": {
+      "filePath": "_authenticated/parametros/categorias.tsx",
       "parent": "/_authenticated"
     },
     "/_authenticated/parametros/partidas": {
