@@ -47,7 +47,7 @@ function InvoiceForm({ invoiceId, invoice }: InvoiceFormProps) {
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ['invoice', data.id] })
       toast.success('Factura creada')
-      navigate({ to: `/transacciones/facturas/${data.id}` })
+      navigate({ to: '/transacciones/facturas/$id', params: { id: data.id! } })
     },
     onError: (error) => {
       setConflictError(error.message)

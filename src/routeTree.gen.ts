@@ -24,7 +24,9 @@ import { Route as AuthenticatedParametrosProveedoresImport } from './routes/_aut
 import { Route as AuthenticatedParametrosPartidasImport } from './routes/_authenticated/parametros/partidas'
 import { Route as AuthenticatedParametrosMaterialesImport } from './routes/_authenticated/parametros/materiales'
 import { Route as AuthenticatedParametrosCategoriasImport } from './routes/_authenticated/parametros/categorias'
+import { Route as AuthenticatedTransaccionesFacturasIndexImport } from './routes/_authenticated/transacciones/facturas/index'
 import { Route as AuthenticatedParametrosRubrosIndexImport } from './routes/_authenticated/parametros/rubros/index'
+import { Route as AuthenticatedTransaccionesFacturasIdImport } from './routes/_authenticated/transacciones/facturas/$id'
 import { Route as AuthenticatedParametrosRubrosIdImport } from './routes/_authenticated/parametros/rubros/$id'
 
 // Create/Update Routes
@@ -116,10 +118,24 @@ const AuthenticatedParametrosCategoriasRoute =
     getParentRoute: () => AuthenticatedRoute,
   } as any)
 
+const AuthenticatedTransaccionesFacturasIndexRoute =
+  AuthenticatedTransaccionesFacturasIndexImport.update({
+    id: '/transacciones/facturas/',
+    path: '/transacciones/facturas/',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+
 const AuthenticatedParametrosRubrosIndexRoute =
   AuthenticatedParametrosRubrosIndexImport.update({
     id: '/parametros/rubros/',
     path: '/parametros/rubros/',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+
+const AuthenticatedTransaccionesFacturasIdRoute =
+  AuthenticatedTransaccionesFacturasIdImport.update({
+    id: '/transacciones/facturas/$id',
+    path: '/transacciones/facturas/$id',
     getParentRoute: () => AuthenticatedRoute,
   } as any)
 
@@ -232,11 +248,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedParametrosRubrosIdImport
       parentRoute: typeof AuthenticatedImport
     }
+    '/_authenticated/transacciones/facturas/$id': {
+      id: '/_authenticated/transacciones/facturas/$id'
+      path: '/transacciones/facturas/$id'
+      fullPath: '/transacciones/facturas/$id'
+      preLoaderRoute: typeof AuthenticatedTransaccionesFacturasIdImport
+      parentRoute: typeof AuthenticatedImport
+    }
     '/_authenticated/parametros/rubros/': {
       id: '/_authenticated/parametros/rubros/'
       path: '/parametros/rubros'
       fullPath: '/parametros/rubros'
       preLoaderRoute: typeof AuthenticatedParametrosRubrosIndexImport
+      parentRoute: typeof AuthenticatedImport
+    }
+    '/_authenticated/transacciones/facturas/': {
+      id: '/_authenticated/transacciones/facturas/'
+      path: '/transacciones/facturas'
+      fullPath: '/transacciones/facturas'
+      preLoaderRoute: typeof AuthenticatedTransaccionesFacturasIndexImport
       parentRoute: typeof AuthenticatedImport
     }
   }
@@ -256,7 +286,9 @@ interface AuthenticatedRouteChildren {
   AuthenticatedUsuariosAdminRoute: typeof AuthenticatedUsuariosAdminRoute
   AuthenticatedUsuariosIndexRoute: typeof AuthenticatedUsuariosIndexRoute
   AuthenticatedParametrosRubrosIdRoute: typeof AuthenticatedParametrosRubrosIdRoute
+  AuthenticatedTransaccionesFacturasIdRoute: typeof AuthenticatedTransaccionesFacturasIdRoute
   AuthenticatedParametrosRubrosIndexRoute: typeof AuthenticatedParametrosRubrosIndexRoute
+  AuthenticatedTransaccionesFacturasIndexRoute: typeof AuthenticatedTransaccionesFacturasIndexRoute
 }
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
@@ -275,8 +307,12 @@ const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
   AuthenticatedUsuariosAdminRoute: AuthenticatedUsuariosAdminRoute,
   AuthenticatedUsuariosIndexRoute: AuthenticatedUsuariosIndexRoute,
   AuthenticatedParametrosRubrosIdRoute: AuthenticatedParametrosRubrosIdRoute,
+  AuthenticatedTransaccionesFacturasIdRoute:
+    AuthenticatedTransaccionesFacturasIdRoute,
   AuthenticatedParametrosRubrosIndexRoute:
     AuthenticatedParametrosRubrosIndexRoute,
+  AuthenticatedTransaccionesFacturasIndexRoute:
+    AuthenticatedTransaccionesFacturasIndexRoute,
 }
 
 const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
@@ -309,7 +345,9 @@ export interface FileRoutesByFullPath {
   '/usuarios/admin': typeof AuthenticatedUsuariosAdminRoute
   '/usuarios': typeof AuthenticatedUsuariosIndexRoute
   '/parametros/rubros/$id': typeof AuthenticatedParametrosRubrosIdRoute
+  '/transacciones/facturas/$id': typeof AuthenticatedTransaccionesFacturasIdRoute
   '/parametros/rubros': typeof AuthenticatedParametrosRubrosIndexRoute
+  '/transacciones/facturas': typeof AuthenticatedTransaccionesFacturasIndexRoute
 }
 
 export interface FileRoutesByTo {
@@ -326,7 +364,9 @@ export interface FileRoutesByTo {
   '/usuarios/admin': typeof AuthenticatedUsuariosAdminRoute
   '/usuarios': typeof AuthenticatedUsuariosIndexRoute
   '/parametros/rubros/$id': typeof AuthenticatedParametrosRubrosIdRoute
+  '/transacciones/facturas/$id': typeof AuthenticatedTransaccionesFacturasIdRoute
   '/parametros/rubros': typeof AuthenticatedParametrosRubrosIndexRoute
+  '/transacciones/facturas': typeof AuthenticatedTransaccionesFacturasIndexRoute
 }
 
 export interface FileRoutesById {
@@ -345,7 +385,9 @@ export interface FileRoutesById {
   '/_authenticated/usuarios/admin': typeof AuthenticatedUsuariosAdminRoute
   '/_authenticated/usuarios/': typeof AuthenticatedUsuariosIndexRoute
   '/_authenticated/parametros/rubros/$id': typeof AuthenticatedParametrosRubrosIdRoute
+  '/_authenticated/transacciones/facturas/$id': typeof AuthenticatedTransaccionesFacturasIdRoute
   '/_authenticated/parametros/rubros/': typeof AuthenticatedParametrosRubrosIndexRoute
+  '/_authenticated/transacciones/facturas/': typeof AuthenticatedTransaccionesFacturasIndexRoute
 }
 
 export interface FileRouteTypes {
@@ -364,7 +406,9 @@ export interface FileRouteTypes {
     | '/usuarios/admin'
     | '/usuarios'
     | '/parametros/rubros/$id'
+    | '/transacciones/facturas/$id'
     | '/parametros/rubros'
+    | '/transacciones/facturas'
   fileRoutesByTo: FileRoutesByTo
   to:
     | ''
@@ -380,7 +424,9 @@ export interface FileRouteTypes {
     | '/usuarios/admin'
     | '/usuarios'
     | '/parametros/rubros/$id'
+    | '/transacciones/facturas/$id'
     | '/parametros/rubros'
+    | '/transacciones/facturas'
   id:
     | '__root__'
     | '/_authenticated'
@@ -397,7 +443,9 @@ export interface FileRouteTypes {
     | '/_authenticated/usuarios/admin'
     | '/_authenticated/usuarios/'
     | '/_authenticated/parametros/rubros/$id'
+    | '/_authenticated/transacciones/facturas/$id'
     | '/_authenticated/parametros/rubros/'
+    | '/_authenticated/transacciones/facturas/'
   fileRoutesById: FileRoutesById
 }
 
@@ -439,7 +487,9 @@ export const routeTree = rootRoute
         "/_authenticated/usuarios/admin",
         "/_authenticated/usuarios/",
         "/_authenticated/parametros/rubros/$id",
-        "/_authenticated/parametros/rubros/"
+        "/_authenticated/transacciones/facturas/$id",
+        "/_authenticated/parametros/rubros/",
+        "/_authenticated/transacciones/facturas/"
       ]
     },
     "/_unauthenticated": {
@@ -496,8 +546,16 @@ export const routeTree = rootRoute
       "filePath": "_authenticated/parametros/rubros/$id.tsx",
       "parent": "/_authenticated"
     },
+    "/_authenticated/transacciones/facturas/$id": {
+      "filePath": "_authenticated/transacciones/facturas/$id.tsx",
+      "parent": "/_authenticated"
+    },
     "/_authenticated/parametros/rubros/": {
       "filePath": "_authenticated/parametros/rubros/index.tsx",
+      "parent": "/_authenticated"
+    },
+    "/_authenticated/transacciones/facturas/": {
+      "filePath": "_authenticated/transacciones/facturas/index.tsx",
       "parent": "/_authenticated"
     }
   }

@@ -19,7 +19,12 @@ export default function Factura() {
 
       <EditToolbar
         title='Crear Factura'
-        onClick={() => navigate({ to: '/transacciones/facturas/crear' })}
+        onClick={() =>
+          navigate({
+            to: '/transacciones/facturas/$id',
+            params: { id: 'crear' },
+          })
+        }
       />
       {isFetching && (
         <CircularProgress data-testid='page.transactions.invoice.loading' />

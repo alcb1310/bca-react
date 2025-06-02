@@ -25,11 +25,6 @@ export default function IndividualInvoice() {
     enabled: invoiceId !== undefined,
   })
 
-  // const { data } = useGetAllInvoiceDetailsQuery({ id: invoiceId! })
-  useEffect(() => {
-    setInvoiceId(location.pathname.split('/')[3])
-  }, [location])
-
   return (
     <>
       <PageTitle
