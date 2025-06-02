@@ -1,6 +1,6 @@
 import { CircularProgress, TextField } from '@mui/material'
 import Grid from '@mui/material/Grid2'
-import { useQuery } from '@tanstack/react-query'
+import { useSuspenseQuery } from '@tanstack/react-query'
 import { useState } from 'react'
 import PageTitle from '~/components/titles/PageTitle/PageTitle'
 import { useGetAllBudgetItemsQuery } from '~/queries/parametros/partidas'
@@ -12,7 +12,7 @@ import type { BudgetItem } from '~types/partidas'
 export default function BudgetItems() {
   const [open, setOpen] = useState<boolean>(false)
   const [query, setQuery] = useState<string>('')
-  const { data, isLoading } = useQuery({
+  const { data, isLoading } = useSuspenseQuery({
     queryKey: ['budget-items'],
     queryFn: () => useGetAllBudgetItemsQuery({}),
   })
