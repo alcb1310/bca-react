@@ -1,28 +1,25 @@
 import { Box, CircularProgress } from '@mui/material'
 import { useQuery } from '@tanstack/react-query'
-import { useLocation } from '@tanstack/react-router'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import InvoiceDetailsDrawer from '~/components/drawers/Transactions/InvoiceDetailsDrawer/InvoiceDetailsDrawer'
 import InvoiceForm from '~/components/forms/Invoice/Invoice'
 import AllDetailsTable from '~/components/parameters/invoices/AllDetailsTable/AllDetailsTable'
 import PageTitle from '~/components/titles/PageTitle/PageTitle'
 import { useGetAllInvoiceDetailsQuery } from '~/queries/transacciones/detalle'
 import { useGetOneInvoiceQuery } from '~/queries/transacciones/facturas'
+import { Route } from '~/routes/_authenticated/transacciones/facturas/$id'
 import EditToolbar from '~components/table/headers/toolbar'
 
 export default function IndividualInvoice() {
   const [open, setOpen] = useState<boolean>(false)
-  const location = useLocation()
-  const [invoiceId, setInvoiceId] = useState<string | undefined>(undefined)
+  const invoiceId = Route.useLoaderData().invoiceId
   const { data: invoice, isFetching } = useQuery({
     queryKey: ['invoice', invoiceId],
     queryFn: () => useGetOneInvoiceQuery({ id: invoiceId! }),
-    enabled: invoiceId !== undefined,
   })
   const { data } = useQuery({
     queryKey: ['details'],
     queryFn: () => useGetAllInvoiceDetailsQuery({ id: invoiceId! }),
-    enabled: invoiceId !== undefined,
   })
 
   return (
