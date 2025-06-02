@@ -1,13 +1,15 @@
 import { Box, CircularProgress, Typography } from '@mui/material'
-import { useQuery } from '@tanstack/react-query'
+import { queryOptions, useSuspenseQuery } from '@tanstack/react-query'
 import PageTitle from '~/components/titles/PageTitle/PageTitle'
 import { useMeQuery } from '~/queries/user/user'
 
 export default function UsersHome() {
-  const { data, isFetching } = useQuery({
-    queryKey: ['users', 'me'],
-    queryFn: () => useMeQuery(),
-  })
+  const { data, isFetching } = useSuspenseQuery(
+    queryOptions({
+      queryKey: ['users', 'me'],
+      queryFn: () => useMeQuery(),
+    }),
+  )
 
   const componentLayout = (
     <>
