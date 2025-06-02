@@ -1,5 +1,5 @@
 import { CircularProgress, Grid2, TextField } from '@mui/material'
-import { useQuery } from '@tanstack/react-query'
+import { useSuspenseQuery } from '@tanstack/react-query'
 import { useState } from 'react'
 import PageTitle from '~/components/titles/PageTitle/PageTitle'
 import { useGetAllSuppliersQuery } from '~/queries/parametros/proveedor'
@@ -11,7 +11,7 @@ export default function Suppliers() {
   const [query, setQuery] = useState<string>('')
   const [open, setOpen] = useState<boolean>(false)
 
-  const { data, isLoading } = useQuery({
+  const { data, isLoading } = useSuspenseQuery({
     queryKey: ['suppliers', query],
     queryFn: () => useGetAllSuppliersQuery({ search: query }),
   })
