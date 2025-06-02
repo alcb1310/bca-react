@@ -6,7 +6,12 @@ import {
   type GridColDef,
   type GridRowParams,
 } from '@mui/x-data-grid'
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import {
+  queryOptions,
+  useMutation,
+  useQueryClient,
+  useSuspenseQuery,
+} from '@tanstack/react-query'
 import { useState } from 'react'
 import { toast } from 'sonner'
 import {
@@ -27,14 +32,18 @@ export default function AllUsersTable() {
   const [openUserDrawer, setOpenUserDrawer] = useState<boolean>(false)
   const [userData, setUserData] = useState<UserResponse | null>(null)
 
-  const { data, isFetching } = useQuery({
-    queryKey: ['users'],
-    queryFn: () => useGetAllUsersQuery(),
-  })
-  const { data: me } = useQuery({
-    queryKey: ['users', 'me'],
-    queryFn: () => useMeQuery(),
-  })
+  const { data, isFetching } = useSuspenseQuery(
+    queryOptions({
+      queryKey: ['users'],
+      queryFn: () => useGetAllUsersQuery(),
+    }),
+  )
+  const { data: me } = useSuspenseQuery(
+    queryOptions({
+      queryKey: ['users', 'me'],
+      queryFn: () => useMeQuery(),
+    }),
+  )
   const { mutate: deleteUser } = useMutation({
     mutationFn: useDeleteUserMutation,
     onSuccess: () => {

@@ -16,6 +16,7 @@ import { Route as AuthenticatedImport } from './routes/_authenticated'
 import { Route as AuthenticatedIndexImport } from './routes/_authenticated/index'
 import { Route as UnauthenticatedLoginImport } from './routes/_unauthenticated/login'
 import { Route as AuthenticatedUsuariosIndexImport } from './routes/_authenticated/usuarios/index'
+import { Route as AuthenticatedUsuariosAdminImport } from './routes/_authenticated/usuarios/admin'
 
 // Create/Update Routes
 
@@ -45,6 +46,14 @@ const AuthenticatedUsuariosIndexRoute = AuthenticatedUsuariosIndexImport.update(
   {
     id: '/usuarios/',
     path: '/usuarios/',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any,
+)
+
+const AuthenticatedUsuariosAdminRoute = AuthenticatedUsuariosAdminImport.update(
+  {
+    id: '/usuarios/admin',
+    path: '/usuarios/admin',
     getParentRoute: () => AuthenticatedRoute,
   } as any,
 )
@@ -81,6 +90,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedIndexImport
       parentRoute: typeof AuthenticatedImport
     }
+    '/_authenticated/usuarios/admin': {
+      id: '/_authenticated/usuarios/admin'
+      path: '/usuarios/admin'
+      fullPath: '/usuarios/admin'
+      preLoaderRoute: typeof AuthenticatedUsuariosAdminImport
+      parentRoute: typeof AuthenticatedImport
+    }
     '/_authenticated/usuarios/': {
       id: '/_authenticated/usuarios/'
       path: '/usuarios'
@@ -95,11 +111,13 @@ declare module '@tanstack/react-router' {
 
 interface AuthenticatedRouteChildren {
   AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
+  AuthenticatedUsuariosAdminRoute: typeof AuthenticatedUsuariosAdminRoute
   AuthenticatedUsuariosIndexRoute: typeof AuthenticatedUsuariosIndexRoute
 }
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
   AuthenticatedIndexRoute: AuthenticatedIndexRoute,
+  AuthenticatedUsuariosAdminRoute: AuthenticatedUsuariosAdminRoute,
   AuthenticatedUsuariosIndexRoute: AuthenticatedUsuariosIndexRoute,
 }
 
@@ -123,6 +141,7 @@ export interface FileRoutesByFullPath {
   '': typeof UnauthenticatedRouteWithChildren
   '/login': typeof UnauthenticatedLoginRoute
   '/': typeof AuthenticatedIndexRoute
+  '/usuarios/admin': typeof AuthenticatedUsuariosAdminRoute
   '/usuarios': typeof AuthenticatedUsuariosIndexRoute
 }
 
@@ -130,6 +149,7 @@ export interface FileRoutesByTo {
   '': typeof UnauthenticatedRouteWithChildren
   '/login': typeof UnauthenticatedLoginRoute
   '/': typeof AuthenticatedIndexRoute
+  '/usuarios/admin': typeof AuthenticatedUsuariosAdminRoute
   '/usuarios': typeof AuthenticatedUsuariosIndexRoute
 }
 
@@ -139,20 +159,22 @@ export interface FileRoutesById {
   '/_unauthenticated': typeof UnauthenticatedRouteWithChildren
   '/_unauthenticated/login': typeof UnauthenticatedLoginRoute
   '/_authenticated/': typeof AuthenticatedIndexRoute
+  '/_authenticated/usuarios/admin': typeof AuthenticatedUsuariosAdminRoute
   '/_authenticated/usuarios/': typeof AuthenticatedUsuariosIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '' | '/login' | '/' | '/usuarios'
+  fullPaths: '' | '/login' | '/' | '/usuarios/admin' | '/usuarios'
   fileRoutesByTo: FileRoutesByTo
-  to: '' | '/login' | '/' | '/usuarios'
+  to: '' | '/login' | '/' | '/usuarios/admin' | '/usuarios'
   id:
     | '__root__'
     | '/_authenticated'
     | '/_unauthenticated'
     | '/_unauthenticated/login'
     | '/_authenticated/'
+    | '/_authenticated/usuarios/admin'
     | '/_authenticated/usuarios/'
   fileRoutesById: FileRoutesById
 }
@@ -185,6 +207,7 @@ export const routeTree = rootRoute
       "filePath": "_authenticated.tsx",
       "children": [
         "/_authenticated/",
+        "/_authenticated/usuarios/admin",
         "/_authenticated/usuarios/"
       ]
     },
@@ -200,6 +223,10 @@ export const routeTree = rootRoute
     },
     "/_authenticated/": {
       "filePath": "_authenticated/index.tsx",
+      "parent": "/_authenticated"
+    },
+    "/_authenticated/usuarios/admin": {
+      "filePath": "_authenticated/usuarios/admin.tsx",
       "parent": "/_authenticated"
     },
     "/_authenticated/usuarios/": {
