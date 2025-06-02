@@ -29,7 +29,10 @@ export default function AllRubrosTable({ data }: AllRubrosTableProps) {
           icon=<EditOutlined color='warning' />
           label='Edit'
           onClick={() =>
-            navigate({ to: `/parametros/rubros/${params.row.id}` })
+            navigate({
+              to: '/parametros/rubros/$id',
+              params: { id: params.row.id! },
+            })
           }
         />,
       ],

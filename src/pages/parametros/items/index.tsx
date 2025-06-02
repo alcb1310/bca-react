@@ -1,5 +1,5 @@
 import { CircularProgress } from '@mui/material'
-import { useQuery } from '@tanstack/react-query'
+import { useSuspenseQuery } from '@tanstack/react-query'
 import { useNavigate } from '@tanstack/react-router'
 import PageTitle from '~/components/titles/PageTitle/PageTitle'
 import { useGetAllRubrosQuery } from '~/queries/parametros/rubros'
@@ -7,7 +7,7 @@ import AllRubrosTable from '~components/settings/rubros/AllRubrosTable'
 import EditToolbar from '~components/table/headers/toolbar'
 
 export default function Items() {
-  const { data, isLoading } = useQuery({
+  const { data, isLoading } = useSuspenseQuery({
     queryKey: ['items'],
     queryFn: () => useGetAllRubrosQuery(),
   })
@@ -20,7 +20,14 @@ export default function Items() {
       {isLoading && <CircularProgress />}
       <EditToolbar
         title='Crear Rubro'
-        onClick={() => navigate({ to: '/parametros/rubros/crear' })}
+        onClick={() =>
+          navigate({
+            to: '/parametros/rubros/$id',
+            params: {
+              id: 'crear',
+            },
+          })
+        }
       />
 
       <AllRubrosTable data={data!} />
