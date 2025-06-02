@@ -1,6 +1,10 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { CircularProgress, Grid2, Stack, Typography } from '@mui/material'
-import { useQuery, useQueryClient } from '@tanstack/react-query'
+import {
+  useQuery,
+  useQueryClient,
+  useSuspenseQuery,
+} from '@tanstack/react-query'
 import { useStore } from '@tanstack/react-store'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
@@ -58,10 +62,15 @@ export default function Spent() {
     resolver: zodResolver(reportSchema),
   })
 
-  const { data: levels } = useQuery({
+  const { data: levels } = useSuspenseQuery({
     queryKey: ['levels'],
     queryFn: () => useGetAllLevelsQuery(),
   })
+  const { data: projects } = useSuspenseQuery({
+    queryKey: ['projects'],
+    queryFn: () => useGetAllProjectsQuery({}),
+  })
+
   const { data, isFetching } = useQuery({
     queryKey: ['spent'],
     queryFn: () =>
@@ -74,11 +83,6 @@ export default function Spent() {
       selectedReport.project_id !== '' &&
       selectedReport.level !== '' &&
       selectedReport.date !== '',
-  })
-
-  const { data: projects } = useQuery({
-    queryKey: ['projects'],
-    queryFn: () => useGetAllProjectsQuery({}),
   })
 
   function generateReport(info: ReportTypes) {
