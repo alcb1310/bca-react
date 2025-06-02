@@ -8,13 +8,17 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material'
+import { useNavigate } from '@tanstack/react-router'
 import UserMenu from '~/components/menu/User/User'
 import { logout } from '~/store/login'
 import ChangeTheme from '~components/theme/ChangeTheme'
 
 export default function ApplicationBar() {
+  const navigate = useNavigate()
+
   function handleLogout() {
     logout()
+    navigate({ to: '/login' })
   }
 
   return (

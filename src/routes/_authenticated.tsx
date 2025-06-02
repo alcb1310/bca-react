@@ -1,10 +1,22 @@
 import { Box } from '@mui/material'
-import { createFileRoute, Outlet } from '@tanstack/react-router'
+import { createFileRoute, Outlet, redirect } from '@tanstack/react-router'
 import ApplicationBar from '~/components/appbar/AppBar'
 import Sidebar from '~/components/sidebar/SideBar'
+import { loginStore } from '~/store/login'
 
 export const Route = createFileRoute('/_authenticated')({
   component: RouteComponent,
+  beforeLoad: async ({ location }) => {
+    const token = loginStore.state.token
+    if (!token) {
+      throw redirect({
+        to: '/login',
+        search: {
+          redirect: location.href,
+        },
+      })
+    }
+  },
 })
 
 function RouteComponent() {

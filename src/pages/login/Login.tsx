@@ -8,20 +8,28 @@ import {
   Typography,
 } from '@mui/material'
 import { useMutation } from '@tanstack/react-query'
+import { useNavigate } from '@tanstack/react-router'
 import { useStore } from '@tanstack/react-store'
 import { useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
-import { Navigate } from 'react-router-dom'
 import { useLoginMutation } from '~/queries/auth/authentication'
 import { loginApplication, loginStore } from '~/store/login'
 import { type LoginInput, loginSchema } from '~types/login'
 
 export default function Login() {
   const [error, setError] = useState<string | null>(null)
+  const navigate = useNavigate()
   const { mutate } = useMutation({
     mutationFn: useLoginMutation,
     onSuccess: (data) => {
       loginApplication(data.token)
+      const dir = window.history.state?.usr?.from?.pathname
+
+      if (dir) {
+        navigate({ to: dir })
+        return
+      }
+      navigate({ to: '/' })
     },
     onError: (error) => {
       setError(error.message)
@@ -39,16 +47,10 @@ export default function Login() {
     },
     resolver: zodResolver(loginSchema),
   })
-  const isLoggedIn = useStore(loginStore, (state) => state.isloggedIn)
 
   async function onSubmit(data: LoginInput) {
     setError('')
     mutate({ login: data })
-  }
-
-  if (isLoggedIn) {
-    const dir = window.history.state?.usr?.from?.pathname
-    return <Navigate to={dir || '/'} replace />
   }
 
   return (
