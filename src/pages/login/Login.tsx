@@ -8,28 +8,24 @@ import {
   Typography,
 } from '@mui/material'
 import { useMutation } from '@tanstack/react-query'
-import { useNavigate } from '@tanstack/react-router'
-import { useStore } from '@tanstack/react-store'
 import { useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { useLoginMutation } from '~/queries/auth/authentication'
-import { loginApplication, loginStore } from '~/store/login'
+import { Route } from '~/routes/_unauthenticated/login'
+import { loginApplication } from '~/store/login'
 import { type LoginInput, loginSchema } from '~types/login'
+
+const fallback = '/' as const
 
 export default function Login() {
   const [error, setError] = useState<string | null>(null)
-  const navigate = useNavigate()
+  const navigate = Route.useNavigate()
+  const search = Route.useSearch()
   const { mutate } = useMutation({
     mutationFn: useLoginMutation,
-    onSuccess: (data) => {
+    onSuccess: async (data) => {
       loginApplication(data.token)
-      const dir = window.history.state?.usr?.from?.pathname
-
-      if (dir) {
-        navigate({ to: dir })
-        return
-      }
-      navigate({ to: '/' })
+      await navigate({ to: search.redirect || fallback })
     },
     onError: (error) => {
       setError(error.message)
