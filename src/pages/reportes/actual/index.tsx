@@ -1,6 +1,10 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { CircularProgress, Stack } from '@mui/material'
-import { useQuery, useQueryClient } from '@tanstack/react-query'
+import {
+  useQuery,
+  useQueryClient,
+  useSuspenseQuery,
+} from '@tanstack/react-query'
 import { useStore } from '@tanstack/react-store'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
@@ -32,11 +36,11 @@ export default function Actual() {
   const { control, handleSubmit } = useForm<ReportTypes>({
     resolver: zodResolver(reportSchema),
   })
-  const { data: projects } = useQuery({
+  const { data: projects } = useSuspenseQuery({
     queryKey: ['projects', 'active'],
     queryFn: () => useGetAllProjectsQuery({ active: true }),
   })
-  const { data: levels } = useQuery({
+  const { data: levels } = useSuspenseQuery({
     queryKey: ['levels'],
     queryFn: () => useGetAllLevelsQuery(),
   })

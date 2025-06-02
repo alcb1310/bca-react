@@ -19,6 +19,7 @@ import { Route as AuthenticatedUsuariosIndexImport } from './routes/_authenticat
 import { Route as AuthenticatedUsuariosAdminImport } from './routes/_authenticated/usuarios/admin'
 import { Route as AuthenticatedTransaccionesPresupuestosImport } from './routes/_authenticated/transacciones/presupuestos'
 import { Route as AuthenticatedTransaccionesCierreImport } from './routes/_authenticated/transacciones/cierre'
+import { Route as AuthenticatedReportesActualImport } from './routes/_authenticated/reportes/actual'
 import { Route as AuthenticatedParametrosProyectosImport } from './routes/_authenticated/parametros/proyectos'
 import { Route as AuthenticatedParametrosProveedoresImport } from './routes/_authenticated/parametros/proveedores'
 import { Route as AuthenticatedParametrosPartidasImport } from './routes/_authenticated/parametros/partidas'
@@ -80,6 +81,13 @@ const AuthenticatedTransaccionesCierreRoute =
   AuthenticatedTransaccionesCierreImport.update({
     id: '/transacciones/cierre',
     path: '/transacciones/cierre',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+
+const AuthenticatedReportesActualRoute =
+  AuthenticatedReportesActualImport.update({
+    id: '/reportes/actual',
+    path: '/reportes/actual',
     getParentRoute: () => AuthenticatedRoute,
   } as any)
 
@@ -213,6 +221,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedParametrosProyectosImport
       parentRoute: typeof AuthenticatedImport
     }
+    '/_authenticated/reportes/actual': {
+      id: '/_authenticated/reportes/actual'
+      path: '/reportes/actual'
+      fullPath: '/reportes/actual'
+      preLoaderRoute: typeof AuthenticatedReportesActualImport
+      parentRoute: typeof AuthenticatedImport
+    }
     '/_authenticated/transacciones/cierre': {
       id: '/_authenticated/transacciones/cierre'
       path: '/transacciones/cierre'
@@ -281,6 +296,7 @@ interface AuthenticatedRouteChildren {
   AuthenticatedParametrosPartidasRoute: typeof AuthenticatedParametrosPartidasRoute
   AuthenticatedParametrosProveedoresRoute: typeof AuthenticatedParametrosProveedoresRoute
   AuthenticatedParametrosProyectosRoute: typeof AuthenticatedParametrosProyectosRoute
+  AuthenticatedReportesActualRoute: typeof AuthenticatedReportesActualRoute
   AuthenticatedTransaccionesCierreRoute: typeof AuthenticatedTransaccionesCierreRoute
   AuthenticatedTransaccionesPresupuestosRoute: typeof AuthenticatedTransaccionesPresupuestosRoute
   AuthenticatedUsuariosAdminRoute: typeof AuthenticatedUsuariosAdminRoute
@@ -301,6 +317,7 @@ const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
   AuthenticatedParametrosProveedoresRoute:
     AuthenticatedParametrosProveedoresRoute,
   AuthenticatedParametrosProyectosRoute: AuthenticatedParametrosProyectosRoute,
+  AuthenticatedReportesActualRoute: AuthenticatedReportesActualRoute,
   AuthenticatedTransaccionesCierreRoute: AuthenticatedTransaccionesCierreRoute,
   AuthenticatedTransaccionesPresupuestosRoute:
     AuthenticatedTransaccionesPresupuestosRoute,
@@ -340,6 +357,7 @@ export interface FileRoutesByFullPath {
   '/parametros/partidas': typeof AuthenticatedParametrosPartidasRoute
   '/parametros/proveedores': typeof AuthenticatedParametrosProveedoresRoute
   '/parametros/proyectos': typeof AuthenticatedParametrosProyectosRoute
+  '/reportes/actual': typeof AuthenticatedReportesActualRoute
   '/transacciones/cierre': typeof AuthenticatedTransaccionesCierreRoute
   '/transacciones/presupuestos': typeof AuthenticatedTransaccionesPresupuestosRoute
   '/usuarios/admin': typeof AuthenticatedUsuariosAdminRoute
@@ -359,6 +377,7 @@ export interface FileRoutesByTo {
   '/parametros/partidas': typeof AuthenticatedParametrosPartidasRoute
   '/parametros/proveedores': typeof AuthenticatedParametrosProveedoresRoute
   '/parametros/proyectos': typeof AuthenticatedParametrosProyectosRoute
+  '/reportes/actual': typeof AuthenticatedReportesActualRoute
   '/transacciones/cierre': typeof AuthenticatedTransaccionesCierreRoute
   '/transacciones/presupuestos': typeof AuthenticatedTransaccionesPresupuestosRoute
   '/usuarios/admin': typeof AuthenticatedUsuariosAdminRoute
@@ -380,6 +399,7 @@ export interface FileRoutesById {
   '/_authenticated/parametros/partidas': typeof AuthenticatedParametrosPartidasRoute
   '/_authenticated/parametros/proveedores': typeof AuthenticatedParametrosProveedoresRoute
   '/_authenticated/parametros/proyectos': typeof AuthenticatedParametrosProyectosRoute
+  '/_authenticated/reportes/actual': typeof AuthenticatedReportesActualRoute
   '/_authenticated/transacciones/cierre': typeof AuthenticatedTransaccionesCierreRoute
   '/_authenticated/transacciones/presupuestos': typeof AuthenticatedTransaccionesPresupuestosRoute
   '/_authenticated/usuarios/admin': typeof AuthenticatedUsuariosAdminRoute
@@ -401,6 +421,7 @@ export interface FileRouteTypes {
     | '/parametros/partidas'
     | '/parametros/proveedores'
     | '/parametros/proyectos'
+    | '/reportes/actual'
     | '/transacciones/cierre'
     | '/transacciones/presupuestos'
     | '/usuarios/admin'
@@ -419,6 +440,7 @@ export interface FileRouteTypes {
     | '/parametros/partidas'
     | '/parametros/proveedores'
     | '/parametros/proyectos'
+    | '/reportes/actual'
     | '/transacciones/cierre'
     | '/transacciones/presupuestos'
     | '/usuarios/admin'
@@ -438,6 +460,7 @@ export interface FileRouteTypes {
     | '/_authenticated/parametros/partidas'
     | '/_authenticated/parametros/proveedores'
     | '/_authenticated/parametros/proyectos'
+    | '/_authenticated/reportes/actual'
     | '/_authenticated/transacciones/cierre'
     | '/_authenticated/transacciones/presupuestos'
     | '/_authenticated/usuarios/admin'
@@ -482,6 +505,7 @@ export const routeTree = rootRoute
         "/_authenticated/parametros/partidas",
         "/_authenticated/parametros/proveedores",
         "/_authenticated/parametros/proyectos",
+        "/_authenticated/reportes/actual",
         "/_authenticated/transacciones/cierre",
         "/_authenticated/transacciones/presupuestos",
         "/_authenticated/usuarios/admin",
@@ -524,6 +548,10 @@ export const routeTree = rootRoute
     },
     "/_authenticated/parametros/proyectos": {
       "filePath": "_authenticated/parametros/proyectos.tsx",
+      "parent": "/_authenticated"
+    },
+    "/_authenticated/reportes/actual": {
+      "filePath": "_authenticated/reportes/actual.tsx",
       "parent": "/_authenticated"
     },
     "/_authenticated/transacciones/cierre": {
