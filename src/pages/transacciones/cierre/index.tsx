@@ -3,7 +3,7 @@ import { DevTool } from '@hookform/devtools'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { SaveOutlined } from '@mui/icons-material'
 import { Box, Button, CircularProgress, Stack, Typography } from '@mui/material'
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { useMutation, useSuspenseQuery } from '@tanstack/react-query'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
@@ -42,7 +42,7 @@ export default function Cierre() {
       setOpen(false)
     },
   })
-  const { data: projects, isLoading } = useQuery({
+  const { data: projects, isLoading } = useSuspenseQuery({
     queryKey: ['projects', 'active'],
     queryFn: () => useGetAllProjectsQuery({ active: true }),
   })
