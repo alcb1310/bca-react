@@ -1,6 +1,10 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { CircularProgress, Grid2, Stack, Typography } from '@mui/material'
-import { useQuery, useQueryClient } from '@tanstack/react-query'
+import {
+  useQuery,
+  useQueryClient,
+  useSuspenseQuery,
+} from '@tanstack/react-query'
 import { useStore } from '@tanstack/react-store'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
@@ -40,7 +44,7 @@ export default function Balance() {
     project_id: '',
     date: '',
   })
-  const { data: projects } = useQuery({
+  const { data: projects } = useSuspenseQuery({
     queryKey: ['projects', 'active'],
     queryFn: () => useGetAllProjectsQuery({ active: true }),
   })
