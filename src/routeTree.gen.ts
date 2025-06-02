@@ -19,6 +19,7 @@ import { Route as AuthenticatedUsuariosIndexImport } from './routes/_authenticat
 import { Route as AuthenticatedUsuariosAdminImport } from './routes/_authenticated/usuarios/admin'
 import { Route as AuthenticatedTransaccionesPresupuestosImport } from './routes/_authenticated/transacciones/presupuestos'
 import { Route as AuthenticatedTransaccionesCierreImport } from './routes/_authenticated/transacciones/cierre'
+import { Route as AuthenticatedReportesHistoricoImport } from './routes/_authenticated/reportes/historico'
 import { Route as AuthenticatedReportesGastadoPorPartidaImport } from './routes/_authenticated/reportes/gastado-por-partida'
 import { Route as AuthenticatedReportesCuadreImport } from './routes/_authenticated/reportes/cuadre'
 import { Route as AuthenticatedReportesActualImport } from './routes/_authenticated/reportes/actual'
@@ -83,6 +84,13 @@ const AuthenticatedTransaccionesCierreRoute =
   AuthenticatedTransaccionesCierreImport.update({
     id: '/transacciones/cierre',
     path: '/transacciones/cierre',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+
+const AuthenticatedReportesHistoricoRoute =
+  AuthenticatedReportesHistoricoImport.update({
+    id: '/reportes/historico',
+    path: '/reportes/historico',
     getParentRoute: () => AuthenticatedRoute,
   } as any)
 
@@ -258,6 +266,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedReportesGastadoPorPartidaImport
       parentRoute: typeof AuthenticatedImport
     }
+    '/_authenticated/reportes/historico': {
+      id: '/_authenticated/reportes/historico'
+      path: '/reportes/historico'
+      fullPath: '/reportes/historico'
+      preLoaderRoute: typeof AuthenticatedReportesHistoricoImport
+      parentRoute: typeof AuthenticatedImport
+    }
     '/_authenticated/transacciones/cierre': {
       id: '/_authenticated/transacciones/cierre'
       path: '/transacciones/cierre'
@@ -329,6 +344,7 @@ interface AuthenticatedRouteChildren {
   AuthenticatedReportesActualRoute: typeof AuthenticatedReportesActualRoute
   AuthenticatedReportesCuadreRoute: typeof AuthenticatedReportesCuadreRoute
   AuthenticatedReportesGastadoPorPartidaRoute: typeof AuthenticatedReportesGastadoPorPartidaRoute
+  AuthenticatedReportesHistoricoRoute: typeof AuthenticatedReportesHistoricoRoute
   AuthenticatedTransaccionesCierreRoute: typeof AuthenticatedTransaccionesCierreRoute
   AuthenticatedTransaccionesPresupuestosRoute: typeof AuthenticatedTransaccionesPresupuestosRoute
   AuthenticatedUsuariosAdminRoute: typeof AuthenticatedUsuariosAdminRoute
@@ -353,6 +369,7 @@ const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
   AuthenticatedReportesCuadreRoute: AuthenticatedReportesCuadreRoute,
   AuthenticatedReportesGastadoPorPartidaRoute:
     AuthenticatedReportesGastadoPorPartidaRoute,
+  AuthenticatedReportesHistoricoRoute: AuthenticatedReportesHistoricoRoute,
   AuthenticatedTransaccionesCierreRoute: AuthenticatedTransaccionesCierreRoute,
   AuthenticatedTransaccionesPresupuestosRoute:
     AuthenticatedTransaccionesPresupuestosRoute,
@@ -395,6 +412,7 @@ export interface FileRoutesByFullPath {
   '/reportes/actual': typeof AuthenticatedReportesActualRoute
   '/reportes/cuadre': typeof AuthenticatedReportesCuadreRoute
   '/reportes/gastado-por-partida': typeof AuthenticatedReportesGastadoPorPartidaRoute
+  '/reportes/historico': typeof AuthenticatedReportesHistoricoRoute
   '/transacciones/cierre': typeof AuthenticatedTransaccionesCierreRoute
   '/transacciones/presupuestos': typeof AuthenticatedTransaccionesPresupuestosRoute
   '/usuarios/admin': typeof AuthenticatedUsuariosAdminRoute
@@ -417,6 +435,7 @@ export interface FileRoutesByTo {
   '/reportes/actual': typeof AuthenticatedReportesActualRoute
   '/reportes/cuadre': typeof AuthenticatedReportesCuadreRoute
   '/reportes/gastado-por-partida': typeof AuthenticatedReportesGastadoPorPartidaRoute
+  '/reportes/historico': typeof AuthenticatedReportesHistoricoRoute
   '/transacciones/cierre': typeof AuthenticatedTransaccionesCierreRoute
   '/transacciones/presupuestos': typeof AuthenticatedTransaccionesPresupuestosRoute
   '/usuarios/admin': typeof AuthenticatedUsuariosAdminRoute
@@ -441,6 +460,7 @@ export interface FileRoutesById {
   '/_authenticated/reportes/actual': typeof AuthenticatedReportesActualRoute
   '/_authenticated/reportes/cuadre': typeof AuthenticatedReportesCuadreRoute
   '/_authenticated/reportes/gastado-por-partida': typeof AuthenticatedReportesGastadoPorPartidaRoute
+  '/_authenticated/reportes/historico': typeof AuthenticatedReportesHistoricoRoute
   '/_authenticated/transacciones/cierre': typeof AuthenticatedTransaccionesCierreRoute
   '/_authenticated/transacciones/presupuestos': typeof AuthenticatedTransaccionesPresupuestosRoute
   '/_authenticated/usuarios/admin': typeof AuthenticatedUsuariosAdminRoute
@@ -465,6 +485,7 @@ export interface FileRouteTypes {
     | '/reportes/actual'
     | '/reportes/cuadre'
     | '/reportes/gastado-por-partida'
+    | '/reportes/historico'
     | '/transacciones/cierre'
     | '/transacciones/presupuestos'
     | '/usuarios/admin'
@@ -486,6 +507,7 @@ export interface FileRouteTypes {
     | '/reportes/actual'
     | '/reportes/cuadre'
     | '/reportes/gastado-por-partida'
+    | '/reportes/historico'
     | '/transacciones/cierre'
     | '/transacciones/presupuestos'
     | '/usuarios/admin'
@@ -508,6 +530,7 @@ export interface FileRouteTypes {
     | '/_authenticated/reportes/actual'
     | '/_authenticated/reportes/cuadre'
     | '/_authenticated/reportes/gastado-por-partida'
+    | '/_authenticated/reportes/historico'
     | '/_authenticated/transacciones/cierre'
     | '/_authenticated/transacciones/presupuestos'
     | '/_authenticated/usuarios/admin'
@@ -555,6 +578,7 @@ export const routeTree = rootRoute
         "/_authenticated/reportes/actual",
         "/_authenticated/reportes/cuadre",
         "/_authenticated/reportes/gastado-por-partida",
+        "/_authenticated/reportes/historico",
         "/_authenticated/transacciones/cierre",
         "/_authenticated/transacciones/presupuestos",
         "/_authenticated/usuarios/admin",
@@ -609,6 +633,10 @@ export const routeTree = rootRoute
     },
     "/_authenticated/reportes/gastado-por-partida": {
       "filePath": "_authenticated/reportes/gastado-por-partida.tsx",
+      "parent": "/_authenticated"
+    },
+    "/_authenticated/reportes/historico": {
+      "filePath": "_authenticated/reportes/historico.tsx",
       "parent": "/_authenticated"
     },
     "/_authenticated/transacciones/cierre": {
