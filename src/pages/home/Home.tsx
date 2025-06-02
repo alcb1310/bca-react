@@ -1,12 +1,14 @@
 import { CircularProgress, Typography } from '@mui/material'
-import { useQuery } from '@tanstack/react-query'
+import { queryOptions, useSuspenseQuery } from '@tanstack/react-query'
 import { useMeQuery } from '~/queries/user/user'
 
 export default function Home() {
-  const { data, isFetching } = useQuery({
-    queryKey: ['users', 'me'],
-    queryFn: () => useMeQuery(),
-  })
+  const { data, isFetching } = useSuspenseQuery(
+    queryOptions({
+      queryKey: ['users', 'me'],
+      queryFn: () => useMeQuery(),
+    }),
+  )
 
   return (
     <>
