@@ -5,7 +5,7 @@ import {
   Stack,
   TextField,
 } from '@mui/material'
-import { useQuery, useQueryClient } from '@tanstack/react-query'
+import { useQueryClient, useSuspenseQuery } from '@tanstack/react-query'
 import { type ChangeEvent, useState } from 'react'
 import BudgetDrawer from '~/components/drawers/Transactions/BudgetDrawer/BudgetDrawer'
 import PageTitle from '~/components/titles/PageTitle/PageTitle'
@@ -20,12 +20,12 @@ export default function Presupuesto() {
   const [search, setSearch] = useState<string>('')
   const [selectedProject, setSelectedProject] = useState<string>('')
 
-  const { data, isFetching } = useQuery({
+  const { data, isFetching } = useSuspenseQuery({
     queryKey: ['budget', search, selectedProject],
     queryFn: () =>
       useGetAllBudgetsQuery({ query: search, project: selectedProject }),
   })
-  const { data: projects } = useQuery({
+  const { data: projects } = useSuspenseQuery({
     queryKey: ['projects', 'active'],
     queryFn: () => useGetAllProjectsQuery({ active: true }),
   })
