@@ -15,6 +15,7 @@ import BcaSelect from '../../input/BcaSelect'
 import BcaTextField from '../../input/BcaTextField'
 import DrawerTitle from '../../titles/DrawerTitle'
 import BcaDrawer from '../BcaDrawer/BcaDrawer'
+import { calculateTotal } from '../../../utils/math'
 
 type BudgetDrawerProps = {
   open: boolean
@@ -33,19 +34,8 @@ export default function BudgetDrawer({
     resolver: zodResolver(budgetEditSchema),
   })
 
-  function calculateTotal(): number {
-    const q = results.quantity
-      ? Number.isNaN(results.quantity)
-        ? 0
-        : results.quantity
-      : 0
-    const c = results.cost ? (Number.isNaN(results.cost) ? 0 : results.cost) : 0
-
-    return q * c
-  }
-
   const results = useWatch({ control })
-  const total = calculateTotal()
+  const total = calculateTotal(results.quantity, results.cost)
 
   const { data: projects } = useGetAllProjectsQuery({
     active: true,
