@@ -1,8 +1,7 @@
+import { zodResolver } from '@hookform/resolvers/zod'
 import { Box, Typography } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-
-import { zodResolver } from '@hookform/resolvers/zod'
 import {
   useCreateUserMutation,
   useUpdateUserMutation,
@@ -48,8 +47,7 @@ export default function UsersDrawer({
   useEffect(() => {
     setConflictError('')
     reset(userData)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [userData])
+  }, [reset, userData])
 
   async function hadleSubmit(data: UserCreate | UserResponse) {
     setConflictError('')

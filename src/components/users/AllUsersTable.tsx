@@ -1,4 +1,5 @@
 import { DeleteOutline, EditOutlined } from '@mui/icons-material'
+import { CircularProgress } from '@mui/material'
 import {
   DataGrid,
   GridActionsCellItem,
@@ -6,8 +7,6 @@ import {
   type GridRowParams,
 } from '@mui/x-data-grid'
 import { useState } from 'react'
-
-import { CircularProgress } from '@mui/material'
 import {
   useAllUsersQuery,
   useDeleteUserMutation,
@@ -53,6 +52,7 @@ export default function AllUsersTable() {
       width: 10,
       getActions: (params: GridRowParams<UserResponse>) => [
         <GridActionsCellItem
+          key={params.id}
           icon=<EditOutlined color='warning' />
           label='Edit'
           onClick={() => {
@@ -62,6 +62,7 @@ export default function AllUsersTable() {
         />,
 
         <GridActionsCellItem
+          key={params.id}
           disabled={me?.id === params.row.id}
           icon=<DeleteOutline color='error' />
           showInMenu

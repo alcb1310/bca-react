@@ -66,6 +66,7 @@ export default function AllInvoicesTable({ data }: AllInvoicesTableProps) {
       width: 10,
       getActions: (params: GridRowParams<InvoiceResponseType>) => [
         <GridActionsCellItem
+          key={params.id}
           icon={<EditOutlined color='warning' />}
           label='Editar'
           showInMenu
@@ -73,6 +74,7 @@ export default function AllInvoicesTable({ data }: AllInvoicesTableProps) {
         />,
 
         <GridActionsCellItem
+          key={params.id}
           icon=<DeleteOutlined color='error' />
           label='Borrar'
           showInMenu

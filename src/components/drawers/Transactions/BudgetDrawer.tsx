@@ -59,7 +59,7 @@ export default function BudgetDrawer({
 
   useEffect(() => {
     reset(defaultValues)
-  }, [open])
+  }, [reset, defaultValues])
 
   async function hadleSubmit(data: BudgetEditType) {
     const costo = Number.parseFloat(data.cost?.toString() || '0')

@@ -56,6 +56,7 @@ export default function SpentTable({
       width: 10,
       getActions: (params) => [
         <GridActionsCellItem
+          key={params.id}
           icon={<VisibilityOutlined />}
           label='Borrar'
           onClick={() => {

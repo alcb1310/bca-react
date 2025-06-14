@@ -71,6 +71,7 @@ export default function AllDetailsTable({
       width: 10,
       getActions: (params) => [
         <GridActionsCellItem
+          key={params.id}
           icon={<DeleteOutlined color='error' />}
           label='Borrar'
           onClick={() =>

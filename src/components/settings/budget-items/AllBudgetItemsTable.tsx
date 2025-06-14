@@ -6,7 +6,6 @@ import {
   type GridRowParams,
 } from '@mui/x-data-grid'
 import { useState } from 'react'
-
 import type { BudgetItem, BudgetItemResponse } from '../../../types/partidas'
 import BudgetItemDrawer from '../../drawers/Settings/BudgetItems/BudgetItemDrawer'
 
@@ -78,6 +77,7 @@ export default function AllBudgetItemsTable({
       width: 10,
       getActions: (params: GridRowParams) => [
         <GridActionsCellItem
+          key={params.id}
           icon=<EditOutlined color='warning' />
           label='Edit'
           onClick={() => {

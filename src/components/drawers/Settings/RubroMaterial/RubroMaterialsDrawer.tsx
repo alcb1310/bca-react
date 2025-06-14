@@ -1,8 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod'
+import { Typography } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-
-import { Typography } from '@mui/material'
 import { useGetAllMaterialsQuery } from '../../../../redux/api/bca-backend/parametros/materialsSlice'
 import {
   useCreateRubrosMaterialMutation,
@@ -43,7 +42,7 @@ function RubroMaterialsDrawer({
 
   useEffect(() => {
     reset(defaultValues)
-  }, [open])
+  }, [reset, defaultValues])
 
   async function hadleSubmit(data: RubroMaterialType) {
     const material: RubroMaterialType = {

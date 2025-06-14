@@ -2,7 +2,6 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { CircularProgress, Typography } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-
 import { useGetAllCategoriesQuery } from '../../../../redux/api/bca-backend/parametros/categoriesSlice'
 import {
   useCreateMaterialMutation,
@@ -39,8 +38,7 @@ export default function MaterialsDrawer({
 
   useEffect(() => {
     reset(defaultValues)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [open])
+  }, [reset, defaultValues])
 
   async function hadleSubmit(data: MaterialType) {
     if (!defaultValues.id) {
