@@ -1,4 +1,4 @@
-import { MaterialType } from '../../../../types/materials'
+import type { MaterialType } from '../../../../types/materials'
 import { bcaApiSlice } from '../bcaSlice'
 
 const materialsApi = bcaApiSlice.injectEndpoints({

@@ -1,6 +1,6 @@
 import { z } from 'zod'
-import { supplierSchema } from './supplier'
 import { projectSchema } from './project'
+import { supplierSchema } from './supplier'
 
 export const invoiceResponseSchema = z.object({
   id: z.string().uuid(),
@@ -25,8 +25,8 @@ export const invoiceCreateSchema = z.object({
     message: 'Ingrese una fecha',
   }),
   invoice_total: z.custom<number>((val) => {
-    const num = parseFloat(val)
-    return !isNaN(num)
+    const num = Number.parseFloat(val)
+    return !Number.isNaN(num)
   }, 'El total deber ser un  número'),
 })
 

@@ -1,5 +1,5 @@
-import { BudgetResponseType } from '../../../../types/budget'
-import {
+import type { BudgetResponseType } from '../../../../types/budget'
+import type {
   BalanceResponseType,
   SpentDetailsType,
   SpentResponseType,
@@ -95,10 +95,10 @@ const commonApiSlice = bcaApiSlice.injectEndpoints({
     >({
       query: (params) => {
         const url = `/reportes/gastado/${params.project_id}/${params.budget_item_id}/${params.date}`
-        console.log("getSpentDetails", url)
+        console.log('getSpentDetails', url)
 
         return {
-          url ,
+          url,
           method: 'GET',
         }
       },

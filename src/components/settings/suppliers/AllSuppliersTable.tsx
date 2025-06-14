@@ -1,13 +1,13 @@
-import { useState } from 'react'
 import {
   DataGrid,
   GridActionsCellItem,
-  GridColDef,
-  GridRowParams,
+  type GridColDef,
+  type GridRowParams,
 } from '@mui/x-data-grid'
+import { useState } from 'react'
 
-import { SupplierType } from '../../../types/supplier'
 import { EditOutlined } from '@mui/icons-material'
+import type { SupplierType } from '../../../types/supplier'
 import SupplierDrawer from '../../drawers/Settings/Suppliers/SupplierDrawer'
 
 type AllSuppliersTableProps = {
@@ -17,7 +17,7 @@ type AllSuppliersTableProps = {
 export default function AllSuppliersTable({ data }: AllSuppliersTableProps) {
   const [open, setOpen] = useState<boolean>(false)
   const [selectedSupplier, setSelectedSupplier] = useState<SupplierType | null>(
-    null
+    null,
   )
 
   const cols: GridColDef<SupplierType>[] = [

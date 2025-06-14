@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { type PayloadAction, createSlice } from '@reduxjs/toolkit'
 
 const cookie =
   document.cookie
@@ -12,7 +12,7 @@ type LoginType = {
 }
 
 const initialState: LoginType = {
-  isLoggedIn: cookie ? true : false,
+  isLoggedIn: !!cookie,
   token: cookie,
 }
 

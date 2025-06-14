@@ -1,12 +1,12 @@
-import { useState } from 'react'
+import { EditOutlined } from '@mui/icons-material'
 import {
   DataGrid,
   GridActionsCellItem,
-  GridColDef,
-  GridRowParams,
+  type GridColDef,
+  type GridRowParams,
 } from '@mui/x-data-grid'
-import { MaterialType } from '../../../types/materials'
-import { EditOutlined } from '@mui/icons-material'
+import { useState } from 'react'
+import type { MaterialType } from '../../../types/materials'
 import MaterialsDrawer from '../../drawers/Settings/Materials/MaterialsDrawer'
 
 type AllMaterialsTableProps = {
@@ -16,7 +16,7 @@ type AllMaterialsTableProps = {
 export default function AllMaterialsTable({ data }: AllMaterialsTableProps) {
   const [open, setOpen] = useState<boolean>(false)
   const [selectedMaterial, setSelectedMaterial] = useState<MaterialType | null>(
-    null
+    null,
   )
 
   function handleEditMaterial(material: MaterialType) {

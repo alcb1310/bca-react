@@ -1,4 +1,4 @@
-import {
+import type {
   RubroMaterialResponseTye,
   RubroMaterialType,
 } from '../../../../types/rubro-material'
