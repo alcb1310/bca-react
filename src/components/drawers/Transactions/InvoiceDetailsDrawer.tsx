@@ -2,7 +2,6 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { Stack, Typography } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { useForm, useWatch } from 'react-hook-form'
-
 import { useGetAllBudgetItemsQuery } from '../../../redux/api/bca-backend/parametros/budgetItemSlice'
 import { useCreateIvoiceDetailsMutation } from '../../../redux/api/bca-backend/transacciones/invoiceDetailsSlice'
 import {
@@ -14,6 +13,7 @@ import BcaSelect from '../../input/BcaSelect'
 import BcaTextField from '../../input/BcaTextField'
 import DrawerTitle from '../../titles/DrawerTitle'
 import BcaDrawer from '../BcaDrawer/BcaDrawer'
+import { calculateTotal } from '../../../utils/math'
 
 type InvoiceDetailsDrawerProps = {
   open: boolean
@@ -37,20 +37,8 @@ export default function InvoiceDetailsDrawer({
     reset({ budget_item_id: '', quantity: 0, cost: 0, total: 0 })
   }, [reset])
 
-  function calculateTotal(): number {
-    const q = results.quantity
-      ? Number.isNaN(results.quantity)
-        ? 0
-        : results.quantity
-      : 0
-
-    const c = results.cost ? (Number.isNaN(results.cost) ? 0 : results.cost) : 0
-
-    return q * c
-  }
-
   const results = useWatch({ control })
-  const total = calculateTotal()
+  const total = calculateTotal(results.quantity, results.cost)
 
   const [createInvoiceDetail] = useCreateIvoiceDetailsMutation()
 
