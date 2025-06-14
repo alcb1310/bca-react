@@ -42,6 +42,7 @@ export default function AllMaterialsTable({ data }: AllMaterialsTableProps) {
       width: 10,
       getActions: (params: GridRowParams) => [
         <GridActionsCellItem
+          key={params.id}
           icon=<EditOutlined color='warning' />
           label='Edit'
           onClick={() => {

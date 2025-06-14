@@ -3,7 +3,6 @@ import { FormControlLabel, Typography } from '@mui/material'
 import { RhfSwitch } from 'mui-rhf-integration'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-
 import {
   useCreateProjectMutation,
   useUpdateProjectMutation,
@@ -36,8 +35,7 @@ export default function ProjectDrawer({
 
   useEffect(() => {
     reset()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [open])
+  }, [reset])
 
   async function hadleSubmit(data: ProjectType) {
     setConflictError('')

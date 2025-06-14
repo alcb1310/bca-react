@@ -1,7 +1,6 @@
+import { zodResolver } from '@hookform/resolvers/zod'
 import { Box, Typography } from '@mui/material'
 import { useEffect, useState } from 'react'
-
-import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import {
   useCreateCategoryMutation,
@@ -36,8 +35,7 @@ export default function CategoriesDrawer({
 
   useEffect(() => {
     reset(defaultValues)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [open])
+  }, [reset, defaultValues])
 
   async function hadleSubmit(data: CategoryType) {
     if (!defaultValues.id) {

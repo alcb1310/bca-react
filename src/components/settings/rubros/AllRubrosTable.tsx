@@ -25,6 +25,7 @@ export default function AllRubrosTable({ data }: AllRubrosTableProps) {
       width: 10,
       getActions: (params: GridRowParams<RubrosType>) => [
         <GridActionsCellItem
+          key={params.id}
           icon=<EditOutlined color='warning' />
           label='Edit'
           onClick={() => navigate(`/parametros/rubros/${params.row.id}`)}

@@ -26,8 +26,7 @@ export default function ChangePassword({ onClose }: ChangePasswordProps) {
 
   useEffect(() => {
     reset()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [reset])
 
   function handleClose() {
     setOpen((prev) => !prev)

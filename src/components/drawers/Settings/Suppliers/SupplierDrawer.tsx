@@ -35,7 +35,7 @@ export default function SupplierDrawer({
 
   useEffect(() => {
     reset(defaultValues)
-  }, [open])
+  }, [reset, defaultValues])
 
   async function hadleSubmit(data: SupplierType) {
     if (!defaultValues.id) {

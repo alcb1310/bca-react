@@ -1,3 +1,4 @@
+import { EditOutlined } from '@mui/icons-material'
 import {
   DataGrid,
   GridActionsCellItem,
@@ -5,8 +6,6 @@ import {
   type GridRowParams,
 } from '@mui/x-data-grid'
 import { useState } from 'react'
-
-import { EditOutlined } from '@mui/icons-material'
 import type { SupplierType } from '../../../types/supplier'
 import SupplierDrawer from '../../drawers/Settings/Suppliers/SupplierDrawer'
 
@@ -50,6 +49,7 @@ export default function AllSuppliersTable({ data }: AllSuppliersTableProps) {
       width: 10,
       getActions: (params: GridRowParams) => [
         <GridActionsCellItem
+          key={params.id}
           icon=<EditOutlined color='warning' />
           label='Edit'
           onClick={() => {

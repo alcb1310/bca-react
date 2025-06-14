@@ -6,10 +6,9 @@ import {
   FormControlLabel,
   Typography,
 } from '@mui/material'
+import { RhfSwitch } from 'mui-rhf-integration'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-
-import { RhfSwitch } from 'mui-rhf-integration'
 import {
   useCreateBudgetItemMutation,
   useGetAllBudgetItemsQuery,
@@ -48,8 +47,7 @@ export default function BudgetItemDrawer({
   useEffect(() => {
     setConflictError('')
     reset(defaultValues)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [open])
+  }, [reset, defaultValues])
 
   async function hadleSubmit(data: BudgetItem) {
     setConflictError('')

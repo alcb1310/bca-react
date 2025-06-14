@@ -35,7 +35,7 @@ export default function InvoiceDetailsDrawer({
 
   useEffect(() => {
     reset({ budget_item_id: '', quantity: 0, cost: 0, total: 0 })
-  }, [open])
+  }, [reset])
 
   function calculateTotal(): number {
     const q = results.quantity
