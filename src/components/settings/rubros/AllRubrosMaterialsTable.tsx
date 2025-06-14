@@ -1,16 +1,16 @@
-import { useState } from 'react'
 import { DeleteOutline, EditOutlined } from '@mui/icons-material'
 import {
   DataGrid,
   GridActionsCellItem,
-  GridColDef,
-  GridRowParams,
+  type GridColDef,
+  type GridRowParams,
 } from '@mui/x-data-grid'
+import { useState } from 'react'
 import {
   useDeleteRubrosMaterialMutation,
   useGetAllRubrosMaterialsQuery,
 } from '../../../redux/api/bca-backend/parametros/rubroMaterialSlice'
-import {
+import type {
   RubroMaterialResponseTye,
   RubroMaterialType,
 } from '../../../types/rubro-material'

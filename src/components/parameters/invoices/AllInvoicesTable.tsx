@@ -1,13 +1,13 @@
-import { useNavigate } from 'react-router-dom'
+import { DeleteOutlined, EditOutlined } from '@mui/icons-material'
 import {
   DataGrid,
   GridActionsCellItem,
-  GridColDef,
-  GridRowParams,
+  type GridColDef,
+  type GridRowParams,
 } from '@mui/x-data-grid'
-import { InvoiceResponseType } from '../../../types/invoice'
-import { DeleteOutlined, EditOutlined } from '@mui/icons-material'
+import { useNavigate } from 'react-router-dom'
 import { useDeleteInvoiceMutation } from '../../../redux/api/bca-backend/transacciones/invoiceSlice'
+import type { InvoiceResponseType } from '../../../types/invoice'
 
 type AllInvoicesTableProps = {
   data: InvoiceResponseType[]

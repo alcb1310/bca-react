@@ -1,4 +1,4 @@
-import { createTheme, ThemeProvider } from '@mui/material'
+import { ThemeProvider, createTheme } from '@mui/material'
 // import { darkTheme } from "../../config/darkmode"
 // import { lightTheme } from "../../config/lightmode"
 import { useAppSelector } from '../../redux/hooks'
@@ -12,8 +12,8 @@ export default function Theme({ children }: ThemeProps) {
 
   const theme = createTheme({
     colorSchemes: {
-      light: th === 'light' ? true : false,
-      dark: th === 'dark' ? true : false,
+      light: th === 'light',
+      dark: th === 'dark',
     },
     // palette: th === 'light' ? lightTheme.palette : darkTheme.palette
   })

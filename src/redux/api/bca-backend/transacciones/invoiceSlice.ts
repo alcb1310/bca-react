@@ -1,4 +1,4 @@
-import {
+import type {
   InvoiceCreateType,
   InvoiceResponseType,
 } from '../../../../types/invoice'

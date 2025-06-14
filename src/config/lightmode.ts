@@ -1,5 +1,5 @@
-import { ThemeOptions } from '@mui/material/styles'
 import { blueGrey } from '@mui/material/colors'
+import type { ThemeOptions } from '@mui/material/styles'
 
 export const lightTheme: ThemeOptions = {
   palette: {

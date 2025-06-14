@@ -1,4 +1,4 @@
-import {
+import type {
   InvoiceDetailsCreateType,
   InvoiceDetailsResponseType,
 } from '../../../../types/invoiceDetails'
@@ -37,8 +37,11 @@ const invoiceDetailsApiSlice = bcaApiSlice.injectEndpoints({
       invalidatesTags: ['detalle', 'facturas'],
     }),
 
-    deleteInvoiceDetails: builder.mutation<void, {invoiceId: string, detailId: string}>({
-      query: ({invoiceId, detailId}) => {
+    deleteInvoiceDetails: builder.mutation<
+      void,
+      { invoiceId: string; detailId: string }
+    >({
+      query: ({ invoiceId, detailId }) => {
         return {
           url: `/transacciones/facturas/${invoiceId}/detalle/${detailId}`,
           method: 'DELETE',
