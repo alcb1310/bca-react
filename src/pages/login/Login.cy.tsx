@@ -89,7 +89,7 @@ describe('<Login />', () => {
 
       cy.getByTestId('pages.login.error').should('not.exist')
 
-      cy.url().should('eq', 'http://localhost:5173/')
+      cy.location('pathname').should('eq', '/')
     })
   })
 })
