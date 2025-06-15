@@ -3,7 +3,7 @@ import MaterialsDrawer from './MaterialsDrawer'
 describe('<MaterialsDrawer />', () => {
   describe('Create a material', () => {
     beforeEach(() => {
-      cy.intercept('GET', '**parametros/categorias**', {
+      cy.intercept('GET', '**/parametros/categorias', {
         statusCode: 200,
         fixture: 'parameters/categories/getAllCategories.json',
       }).as('categorias')
