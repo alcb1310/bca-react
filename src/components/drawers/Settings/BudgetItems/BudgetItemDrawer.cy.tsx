@@ -142,7 +142,7 @@ describe('<BudgetItemDrawer />', () => {
     })
 
     it('should display all the fields with a parent', () => {
-      cy.intercept('GET', '**parametros/partidas**', {
+      cy.intercept('GET', '**/parametros/partidas?accum=true', {
         statusCode: 200,
         fixture: 'parameters/budget_items/accum.json',
       }).as('budgetItem')
