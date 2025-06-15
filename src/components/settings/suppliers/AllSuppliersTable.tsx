@@ -1,3 +1,5 @@
+import SupplierDrawer from '@/components/drawers/Settings/Suppliers/SupplierDrawer'
+import type { SupplierType } from '@/types/supplier'
 import { EditOutlined } from '@mui/icons-material'
 import {
   DataGrid,
@@ -6,8 +8,6 @@ import {
   type GridRowParams,
 } from '@mui/x-data-grid'
 import { useState } from 'react'
-import type { SupplierType } from '../../../types/supplier'
-import SupplierDrawer from '../../drawers/Settings/Suppliers/SupplierDrawer'
 
 type AllSuppliersTableProps = {
   data: SupplierType[]

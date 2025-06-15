@@ -6,8 +6,8 @@ import {
   type GridRowParams,
 } from '@mui/x-data-grid'
 import { useNavigate } from 'react-router-dom'
-import { useDeleteInvoiceMutation } from '../../../redux/api/bca-backend/transacciones/invoiceSlice'
-import type { InvoiceResponseType } from '../../../types/invoice'
+import { useDeleteInvoiceMutation } from '@/redux/api/bca-backend/transacciones/invoiceSlice'
+import type { InvoiceResponseType } from '@/types/invoice'
 
 type AllInvoicesTableProps = {
   data: InvoiceResponseType[]

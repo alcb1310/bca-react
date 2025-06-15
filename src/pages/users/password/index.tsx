@@ -1,13 +1,13 @@
+import ButtonGroup from '@/components/buttons/button-group'
+import BcaDrawer from '@/components/drawers/BcaDrawer/BcaDrawer'
+import BcaTextField from '@/components/input/BcaTextField'
+import DrawerTitle from '@/components/titles/DrawerTitle'
+import { useUpdatePasswordMutation } from '@/redux/api/bca-backend/user/userSlice'
+import { type PasswordType, passwordSchema } from '@/types/user'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Box } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import ButtonGroup from '../../../components/buttons/button-group'
-import BcaDrawer from '../../../components/drawers/BcaDrawer/BcaDrawer'
-import BcaTextField from '../../../components/input/BcaTextField'
-import DrawerTitle from '../../../components/titles/DrawerTitle'
-import { useUpdatePasswordMutation } from '../../../redux/api/bca-backend/user/userSlice'
-import { type PasswordType, passwordSchema } from '../../../types/user'
 
 type ChangePasswordProps = {
   onClose: () => void

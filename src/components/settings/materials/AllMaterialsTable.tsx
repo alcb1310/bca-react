@@ -1,3 +1,5 @@
+import MaterialsDrawer from '@/components/drawers/Settings/Materials/MaterialsDrawer'
+import type { MaterialType } from '@/types/materials'
 import { EditOutlined } from '@mui/icons-material'
 import {
   DataGrid,
@@ -6,8 +8,6 @@ import {
   type GridRowParams,
 } from '@mui/x-data-grid'
 import { useState } from 'react'
-import type { MaterialType } from '../../../types/materials'
-import MaterialsDrawer from '../../drawers/Settings/Materials/MaterialsDrawer'
 
 type AllMaterialsTableProps = {
   data: MaterialType[]

@@ -1,21 +1,21 @@
-import { zodResolver } from '@hookform/resolvers/zod'
-import { Box, Typography } from '@mui/material'
-import { useEffect, useState } from 'react'
-import { useForm } from 'react-hook-form'
+import ButtonGroup from '@/components/buttons/button-group'
+import BcaDrawer from '@/components/drawers/BcaDrawer/BcaDrawer'
+import BcaTextField from '@/components/input/BcaTextField'
+import DrawerTitle from '@/components/titles/DrawerTitle'
 import {
   useCreateUserMutation,
   useUpdateUserMutation,
-} from '../../../redux/api/bca-backend/user/userSlice'
+} from '@/redux/api/bca-backend/user/userSlice'
 import {
   type UserCreate,
   type UserResponse,
   userCreateSchema,
   userResponseSchema,
-} from '../../../types/user'
-import ButtonGroup from '../../buttons/button-group'
-import BcaTextField from '../../input/BcaTextField'
-import DrawerTitle from '../../titles/DrawerTitle'
-import BcaDrawer from '../BcaDrawer/BcaDrawer'
+} from '@/types/user'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { Box, Typography } from '@mui/material'
+import { useEffect, useState } from 'react'
+import { useForm } from 'react-hook-form'
 
 type UsersDrawerProps = {
   open: boolean

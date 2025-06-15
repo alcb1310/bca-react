@@ -1,5 +1,4 @@
 import { configureStore } from '@reduxjs/toolkit'
-
 import { bcaApiSlice } from './api/bca-backend/bcaSlice'
 import { testLoginSlice } from './features/login/testLoginSlice'
 import { testThemeSlice } from './features/theme/testThemeSlice'

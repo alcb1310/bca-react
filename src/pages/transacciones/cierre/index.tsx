@@ -1,19 +1,18 @@
 // BUG: In the Pages/Cierre page, when searching the invoices with a date with a one digit day, there is an error when querying the API
 
+import ConfirmationDialog from '@/components/dialog/ConfirmationDialog'
+import BcaDateTextField from '@/components/input/BcaDateTextField'
+import BcaSelect from '@/components/input/BcaSelect'
+import PageTitle from '@/components/titles/PageTitle'
+import { useGetAllProjectsQuery } from '@/redux/api/bca-backend/parametros/projectsSlice'
+import { useCreateClosureMutation } from '@/redux/api/bca-backend/transacciones/closureSlice'
+import { type CierreTypes, cierreSchema } from '@/types/cierre'
+import { DevTool } from '@hookform/devtools'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { SaveOutlined } from '@mui/icons-material'
 import { Box, Button, CircularProgress, Stack, Typography } from '@mui/material'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
-
-import { DevTool } from '@hookform/devtools'
-import ConfirmationDialog from '../../../components/dialog/ConfirmationDialog'
-import BcaDateTextField from '../../../components/input/BcaDateTextField'
-import BcaSelect from '../../../components/input/BcaSelect'
-import PageTitle from '../../../components/titles/PageTitle'
-import { useGetAllProjectsQuery } from '../../../redux/api/bca-backend/parametros/projectsSlice'
-import { useCreateClosureMutation } from '../../../redux/api/bca-backend/transacciones/closureSlice'
-import { type CierreTypes, cierreSchema } from '../../../types/cierre'
 
 export default function Cierre() {
   const [open, setOpen] = useState<boolean>(false)

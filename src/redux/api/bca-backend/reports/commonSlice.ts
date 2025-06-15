@@ -1,9 +1,9 @@
-import type { BudgetResponseType } from '../../../../types/budget'
+import type { BudgetResponseType } from '@/types/budget'
 import type {
   BalanceResponseType,
   SpentDetailsType,
   SpentResponseType,
-} from '../../../../types/reports'
+} from '@/types/reports'
 import { bcaApiSlice } from '../bcaSlice'
 
 type LevelType = {

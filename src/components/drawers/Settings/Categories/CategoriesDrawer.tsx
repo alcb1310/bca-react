@@ -1,16 +1,16 @@
+import ButtonGroup from '@/components/buttons/button-group'
+import BcaDrawer from '@/components/drawers/BcaDrawer/BcaDrawer'
+import BcaTextField from '@/components/input/BcaTextField'
+import DrawerTitle from '@/components/titles/DrawerTitle'
+import {
+  useCreateCategoryMutation,
+  useUpdateCategoryMutation,
+} from '@/redux/api/bca-backend/parametros/categoriesSlice'
+import { type CategoryType, categorySchema } from '@/types/categories'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Box, Typography } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import {
-  useCreateCategoryMutation,
-  useUpdateCategoryMutation,
-} from '../../../../redux/api/bca-backend/parametros/categoriesSlice'
-import { type CategoryType, categorySchema } from '../../../../types/categories'
-import ButtonGroup from '../../../buttons/button-group'
-import BcaTextField from '../../../input/BcaTextField'
-import DrawerTitle from '../../../titles/DrawerTitle'
-import BcaDrawer from '../../BcaDrawer/BcaDrawer'
 
 type CategoriesDrawerProps = {
   open: boolean

@@ -1,10 +1,10 @@
+import CategoriesDrawer from '@/components/drawers/Settings/Categories/CategoriesDrawer'
+import AllCategoriesTable from '@/components/settings/categories/AllCategoriesTable'
+import EditToolbar from '@/components/table/headers/toolbar'
+import PageTitle from '@/components/titles/PageTitle'
+import { useGetAllCategoriesQuery } from '@/redux/api/bca-backend/parametros/categoriesSlice'
 import { CircularProgress } from '@mui/material'
 import { useState } from 'react'
-import CategoriesDrawer from '../../../components/drawers/Settings/Categories/CategoriesDrawer'
-import AllCategoriesTable from '../../../components/settings/categories/AllCategoriesTable'
-import EditToolbar from '../../../components/table/headers/toolbar'
-import PageTitle from '../../../components/titles/PageTitle'
-import { useGetAllCategoriesQuery } from '../../../redux/api/bca-backend/parametros/categoriesSlice'
 
 export default function Categories() {
   const [open, setOpen] = useState<boolean>(false)

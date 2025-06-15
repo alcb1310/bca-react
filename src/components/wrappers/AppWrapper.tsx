@@ -1,10 +1,10 @@
+import AppRouter from '@/components/router/Router'
+import Theme from '@/components/theme/Theme'
+import { store } from '@/redux/store'
 import { CssBaseline } from '@mui/material'
 import { LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { Provider } from 'react-redux'
-import { store } from '../../redux/store'
-import AppRouter from '../router/Router'
-import Theme from '../theme/Theme'
 
 export default function AppWrapper() {
   return (

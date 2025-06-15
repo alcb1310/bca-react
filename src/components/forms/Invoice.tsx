@@ -1,23 +1,19 @@
+import ButtonGroup from '@/components/buttons/button-group'
+import BcaDateTextField from '@/components/input/BcaDateTextField'
+import BcaSelect from '@/components/input/BcaSelect'
+import BcaTextField from '@/components/input/BcaTextField'
+import { useGetAllProjectsQuery } from '@/redux/api/bca-backend/parametros/projectsSlice'
+import { useGetAllSuppliersQuery } from '@/redux/api/bca-backend/parametros/supplierSlice'
+import {
+  useCreateInvoiceMutation,
+  useUpdateInvoiceMutation,
+} from '@/redux/api/bca-backend/transacciones/invoiceSlice'
+import { type InvoiceCreateType, invoiceCreateSchema } from '@/types/invoice'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Stack, Typography } from '@mui/material'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
-
-import { useGetAllProjectsQuery } from '../../redux/api/bca-backend/parametros/projectsSlice'
-import { useGetAllSuppliersQuery } from '../../redux/api/bca-backend/parametros/supplierSlice'
-import {
-  useCreateInvoiceMutation,
-  useUpdateInvoiceMutation,
-} from '../../redux/api/bca-backend/transacciones/invoiceSlice'
-import {
-  type InvoiceCreateType,
-  invoiceCreateSchema,
-} from '../../types/invoice'
-import ButtonGroup from '../buttons/button-group'
-import BcaDateTextField from '../input/BcaDateTextField'
-import BcaSelect from '../input/BcaSelect'
-import BcaTextField from '../input/BcaTextField'
 
 type InvoiceFormProps = {
   invoiceId: string

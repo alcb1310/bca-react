@@ -1,4 +1,4 @@
-import type { UserCreate, UserResponse } from '../../../../types/user'
+import type { UserCreate, UserResponse } from '@/types/user'
 import { bcaApiSlice } from '../bcaSlice'
 
 const userEndPoints = bcaApiSlice.injectEndpoints({

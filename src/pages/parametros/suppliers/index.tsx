@@ -1,10 +1,10 @@
+import SupplierDrawer from '@/components/drawers/Settings/Suppliers/SupplierDrawer'
+import AllSuppliersTable from '@/components/settings/suppliers/AllSuppliersTable'
+import EditToolbar from '@/components/table/headers/toolbar'
+import PageTitle from '@/components/titles/PageTitle'
+import { useGetAllSuppliersQuery } from '@/redux/api/bca-backend/parametros/supplierSlice'
 import { CircularProgress, Grid2, TextField } from '@mui/material'
 import { useState } from 'react'
-import SupplierDrawer from '../../../components/drawers/Settings/Suppliers/SupplierDrawer'
-import AllSuppliersTable from '../../../components/settings/suppliers/AllSuppliersTable'
-import EditToolbar from '../../../components/table/headers/toolbar'
-import PageTitle from '../../../components/titles/PageTitle'
-import { useGetAllSuppliersQuery } from '../../../redux/api/bca-backend/parametros/supplierSlice'
 
 export default function Suppliers() {
   const [query, setQuery] = useState<string>('')

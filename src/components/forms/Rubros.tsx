@@ -1,15 +1,15 @@
+import ButtonGroup from '@/components/buttons/button-group'
+import BcaTextField from '@/components/input/BcaTextField'
+import {
+  useCreateRubroMutation,
+  useUpdateRubroMutation,
+} from '@/redux/api/bca-backend/parametros/rubrosSlice'
+import { type RubrosType, rubrosSchema } from '@/types/rubros'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Stack, Typography } from '@mui/material'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
-import {
-  useCreateRubroMutation,
-  useUpdateRubroMutation,
-} from '../../redux/api/bca-backend/parametros/rubrosSlice'
-import { type RubrosType, rubrosSchema } from '../../types/rubros'
-import ButtonGroup from '../buttons/button-group'
-import BcaTextField from '../input/BcaTextField'
 
 type RubrosFromProps = {
   rubro: RubrosType

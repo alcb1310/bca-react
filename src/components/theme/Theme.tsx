@@ -1,7 +1,5 @@
+import { useAppSelector } from '@/redux/hooks'
 import { ThemeProvider, createTheme } from '@mui/material'
-// import { darkTheme } from "../../config/darkmode"
-// import { lightTheme } from "../../config/lightmode"
-import { useAppSelector } from '../../redux/hooks'
 
 type ThemeProps = {
   children: React.ReactNode
@@ -15,7 +13,6 @@ export default function Theme({ children }: ThemeProps) {
       light: th === 'light',
       dark: th === 'dark',
     },
-    // palette: th === 'light' ? lightTheme.palette : darkTheme.palette
   })
 
   return <ThemeProvider theme={theme}>{children}</ThemeProvider>

@@ -8,10 +8,10 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material'
-import { logout } from '../../redux/features/login/loginSlice'
-import { useAppDispatch } from '../../redux/hooks'
-import UserMenu from '../menu/User'
-import ChangeTheme from '../theme/ChangeTheme'
+import { logout } from '@/redux/features/login/loginSlice'
+import { useAppDispatch } from '@/redux/hooks'
+import UserMenu from '@/components/menu/User'
+import ChangeTheme from '@/components/theme/ChangeTheme'
 
 export default function ApplicationBar() {
   const dispatch = useAppDispatch()

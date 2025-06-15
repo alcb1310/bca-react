@@ -1,7 +1,7 @@
+import { setMode } from '@/redux/features/theme/themeSlice'
+import { useAppDispatch, useAppSelector } from '@/redux/hooks'
 import { DarkModeOutlined, LightModeOutlined } from '@mui/icons-material'
 import { IconButton, Tooltip } from '@mui/material'
-import { setMode } from '../../redux/features/theme/themeSlice'
-import { useAppDispatch, useAppSelector } from '../../redux/hooks'
 
 export default function ChangeTheme() {
   const th = useAppSelector((state) => state.theme.mode)

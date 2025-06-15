@@ -1,14 +1,13 @@
+import InvoiceDetailsDrawer from '@/components/drawers/Transactions/InvoiceDetailsDrawer'
+import InvoiceForm from '@/components/forms/Invoice'
+import AllDetailsTable from '@/components/parameters/invoices/AllDetailsTable'
+import EditToolbar from '@/components/table/headers/toolbar'
+import PageTitle from '@/components/titles/PageTitle'
+import { useGetAllInvoiceDetailsQuery } from '@/redux/api/bca-backend/transacciones/invoiceDetailsSlice'
+import { useGetOneInvoiceQuery } from '@/redux/api/bca-backend/transacciones/invoiceSlice'
 import { Box, CircularProgress } from '@mui/material'
 import { useState } from 'react'
 import { useLocation } from 'react-router-dom'
-
-import InvoiceDetailsDrawer from '../../../../components/drawers/Transactions/InvoiceDetailsDrawer'
-import InvoiceForm from '../../../../components/forms/Invoice'
-import AllDetailsTable from '../../../../components/parameters/invoices/AllDetailsTable'
-import EditToolbar from '../../../../components/table/headers/toolbar'
-import PageTitle from '../../../../components/titles/PageTitle'
-import { useGetAllInvoiceDetailsQuery } from '../../../../redux/api/bca-backend/transacciones/invoiceDetailsSlice'
-import { useGetOneInvoiceQuery } from '../../../../redux/api/bca-backend/transacciones/invoiceSlice'
 
 export default function IndividualInvoice() {
   const [open, setOpen] = useState<boolean>(false)
