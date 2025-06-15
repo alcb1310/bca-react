@@ -1,3 +1,7 @@
+import { useLoginMutation } from '@/redux/api/bca-backend/auth/authentication'
+import { login } from '@/redux/features/login/loginSlice'
+import { useAppDispatch, useAppSelector } from '@/redux/hooks'
+import { type LoginInput, loginSchema } from '@/types/login'
 import { zodResolver } from '@hookform/resolvers/zod'
 import {
   Box,
@@ -10,10 +14,6 @@ import {
 import { useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { Navigate } from 'react-router-dom'
-import { useLoginMutation } from '../../redux/api/bca-backend/auth/authentication'
-import { login } from '../../redux/features/login/loginSlice'
-import { useAppDispatch, useAppSelector } from '../../redux/hooks'
-import { type LoginInput, loginSchema } from '../../types/login'
 
 export default function Login() {
   const [error, setError] = useState<string | null>(null)

@@ -1,17 +1,17 @@
+import ButtonGroup from '@/components/buttons/button-group'
+import BcaDrawer from '@/components/drawers/BcaDrawer/BcaDrawer'
+import BcaTextField from '@/components/input/BcaTextField'
+import DrawerTitle from '@/components/titles/DrawerTitle'
+import {
+  useCreateProjectMutation,
+  useUpdateProjectMutation,
+} from '@/redux/api/bca-backend/parametros/projectsSlice'
+import { type ProjectType, projectSchema } from '@/types/project'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { FormControlLabel, Typography } from '@mui/material'
 import { RhfSwitch } from 'mui-rhf-integration'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import {
-  useCreateProjectMutation,
-  useUpdateProjectMutation,
-} from '../../../../redux/api/bca-backend/parametros/projectsSlice'
-import { type ProjectType, projectSchema } from '../../../../types/project'
-import ButtonGroup from '../../../buttons/button-group'
-import BcaTextField from '../../../input/BcaTextField'
-import DrawerTitle from '../../../titles/DrawerTitle'
-import BcaDrawer from '../../BcaDrawer/BcaDrawer'
 
 type ProjectDrawerProps = {
   open: boolean

@@ -1,4 +1,4 @@
-import type { CategoryType } from '../../../../types/categories'
+import type { CategoryType } from '@/types/categories'
 import { bcaApiSlice } from '../bcaSlice'
 
 const categorySlice = bcaApiSlice.injectEndpoints({

@@ -1,3 +1,5 @@
+import BudgetItemDrawer from '@/components/drawers/Settings/BudgetItems/BudgetItemDrawer'
+import type { BudgetItem, BudgetItemResponse } from '@/types/partidas'
 import { ClearOutlined, Done, EditOutlined } from '@mui/icons-material'
 import {
   DataGrid,
@@ -6,8 +8,6 @@ import {
   type GridRowParams,
 } from '@mui/x-data-grid'
 import { useState } from 'react'
-import type { BudgetItem, BudgetItemResponse } from '../../../types/partidas'
-import BudgetItemDrawer from '../../drawers/Settings/BudgetItems/BudgetItemDrawer'
 
 type AllBudgetItemsTableProps = {
   allBudgetItems: BudgetItem[]

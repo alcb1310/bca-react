@@ -1,17 +1,16 @@
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useEffect, useState } from 'react'
-import { useForm } from 'react-hook-form'
-
-import { Typography } from '@mui/material'
+import ButtonGroup from '@/components/buttons/button-group'
+import BcaDrawer from '@/components/drawers/BcaDrawer/BcaDrawer'
+import BcaTextField from '@/components/input/BcaTextField'
+import DrawerTitle from '@/components/titles/DrawerTitle'
 import {
   useCreateSupplierMutation,
   useUpdateSupplierMutation,
-} from '../../../../redux/api/bca-backend/parametros/supplierSlice'
-import { type SupplierType, supplierSchema } from '../../../../types/supplier'
-import ButtonGroup from '../../../buttons/button-group'
-import BcaTextField from '../../../input/BcaTextField'
-import DrawerTitle from '../../../titles/DrawerTitle'
-import BcaDrawer from '../../BcaDrawer/BcaDrawer'
+} from '@/redux/api/bca-backend/parametros/supplierSlice'
+import { type SupplierType, supplierSchema } from '@/types/supplier'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { Typography } from '@mui/material'
+import { useEffect, useState } from 'react'
+import { useForm } from 'react-hook-form'
 
 type SupplierDrawerProps = {
   open: boolean

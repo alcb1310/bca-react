@@ -1,3 +1,4 @@
+import type { RubrosType } from '@/types/rubros'
 import { EditOutlined } from '@mui/icons-material'
 import {
   DataGrid,
@@ -6,7 +7,6 @@ import {
   type GridRowParams,
 } from '@mui/x-data-grid'
 import { useNavigate } from 'react-router-dom'
-import type { RubrosType } from '../../../types/rubros'
 
 type AllRubrosTableProps = {
   data: RubrosType[]

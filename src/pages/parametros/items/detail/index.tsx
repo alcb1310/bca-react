@@ -1,13 +1,12 @@
+import RubroMaterialsDrawer from '@/components/drawers/Settings/RubroMaterial/RubroMaterialsDrawer'
+import RubrosForm from '@/components/forms/Rubros'
+import AllRubrosMaterialsTable from '@/components/settings/rubros/AllRubrosMaterialsTable'
+import EditToolbar from '@/components/table/headers/toolbar'
+import PageTitle from '@/components/titles/PageTitle'
+import { useGetOneRubroQuery } from '@/redux/api/bca-backend/parametros/rubrosSlice'
 import { Box, CircularProgress } from '@mui/material'
 import { useState } from 'react'
 import { useLocation } from 'react-router-dom'
-
-import RubroMaterialsDrawer from '../../../../components/drawers/Settings/RubroMaterial/RubroMaterialsDrawer'
-import RubrosForm from '../../../../components/forms/Rubros'
-import AllRubrosMaterialsTable from '../../../../components/settings/rubros/AllRubrosMaterialsTable'
-import EditToolbar from '../../../../components/table/headers/toolbar'
-import PageTitle from '../../../../components/titles/PageTitle'
-import { useGetOneRubroQuery } from '../../../../redux/api/bca-backend/parametros/rubrosSlice'
 
 export default function IndividualItem() {
   const [open, setOpen] = useState<boolean>(false)

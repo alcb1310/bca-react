@@ -1,10 +1,10 @@
 import { CircularProgress } from '@mui/material'
 import { useState } from 'react'
-import MaterialsDrawer from '../../../components/drawers/Settings/Materials/MaterialsDrawer'
-import AllMaterialsTable from '../../../components/settings/materials/AllMaterialsTable'
-import EditToolbar from '../../../components/table/headers/toolbar'
-import PageTitle from '../../../components/titles/PageTitle'
-import { useGetAllMaterialsQuery } from '../../../redux/api/bca-backend/parametros/materialsSlice'
+import MaterialsDrawer from '@/components/drawers/Settings/Materials/MaterialsDrawer'
+import AllMaterialsTable from '@/components/settings/materials/AllMaterialsTable'
+import EditToolbar from '@/components/table/headers/toolbar'
+import PageTitle from '@/components/titles/PageTitle'
+import { useGetAllMaterialsQuery } from '@/redux/api/bca-backend/parametros/materialsSlice'
 
 export default function Materials() {
   const [open, setOpen] = useState<boolean>(false)

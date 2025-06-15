@@ -1,3 +1,5 @@
+import CategoriesDrawer from '@/components/drawers/Settings/Categories/CategoriesDrawer'
+import type { CategoryType } from '@/types/categories'
 import { EditOutlined } from '@mui/icons-material'
 import {
   DataGrid,
@@ -6,8 +8,6 @@ import {
   type GridRowParams,
 } from '@mui/x-data-grid'
 import { useState } from 'react'
-import type { CategoryType } from '../../../types/categories'
-import CategoriesDrawer from '../../drawers/Settings/Categories/CategoriesDrawer'
 
 type AllCategoriesTableProps = {
   data: CategoryType[]

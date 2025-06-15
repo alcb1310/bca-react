@@ -1,9 +1,9 @@
+import BcaDrawer from '@/components/drawers/BcaDrawer/BcaDrawer'
+import DrawerTitle from '@/components/titles/DrawerTitle'
+import { useGetSpentDetailsQuery } from '@/redux/api/bca-backend/reports/commonSlice'
+import type { Spent, SpentDetailsType } from '@/types/reports'
 import { Button, CircularProgress } from '@mui/material'
 import { DataGrid, type GridColDef } from '@mui/x-data-grid'
-import { useGetSpentDetailsQuery } from '../../../../redux/api/bca-backend/reports/commonSlice'
-import type { Spent, SpentDetailsType } from '../../../../types/reports'
-import DrawerTitle from '../../../titles/DrawerTitle'
-import BcaDrawer from '../../BcaDrawer/BcaDrawer'
 
 type SpentDetailsDrawerProps = {
   setOpen: () => void

@@ -1,3 +1,11 @@
+import ConfirmationDialog from '@/components/dialog/ConfirmationDialog'
+import UsersDrawer from '@/components/drawers/Users/UsersDrawer'
+import {
+  useAllUsersQuery,
+  useDeleteUserMutation,
+  useMeQuery,
+} from '@/redux/api/bca-backend/user/userSlice'
+import type { UserResponse } from '@/types/user'
 import { DeleteOutline, EditOutlined } from '@mui/icons-material'
 import { CircularProgress } from '@mui/material'
 import {
@@ -7,14 +15,6 @@ import {
   type GridRowParams,
 } from '@mui/x-data-grid'
 import { useState } from 'react'
-import {
-  useAllUsersQuery,
-  useDeleteUserMutation,
-  useMeQuery,
-} from '../../redux/api/bca-backend/user/userSlice'
-import type { UserResponse } from '../../types/user'
-import ConfirmationDialog from '../dialog/ConfirmationDialog'
-import UsersDrawer from '../drawers/Users/UsersDrawer'
 
 export default function AllUsersTable() {
   const [confirmationDialogOpen, setConfirmationDialogOpen] =

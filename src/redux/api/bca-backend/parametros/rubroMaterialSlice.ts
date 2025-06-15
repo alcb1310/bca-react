@@ -1,7 +1,7 @@
 import type {
   RubroMaterialResponseTye,
   RubroMaterialType,
-} from '../../../../types/rubro-material'
+} from '@/types/rubro-material'
 import { bcaApiSlice } from '../bcaSlice'
 
 const rubroMaterialApilice = bcaApiSlice.injectEndpoints({

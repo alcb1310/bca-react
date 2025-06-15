@@ -1,3 +1,9 @@
+import BudgetDrawer from '@/components/drawers/Transactions/BudgetDrawer'
+import AllBudgetsTable from '@/components/parameters/budgets/AllBudgetsTable'
+import EditToolbar from '@/components/table/headers/toolbar'
+import PageTitle from '@/components/titles/PageTitle'
+import { useGetAllProjectsQuery } from '@/redux/api/bca-backend/parametros/projectsSlice'
+import { useGetAllBudgetsQuery } from '@/redux/api/bca-backend/transacciones/budgetSlice'
 import {
   CircularProgress,
   Grid2,
@@ -6,13 +12,6 @@ import {
   TextField,
 } from '@mui/material'
 import { type ChangeEvent, useState } from 'react'
-
-import BudgetDrawer from '../../../components/drawers/Transactions/BudgetDrawer'
-import AllBudgetsTable from '../../../components/parameters/budgets/AllBudgetsTable'
-import EditToolbar from '../../../components/table/headers/toolbar'
-import PageTitle from '../../../components/titles/PageTitle'
-import { useGetAllProjectsQuery } from '../../../redux/api/bca-backend/parametros/projectsSlice'
-import { useGetAllBudgetsQuery } from '../../../redux/api/bca-backend/transacciones/budgetSlice'
 
 export default function Presupuesto() {
   const [open, setOpen] = useState<boolean>(false)

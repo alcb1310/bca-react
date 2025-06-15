@@ -1,3 +1,5 @@
+import ProjectDrawer from '@/components/drawers/Settings/Projects/ProjectDrawer'
+import type { ProjectType } from '@/types/project'
 import { ClearOutlined, Done, EditOutlined } from '@mui/icons-material'
 import {
   DataGrid,
@@ -6,8 +8,6 @@ import {
   type GridRowParams,
 } from '@mui/x-data-grid'
 import { useState } from 'react'
-import type { ProjectType } from '../../../types/project'
-import ProjectDrawer from '../../drawers/Settings/Projects/ProjectDrawer'
 
 type AllProjectsTableProps = {
   data: ProjectType[]

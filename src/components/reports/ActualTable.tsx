@@ -1,11 +1,11 @@
+import BudgetDrawer from '@/components/drawers/Transactions/BudgetDrawer'
+import type { BudgetEditType, BudgetResponseType } from '@/types/budget'
 import {
   DataGrid,
   type GridColDef,
   type GridColumnGroupingModel,
 } from '@mui/x-data-grid'
 import { useState } from 'react'
-import type { BudgetEditType, BudgetResponseType } from '../../types/budget'
-import BudgetDrawer from '../drawers/Transactions/BudgetDrawer'
 
 type AllBudgetsTableProps = {
   data: BudgetResponseType[]
@@ -44,9 +44,9 @@ export default function ActualTable({ data }: AllBudgetsTableProps) {
       valueFormatter: (params: { Float64: number; Valid: boolean }) => {
         return params.Valid
           ? params.Float64.toLocaleString('es-EC', {
-              minimumFractionDigits: 2,
-              maximumFractionDigits: 2,
-            })
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          })
           : ''
       },
     },
@@ -58,9 +58,9 @@ export default function ActualTable({ data }: AllBudgetsTableProps) {
       valueFormatter: (params: { Float64: number; Valid: boolean }) => {
         return params.Valid
           ? params.Float64.toLocaleString('es-EC', {
-              minimumFractionDigits: 2,
-              maximumFractionDigits: 2,
-            })
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          })
           : ''
       },
     },
@@ -84,9 +84,9 @@ export default function ActualTable({ data }: AllBudgetsTableProps) {
       valueFormatter: (params: { Float64: number; Valid: boolean }) => {
         return params.Valid
           ? params.Float64.toLocaleString('es-EC', {
-              minimumFractionDigits: 2,
-              maximumFractionDigits: 2,
-            })
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          })
           : ''
       },
     },
@@ -110,9 +110,9 @@ export default function ActualTable({ data }: AllBudgetsTableProps) {
       valueFormatter: (params: { Float64: number; Valid: boolean }) => {
         return params.Valid
           ? params.Float64.toLocaleString('es-EC', {
-              minimumFractionDigits: 2,
-              maximumFractionDigits: 2,
-            })
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          })
           : ''
       },
     },
@@ -124,9 +124,9 @@ export default function ActualTable({ data }: AllBudgetsTableProps) {
       valueFormatter: (params: { Float64: number; Valid: boolean }) => {
         return params.Valid
           ? params.Float64.toLocaleString('es-EC', {
-              minimumFractionDigits: 2,
-              maximumFractionDigits: 2,
-            })
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          })
           : ''
       },
     },

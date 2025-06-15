@@ -1,12 +1,12 @@
+import BudgetItemDrawer from '@/components/drawers/Settings/BudgetItems/BudgetItemDrawer'
+import AllBudgetItemsTable from '@/components/settings/budget-items/AllBudgetItemsTable'
+import EditToolbar from '@/components/table/headers/toolbar'
+import PageTitle from '@/components/titles/PageTitle'
+import { useGetAllBudgetItemsQuery } from '@/redux/api/bca-backend/parametros/budgetItemSlice'
+import type { BudgetItem } from '@/types/partidas'
 import { CircularProgress, TextField } from '@mui/material'
 import Grid from '@mui/material/Grid2'
 import { useState } from 'react'
-import BudgetItemDrawer from '../../../components/drawers/Settings/BudgetItems/BudgetItemDrawer'
-import AllBudgetItemsTable from '../../../components/settings/budget-items/AllBudgetItemsTable'
-import EditToolbar from '../../../components/table/headers/toolbar'
-import PageTitle from '../../../components/titles/PageTitle'
-import { useGetAllBudgetItemsQuery } from '../../../redux/api/bca-backend/parametros/budgetItemSlice'
-import type { BudgetItem } from '../../../types/partidas'
 
 export default function BudgetItems() {
   const [open, setOpen] = useState<boolean>(false)

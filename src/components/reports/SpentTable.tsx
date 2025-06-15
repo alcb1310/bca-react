@@ -1,3 +1,4 @@
+import type { Spent, SpentResponseType } from '@/types/reports'
 import { VisibilityOutlined } from '@mui/icons-material'
 import {
   DataGrid,
@@ -5,7 +6,6 @@ import {
   type GridColDef,
 } from '@mui/x-data-grid'
 import type { Dispatch, SetStateAction } from 'react'
-import type { Spent, SpentResponseType } from '../../types/reports'
 
 type SpentTableProps = {
   data: SpentResponseType

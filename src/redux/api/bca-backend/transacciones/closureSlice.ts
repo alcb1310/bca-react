@@ -1,4 +1,4 @@
-import type { CierreTypes } from '../../../../types/cierre'
+import type { CierreTypes } from '@/types/cierre'
 import { bcaApiSlice } from '../bcaSlice'
 
 const closureSlice = bcaApiSlice.injectEndpoints({
