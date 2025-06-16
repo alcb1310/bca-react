@@ -1,10 +1,10 @@
-import type { LoginErrorResponse } from '../../../../types/error'
-import type { LoginInput } from '../../../../types/login'
-import type { UserResponse } from '../../../../types/user'
+import type { LoginErrorResponse } from '@/types/error'
+import type { LoginInput } from '@/types/login'
+import type * as user from '@/types/user'
 import { bcaApiSlice } from '../bcaSlice'
 
 type loginResponse = {
-  user: UserResponse
+  user: user.UserResponse
   token: string
 }
 

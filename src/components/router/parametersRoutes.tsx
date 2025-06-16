@@ -1,4 +1,3 @@
-import type { RouteObject } from 'react-router-dom'
 import Parameters from '@/pages/parametros'
 import BudgetItems from '@/pages/parametros/budget-items'
 import Categories from '@/pages/parametros/categories'
@@ -7,6 +6,7 @@ import IndividualItem from '@/pages/parametros/items/detail'
 import Materials from '@/pages/parametros/materials'
 import Projects from '@/pages/parametros/projects'
 import Suppliers from '@/pages/parametros/suppliers'
+import type { RouteObject } from 'react-router-dom'
 
 export const parametersRoutes: RouteObject = {
   path: 'parametros',

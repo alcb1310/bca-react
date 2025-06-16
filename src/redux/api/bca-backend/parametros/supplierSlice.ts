@@ -1,4 +1,4 @@
-import type { SupplierType } from '../../../../types/supplier'
+import type { SupplierType } from '@/types/supplier'
 import { bcaApiSlice } from '../bcaSlice'
 
 const supplierSlice = bcaApiSlice.injectEndpoints({
