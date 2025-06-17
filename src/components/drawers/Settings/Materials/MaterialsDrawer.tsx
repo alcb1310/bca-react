@@ -13,6 +13,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { CircularProgress, Typography } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
 
 type MaterialsDrawerProps = {
   open: boolean
@@ -45,22 +46,27 @@ export default function MaterialsDrawer({
       const res = await createMaterial(data)
       if ('data' in res) {
         onClose()
+        toast.success('Material creado exitosamente')
         return
       }
-
       // @ts-expect-error data is part of the response
       setConflictError(res.error.data.message)
+      // @ts-expect-error data is part of the response
+      toast.error(`Error al crear el material: ${res.error.data.message}`)
       return
     }
 
     const res = await updateMaterial(data)
     if ('data' in res) {
       onClose()
+      toast.success('Material actualizado exitosamente')
       return
     }
 
     // @ts-expect-error data is part of the response
     setConflictError(res.error.data.message)
+    // @ts-expect-error data is part of the response
+    toast.error(`Error al actualizar el material: ${res.error.data.message}`)
   }
 
   return (
