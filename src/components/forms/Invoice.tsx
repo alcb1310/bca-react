@@ -14,6 +14,7 @@ import { Stack, Typography } from '@mui/material'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
+import { toast } from 'sonner'
 
 type InvoiceFormProps = {
   invoiceId: string
@@ -39,9 +40,13 @@ function InvoiceForm({ invoiceId, invoice }: InvoiceFormProps) {
       const res = await createInvoice(data)
       if ('error' in res) {
         // @ts-expect-error error type is string
-        setConflictError(res.error.data.error)
+        screaretConflictError(res.error.data.error)
+        // @ts-expect-error error type is string
+        toast.error(`Error al crear la factura: ${res.error.data.error}`)
+        return
       }
 
+      toast.success('Factura creada exitosamente')
       navigate(`/transacciones/facturas/${res.data?.id}`)
       return
     }
@@ -50,7 +55,12 @@ function InvoiceForm({ invoiceId, invoice }: InvoiceFormProps) {
     if ('error' in res) {
       // @ts-expect-error error type is string
       setConflictError(res.error.data.error)
+      // @ts-expect-error error type is string
+      toast.error(`Error al actualizar la factura: ${res.error.data.error}`)
+      return
     }
+
+    toast.success('Factura actualizada exitosamente')
   }
 
   return (
