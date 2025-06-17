@@ -16,6 +16,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { Box, Typography } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
 
 type UsersDrawerProps = {
   open: boolean
@@ -56,19 +57,29 @@ export default function UsersDrawer({
       if ('data' in res) {
         onClose()
         reset()
+        toast.success('Usuario creado exitosamente')
         return
       }
 
       // @ts-expect-error data property is part of the res.error object
       setConflictError(res.error.data.error)
-    } else {
-      const res = await updateUser(data)
-      if ('data' in res) {
-        onClose()
-        reset()
-        return
-      }
+      // @ts-expect-error data property is part of the res.error object
+      toast.error(`Error al crear el usuario: ${res.error.data.error}`)
+      return
     }
+
+    const res = await updateUser(data)
+    if ('data' in res) {
+      onClose()
+      reset()
+      toast.success('Usuario actualizado exitosamente')
+      return
+    }
+
+    // @ts-expect-error data property is part of the res.error object
+    setConflictError(res.error.data.error)
+    // @ts-expect-error data property is part of the res.error object
+    toast.error(`Error al actualizar el usuario: ${res.error.data.error}`)
   }
 
   return (
