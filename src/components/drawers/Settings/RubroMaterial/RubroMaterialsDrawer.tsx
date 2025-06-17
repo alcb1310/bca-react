@@ -16,6 +16,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { Typography } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
 
 type RubroMaterialsDrawerProps = {
   open: boolean
@@ -56,21 +57,28 @@ function RubroMaterialsDrawer({
       const res = await createRubroMaterial(material)
       if ('data' in res) {
         onClose()
+        toast.success('Rubro creado exitosamente')
         return
       }
 
       // @ts-expect-error data is a property of the res.error object
       setConflictError(res.error.data.error)
+      // @ts-expect-error data is a property of the res.error object
+      toast.error(`Error al crear el rubro: ${res.error.data.error}`)
+      return
     }
 
     const res = await updateRubroMaterial(material)
     if ('data' in res) {
       onClose()
+      toast.success('Rubro actualizado exitosamente')
       return
     }
 
     // @ts-expect-error data is a property of the res.error object
     setConflictError(res.error.data.error)
+    // @ts-expect-error data is a property of the res.error object
+    toast.error(`Error al actualizar el rubro: ${res.error.data.error}`)
   }
 
   return (
