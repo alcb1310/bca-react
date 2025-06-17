@@ -1,5 +1,6 @@
 import AppRouter from '@/components/router/Router'
 import Theme from '@/components/theme/Theme'
+import { Toaster } from '@/components/ui/sonner'
 import { store } from '@/redux/store'
 import { CssBaseline } from '@mui/material'
 import { LocalizationProvider } from '@mui/x-date-pickers'
@@ -13,6 +14,7 @@ export default function AppWrapper() {
         <CssBaseline />
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <AppRouter />
+          <Toaster />
         </LocalizationProvider>
       </Theme>
     </Provider>
