@@ -14,6 +14,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { Stack, Typography } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { useForm, useWatch } from 'react-hook-form'
+import { toast } from 'sonner'
 
 type InvoiceDetailsDrawerProps = {
   open: boolean
@@ -50,10 +51,13 @@ export default function InvoiceDetailsDrawer({
     })
 
     if ('error' in res) {
-      console.log(res.error)
       // @ts-expect-error data is part of the error object
       setConflictError(res.error.data.error)
+      // @ts-expect-error data is part of the error object
+      toast.error(`Error al crear el detalle: ${res.error.data.error}`)
+      return
     }
+    toast.success('Detalle creado exitosamente')
   }
 
   return (
