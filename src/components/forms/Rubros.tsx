@@ -10,6 +10,7 @@ import { Stack, Typography } from '@mui/material'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
+import { toast } from 'sonner'
 
 type RubrosFromProps = {
   rubro: RubrosType
@@ -31,12 +32,15 @@ function RubrosForm({ rubroId, rubro }: RubrosFromProps) {
     if (rubroId?.toLowerCase() === 'crear') {
       const res = await createRubro(data)
       if ('data' in res) {
+        toast.success('Rubro creado exitosamente')
         navigate(`/parametros/rubros/${res.data?.id}`)
         return
       }
 
       // @ts-expect-error data is a property of the error object
       setConflictError(res.error.data.error)
+      // @ts-expect-error data is a property of the error object
+      toast.error(`Error al crear el rubro: ${res.error.data.error}`)
       return
     }
 
@@ -44,7 +48,12 @@ function RubrosForm({ rubroId, rubro }: RubrosFromProps) {
     if ('error' in res) {
       // @ts-expect-error data is a property of the error object
       setConflictError(res.error.data.error)
+      // @ts-expect-error data is a property of the error object
+      toast.error(`Error al crear el rubro: ${res.error.data.error}`)
+      return
     }
+
+    toast.success('Rubro actualizado exitosamente')
   }
   return (
     <>
