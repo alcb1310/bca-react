@@ -16,6 +16,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { Box, Typography } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { useForm, useWatch } from 'react-hook-form'
+import { toast } from 'sonner'
 
 type BudgetDrawerProps = {
   open: boolean
@@ -67,22 +68,28 @@ export default function BudgetDrawer({
       const res = await createBudget(dataToSave)
       if ('data' in res) {
         onClose()
+        toast.success('Presupuesto creado exitosamente')
         return
       }
 
       // @ts-expect-error data property is part of the res.error object
       setConflictError(res.error.data.error)
+      // @ts-expect-error data property is part of the res.error object
+      toast.error(`Error al crear el presupuesto: ${res.error.data.error}`)
       return
     }
 
     const res = await updateBudget(dataToSave)
     if ('data' in res) {
       onClose()
+      toast.success('Presupuesto actualizado exitosamente')
       return
     }
 
     // @ts-expect-error data property is part of the res.error object
     setConflictError(res.error.data.erro)
+    // @ts-expect-error data property is part of the res.error object
+    toast.error(`Error al actualizar el presupuesto: ${res.error.data.error}`)
   }
 
   return (
