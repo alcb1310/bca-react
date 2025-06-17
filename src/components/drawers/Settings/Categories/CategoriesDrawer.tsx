@@ -11,6 +11,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { Box, Typography } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
 
 type CategoriesDrawerProps = {
   open: boolean
@@ -42,27 +43,27 @@ export default function CategoriesDrawer({
       const res = await createCategory(data)
       if ('data' in res) {
         onClose()
+        toast.success('Categoría creada exitosamente')
         return
       }
-
-      if ('error' in res) {
-        // @ts-expect-error data property is part of the res.error object
-        setConflictError(res.error.data.error)
-        return
-      }
+      // @ts-expect-error data property is part of the res.error object
+      setConflictError(res.error.data.error)
+      // @ts-expect-error data property is part of the res.error object
+      toast.error(`Error al crear la categoría: ${res.error.data.error}`)
+      return
     }
 
     const res = await updateCategory(data)
     if ('data' in res) {
       onClose()
+      toast.success('Categoría actualizada exitosamente')
       return
     }
-
-    if ('error' in res) {
-      // @ts-expect-error data property is part of the res.error object
-      setConflictError(res.error.data.error)
-      return
-    }
+    // @ts-expect-error data property is part of the res.error object
+    setConflictError(res.error.data.error)
+    // @ts-expect-error data property is part of the res.error object
+    toast.error(`Error al actualizar la categoría: ${res.error.data.error}`)
+    return
   }
 
   return (
