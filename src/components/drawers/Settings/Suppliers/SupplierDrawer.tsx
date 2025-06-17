@@ -11,6 +11,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { Typography } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
 
 type SupplierDrawerProps = {
   open: boolean
@@ -41,21 +42,27 @@ export default function SupplierDrawer({
       const res = await createSupplier(data)
       if ('data' in res) {
         onClose()
+        toast.success('Proveedor creado exitosamente')
         reset
       }
 
       // @ts-expect-error data is a property of the error message
       setConflictError(res.error.data.error)
+      // @ts-expect-error data is a property of the error message
+      toast.error(`Error al crear el proveedor: ${res.error.data.error}`)
       return
     }
     const res = await updateSupplier(data)
     if ('data' in res) {
       onClose()
+      toast.success('Proveedor actualizado exitosamente')
       return
     }
 
     // @ts-expect-error data is a property of the error message
     setConflictError(res.error.data.error)
+    // @ts-expect-error data is a property of the error message
+    toast.error(`Error al actualizar el proveedor: ${res.error.data.error}`)
   }
 
   return (
