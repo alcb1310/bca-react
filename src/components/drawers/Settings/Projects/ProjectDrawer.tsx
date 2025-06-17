@@ -12,6 +12,7 @@ import { FormControlLabel, Typography } from '@mui/material'
 import { RhfSwitch } from 'mui-rhf-integration'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
 
 type ProjectDrawerProps = {
   open: boolean
@@ -46,22 +47,28 @@ export default function ProjectDrawer({
       const res = await createProject(data)
       if ('data' in res) {
         onClose()
+        toast.success('Proyecto creado exitosamente')
         return
       }
 
       // @ts-expect-error data property is part of the res.error object
       setConflictError(res.error.data.error)
+      // @ts-expect-error data property is part of the res.error object
+      toast.error(`Error al crear el proyecto: ${res.error.data.error}`)
       return
     }
 
     const res = await updateProject(data)
     if ('data' in res) {
       onClose()
+      toast.success('Proyecto actualizado exitosamente')
       return
     }
 
     // @ts-expect-error data property is part of the res.error object
     setConflictError(res.error.data.error)
+    // @ts-expect-error data property is part of the res.error object
+    toast.error(`Error al actualizar el proyecto: ${res.error.data.error}`)
   }
 
   return (
