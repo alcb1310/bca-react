@@ -20,6 +20,7 @@ import {
 import { RhfSwitch } from 'mui-rhf-integration'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
 
 type BudgetItemDrawerProps = {
   open: boolean
@@ -52,18 +53,28 @@ export default function BudgetItemDrawer({
   async function hadleSubmit(data: BudgetItem) {
     setConflictError('')
     if (defaultValues.id) {
-      await updateBudgetItem(data)
-      onClose()
-      return
+      const res = await updateBudgetItem(data)
+
+      if ('data' in res) {
+        onClose()
+        toast.success('Partida actualizada')
+        return
+      }
+      // @ts-expect-error data property is part of the res.error object
+      setConflictError(res.error.data.error)
+      // @ts-expect-error data property is part of the res.error object
+      toast.error(`Error al actualizar la partida: ${res.error.data.error}`)
     }
     const res = await createBudgetItem(data)
     if ('data' in res) {
       onClose()
+      toast.success('Partida creada')
       return
     }
-
     // @ts-expect-error data property is part of the res.error object
     setConflictError(res.error.data.error)
+    // @ts-expect-error data property is part of the res.error object
+    toast.error(`Error al crear la partida: ${res.error.data.error}`)
   }
 
   return (
