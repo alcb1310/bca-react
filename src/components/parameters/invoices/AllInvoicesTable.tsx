@@ -1,3 +1,5 @@
+import { useDeleteInvoiceMutation } from '@/redux/api/bca-backend/transacciones/invoiceSlice'
+import type { InvoiceResponseType } from '@/types/invoice'
 import { DeleteOutlined, EditOutlined } from '@mui/icons-material'
 import {
   DataGrid,
@@ -6,8 +8,7 @@ import {
   type GridRowParams,
 } from '@mui/x-data-grid'
 import { useNavigate } from 'react-router-dom'
-import { useDeleteInvoiceMutation } from '@/redux/api/bca-backend/transacciones/invoiceSlice'
-import type { InvoiceResponseType } from '@/types/invoice'
+import { toast } from 'sonner'
 
 type AllInvoicesTableProps = {
   data: InvoiceResponseType[]
@@ -78,11 +79,17 @@ export default function AllInvoicesTable({ data }: AllInvoicesTableProps) {
           icon=<DeleteOutlined color='error' />
           label='Borrar'
           showInMenu
-          onClick={() =>
-            deletInvoice({
+          onClick={async () => {
+            const res = await deletInvoice({
               id: params.id as string,
             })
-          }
+            if ('error' in res) {
+              // @ts-expect-error error type is string
+              toast.error(`Error al borrar la factura: ${res.error.data.error}`)
+              return
+            }
+            toast.success('Factura borrada exitosamente')
+          }}
         />,
       ],
     },
