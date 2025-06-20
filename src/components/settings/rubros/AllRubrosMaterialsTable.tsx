@@ -15,6 +15,7 @@ import {
   type GridRowParams,
 } from '@mui/x-data-grid'
 import { useState } from 'react'
+import { toast } from 'sonner'
 
 type AllRubrosMaterialsTableProps = {
   rubroId: string
@@ -88,11 +89,18 @@ export default function AllRubrosMaterialsTable({
           icon=<DeleteOutline color='error' />
           label='Borrar'
           showInMenu
-          onClick={() => {
-            deleteRubroMaterial({
+          onClick={async () => {
+            const res = await deleteRubroMaterial({
               rubroId: params.row.item.id,
               materialId: params.row.material.id,
             })
+
+            if ('error' in res) {
+              // @ts-expect-error error type is string
+              toast.error(`Error al borrar el rubro: ${res.error.data.error}`)
+              return
+            }
+            toast.success('Rubro borrado exitosamente')
           }}
         />,
       ],
