@@ -75,16 +75,17 @@ export default function AllDetailsTable({
           key={params.id}
           icon={<DeleteOutlined color='error' />}
           label='Borrar'
-          onClick={() => {
-            try {
-              deleteDetail({
-                invoiceId,
-                detailId: params.row.budget_item_id,
-              })
-              toast.success('Detalle borrado exitosamente')
-            } catch (error) {
-              toast.error(`Error al borrar el detalle: ${error as string}`)
+          onClick={async () => {
+            const res = await deleteDetail({
+              invoiceId,
+              detailId: params.row.budget_item_id,
+            })
+            if ('error' in res) {
+              // @ts-expect-error error type is string
+              toast.error(`Error al borrar el detalle: ${res.error.data.error}`)
+              return
             }
+            toast.success('Detalle borrado exitosamente')
           }}
         />,
       ],
