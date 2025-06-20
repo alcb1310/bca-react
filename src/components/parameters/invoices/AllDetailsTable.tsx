@@ -6,6 +6,7 @@ import {
   GridActionsCellItem,
   type GridColDef,
 } from '@mui/x-data-grid'
+import { toast } from 'sonner'
 
 type AllDetailsTableProps = {
   data: InvoiceDetailsResponseType[]
@@ -74,16 +75,22 @@ export default function AllDetailsTable({
           key={params.id}
           icon={<DeleteOutlined color='error' />}
           label='Borrar'
-          onClick={() =>
-            deleteDetail({
-              invoiceId,
-              detailId: params.row.budget_item_id,
-            })
-          }
+          onClick={() => {
+            try {
+              deleteDetail({
+                invoiceId,
+                detailId: params.row.budget_item_id,
+              })
+              toast.success('Detalle borrado exitosamente')
+            } catch (error) {
+              toast.error(`Error al borrar el detalle: ${error as string}`)
+            }
+          }}
         />,
       ],
     },
   ]
+
   return (
     <DataGrid
       rows={data}
