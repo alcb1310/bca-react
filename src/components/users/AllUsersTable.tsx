@@ -15,6 +15,7 @@ import {
   type GridRowParams,
 } from '@mui/x-data-grid'
 import { useState } from 'react'
+import { toast } from 'sonner'
 
 export default function AllUsersTable() {
   const [confirmationDialogOpen, setConfirmationDialogOpen] =
@@ -97,8 +98,16 @@ export default function AllUsersTable() {
           open={confirmationDialogOpen}
           setOpen={setConfirmationDialogOpen}
           message={message}
-          confirm={() => {
-            deleteUser(userIdToDelete)
+          confirm={async () => {
+            const res = await deleteUser(userIdToDelete)
+
+            if ('error' in res) {
+              // @ts-expect-error error type is string
+              toast.error(`Error al borrar el usuario: ${res.error.data.error}`)
+              return
+            }
+
+            toast.success('Usuario borrado exitosamente')
           }}
         />
       )}
