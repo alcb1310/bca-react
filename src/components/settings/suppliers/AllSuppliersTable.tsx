@@ -1,14 +1,13 @@
-import { useState } from 'react'
+import SupplierDrawer from '@/components/drawers/Settings/Suppliers/SupplierDrawer'
+import type { SupplierType } from '@/types/supplier'
+import { EditOutlined } from '@mui/icons-material'
 import {
   DataGrid,
   GridActionsCellItem,
-  GridColDef,
-  GridRowParams,
+  type GridColDef,
+  type GridRowParams,
 } from '@mui/x-data-grid'
-
-import { SupplierType } from '../../../types/supplier'
-import { EditOutlined } from '@mui/icons-material'
-import SupplierDrawer from '../../drawers/Settings/Suppliers/SupplierDrawer'
+import { useState } from 'react'
 
 type AllSuppliersTableProps = {
   data: SupplierType[]
@@ -17,7 +16,7 @@ type AllSuppliersTableProps = {
 export default function AllSuppliersTable({ data }: AllSuppliersTableProps) {
   const [open, setOpen] = useState<boolean>(false)
   const [selectedSupplier, setSelectedSupplier] = useState<SupplierType | null>(
-    null
+    null,
   )
 
   const cols: GridColDef<SupplierType>[] = [
@@ -50,6 +49,7 @@ export default function AllSuppliersTable({ data }: AllSuppliersTableProps) {
       width: 10,
       getActions: (params: GridRowParams) => [
         <GridActionsCellItem
+          key={params.id}
           icon=<EditOutlined color='warning' />
           label='Edit'
           onClick={() => {

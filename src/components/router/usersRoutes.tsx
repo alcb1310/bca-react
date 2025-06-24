@@ -1,6 +1,6 @@
-import { RouteObject } from 'react-router-dom'
-import UsersHome from '../../pages/users'
-import Admin from '../../pages/users/admin'
+import UsersHome from '@/pages/users'
+import Admin from '@/pages/users/admin'
+import type { RouteObject } from 'react-router-dom'
 
 export const usersRoutes: RouteObject = {
   path: 'usuarios',

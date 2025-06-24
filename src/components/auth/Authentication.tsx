@@ -1,5 +1,5 @@
+import { useAppSelector } from '@/redux/hooks'
 import { Navigate, Outlet, useLocation } from 'react-router-dom'
-import { useAppSelector } from '../../redux/hooks'
 
 export default function ValidateAuthentication() {
   const isAuthenticated = useAppSelector((state) => state.login.isLoggedIn)

@@ -1,124 +1,128 @@
+import ButtonGroup from '@/components/buttons/button-group'
+import BcaDrawer from '@/components/drawers/BcaDrawer/BcaDrawer'
+import BcaSelect from '@/components/input/BcaSelect'
+import BcaTextField from '@/components/input/BcaTextField'
+import DrawerTitle from '@/components/titles/DrawerTitle'
+import { useGetAllCategoriesQuery } from '@/redux/api/bca-backend/parametros/categoriesSlice'
+import {
+  useCreateMaterialMutation,
+  useUpdateMaterialMutation,
+} from '@/redux/api/bca-backend/parametros/materialsSlice'
+import { type MaterialType, materialSchema } from '@/types/materials'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { CircularProgress, Typography } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { CircularProgress, Typography } from '@mui/material'
-import { zodResolver } from '@hookform/resolvers/zod'
-
-import { materialSchema, MaterialType } from '../../../../types/materials'
-import ButtonGroup from '../../../buttons/button-group'
-import DrawerTitle from '../../../titles/DrawerTitle'
-import BcaDrawer from '../../BcaDrawer/BcaDrawer'
-import BcaTextField from '../../../input/BcaTextField'
-import BcaSelect from '../../../input/BcaSelect'
-import { useGetAllCategoriesQuery } from '../../../../redux/api/bca-backend/parametros/categoriesSlice'
-import {
-    useCreateMaterialMutation,
-    useUpdateMaterialMutation,
-} from '../../../../redux/api/bca-backend/parametros/materialsSlice'
+import { toast } from 'sonner'
 
 type MaterialsDrawerProps = {
-    open: boolean
-    onClose: () => void
-    defaultValues: MaterialType
+  open: boolean
+  onClose: () => void
+  defaultValues: MaterialType
 }
 
 export default function MaterialsDrawer({
-    open,
-    onClose,
-    defaultValues,
+  open,
+  onClose,
+  defaultValues,
 }: MaterialsDrawerProps) {
-    const [conflictError, setConflictError] = useState<string>('')
+  const [conflictError, setConflictError] = useState<string>('')
 
-    const { control, reset, handleSubmit } = useForm<MaterialType>({
-        defaultValues,
-        resolver: zodResolver(materialSchema),
-    })
+  const { control, reset, handleSubmit } = useForm<MaterialType>({
+    defaultValues,
+    resolver: zodResolver(materialSchema),
+  })
 
-    const { data: categories, isLoading } = useGetAllCategoriesQuery()
-    const [createMaterial] = useCreateMaterialMutation()
-    const [updateMaterial] = useUpdateMaterialMutation()
+  const { data: categories, isLoading } = useGetAllCategoriesQuery()
+  const [createMaterial] = useCreateMaterialMutation()
+  const [updateMaterial] = useUpdateMaterialMutation()
 
-    useEffect(() => {
-        reset(defaultValues)
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [open])
+  useEffect(() => {
+    reset(defaultValues)
+  }, [reset, defaultValues])
 
-    async function hadleSubmit(data: MaterialType) {
-        if (!defaultValues.id) {
-            const res = await createMaterial(data)
-            if ('data' in res) {
-                onClose()
-                return
-            }
-
-            // @ts-expect-error data is part of the response
-            setConflictError(res.error.data.message)
-            return
-        }
-
-        const res = await updateMaterial(data)
-        if ('data' in res) {
-            onClose()
-            return
-        }
-
-        // @ts-expect-error data is part of the response
-        setConflictError(res.error.data.message)
+  async function hadleSubmit(data: MaterialType) {
+    if (!defaultValues.id) {
+      const res = await createMaterial(data)
+      if ('data' in res) {
+        onClose()
+        toast.success('Material creado exitosamente')
+        return
+      }
+      // @ts-expect-error data is part of the response
+      setConflictError(res.error.data.message)
+      // @ts-expect-error data is part of the response
+      toast.error(`Error al crear el material: ${res.error.data.message}`)
+      return
     }
 
-    return (
-        <BcaDrawer open={open} onClose={onClose}>
-            <DrawerTitle
-                title={defaultValues.id ? 'Editar Material' : 'Crear Material'}
-                close={onClose}
-            />
+    const res = await updateMaterial(data)
+    if ('data' in res) {
+      onClose()
+      toast.success('Material actualizado exitosamente')
+      return
+    }
 
-            {isLoading && <CircularProgress />}
-            {conflictError && <Typography color='error'>{conflictError}</Typography>}
+    // @ts-expect-error data is part of the response
+    setConflictError(res.error.data.message)
+    // @ts-expect-error data is part of the response
+    toast.error(`Error al actualizar el material: ${res.error.data.message}`)
+  }
 
-            <form
-                className='mt-5 flex flex-col gap-5'
-                onSubmit={handleSubmit(hadleSubmit)}
-            >
-                <BcaTextField
-                    datatestid='component.drawer.setting.materials.code'
-                    name='code'
-                    label='Código'
-                    control={control}
-                />
+  return (
+    <BcaDrawer open={open} onClose={onClose}>
+      <DrawerTitle
+        title={defaultValues.id ? 'Editar Material' : 'Crear Material'}
+        close={onClose}
+      />
 
-                <BcaTextField
-                    datatestid='component.drawer.setting.materials.name'
-                    name='name'
-                    label='Nombre'
-                    control={control}
-                />
+      {isLoading && <CircularProgress />}
+      {conflictError && <Typography color='error'>{conflictError}</Typography>}
 
-                <BcaTextField
-                    datatestid='component.drawer.setting.materials.unit'
-                    name='unit'
-                    label='Unidad'
-                    control={control}
-                />
+      <form
+        className='mt-5 flex flex-col gap-5'
+        onSubmit={handleSubmit(hadleSubmit)}
+      >
+        <BcaTextField
+          datatestid='component.drawer.setting.materials.code'
+          name='code'
+          label='Código'
+          control={control}
+        />
 
-                <BcaSelect
-                    datatestid='component.drawer.setting.materials.category'
-                    name='category.id'
-                    label='Categoría'
-                    control={control}
-                >
-                    <option value=''>Seleccione una categoría</option>
-                    {categories?.map((category) => (
-                        <option key={category.id} value={category.id}>
-                            {category.name}
-                        </option>
-                    ))}
-                </BcaSelect>
+        <BcaTextField
+          datatestid='component.drawer.setting.materials.name'
+          name='name'
+          label='Nombre'
+          control={control}
+        />
 
-                <ButtonGroup
-                    saveFunction={handleSubmit(hadleSubmit)}
-                    cancelFunction={onClose}
-                />
-            </form>
-        </BcaDrawer>
-    )
+        <BcaTextField
+          datatestid='component.drawer.setting.materials.unit'
+          name='unit'
+          label='Unidad'
+          control={control}
+        />
+
+        <BcaSelect
+          datatestid='component.drawer.setting.materials.category'
+          name='category.id'
+          label='Categoría'
+          control={control}
+        >
+          <option value=''>Seleccione una categoría</option>
+          {categories?.map((category) => (
+            <option key={category.id} value={category.id}>
+              {category.name}
+            </option>
+          ))}
+        </BcaSelect>
+
+        <ButtonGroup
+          saveFunction={handleSubmit(hadleSubmit)}
+          cancelFunction={onClose}
+        />
+      </form>
+    </BcaDrawer>
+  )
 }

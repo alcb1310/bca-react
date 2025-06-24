@@ -1,6 +1,6 @@
+import ApplicationBar from '@/components/appbar/AppBar'
+import Sidebar from '@/components/sidebar/SideBar'
 import { Box } from '@mui/material'
-import Sidebar from '../sidebar/SideBar'
-import ApplicationBar from '../appbar/AppBar'
 import { Outlet } from 'react-router-dom'
 
 function AuthenticatedLayout() {

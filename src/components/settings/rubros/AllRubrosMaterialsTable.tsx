@@ -1,20 +1,21 @@
-import { useState } from 'react'
+import RubroMaterialsDrawer from '@/components/drawers/Settings/RubroMaterial/RubroMaterialsDrawer'
+import {
+  useDeleteRubrosMaterialMutation,
+  useGetAllRubrosMaterialsQuery,
+} from '@/redux/api/bca-backend/parametros/rubroMaterialSlice'
+import type {
+  RubroMaterialResponseTye,
+  RubroMaterialType,
+} from '@/types/rubro-material'
 import { DeleteOutline, EditOutlined } from '@mui/icons-material'
 import {
   DataGrid,
   GridActionsCellItem,
-  GridColDef,
-  GridRowParams,
+  type GridColDef,
+  type GridRowParams,
 } from '@mui/x-data-grid'
-import {
-  useDeleteRubrosMaterialMutation,
-  useGetAllRubrosMaterialsQuery,
-} from '../../../redux/api/bca-backend/parametros/rubroMaterialSlice'
-import {
-  RubroMaterialResponseTye,
-  RubroMaterialType,
-} from '../../../types/rubro-material'
-import RubroMaterialsDrawer from '../../drawers/Settings/RubroMaterial/RubroMaterialsDrawer'
+import { useState } from 'react'
+import { toast } from 'sonner'
 
 type AllRubrosMaterialsTableProps = {
   rubroId: string
@@ -67,6 +68,7 @@ export default function AllRubrosMaterialsTable({
       width: 10,
       getActions: (params: GridRowParams) => [
         <GridActionsCellItem
+          key={params.id}
           icon=<EditOutlined color='warning' />
           label='Editar'
           showInMenu
@@ -83,14 +85,22 @@ export default function AllRubrosMaterialsTable({
         />,
 
         <GridActionsCellItem
+          key={params.id}
           icon=<DeleteOutline color='error' />
           label='Borrar'
           showInMenu
-          onClick={() => {
-            deleteRubroMaterial({
+          onClick={async () => {
+            const res = await deleteRubroMaterial({
               rubroId: params.row.item.id,
               materialId: params.row.material.id,
             })
+
+            if ('error' in res) {
+              // @ts-expect-error error type is string
+              toast.error(`Error al borrar el rubro: ${res.error.data.error}`)
+              return
+            }
+            toast.success('Rubro borrado exitosamente')
           }}
         />,
       ],

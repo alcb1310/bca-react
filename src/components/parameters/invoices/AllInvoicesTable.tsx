@@ -1,13 +1,14 @@
-import { useNavigate } from 'react-router-dom'
+import { useDeleteInvoiceMutation } from '@/redux/api/bca-backend/transacciones/invoiceSlice'
+import type { InvoiceResponseType } from '@/types/invoice'
+import { DeleteOutlined, EditOutlined } from '@mui/icons-material'
 import {
   DataGrid,
   GridActionsCellItem,
-  GridColDef,
-  GridRowParams,
+  type GridColDef,
+  type GridRowParams,
 } from '@mui/x-data-grid'
-import { InvoiceResponseType } from '../../../types/invoice'
-import { DeleteOutlined, EditOutlined } from '@mui/icons-material'
-import { useDeleteInvoiceMutation } from '../../../redux/api/bca-backend/transacciones/invoiceSlice'
+import { useNavigate } from 'react-router-dom'
+import { toast } from 'sonner'
 
 type AllInvoicesTableProps = {
   data: InvoiceResponseType[]
@@ -66,6 +67,7 @@ export default function AllInvoicesTable({ data }: AllInvoicesTableProps) {
       width: 10,
       getActions: (params: GridRowParams<InvoiceResponseType>) => [
         <GridActionsCellItem
+          key={params.id}
           icon={<EditOutlined color='warning' />}
           label='Editar'
           showInMenu
@@ -73,14 +75,21 @@ export default function AllInvoicesTable({ data }: AllInvoicesTableProps) {
         />,
 
         <GridActionsCellItem
+          key={params.id}
           icon=<DeleteOutlined color='error' />
           label='Borrar'
           showInMenu
-          onClick={() =>
-            deletInvoice({
+          onClick={async () => {
+            const res = await deletInvoice({
               id: params.id as string,
             })
-          }
+            if ('error' in res) {
+              // @ts-expect-error error type is string
+              toast.error(`Error al borrar la factura: ${res.error.data.error}`)
+              return
+            }
+            toast.success('Factura borrada exitosamente')
+          }}
         />,
       ],
     },

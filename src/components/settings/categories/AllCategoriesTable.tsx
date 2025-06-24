@@ -1,13 +1,13 @@
+import CategoriesDrawer from '@/components/drawers/Settings/Categories/CategoriesDrawer'
+import type { CategoryType } from '@/types/categories'
 import { EditOutlined } from '@mui/icons-material'
 import {
   DataGrid,
   GridActionsCellItem,
-  GridColDef,
-  GridRowParams,
+  type GridColDef,
+  type GridRowParams,
 } from '@mui/x-data-grid'
-import { CategoryType } from '../../../types/categories'
 import { useState } from 'react'
-import CategoriesDrawer from '../../drawers/Settings/Categories/CategoriesDrawer'
 
 type AllCategoriesTableProps = {
   data: CategoryType[]
@@ -16,7 +16,7 @@ type AllCategoriesTableProps = {
 export default function AllCategoriesTable({ data }: AllCategoriesTableProps) {
   const [open, setOpen] = useState<boolean>(false)
   const [selectedCategory, setSelectedCategory] = useState<CategoryType | null>(
-    null
+    null,
   )
 
   function handleEditCategory(category: CategoryType) {
@@ -36,6 +36,7 @@ export default function AllCategoriesTable({ data }: AllCategoriesTableProps) {
       width: 10,
       getActions: (params: GridRowParams) => [
         <GridActionsCellItem
+          key={params.id}
           icon=<EditOutlined color='warning' />
           label='Edit'
           onClick={() => {

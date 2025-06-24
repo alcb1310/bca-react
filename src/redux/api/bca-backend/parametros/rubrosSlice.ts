@@ -1,4 +1,4 @@
-import { RubrosType } from '../../../../types/rubros'
+import type { RubrosType } from '@/types/rubros'
 import { bcaApiSlice } from '../bcaSlice'
 
 const rubrosApiSlice = bcaApiSlice.injectEndpoints({

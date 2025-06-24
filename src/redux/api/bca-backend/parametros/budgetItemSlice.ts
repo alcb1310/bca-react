@@ -1,4 +1,4 @@
-import { BudgetItem, BudgetItemResponse } from '../../../../types/partidas'
+import type { BudgetItem, BudgetItemResponse } from '@/types/partidas'
 import { bcaApiSlice } from '../bcaSlice'
 
 const partidasEndpoints = bcaApiSlice.injectEndpoints({
@@ -14,7 +14,7 @@ const partidasEndpoints = bcaApiSlice.injectEndpoints({
     >({
       query(body) {
         return {
-          url: `/parametros/partidas`,
+          url: '/parametros/partidas',
           method: 'GET',
           params: {
             query: body.query,
@@ -34,7 +34,7 @@ const partidasEndpoints = bcaApiSlice.injectEndpoints({
     >({
       query(body) {
         return {
-          url: `/parametros/partidas`,
+          url: '/parametros/partidas',
           method: 'GET',
           params: {
             accumulate: body.accumulate,

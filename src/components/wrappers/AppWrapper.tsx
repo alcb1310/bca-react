@@ -1,10 +1,11 @@
-import { Provider } from 'react-redux'
-import { store } from '../../redux/store'
-import Theme from '../theme/Theme'
+import AppRouter from '@/components/router/Router'
+import Theme from '@/components/theme/Theme'
+import { Toaster } from '@/components/ui/sonner'
+import { store } from '@/redux/store'
 import { CssBaseline } from '@mui/material'
-import AppRouter from '../router/Router'
-import { LocalizationProvider } from '@mui/x-date-pickers';
+import { LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+import { Provider } from 'react-redux'
 
 export default function AppWrapper() {
   return (
@@ -13,6 +14,7 @@ export default function AppWrapper() {
         <CssBaseline />
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <AppRouter />
+          <Toaster />
         </LocalizationProvider>
       </Theme>
     </Provider>
