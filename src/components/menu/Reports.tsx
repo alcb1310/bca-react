@@ -14,8 +14,8 @@ import {
   ListItemIcon,
   ListItemText,
 } from '@mui/material'
+import { Link, useLocation } from '@tanstack/react-router'
 import { useState } from 'react'
-import { NavLink, useLocation } from 'react-router-dom'
 
 export default function ReportsMenu() {
   const [open, setOpen] = useState<boolean>(true)
@@ -50,7 +50,7 @@ export default function ReportsMenu() {
       <Collapse in={open} timeout='auto' unmountOnExit>
         <List component='div' disablePadding dense>
           <ListItemButton
-            component={NavLink}
+            component={Link}
             to='/reportes/actual'
             sx={{ borderRadius: 2 }}
             selected={str.toLowerCase() === '/reportes/actual'}
@@ -70,7 +70,7 @@ export default function ReportsMenu() {
           </ListItemButton>
 
           <ListItemButton
-            component={NavLink}
+            component={Link}
             to='/reportes/cuadre'
             sx={{ borderRadius: 2 }}
             selected={str.toLowerCase() === '/reportes/cuadre'}
@@ -90,7 +90,7 @@ export default function ReportsMenu() {
           </ListItemButton>
 
           <ListItemButton
-            component={NavLink}
+            component={Link}
             to='/reportes/gastado-por-partida'
             sx={{ borderRadius: 2 }}
             selected={str.toLowerCase() === '/reportes/gastado-por-partida'}
@@ -110,7 +110,7 @@ export default function ReportsMenu() {
           </ListItemButton>
 
           <ListItemButton
-            component={NavLink}
+            component={Link}
             to='/reportes/historico'
             sx={{ borderRadius: 2 }}
             selected={str.toLowerCase() === '/reportes/historico'}
