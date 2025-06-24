@@ -13,6 +13,21 @@ import { Route as NonauthenticatedRouteImport } from './routes/_nonauthenticated
 import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
 import { Route as AuthenticatedIndexRouteImport } from './routes/_authenticated/index'
 import { Route as NonauthenticatedLoginRouteImport } from './routes/_nonauthenticated/login'
+import { Route as AuthenticatedTransaccionesPresupuestosRouteImport } from './routes/_authenticated/transacciones/presupuestos'
+import { Route as AuthenticatedTransaccionesFacturasRouteImport } from './routes/_authenticated/transacciones/facturas'
+import { Route as AuthenticatedTransaccionesCierreRouteImport } from './routes/_authenticated/transacciones/cierre'
+import { Route as AuthenticatedReportesHistoricoRouteImport } from './routes/_authenticated/reportes/historico'
+import { Route as AuthenticatedReportesGastadoPorPartidaRouteImport } from './routes/_authenticated/reportes/gastado-por-partida'
+import { Route as AuthenticatedReportesCuadreRouteImport } from './routes/_authenticated/reportes/cuadre'
+import { Route as AuthenticatedReportesActualRouteImport } from './routes/_authenticated/reportes/actual'
+import { Route as AuthenticatedParametrosRubrosRouteImport } from './routes/_authenticated/parametros/rubros'
+import { Route as AuthenticatedParametrosProyectosRouteImport } from './routes/_authenticated/parametros/proyectos'
+import { Route as AuthenticatedParametrosProveedoresRouteImport } from './routes/_authenticated/parametros/proveedores'
+import { Route as AuthenticatedParametrosPartidasRouteImport } from './routes/_authenticated/parametros/partidas'
+import { Route as AuthenticatedParametrosMaterialesRouteImport } from './routes/_authenticated/parametros/materiales'
+import { Route as AuthenticatedParametrosCategoriasRouteImport } from './routes/_authenticated/parametros/categorias'
+import { Route as AuthenticatedAnalisisCantidadRouteImport } from './routes/_authenticated/analisis/cantidad'
+import { Route as AuthenticatedAnalisisAnalisisRouteImport } from './routes/_authenticated/analisis/analisis'
 
 const NonauthenticatedRoute = NonauthenticatedRouteImport.update({
   id: '/_nonauthenticated',
@@ -32,14 +47,134 @@ const NonauthenticatedLoginRoute = NonauthenticatedLoginRouteImport.update({
   path: '/login',
   getParentRoute: () => NonauthenticatedRoute,
 } as any)
+const AuthenticatedTransaccionesPresupuestosRoute =
+  AuthenticatedTransaccionesPresupuestosRouteImport.update({
+    id: '/transacciones/presupuestos',
+    path: '/transacciones/presupuestos',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+const AuthenticatedTransaccionesFacturasRoute =
+  AuthenticatedTransaccionesFacturasRouteImport.update({
+    id: '/transacciones/facturas',
+    path: '/transacciones/facturas',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+const AuthenticatedTransaccionesCierreRoute =
+  AuthenticatedTransaccionesCierreRouteImport.update({
+    id: '/transacciones/cierre',
+    path: '/transacciones/cierre',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+const AuthenticatedReportesHistoricoRoute =
+  AuthenticatedReportesHistoricoRouteImport.update({
+    id: '/reportes/historico',
+    path: '/reportes/historico',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+const AuthenticatedReportesGastadoPorPartidaRoute =
+  AuthenticatedReportesGastadoPorPartidaRouteImport.update({
+    id: '/reportes/gastado-por-partida',
+    path: '/reportes/gastado-por-partida',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+const AuthenticatedReportesCuadreRoute =
+  AuthenticatedReportesCuadreRouteImport.update({
+    id: '/reportes/cuadre',
+    path: '/reportes/cuadre',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+const AuthenticatedReportesActualRoute =
+  AuthenticatedReportesActualRouteImport.update({
+    id: '/reportes/actual',
+    path: '/reportes/actual',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+const AuthenticatedParametrosRubrosRoute =
+  AuthenticatedParametrosRubrosRouteImport.update({
+    id: '/parametros/rubros',
+    path: '/parametros/rubros',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+const AuthenticatedParametrosProyectosRoute =
+  AuthenticatedParametrosProyectosRouteImport.update({
+    id: '/parametros/proyectos',
+    path: '/parametros/proyectos',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+const AuthenticatedParametrosProveedoresRoute =
+  AuthenticatedParametrosProveedoresRouteImport.update({
+    id: '/parametros/proveedores',
+    path: '/parametros/proveedores',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+const AuthenticatedParametrosPartidasRoute =
+  AuthenticatedParametrosPartidasRouteImport.update({
+    id: '/parametros/partidas',
+    path: '/parametros/partidas',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+const AuthenticatedParametrosMaterialesRoute =
+  AuthenticatedParametrosMaterialesRouteImport.update({
+    id: '/parametros/materiales',
+    path: '/parametros/materiales',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+const AuthenticatedParametrosCategoriasRoute =
+  AuthenticatedParametrosCategoriasRouteImport.update({
+    id: '/parametros/categorias',
+    path: '/parametros/categorias',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+const AuthenticatedAnalisisCantidadRoute =
+  AuthenticatedAnalisisCantidadRouteImport.update({
+    id: '/analisis/cantidad',
+    path: '/analisis/cantidad',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+const AuthenticatedAnalisisAnalisisRoute =
+  AuthenticatedAnalisisAnalisisRouteImport.update({
+    id: '/analisis/analisis',
+    path: '/analisis/analisis',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/login': typeof NonauthenticatedLoginRoute
   '/': typeof AuthenticatedIndexRoute
+  '/analisis/analisis': typeof AuthenticatedAnalisisAnalisisRoute
+  '/analisis/cantidad': typeof AuthenticatedAnalisisCantidadRoute
+  '/parametros/categorias': typeof AuthenticatedParametrosCategoriasRoute
+  '/parametros/materiales': typeof AuthenticatedParametrosMaterialesRoute
+  '/parametros/partidas': typeof AuthenticatedParametrosPartidasRoute
+  '/parametros/proveedores': typeof AuthenticatedParametrosProveedoresRoute
+  '/parametros/proyectos': typeof AuthenticatedParametrosProyectosRoute
+  '/parametros/rubros': typeof AuthenticatedParametrosRubrosRoute
+  '/reportes/actual': typeof AuthenticatedReportesActualRoute
+  '/reportes/cuadre': typeof AuthenticatedReportesCuadreRoute
+  '/reportes/gastado-por-partida': typeof AuthenticatedReportesGastadoPorPartidaRoute
+  '/reportes/historico': typeof AuthenticatedReportesHistoricoRoute
+  '/transacciones/cierre': typeof AuthenticatedTransaccionesCierreRoute
+  '/transacciones/facturas': typeof AuthenticatedTransaccionesFacturasRoute
+  '/transacciones/presupuestos': typeof AuthenticatedTransaccionesPresupuestosRoute
 }
 export interface FileRoutesByTo {
   '/login': typeof NonauthenticatedLoginRoute
   '/': typeof AuthenticatedIndexRoute
+  '/analisis/analisis': typeof AuthenticatedAnalisisAnalisisRoute
+  '/analisis/cantidad': typeof AuthenticatedAnalisisCantidadRoute
+  '/parametros/categorias': typeof AuthenticatedParametrosCategoriasRoute
+  '/parametros/materiales': typeof AuthenticatedParametrosMaterialesRoute
+  '/parametros/partidas': typeof AuthenticatedParametrosPartidasRoute
+  '/parametros/proveedores': typeof AuthenticatedParametrosProveedoresRoute
+  '/parametros/proyectos': typeof AuthenticatedParametrosProyectosRoute
+  '/parametros/rubros': typeof AuthenticatedParametrosRubrosRoute
+  '/reportes/actual': typeof AuthenticatedReportesActualRoute
+  '/reportes/cuadre': typeof AuthenticatedReportesCuadreRoute
+  '/reportes/gastado-por-partida': typeof AuthenticatedReportesGastadoPorPartidaRoute
+  '/reportes/historico': typeof AuthenticatedReportesHistoricoRoute
+  '/transacciones/cierre': typeof AuthenticatedTransaccionesCierreRoute
+  '/transacciones/facturas': typeof AuthenticatedTransaccionesFacturasRoute
+  '/transacciones/presupuestos': typeof AuthenticatedTransaccionesPresupuestosRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -47,18 +182,82 @@ export interface FileRoutesById {
   '/_nonauthenticated': typeof NonauthenticatedRouteWithChildren
   '/_nonauthenticated/login': typeof NonauthenticatedLoginRoute
   '/_authenticated/': typeof AuthenticatedIndexRoute
+  '/_authenticated/analisis/analisis': typeof AuthenticatedAnalisisAnalisisRoute
+  '/_authenticated/analisis/cantidad': typeof AuthenticatedAnalisisCantidadRoute
+  '/_authenticated/parametros/categorias': typeof AuthenticatedParametrosCategoriasRoute
+  '/_authenticated/parametros/materiales': typeof AuthenticatedParametrosMaterialesRoute
+  '/_authenticated/parametros/partidas': typeof AuthenticatedParametrosPartidasRoute
+  '/_authenticated/parametros/proveedores': typeof AuthenticatedParametrosProveedoresRoute
+  '/_authenticated/parametros/proyectos': typeof AuthenticatedParametrosProyectosRoute
+  '/_authenticated/parametros/rubros': typeof AuthenticatedParametrosRubrosRoute
+  '/_authenticated/reportes/actual': typeof AuthenticatedReportesActualRoute
+  '/_authenticated/reportes/cuadre': typeof AuthenticatedReportesCuadreRoute
+  '/_authenticated/reportes/gastado-por-partida': typeof AuthenticatedReportesGastadoPorPartidaRoute
+  '/_authenticated/reportes/historico': typeof AuthenticatedReportesHistoricoRoute
+  '/_authenticated/transacciones/cierre': typeof AuthenticatedTransaccionesCierreRoute
+  '/_authenticated/transacciones/facturas': typeof AuthenticatedTransaccionesFacturasRoute
+  '/_authenticated/transacciones/presupuestos': typeof AuthenticatedTransaccionesPresupuestosRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/login' | '/'
+  fullPaths:
+    | '/login'
+    | '/'
+    | '/analisis/analisis'
+    | '/analisis/cantidad'
+    | '/parametros/categorias'
+    | '/parametros/materiales'
+    | '/parametros/partidas'
+    | '/parametros/proveedores'
+    | '/parametros/proyectos'
+    | '/parametros/rubros'
+    | '/reportes/actual'
+    | '/reportes/cuadre'
+    | '/reportes/gastado-por-partida'
+    | '/reportes/historico'
+    | '/transacciones/cierre'
+    | '/transacciones/facturas'
+    | '/transacciones/presupuestos'
   fileRoutesByTo: FileRoutesByTo
-  to: '/login' | '/'
+  to:
+    | '/login'
+    | '/'
+    | '/analisis/analisis'
+    | '/analisis/cantidad'
+    | '/parametros/categorias'
+    | '/parametros/materiales'
+    | '/parametros/partidas'
+    | '/parametros/proveedores'
+    | '/parametros/proyectos'
+    | '/parametros/rubros'
+    | '/reportes/actual'
+    | '/reportes/cuadre'
+    | '/reportes/gastado-por-partida'
+    | '/reportes/historico'
+    | '/transacciones/cierre'
+    | '/transacciones/facturas'
+    | '/transacciones/presupuestos'
   id:
     | '__root__'
     | '/_authenticated'
     | '/_nonauthenticated'
     | '/_nonauthenticated/login'
     | '/_authenticated/'
+    | '/_authenticated/analisis/analisis'
+    | '/_authenticated/analisis/cantidad'
+    | '/_authenticated/parametros/categorias'
+    | '/_authenticated/parametros/materiales'
+    | '/_authenticated/parametros/partidas'
+    | '/_authenticated/parametros/proveedores'
+    | '/_authenticated/parametros/proyectos'
+    | '/_authenticated/parametros/rubros'
+    | '/_authenticated/reportes/actual'
+    | '/_authenticated/reportes/cuadre'
+    | '/_authenticated/reportes/gastado-por-partida'
+    | '/_authenticated/reportes/historico'
+    | '/_authenticated/transacciones/cierre'
+    | '/_authenticated/transacciones/facturas'
+    | '/_authenticated/transacciones/presupuestos'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -96,15 +295,156 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof NonauthenticatedLoginRouteImport
       parentRoute: typeof NonauthenticatedRoute
     }
+    '/_authenticated/transacciones/presupuestos': {
+      id: '/_authenticated/transacciones/presupuestos'
+      path: '/transacciones/presupuestos'
+      fullPath: '/transacciones/presupuestos'
+      preLoaderRoute: typeof AuthenticatedTransaccionesPresupuestosRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/transacciones/facturas': {
+      id: '/_authenticated/transacciones/facturas'
+      path: '/transacciones/facturas'
+      fullPath: '/transacciones/facturas'
+      preLoaderRoute: typeof AuthenticatedTransaccionesFacturasRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/transacciones/cierre': {
+      id: '/_authenticated/transacciones/cierre'
+      path: '/transacciones/cierre'
+      fullPath: '/transacciones/cierre'
+      preLoaderRoute: typeof AuthenticatedTransaccionesCierreRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/reportes/historico': {
+      id: '/_authenticated/reportes/historico'
+      path: '/reportes/historico'
+      fullPath: '/reportes/historico'
+      preLoaderRoute: typeof AuthenticatedReportesHistoricoRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/reportes/gastado-por-partida': {
+      id: '/_authenticated/reportes/gastado-por-partida'
+      path: '/reportes/gastado-por-partida'
+      fullPath: '/reportes/gastado-por-partida'
+      preLoaderRoute: typeof AuthenticatedReportesGastadoPorPartidaRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/reportes/cuadre': {
+      id: '/_authenticated/reportes/cuadre'
+      path: '/reportes/cuadre'
+      fullPath: '/reportes/cuadre'
+      preLoaderRoute: typeof AuthenticatedReportesCuadreRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/reportes/actual': {
+      id: '/_authenticated/reportes/actual'
+      path: '/reportes/actual'
+      fullPath: '/reportes/actual'
+      preLoaderRoute: typeof AuthenticatedReportesActualRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/parametros/rubros': {
+      id: '/_authenticated/parametros/rubros'
+      path: '/parametros/rubros'
+      fullPath: '/parametros/rubros'
+      preLoaderRoute: typeof AuthenticatedParametrosRubrosRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/parametros/proyectos': {
+      id: '/_authenticated/parametros/proyectos'
+      path: '/parametros/proyectos'
+      fullPath: '/parametros/proyectos'
+      preLoaderRoute: typeof AuthenticatedParametrosProyectosRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/parametros/proveedores': {
+      id: '/_authenticated/parametros/proveedores'
+      path: '/parametros/proveedores'
+      fullPath: '/parametros/proveedores'
+      preLoaderRoute: typeof AuthenticatedParametrosProveedoresRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/parametros/partidas': {
+      id: '/_authenticated/parametros/partidas'
+      path: '/parametros/partidas'
+      fullPath: '/parametros/partidas'
+      preLoaderRoute: typeof AuthenticatedParametrosPartidasRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/parametros/materiales': {
+      id: '/_authenticated/parametros/materiales'
+      path: '/parametros/materiales'
+      fullPath: '/parametros/materiales'
+      preLoaderRoute: typeof AuthenticatedParametrosMaterialesRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/parametros/categorias': {
+      id: '/_authenticated/parametros/categorias'
+      path: '/parametros/categorias'
+      fullPath: '/parametros/categorias'
+      preLoaderRoute: typeof AuthenticatedParametrosCategoriasRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/analisis/cantidad': {
+      id: '/_authenticated/analisis/cantidad'
+      path: '/analisis/cantidad'
+      fullPath: '/analisis/cantidad'
+      preLoaderRoute: typeof AuthenticatedAnalisisCantidadRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/analisis/analisis': {
+      id: '/_authenticated/analisis/analisis'
+      path: '/analisis/analisis'
+      fullPath: '/analisis/analisis'
+      preLoaderRoute: typeof AuthenticatedAnalisisAnalisisRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
   }
 }
 
 interface AuthenticatedRouteChildren {
   AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
+  AuthenticatedAnalisisAnalisisRoute: typeof AuthenticatedAnalisisAnalisisRoute
+  AuthenticatedAnalisisCantidadRoute: typeof AuthenticatedAnalisisCantidadRoute
+  AuthenticatedParametrosCategoriasRoute: typeof AuthenticatedParametrosCategoriasRoute
+  AuthenticatedParametrosMaterialesRoute: typeof AuthenticatedParametrosMaterialesRoute
+  AuthenticatedParametrosPartidasRoute: typeof AuthenticatedParametrosPartidasRoute
+  AuthenticatedParametrosProveedoresRoute: typeof AuthenticatedParametrosProveedoresRoute
+  AuthenticatedParametrosProyectosRoute: typeof AuthenticatedParametrosProyectosRoute
+  AuthenticatedParametrosRubrosRoute: typeof AuthenticatedParametrosRubrosRoute
+  AuthenticatedReportesActualRoute: typeof AuthenticatedReportesActualRoute
+  AuthenticatedReportesCuadreRoute: typeof AuthenticatedReportesCuadreRoute
+  AuthenticatedReportesGastadoPorPartidaRoute: typeof AuthenticatedReportesGastadoPorPartidaRoute
+  AuthenticatedReportesHistoricoRoute: typeof AuthenticatedReportesHistoricoRoute
+  AuthenticatedTransaccionesCierreRoute: typeof AuthenticatedTransaccionesCierreRoute
+  AuthenticatedTransaccionesFacturasRoute: typeof AuthenticatedTransaccionesFacturasRoute
+  AuthenticatedTransaccionesPresupuestosRoute: typeof AuthenticatedTransaccionesPresupuestosRoute
 }
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
   AuthenticatedIndexRoute: AuthenticatedIndexRoute,
+  AuthenticatedAnalisisAnalisisRoute: AuthenticatedAnalisisAnalisisRoute,
+  AuthenticatedAnalisisCantidadRoute: AuthenticatedAnalisisCantidadRoute,
+  AuthenticatedParametrosCategoriasRoute:
+    AuthenticatedParametrosCategoriasRoute,
+  AuthenticatedParametrosMaterialesRoute:
+    AuthenticatedParametrosMaterialesRoute,
+  AuthenticatedParametrosPartidasRoute: AuthenticatedParametrosPartidasRoute,
+  AuthenticatedParametrosProveedoresRoute:
+    AuthenticatedParametrosProveedoresRoute,
+  AuthenticatedParametrosProyectosRoute: AuthenticatedParametrosProyectosRoute,
+  AuthenticatedParametrosRubrosRoute: AuthenticatedParametrosRubrosRoute,
+  AuthenticatedReportesActualRoute: AuthenticatedReportesActualRoute,
+  AuthenticatedReportesCuadreRoute: AuthenticatedReportesCuadreRoute,
+  AuthenticatedReportesGastadoPorPartidaRoute:
+    AuthenticatedReportesGastadoPorPartidaRoute,
+  AuthenticatedReportesHistoricoRoute: AuthenticatedReportesHistoricoRoute,
+  AuthenticatedTransaccionesCierreRoute: AuthenticatedTransaccionesCierreRoute,
+  AuthenticatedTransaccionesFacturasRoute:
+    AuthenticatedTransaccionesFacturasRoute,
+  AuthenticatedTransaccionesPresupuestosRoute:
+    AuthenticatedTransaccionesPresupuestosRoute,
 }
 
 const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
