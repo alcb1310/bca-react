@@ -17,7 +17,7 @@ export const Route = createFileRoute('/_authenticated')({
 function RouteComponent() {
   return (
     <Box display='flex' width='100%' height='100%'>
-      / <Sidebar />
+      <Sidebar />
       <Box
         flexGrow={1}
         height='100%'

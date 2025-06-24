@@ -1,4 +1,4 @@
-// import AnalysisMenu from '@/components/menu/Analysis'
+import AnalysisMenu from '@/components/menu/Analysis'
 import ParametersMenu from '@/components/menu/Parameters'
 import ReportsMenu from '@/components/menu/Reports'
 import TransactionsMenu from '@/components/menu/Transactions'
@@ -39,9 +39,9 @@ export default function Sidebar() {
           <TransactionsMenu />
           <ReportsMenu />
           <ParametersMenu />
+          <AnalysisMenu />
         </Box>
       </Drawer>
     </Box>
   )
 }
-// <AnalysisMenu />
