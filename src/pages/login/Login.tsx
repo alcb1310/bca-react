@@ -1,6 +1,7 @@
 import { useLoginMutation } from '@/redux/api/bca-backend/auth/authentication'
 import { login } from '@/redux/features/login/loginSlice'
-import { useAppDispatch, useAppSelector } from '@/redux/hooks'
+import { useAppDispatch } from '@/redux/hooks'
+import { Route } from '@/routes/_nonauthenticated/login'
 import { type LoginInput, loginSchema } from '@/types/login'
 import { zodResolver } from '@hookform/resolvers/zod'
 import {
@@ -13,10 +14,10 @@ import {
 } from '@mui/material'
 import { useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
-import { Navigate } from 'react-router-dom'
 
 export default function Login() {
   const [error, setError] = useState<string | null>(null)
+  const navigate = Route.useNavigate()
 
   const {
     control,
@@ -29,8 +30,8 @@ export default function Login() {
     },
     resolver: zodResolver(loginSchema),
   })
-  const isLoggedIn = useAppSelector((state) => state.login.isLoggedIn)
   const dispatch = useAppDispatch()
+  const fallback = '/'
 
   const [loginInfo] = useLoginMutation()
 
@@ -39,15 +40,11 @@ export default function Login() {
 
     if (!('error' in res)) {
       dispatch(login(res.data.token))
+      await navigate({ to: fallback })
     } else {
       // @ts-expect-error error property is part of the res.error object
       setError(res.error.error)
     }
-  }
-
-  if (isLoggedIn) {
-    const dir = window.history.state?.usr?.from?.pathname
-    return <Navigate to={dir || '/'} replace />
   }
 
   return (
