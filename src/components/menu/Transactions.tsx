@@ -13,8 +13,8 @@ import {
   ListItemIcon,
   ListItemText,
 } from '@mui/material'
+import { Link, useLocation } from '@tanstack/react-router'
 import { useState } from 'react'
-import { NavLink, useLocation } from 'react-router-dom'
 
 export default function TransactionsMenu() {
   const [open, setOpen] = useState<boolean>(true)
@@ -49,7 +49,7 @@ export default function TransactionsMenu() {
       <Collapse in={open} timeout='auto' unmountOnExit>
         <List component='div' disablePadding dense>
           <ListItemButton
-            component={NavLink}
+            component={Link}
             to='/transacciones/presupuestos'
             sx={{ borderRadius: 2 }}
             selected={str.toLowerCase() === '/transacciones/presupuesto'}
@@ -69,7 +69,7 @@ export default function TransactionsMenu() {
           </ListItemButton>
 
           <ListItemButton
-            component={NavLink}
+            component={Link}
             to='/transacciones/facturas'
             sx={{ borderRadius: 2 }}
             selected={str.toLowerCase() === '/transacciones/factura'}
@@ -89,7 +89,7 @@ export default function TransactionsMenu() {
           </ListItemButton>
 
           <ListItemButton
-            component={NavLink}
+            component={Link}
             to='/transacciones/cierre'
             sx={{ borderRadius: 2 }}
             selected={str.toLowerCase() === '/transacciones/cierre'}
