@@ -1,5 +1,5 @@
 // import AnalysisMenu from '@/components/menu/Analysis'
-// import ParametersMenu from '@/components/menu/Parameters'
+import ParametersMenu from '@/components/menu/Parameters'
 import ReportsMenu from '@/components/menu/Reports'
 import TransactionsMenu from '@/components/menu/Transactions'
 import { Box, Drawer } from '@mui/material'
@@ -38,10 +38,10 @@ export default function Sidebar() {
         <Box py={1} sx={{ overflow: 'auto' }}>
           <TransactionsMenu />
           <ReportsMenu />
+          <ParametersMenu />
         </Box>
       </Drawer>
     </Box>
   )
 }
-// <ParametersMenu />
 // <AnalysisMenu />

@@ -16,8 +16,8 @@ import {
   ListItemIcon,
   ListItemText,
 } from '@mui/material'
+import { Link, useLocation } from '@tanstack/react-router'
 import { useState } from 'react'
-import { NavLink, useLocation } from 'react-router-dom'
 
 export default function ParametersMenu() {
   const [open, setOpen] = useState<boolean>(true)
@@ -52,7 +52,7 @@ export default function ParametersMenu() {
       <Collapse in={open} timeout='auto' unmountOnExit>
         <List component='div' disablePadding dense>
           <ListItemButton
-            component={NavLink}
+            component={Link}
             to='/parametros/partidas'
             sx={{ borderRadius: 2 }}
             selected={str.toLowerCase() === '/parametros/partidas'}
@@ -72,7 +72,7 @@ export default function ParametersMenu() {
           </ListItemButton>
 
           <ListItemButton
-            component={NavLink}
+            component={Link}
             to='/parametros/categorias'
             sx={{ borderRadius: 2 }}
             selected={str.toLowerCase() === '/parametros/categorias'}
@@ -92,7 +92,7 @@ export default function ParametersMenu() {
           </ListItemButton>
 
           <ListItemButton
-            component={NavLink}
+            component={Link}
             to='/parametros/materiales'
             sx={{ borderRadius: 2 }}
             selected={str.toLowerCase() === '/parametros/materiales'}
@@ -112,7 +112,7 @@ export default function ParametersMenu() {
           </ListItemButton>
 
           <ListItemButton
-            component={NavLink}
+            component={Link}
             to='/parametros/proyectos'
             sx={{ borderRadius: 2 }}
             selected={str.toLowerCase() === '/parametros/proyectos'}
@@ -132,7 +132,7 @@ export default function ParametersMenu() {
           </ListItemButton>
 
           <ListItemButton
-            component={NavLink}
+            component={Link}
             to='/parametros/proveedores'
             sx={{ borderRadius: 2 }}
             selected={str.toLowerCase() === '/parametros/proveedores'}
@@ -152,7 +152,7 @@ export default function ParametersMenu() {
           </ListItemButton>
 
           <ListItemButton
-            component={NavLink}
+            component={Link}
             to='/parametros/rubros'
             sx={{ borderRadius: 2 }}
             selected={str.toLowerCase() === '/parametros/rubros'}
