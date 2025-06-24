@@ -12,8 +12,8 @@ import {
   ListItemIcon,
   ListItemText,
 } from '@mui/material'
+import { Link, useLocation } from '@tanstack/react-router'
 import { useState } from 'react'
-import { NavLink, useLocation } from 'react-router-dom'
 
 export default function AnalysisMenu() {
   const [open, setOpen] = useState<boolean>(true)
@@ -48,7 +48,7 @@ export default function AnalysisMenu() {
       <Collapse in={open} timeout='auto' unmountOnExit>
         <List component='div' disablePadding dense>
           <ListItemButton
-            component={NavLink}
+            component={Link}
             to='/analisis/cantidad'
             sx={{ mb: 1, borderRadius: 2 }}
             selected={str.toLowerCase() === '/analisis/cantidad'}
@@ -68,7 +68,7 @@ export default function AnalysisMenu() {
           </ListItemButton>
 
           <ListItemButton
-            component={NavLink}
+            component={Link}
             to='/analisis/analisis'
             sx={{ mb: 1, borderRadius: 2 }}
             selected={str.toLowerCase() === '/analisis/analisis'}
