@@ -1,5 +1,5 @@
 import ApplicationBar from '@/components/appbar/AppBar'
-// import Sidebar from '@/components/sidebar/SideBar'
+import Sidebar from '@/components/sidebar/SideBar'
 import { store } from '@/redux/store'
 import { Box } from '@mui/material'
 import { Outlet, createFileRoute, redirect } from '@tanstack/react-router'
@@ -17,7 +17,7 @@ export const Route = createFileRoute('/_authenticated')({
 function RouteComponent() {
   return (
     <Box display='flex' width='100%' height='100%'>
-      sidebar
+      / <Sidebar />
       <Box
         flexGrow={1}
         height='100%'
@@ -42,4 +42,3 @@ function RouteComponent() {
     </Box>
   )
 }
-// <Sidebar />

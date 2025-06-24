@@ -1,9 +1,9 @@
-import AnalysisMenu from '@/components/menu/Analysis'
-import ParametersMenu from '@/components/menu/Parameters'
-import ReportsMenu from '@/components/menu/Reports'
+// import AnalysisMenu from '@/components/menu/Analysis'
+// import ParametersMenu from '@/components/menu/Parameters'
+// import ReportsMenu from '@/components/menu/Reports'
 import TransactionsMenu from '@/components/menu/Transactions'
 import { Box, Drawer } from '@mui/material'
-import { Link } from 'react-router-dom'
+import { Link } from '@tanstack/react-router'
 
 export default function Sidebar() {
   return (
@@ -37,11 +37,11 @@ export default function Sidebar() {
 
         <Box py={1} sx={{ overflow: 'auto' }}>
           <TransactionsMenu />
-          <ReportsMenu />
-          <ParametersMenu />
-          <AnalysisMenu />
         </Box>
       </Drawer>
     </Box>
   )
 }
+// <ReportsMenu />
+// <ParametersMenu />
+// <AnalysisMenu />
