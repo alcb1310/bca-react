@@ -1,8 +1,8 @@
 import ChangePassword from '@/pages/users/password'
 import { PersonOutline } from '@mui/icons-material'
 import { Button, IconButton, Menu, MenuItem, Tooltip } from '@mui/material'
+import { useNavigate } from '@tanstack/react-router'
 import { type MouseEvent, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 
 function UserMenu() {
   const [open, setOpen] = useState(false)
@@ -22,7 +22,7 @@ function UserMenu() {
 
   function userNavigation(route: string) {
     setOpen((prev) => !prev)
-    navigate(route)
+    navigate({ to: route })
   }
 
   function openPasswordDrawer() {
