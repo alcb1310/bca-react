@@ -1,9 +1,6 @@
+import Actual from '@/pages/reportes/actual'
 import { createFileRoute } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/_authenticated/reportes/actual')({
-  component: RouteComponent,
+  component: Actual,
 })
-
-function RouteComponent() {
-  return <div>Hello "/_authenticated/reportes/actual"!</div>
-}
