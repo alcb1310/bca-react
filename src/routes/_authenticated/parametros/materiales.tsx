@@ -1,9 +1,6 @@
+import Materials from '@/pages/parametros/materials'
 import { createFileRoute } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/_authenticated/parametros/materiales')({
-  component: RouteComponent,
+  component: Materials,
 })
-
-function RouteComponent() {
-  return <div>Hello "/_authenticated/parametros/materiales"!</div>
-}

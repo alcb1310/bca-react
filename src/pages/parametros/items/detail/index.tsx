@@ -4,15 +4,14 @@ import AllRubrosMaterialsTable from '@/components/settings/rubros/AllRubrosMater
 import EditToolbar from '@/components/table/headers/toolbar'
 import PageTitle from '@/components/titles/PageTitle'
 import { useGetOneRubroQuery } from '@/redux/api/bca-backend/parametros/rubrosSlice'
+import { Route } from '@/routes/_authenticated/parametros/rubros/$rubroId'
 import { Box, CircularProgress } from '@mui/material'
 import { useState } from 'react'
-import { useLocation } from 'react-router-dom'
 
 export default function IndividualItem() {
   const [open, setOpen] = useState<boolean>(false)
-  const location = useLocation()
-  const rubroId = location.pathname.split('/')[3]
-  const { data: rubro, isLoading } = useGetOneRubroQuery(rubroId!)
+  const { rubroId } = Route.useLoaderData()
+  const { data: rubro, isLoading } = useGetOneRubroQuery(rubroId)
 
   const title = rubroId
     ? rubroId.toLowerCase() === 'crear'
