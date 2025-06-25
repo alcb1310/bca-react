@@ -7,7 +7,7 @@ import {
   type GridColDef,
   type GridRowParams,
 } from '@mui/x-data-grid'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from '@tanstack/react-router'
 import { toast } from 'sonner'
 
 type AllInvoicesTableProps = {
@@ -71,7 +71,12 @@ export default function AllInvoicesTable({ data }: AllInvoicesTableProps) {
           icon={<EditOutlined color='warning' />}
           label='Editar'
           showInMenu
-          onClick={() => navigate(`/transacciones/facturas/${params.id}`)}
+          onClick={() =>
+            navigate({
+              to: '/transacciones/facturas/$invoiceId',
+              params: { invoiceId: params.row.id },
+            })
+          }
         />,
 
         <GridActionsCellItem

@@ -11,9 +11,9 @@ import {
 import { type InvoiceCreateType, invoiceCreateSchema } from '@/types/invoice'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Stack, Typography } from '@mui/material'
+import { useNavigate } from '@tanstack/react-router'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
 
 type InvoiceFormProps = {
@@ -47,7 +47,10 @@ function InvoiceForm({ invoiceId, invoice }: InvoiceFormProps) {
       }
 
       toast.success('Factura creada exitosamente')
-      navigate(`/transacciones/facturas/${res.data?.id}`)
+      navigate({
+        to: '/transacciones/facturas/$invoiceId',
+        params: { invoiceId: res.data?.id! },
+      })
       return
     }
 
@@ -131,7 +134,7 @@ function InvoiceForm({ invoiceId, invoice }: InvoiceFormProps) {
 
           <ButtonGroup
             saveFunction={handleSubmit(hadleSubmit)}
-            cancelFunction={() => navigate('/transacciones/facturas')}
+            cancelFunction={() => navigate({ to: '/transacciones/facturas' })}
           />
         </Stack>
       </form>
