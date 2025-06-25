@@ -1,9 +1,6 @@
+import Projects from '@/pages/parametros/projects'
 import { createFileRoute } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/_authenticated/parametros/proyectos')({
-  component: RouteComponent,
+  component: Projects,
 })
-
-function RouteComponent() {
-  return <div>Hello "/_authenticated/parametros/proyectos"!</div>
-}

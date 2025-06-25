@@ -6,7 +6,7 @@ import {
   type GridColDef,
   type GridRowParams,
 } from '@mui/x-data-grid'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from '@tanstack/react-router'
 
 type AllRubrosTableProps = {
   data: RubrosType[]
@@ -28,7 +28,12 @@ export default function AllRubrosTable({ data }: AllRubrosTableProps) {
           key={params.id}
           icon=<EditOutlined color='warning' />
           label='Edit'
-          onClick={() => navigate(`/parametros/rubros/${params.row.id}`)}
+          onClick={() =>
+            navigate({
+              to: '/parametros/rubros/$rubroId',
+              params: { rubroId: params.row.id! },
+            })
+          }
         />,
       ],
     },

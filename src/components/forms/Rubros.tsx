@@ -7,9 +7,9 @@ import {
 import { type RubrosType, rubrosSchema } from '@/types/rubros'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Stack, Typography } from '@mui/material'
+import { useNavigate } from '@tanstack/react-router'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
 
 type RubrosFromProps = {
@@ -33,7 +33,10 @@ function RubrosForm({ rubroId, rubro }: RubrosFromProps) {
       const res = await createRubro(data)
       if ('data' in res) {
         toast.success('Rubro creado exitosamente')
-        navigate(`/parametros/rubros/${res.data?.id}`)
+        navigate({
+          to: '/parametros/rubros/$rubroId',
+          params: { rubroId: res.data?.id! },
+        })
         return
       }
 
@@ -85,7 +88,7 @@ function RubrosForm({ rubroId, rubro }: RubrosFromProps) {
 
           <ButtonGroup
             saveFunction={handleSubmit(hadleSubmit)}
-            cancelFunction={() => navigate('/parametros/rubros')}
+            cancelFunction={() => navigate({ to: '/parametros/rubros' })}
           />
         </Stack>
       </form>
