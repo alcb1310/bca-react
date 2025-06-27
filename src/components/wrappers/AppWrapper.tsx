@@ -10,6 +10,7 @@ import { createRouter, RouterProvider } from '@tanstack/react-router'
 
 export const router = createRouter({
   routeTree,
+  defaultPreload: 'intent',
 })
 
 declare module '@tanstack/react-router' {
