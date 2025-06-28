@@ -1,6 +1,6 @@
 import { store } from '@/redux/store'
 
-const baseUrl = import.meta.env.BASE_URL
+const baseUrl = import.meta.env.VITE_BACKEND_SERVER
 
 export async function fetcher<T>(
   path: string,
