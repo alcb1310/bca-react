@@ -3,23 +3,30 @@ import { Provider } from "react-redux";
 import { testStore } from "../../src/redux/testStore.ts";
 import { PropsWithChildren, useMemo } from "react";
 import { createRootRoute, createRouter, Route, RouterProvider } from "@tanstack/react-router";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+const queryClient = new QueryClient()
 
 Cypress.Commands.add("wrapper", (children) => {
   return mount(
-    <Provider store={testStore}>
-      <TestRouter>
-        {children}
-      </TestRouter>
-    </Provider>,
+    <QueryClientProvider client={queryClient}>
+      <Provider store={testStore}>
+        <TestRouter>
+          {children}
+        </TestRouter>
+      </Provider>,
+    </QueryClientProvider>,
   );
 });
 
 Cypress.Commands.add("pageWrapper", (children, routes) => {
   console.log(routes);
   return mount(
-    <Provider store={testStore}>
-      {children}
-    </Provider>,
+    <QueryClientProvider client={queryClient}>
+      <Provider store={testStore}>
+        {children}
+      </Provider>,
+    </QueryClientProvider>,
   );
 });
 
