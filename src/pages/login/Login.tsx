@@ -1,4 +1,4 @@
-import { useLoginMutation } from '@/redux/api/bca-backend/auth/authentication'
+import { useLoginMutation } from '@/queries/auth/login'
 import { login } from '@/redux/features/login/loginSlice'
 import { useAppDispatch } from '@/redux/hooks'
 import { Route } from '@/routes/_nonauthenticated/login'
@@ -7,11 +7,13 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import {
   Box,
   Button,
+  CircularProgress,
   FormControl,
   FormHelperText,
   TextField,
   Typography,
 } from '@mui/material'
+import { useMutation } from '@tanstack/react-query'
 import { useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 
@@ -33,18 +35,20 @@ export default function Login() {
   const dispatch = useAppDispatch()
   const fallback = '/'
 
-  const [loginInfo] = useLoginMutation()
+  const { mutate, isPending } = useMutation({
+    mutationFn: useLoginMutation,
+    onSuccess: (data) => {
+      dispatch(login(data.token))
+      navigate({ to: fallback })
+    },
+    onError: (error) => {
+      setError(error.message)
+    },
+  })
 
   async function onSubmit(data: LoginInput) {
-    const res = await loginInfo(data)
-
-    if (!('error' in res)) {
-      dispatch(login(res.data.token))
-      await navigate({ to: fallback })
-    } else {
-      // @ts-expect-error error property is part of the res.error object
-      setError(res.error.error)
-    }
+    setError(null)
+    mutate({ login: data })
   }
 
   return (
@@ -68,6 +72,8 @@ export default function Login() {
         >
           Login
         </Typography>
+
+        {isPending && <CircularProgress />}
 
         {error && (
           <Typography
@@ -138,6 +144,7 @@ export default function Login() {
               type='submit'
               color='primary'
               onClick={handleSubmit(onSubmit)}
+              disabled={isPending}
             >
               Login
             </Button>
