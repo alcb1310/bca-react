@@ -5,9 +5,9 @@ import BcaTextField from '@/components/input/BcaTextField'
 import DrawerTitle from '@/components/titles/DrawerTitle'
 import {
   useCreateBudgetItemMutation,
-  useGetAllBudgetItemsQuery,
-  useUpdateBudgetItemMutation,
-} from '@/redux/api/bca-backend/parametros/budgetItemSlice'
+  useUpdateBugetItemMutation,
+} from '@/queries/parametros/partidas'
+import { useGetAllBudgetItemsQuery } from '@/redux/api/bca-backend/parametros/budgetItemSlice'
 import { type BudgetItem, budgetItemSchema } from '@/types/partidas'
 import { DevTool } from '@hookform/devtools'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -17,6 +17,7 @@ import {
   FormControlLabel,
   Typography,
 } from '@mui/material'
+import { useMutation } from '@tanstack/react-query'
 import { RhfSwitch } from 'mui-rhf-integration'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
@@ -39,8 +40,28 @@ export default function BudgetItemDrawer({
   })
   const [conflictError, setConflictError] = useState<string>('')
 
-  const [createBudgetItem] = useCreateBudgetItemMutation()
-  const [updateBudgetItem] = useUpdateBudgetItemMutation()
+  const { mutate: createBudgetItem, isPending: isPendingCreate } = useMutation({
+    mutationFn: useCreateBudgetItemMutation,
+    onSuccess: () => {
+      onClose()
+      toast.success('Partida creada')
+    },
+    onError: (error) => {
+      setConflictError(error.message)
+      toast.error(`Error al crear la partida: ${error.message}`)
+    },
+  })
+  const { mutate: updateBudgetItem, isPending: isPendingUpdate } = useMutation({
+    mutationFn: useUpdateBugetItemMutation,
+    onSuccess: () => {
+      onClose()
+      toast.success('Partida actualizada')
+    },
+    onError: (error) => {
+      setConflictError(error.message)
+      toast.error(`Error al actualizar la partida: ${error.message}`)
+    },
+  })
   const { data, isLoading } = useGetAllBudgetItemsQuery({
     accum: true,
   })
@@ -53,28 +74,10 @@ export default function BudgetItemDrawer({
   async function hadleSubmit(data: BudgetItem) {
     setConflictError('')
     if (defaultValues.id) {
-      const res = await updateBudgetItem(data)
-
-      if ('data' in res) {
-        onClose()
-        toast.success('Partida actualizada')
-        return
-      }
-      // @ts-expect-error data property is part of the res.error object
-      setConflictError(res.error.data.error)
-      // @ts-expect-error data property is part of the res.error object
-      toast.error(`Error al actualizar la partida: ${res.error.data.error}`)
-    }
-    const res = await createBudgetItem(data)
-    if ('data' in res) {
-      onClose()
-      toast.success('Partida creada')
+      updateBudgetItem({ budgetItem: data })
       return
     }
-    // @ts-expect-error data property is part of the res.error object
-    setConflictError(res.error.data.error)
-    // @ts-expect-error data property is part of the res.error object
-    toast.error(`Error al crear la partida: ${res.error.data.error}`)
+    createBudgetItem({ bugetItem: data })
   }
 
   return (
@@ -89,7 +92,9 @@ export default function BudgetItemDrawer({
           className='w-full flex flex-col gap-5'
           onSubmit={handleSubmit(hadleSubmit)}
         >
-          {isLoading && <CircularProgress />}
+          {isLoading ||
+            isPendingCreate ||
+            (isPendingUpdate && <CircularProgress />)}
           {conflictError && (
             <Typography color='error' sx={{ fontSize: '0.85rem' }}>
               {conflictError}
@@ -138,6 +143,7 @@ export default function BudgetItemDrawer({
           <ButtonGroup
             saveFunction={handleSubmit(hadleSubmit)}
             cancelFunction={onClose}
+            disabled={isPendingCreate || isPendingUpdate}
           />
         </form>
       </Box>

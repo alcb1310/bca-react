@@ -1,0 +1,20 @@
+import type { BudgetItem } from '@/types/partidas'
+import { fetcher } from '@/utils/fetch'
+
+export async function useCreateBudgetItemMutation({
+  bugetItem,
+}: Readonly<{ bugetItem: BudgetItem }>) {
+  return fetcher<BudgetItem>('/parametros/partidas', {
+    method: 'POST',
+    body: JSON.stringify(bugetItem),
+  })
+}
+
+export async function useUpdateBugetItemMutation({
+  budgetItem,
+}: Readonly<{ budgetItem: BudgetItem }>) {
+  return fetcher(`/parametros/partidas/${budgetItem.id}`, {
+    method: 'PUT',
+    body: JSON.stringify(budgetItem),
+  })
+}
