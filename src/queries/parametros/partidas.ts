@@ -18,3 +18,16 @@ export async function useUpdateBugetItemMutation({
     body: JSON.stringify(budgetItem),
   })
 }
+
+export async function useGetAllBudgetItemsQuery({
+  query,
+  accum,
+}: Readonly<{ query?: string; accum?: boolean }>) {
+  const params = new URLSearchParams()
+  if (query) params.append('query', query)
+  if (accum !== undefined) params.append('accum', String(accum))
+
+  return fetcher<BudgetItem[]>(`/parametros/partidas?${params}`, {
+    method: 'GET',
+  })
+}

@@ -2,16 +2,21 @@ import BudgetItemDrawer from '@/components/drawers/Settings/BudgetItems/BudgetIt
 import AllBudgetItemsTable from '@/components/settings/budget-items/AllBudgetItemsTable'
 import EditToolbar from '@/components/table/headers/toolbar'
 import PageTitle from '@/components/titles/PageTitle'
-import { useGetAllBudgetItemsQuery } from '@/redux/api/bca-backend/parametros/budgetItemSlice'
+import { useGetAllBudgetItemsQuery } from '@/queries/parametros/partidas'
 import type { BudgetItem } from '@/types/partidas'
 import { CircularProgress, TextField } from '@mui/material'
 import Grid from '@mui/material/Grid2'
+import { useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
 
 export default function BudgetItems() {
   const [open, setOpen] = useState<boolean>(false)
   const [query, setQuery] = useState<string>('')
-  const { data, isLoading } = useGetAllBudgetItemsQuery({ query })
+  const { data, isLoading, isFetching } = useQuery({
+    queryKey: ['partidas'],
+    queryFn: () => useGetAllBudgetItemsQuery({}),
+  })
+  // const { data, isLoading } = useGetAllBudgetItemsQuery({ query })
 
   function handleClick() {
     setOpen((prev) => !prev)
@@ -20,7 +25,7 @@ export default function BudgetItems() {
   return (
     <>
       <PageTitle title='Partidas' />
-      {isLoading && (
+      {(isLoading || isFetching) && (
         <CircularProgress data-testid='page.parametros.partidas.loading' />
       )}
       <Grid container spacing={2}>

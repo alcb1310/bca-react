@@ -5,9 +5,9 @@ import BcaTextField from '@/components/input/BcaTextField'
 import DrawerTitle from '@/components/titles/DrawerTitle'
 import {
   useCreateBudgetItemMutation,
+  useGetAllBudgetItemsQuery,
   useUpdateBugetItemMutation,
 } from '@/queries/parametros/partidas'
-import { useGetAllBudgetItemsQuery } from '@/redux/api/bca-backend/parametros/budgetItemSlice'
 import { type BudgetItem, budgetItemSchema } from '@/types/partidas'
 import { DevTool } from '@hookform/devtools'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -17,7 +17,7 @@ import {
   FormControlLabel,
   Typography,
 } from '@mui/material'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { RhfSwitch } from 'mui-rhf-integration'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
@@ -39,6 +39,7 @@ export default function BudgetItemDrawer({
     resolver: zodResolver(budgetItemSchema),
   })
   const [conflictError, setConflictError] = useState<string>('')
+  const queryClient = useQueryClient()
 
   const { mutate: createBudgetItem, isPending: isPendingCreate } = useMutation({
     mutationFn: useCreateBudgetItemMutation,
@@ -49,6 +50,9 @@ export default function BudgetItemDrawer({
     onError: (error) => {
       setConflictError(error.message)
       toast.error(`Error al crear la partida: ${error.message}`)
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ['partidas'] })
     },
   })
   const { mutate: updateBudgetItem, isPending: isPendingUpdate } = useMutation({
@@ -61,9 +65,13 @@ export default function BudgetItemDrawer({
       setConflictError(error.message)
       toast.error(`Error al actualizar la partida: ${error.message}`)
     },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ['partidas'] })
+    },
   })
-  const { data, isLoading } = useGetAllBudgetItemsQuery({
-    accum: true,
+  const { data, isLoading } = useQuery({
+    queryFn: () => useGetAllBudgetItemsQuery({ accum: true }),
+    queryKey: ['partidas', 'accum'],
   })
 
   useEffect(() => {
