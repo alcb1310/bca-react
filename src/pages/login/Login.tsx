@@ -38,6 +38,9 @@ export default function Login() {
   const { mutate, isPending } = useMutation({
     mutationFn: useLoginMutation,
     onSuccess: (data) => {
+      if (!data) {
+        throw new Error('Error al iniciar sesión')
+      }
       dispatch(login(data.token))
       navigate({ to: fallback })
     },
