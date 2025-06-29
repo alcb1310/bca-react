@@ -7,10 +7,8 @@ type loginResponse = {
   user: UserResponse
 }
 
-export async function useLoginMutation({
-  login,
-}: Readonly<{ login: LoginInput }>) {
-  return await fetcher<loginResponse>('/login', {
+export function useLoginMutation({ login }: Readonly<{ login: LoginInput }>) {
+  return fetcher<loginResponse>('/login', {
     method: 'POST',
     body: JSON.stringify(login),
   })
