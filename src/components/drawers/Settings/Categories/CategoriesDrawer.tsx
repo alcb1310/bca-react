@@ -5,10 +5,11 @@ import DrawerTitle from '@/components/titles/DrawerTitle'
 import {
   useCreateCategoryMutation,
   useUpdateCategoryMutation,
-} from '@/redux/api/bca-backend/parametros/categoriesSlice'
+} from '@/queries/parametros/categorias'
 import { type CategoryType, categorySchema } from '@/types/categories'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Box, Typography } from '@mui/material'
+import { Box, CircularProgress, Typography } from '@mui/material'
+import { useMutation } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
@@ -31,8 +32,29 @@ export default function CategoriesDrawer({
     resolver: zodResolver(categorySchema),
   })
 
-  const [createCategory] = useCreateCategoryMutation()
-  const [updateCategory] = useUpdateCategoryMutation()
+  const { mutate: createCategory, isPending: isPendingCreate } = useMutation({
+    mutationFn: useCreateCategoryMutation,
+    onSuccess: () => {
+      onClose()
+      toast.success('Categoría creada exitosamente')
+    },
+    onError: (error) => {
+      setConflictError(error.message)
+      toast.error(`Error al crear la categoría: ${error.message}`)
+    },
+  })
+
+  const { mutate: updateCategory, isPending: isPendingUpdate } = useMutation({
+    mutationFn: useUpdateCategoryMutation,
+    onSuccess: () => {
+      onClose()
+      toast.success('Categoría actualizada exitosamente')
+    },
+    onError: (error) => {
+      setConflictError(error.message)
+      toast.error(`Error al actualizar la categoría: ${error.message}`)
+    },
+  })
 
   useEffect(() => {
     reset(defaultValues)
@@ -40,30 +62,10 @@ export default function CategoriesDrawer({
 
   async function hadleSubmit(data: CategoryType) {
     if (!defaultValues.id) {
-      const res = await createCategory(data)
-      if ('data' in res) {
-        onClose()
-        toast.success('Categoría creada exitosamente')
-        return
-      }
-      // @ts-expect-error data property is part of the res.error object
-      setConflictError(res.error.data.error)
-      // @ts-expect-error data property is part of the res.error object
-      toast.error(`Error al crear la categoría: ${res.error.data.error}`)
+      createCategory({ category: data })
       return
     }
-
-    const res = await updateCategory(data)
-    if ('data' in res) {
-      onClose()
-      toast.success('Categoría actualizada exitosamente')
-      return
-    }
-    // @ts-expect-error data property is part of the res.error object
-    setConflictError(res.error.data.error)
-    // @ts-expect-error data property is part of the res.error object
-    toast.error(`Error al actualizar la categoría: ${res.error.data.error}`)
-    return
+    updateCategory({ category: data })
   }
 
   return (
@@ -78,6 +80,7 @@ export default function CategoriesDrawer({
           className='w-full flex flex-col gap-5'
           onSubmit={handleSubmit(hadleSubmit)}
         >
+          {(isPendingCreate || isPendingUpdate) && <CircularProgress />}
           {conflictError && (
             <Typography color='error' sx={{ fontSize: '0.85rem' }}>
               {conflictError}
@@ -95,6 +98,7 @@ export default function CategoriesDrawer({
           <ButtonGroup
             saveFunction={handleSubmit(hadleSubmit)}
             cancelFunction={onClose}
+            disabled={isPendingCreate || isPendingUpdate}
           />
         </form>
       </Box>
