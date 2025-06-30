@@ -9,7 +9,7 @@ import {
 import { type CategoryType, categorySchema } from '@/types/categories'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Box, CircularProgress, Typography } from '@mui/material'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
@@ -26,6 +26,7 @@ export default function CategoriesDrawer({
   defaultValues,
 }: CategoriesDrawerProps) {
   const [conflictError, setConflictError] = useState<string>('')
+  const queryClient = useQueryClient()
 
   const { control, reset, handleSubmit } = useForm<CategoryType>({
     defaultValues,
@@ -42,6 +43,9 @@ export default function CategoriesDrawer({
       setConflictError(error.message)
       toast.error(`Error al crear la categoría: ${error.message}`)
     },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ['categorias'] })
+    },
   })
 
   const { mutate: updateCategory, isPending: isPendingUpdate } = useMutation({
@@ -54,18 +58,30 @@ export default function CategoriesDrawer({
       setConflictError(error.message)
       toast.error(`Error al actualizar la categoría: ${error.message}`)
     },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ['categorias'] })
+    },
   })
 
   useEffect(() => {
     reset(defaultValues)
+    setConflictError('')
   }, [reset, defaultValues])
 
   async function hadleSubmit(data: CategoryType) {
-    if (!defaultValues.id) {
-      createCategory({ category: data })
-      return
+    switch (defaultValues.id) {
+      case undefined:
+        createCategory({ category: data })
+        break
+      default:
+        updateCategory({ category: data })
+        break
     }
-    updateCategory({ category: data })
+    // if (!defaultValues.id) {
+    //   createCategory({ category: data })
+    //   return
+    // }
+    // updateCategory({ category: data })
   }
 
   return (

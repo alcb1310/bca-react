@@ -2,13 +2,17 @@ import CategoriesDrawer from '@/components/drawers/Settings/Categories/Categorie
 import AllCategoriesTable from '@/components/settings/categories/AllCategoriesTable'
 import EditToolbar from '@/components/table/headers/toolbar'
 import PageTitle from '@/components/titles/PageTitle'
-import { useGetAllCategoriesQuery } from '@/redux/api/bca-backend/parametros/categoriesSlice'
+import { useGetAllCategoriesQuery } from '@/queries/parametros/categorias'
 import { CircularProgress } from '@mui/material'
+import { useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
 
 export default function Categories() {
   const [open, setOpen] = useState<boolean>(false)
-  const { data, isLoading } = useGetAllCategoriesQuery()
+  const { data, isLoading } = useQuery({
+    queryKey: ['categorias'],
+    queryFn: useGetAllCategoriesQuery,
+  })
 
   function handleClick() {
     setOpen((prev) => !prev)

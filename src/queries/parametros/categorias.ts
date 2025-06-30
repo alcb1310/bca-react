@@ -18,3 +18,9 @@ export function useUpdateCategoryMutation({
     body: JSON.stringify(category),
   })
 }
+
+export function useGetAllCategoriesQuery() {
+  return fetcher<CategoryType[]>('/parametros/categorias', {
+    method: 'GET',
+  })
+}

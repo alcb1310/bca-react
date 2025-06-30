@@ -3,7 +3,7 @@ import BcaDrawer from '@/components/drawers/BcaDrawer/BcaDrawer'
 import BcaSelect from '@/components/input/BcaSelect'
 import BcaTextField from '@/components/input/BcaTextField'
 import DrawerTitle from '@/components/titles/DrawerTitle'
-import { useGetAllCategoriesQuery } from '@/redux/api/bca-backend/parametros/categoriesSlice'
+import { useGetAllCategoriesQuery } from '@/queries/parametros/categorias'
 import {
   useCreateMaterialMutation,
   useUpdateMaterialMutation,
@@ -11,6 +11,7 @@ import {
 import { type MaterialType, materialSchema } from '@/types/materials'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { CircularProgress, Typography } from '@mui/material'
+import { useQuery } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
@@ -33,7 +34,10 @@ export default function MaterialsDrawer({
     resolver: zodResolver(materialSchema),
   })
 
-  const { data: categories, isLoading } = useGetAllCategoriesQuery()
+  const { data: categories, isLoading } = useQuery({
+    queryKey: ['categorias'],
+    queryFn: useGetAllCategoriesQuery,
+  })
   const [createMaterial] = useCreateMaterialMutation()
   const [updateMaterial] = useUpdateMaterialMutation()
 
