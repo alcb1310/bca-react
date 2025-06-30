@@ -7,11 +7,11 @@ import { useGetAllCategoriesQuery } from '@/queries/parametros/categorias'
 import {
   useCreateMaterialMutation,
   useUpdateMaterialMutation,
-} from '@/redux/api/bca-backend/parametros/materialsSlice'
+} from '@/queries/parametros/materiales'
 import { type MaterialType, materialSchema } from '@/types/materials'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { CircularProgress, Typography } from '@mui/material'
-import { useSuspenseQuery } from '@tanstack/react-query'
+import { useMutation, useSuspenseQuery } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
@@ -38,39 +38,45 @@ export default function MaterialsDrawer({
     queryKey: ['categorias'],
     queryFn: useGetAllCategoriesQuery,
   })
-  const [createMaterial] = useCreateMaterialMutation()
-  const [updateMaterial] = useUpdateMaterialMutation()
+  const { mutate: createMaterial, isPending: isPendingCreate } = useMutation({
+    mutationFn: useCreateMaterialMutation,
+    onSuccess: () => {
+      onClose()
+      toast.success('Material creado exitosamente')
+    },
+    onError: (error) => {
+      setConflictError(error.message)
+      toast.error(`Error al crear el material: ${error.message}`)
+    },
+    onSettled: () => { },
+  })
+
+  const { mutate: updateMaterial, isPending: isPendingUpdate } = useMutation({
+    mutationFn: useUpdateMaterialMutation,
+    onSuccess: () => {
+      onClose()
+      toast.success('Material actualizado exitosamente')
+    },
+    onError: (error) => {
+      setConflictError(error.message)
+      toast.error(`Error al actualizar el material: ${error.message}`)
+    },
+    onSettled: () => { },
+  })
 
   useEffect(() => {
     reset(defaultValues)
   }, [reset, defaultValues])
 
   async function hadleSubmit(data: MaterialType) {
-    if (!defaultValues.id) {
-      const res = await createMaterial(data)
-      if ('data' in res) {
-        onClose()
-        toast.success('Material creado exitosamente')
-        return
-      }
-      // @ts-expect-error data is part of the response
-      setConflictError(res.error.data.message)
-      // @ts-expect-error data is part of the response
-      toast.error(`Error al crear el material: ${res.error.data.message}`)
-      return
+    switch (defaultValues.id) {
+      case undefined:
+        createMaterial({ material: data })
+        break
+      default:
+        updateMaterial({ material: data })
+        break
     }
-
-    const res = await updateMaterial(data)
-    if ('data' in res) {
-      onClose()
-      toast.success('Material actualizado exitosamente')
-      return
-    }
-
-    // @ts-expect-error data is part of the response
-    setConflictError(res.error.data.message)
-    // @ts-expect-error data is part of the response
-    toast.error(`Error al actualizar el material: ${res.error.data.message}`)
   }
 
   return (
@@ -80,7 +86,9 @@ export default function MaterialsDrawer({
         close={onClose}
       />
 
-      {isLoading && <CircularProgress />}
+      {(isLoading || isPendingCreate || isPendingUpdate) && (
+        <CircularProgress />
+      )}
       {conflictError && <Typography color='error'>{conflictError}</Typography>}
 
       <form
@@ -125,6 +133,7 @@ export default function MaterialsDrawer({
         <ButtonGroup
           saveFunction={handleSubmit(hadleSubmit)}
           cancelFunction={onClose}
+          disabled={isPendingCreate || isPendingUpdate}
         />
       </form>
     </BcaDrawer>
