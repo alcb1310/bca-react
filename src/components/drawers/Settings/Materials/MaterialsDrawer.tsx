@@ -11,7 +11,7 @@ import {
 import { type MaterialType, materialSchema } from '@/types/materials'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { CircularProgress, Typography } from '@mui/material'
-import { useQuery } from '@tanstack/react-query'
+import { useSuspenseQuery } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
@@ -34,7 +34,7 @@ export default function MaterialsDrawer({
     resolver: zodResolver(materialSchema),
   })
 
-  const { data: categories, isLoading } = useQuery({
+  const { data: categories, isLoading } = useSuspenseQuery({
     queryKey: ['categorias'],
     queryFn: useGetAllCategoriesQuery,
   })
