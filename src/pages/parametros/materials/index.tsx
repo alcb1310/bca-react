@@ -2,13 +2,17 @@ import MaterialsDrawer from '@/components/drawers/Settings/Materials/MaterialsDr
 import AllMaterialsTable from '@/components/settings/materials/AllMaterialsTable'
 import EditToolbar from '@/components/table/headers/toolbar'
 import PageTitle from '@/components/titles/PageTitle'
-import { useGetAllMaterialsQuery } from '@/redux/api/bca-backend/parametros/materialsSlice'
+import { useGetAllMaterialsQuery } from '@/queries/parametros/materiales'
 import { CircularProgress } from '@mui/material'
+import { useSuspenseQuery } from '@tanstack/react-query'
 import { useState } from 'react'
 
 export default function Materials() {
   const [open, setOpen] = useState<boolean>(false)
-  const { data, isLoading } = useGetAllMaterialsQuery()
+  const { data, isLoading } = useSuspenseQuery({
+    queryKey: ['materiales'],
+    queryFn: useGetAllMaterialsQuery,
+  })
 
   return (
     <>

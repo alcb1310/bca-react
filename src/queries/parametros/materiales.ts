@@ -18,3 +18,9 @@ export function useUpdateMaterialMutation({
     body: JSON.stringify(material),
   })
 }
+
+export function useGetAllMaterialsQuery() {
+  return fetcher<MaterialType[]>('/parametros/materiales', {
+    method: 'GET',
+  })
+}

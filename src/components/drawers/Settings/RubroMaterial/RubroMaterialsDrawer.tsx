@@ -3,7 +3,7 @@ import BcaDrawer from '@/components/drawers/BcaDrawer/BcaDrawer'
 import BcaSelect from '@/components/input/BcaSelect'
 import BcaTextField from '@/components/input/BcaTextField'
 import DrawerTitle from '@/components/titles/DrawerTitle'
-import { useGetAllMaterialsQuery } from '@/redux/api/bca-backend/parametros/materialsSlice'
+import { useGetAllMaterialsQuery } from '@/queries/parametros/materiales'
 import {
   useCreateRubrosMaterialMutation,
   useUpdateRubrosMaterialMutation,
@@ -14,6 +14,7 @@ import {
 } from '@/types/rubro-material'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Typography } from '@mui/material'
+import { useQuery } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
@@ -37,7 +38,10 @@ function RubroMaterialsDrawer({
     },
   )
 
-  const { data: allMaterials } = useGetAllMaterialsQuery()
+  const { data: allMaterials } = useQuery({
+    queryKey: ['materiales'],
+    queryFn: useGetAllMaterialsQuery,
+  })
   const [createRubroMaterial] = useCreateRubrosMaterialMutation()
   const [updateRubroMaterial] = useUpdateRubrosMaterialMutation()
 

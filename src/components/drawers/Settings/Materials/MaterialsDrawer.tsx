@@ -11,7 +11,11 @@ import {
 import { type MaterialType, materialSchema } from '@/types/materials'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { CircularProgress, Typography } from '@mui/material'
-import { useMutation, useSuspenseQuery } from '@tanstack/react-query'
+import {
+  useMutation,
+  useQueryClient,
+  useSuspenseQuery,
+} from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
@@ -28,6 +32,7 @@ export default function MaterialsDrawer({
   defaultValues,
 }: MaterialsDrawerProps) {
   const [conflictError, setConflictError] = useState<string>('')
+  const queryClient = useQueryClient()
 
   const { control, reset, handleSubmit } = useForm<MaterialType>({
     defaultValues,
@@ -48,7 +53,9 @@ export default function MaterialsDrawer({
       setConflictError(error.message)
       toast.error(`Error al crear el material: ${error.message}`)
     },
-    onSettled: () => { },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ['materiales'] })
+    },
   })
 
   const { mutate: updateMaterial, isPending: isPendingUpdate } = useMutation({
@@ -61,7 +68,9 @@ export default function MaterialsDrawer({
       setConflictError(error.message)
       toast.error(`Error al actualizar el material: ${error.message}`)
     },
-    onSettled: () => { },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ['materiales'] })
+    },
   })
 
   useEffect(() => {
