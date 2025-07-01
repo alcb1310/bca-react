@@ -5,10 +5,11 @@ import DrawerTitle from '@/components/titles/DrawerTitle'
 import {
   useCreateProjectMutation,
   useUpdateProjectMutation,
-} from '@/redux/api/bca-backend/parametros/projectsSlice'
+} from '@/queries/parametros/proyectos'
 import { type ProjectType, projectSchema } from '@/types/project'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { FormControlLabel, Typography } from '@mui/material'
+import { CircularProgress, FormControlLabel, Typography } from '@mui/material'
+import { useMutation } from '@tanstack/react-query'
 import { RhfSwitch } from 'mui-rhf-integration'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
@@ -31,8 +32,33 @@ export default function ProjectDrawer({
     resolver: zodResolver(projectSchema),
   })
 
-  const [createProject] = useCreateProjectMutation()
-  const [updateProject] = useUpdateProjectMutation()
+  const { mutate: createProject, isPending: isPendingCreate } = useMutation({
+    mutationFn: useCreateProjectMutation,
+    onSuccess: () => {
+      onClose()
+      toast.success('Proyecto creado exitosamente')
+    },
+    onError: (error) => {
+      setConflictError(error.message)
+      toast.error(`Error al crear el proyecto: ${error.message}`)
+    },
+    onSettled: () => { },
+  })
+
+  const { mutate: updateProject, isPending: isPendingUpdate } = useMutation({
+    mutationFn: useUpdateProjectMutation,
+    onSuccess: () => {
+      onClose()
+      toast.success('Proyecto actualizado exitosamente')
+    },
+    onError: (error) => {
+      setConflictError(error.message)
+      toast.error(`Error al actualizar el proyecto: ${error.message}`)
+    },
+    onSettled: () => { },
+  })
+
+  // const [updateProject] = useUpdateProjectMutation()
 
   useEffect(() => {
     reset()
@@ -43,32 +69,14 @@ export default function ProjectDrawer({
     data.gross_area = Number.parseFloat(data.gross_area?.toString() || '0')
     data.net_area = Number.parseFloat(data.net_area?.toString() || '0')
 
-    if (!defaultValues.id) {
-      const res = await createProject(data)
-      if ('data' in res) {
-        onClose()
-        toast.success('Proyecto creado exitosamente')
-        return
-      }
-
-      // @ts-expect-error data property is part of the res.error object
-      setConflictError(res.error.data.error)
-      // @ts-expect-error data property is part of the res.error object
-      toast.error(`Error al crear el proyecto: ${res.error.data.error}`)
-      return
+    switch (defaultValues.id) {
+      case undefined:
+        createProject({ project: data })
+        break
+      default:
+        updateProject({ project: data })
+        break
     }
-
-    const res = await updateProject(data)
-    if ('data' in res) {
-      onClose()
-      toast.success('Proyecto actualizado exitosamente')
-      return
-    }
-
-    // @ts-expect-error data property is part of the res.error object
-    setConflictError(res.error.data.error)
-    // @ts-expect-error data property is part of the res.error object
-    toast.error(`Error al actualizar el proyecto: ${res.error.data.error}`)
   }
 
   return (
@@ -87,6 +95,8 @@ export default function ProjectDrawer({
             {conflictError}
           </Typography>
         )}
+        {(isPendingCreate || isPendingUpdate) && <CircularProgress />}
+
         <BcaTextField
           datatestid='component.drawer.settings.project.name'
           name='name'
@@ -121,6 +131,7 @@ export default function ProjectDrawer({
         <ButtonGroup
           saveFunction={handleSubmit(hadleSubmit)}
           cancelFunction={onClose}
+          disabled={isPendingCreate || isPendingUpdate}
         />
       </form>
     </BcaDrawer>
