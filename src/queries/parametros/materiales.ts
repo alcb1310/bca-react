@@ -4,18 +4,27 @@ import { fetcher } from '@/utils/fetch'
 export function useCreateMaterialMutation({
   material,
 }: Readonly<{ material: MaterialType }>) {
+  const data = {
+    ...material,
+    category_id: material.category.id,
+  }
+
   return fetcher<MaterialType>('/parametros/materiales', {
     method: 'POST',
-    body: JSON.stringify(material),
+    body: JSON.stringify(data),
   })
 }
 
 export function useUpdateMaterialMutation({
   material,
 }: Readonly<{ material: MaterialType }>) {
+  const data = {
+    ...material,
+    category_id: material.category.id,
+  }
   return fetcher(`/parametros/materiales/${material.id}`, {
     method: 'PUT',
-    body: JSON.stringify(material),
+    body: JSON.stringify(data),
   })
 }
 
