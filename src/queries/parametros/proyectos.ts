@@ -18,3 +18,16 @@ export function useUpdateProjectMutation({
     body: JSON.stringify(project),
   })
 }
+
+export function useGetAllProjectsQuery({
+  query,
+  active,
+}: Readonly<{ query?: string; active?: boolean }>) {
+  const params = new URLSearchParams()
+  if (query) params.append('query', query)
+  if (active !== undefined) params.append('active', String(active))
+
+  return fetcher<ProjectType[]>(`/parametros/proyectos?${params}`, {
+    method: 'GET',
+  })
+}
