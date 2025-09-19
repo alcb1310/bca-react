@@ -9,7 +9,7 @@ import {
 import { type ProjectType, projectSchema } from '@/types/project'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { CircularProgress, FormControlLabel, Typography } from '@mui/material'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { RhfSwitch } from 'mui-rhf-integration'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
@@ -31,6 +31,7 @@ export default function ProjectDrawer({
     defaultValues,
     resolver: zodResolver(projectSchema),
   })
+  const queryClient = useQueryClient()
 
   const { mutate: createProject, isPending: isPendingCreate } = useMutation({
     mutationFn: useCreateProjectMutation,
@@ -42,7 +43,9 @@ export default function ProjectDrawer({
       setConflictError(error.message)
       toast.error(`Error al crear el proyecto: ${error.message}`)
     },
-    onSettled: () => { },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ['proyectos'] })
+    },
   })
 
   const { mutate: updateProject, isPending: isPendingUpdate } = useMutation({
@@ -55,10 +58,10 @@ export default function ProjectDrawer({
       setConflictError(error.message)
       toast.error(`Error al actualizar el proyecto: ${error.message}`)
     },
-    onSettled: () => { },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ['proyectos'] })
+    },
   })
-
-  // const [updateProject] = useUpdateProjectMutation()
 
   useEffect(() => {
     reset()
