@@ -6,6 +6,7 @@ export async function fetcher<T>(
   path: string,
   options: RequestInit,
 ): Promise<T | undefined> {
+  await new Promise((resolve) => setTimeout(resolve, 1000)) // TODO: remove
   if (!baseUrl) {
     throw new Error('BASE_URL is not defined')
   }
