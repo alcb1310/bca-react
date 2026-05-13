@@ -1,7 +1,6 @@
 import ButtonGroup from '@/components/buttons/button-group'
 import BcaTextField from '@/components/input/BcaTextField'
-import { CreateRubro } from '@/queries/parametros/rubros'
-import { useUpdateRubroMutation } from '@/redux/api/bca-backend/parametros/rubrosSlice'
+import { CreateRubro, UpdateRubro } from '@/queries/parametros/rubros'
 import { type RubrosType, rubrosSchema } from '@/types/rubros'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Stack, Typography } from '@mui/material'
@@ -20,7 +19,6 @@ function RubrosForm({ rubroId, rubro }: RubrosFromProps) {
     const queryClient = useQueryClient()
     const [conflictError, setConflictError] = useState<string>('')
     const navigate = useNavigate()
-    const [updateRubro] = useUpdateRubroMutation()
     const { control, handleSubmit } = useForm<RubrosType>({
         defaultValues: rubro,
         resolver: zodResolver(rubrosSchema),
@@ -42,6 +40,21 @@ function RubrosForm({ rubroId, rubro }: RubrosFromProps) {
         },
     })
 
+    const updateRubroMutation = useMutation({
+        mutationFn: UpdateRubro,
+        onSuccess: () => {
+            toast.success('Rubro actualizado exitosamente')
+        },
+        onError: (error) => {
+            toast.error(`Error al actualizar el rubro: ${error.message}`)
+        },
+        onSettled: () => {
+            queryClient.invalidateQueries({
+                queryKey: ['rubros'],
+            })
+        },
+    })
+
     async function hadleSubmit(data: RubrosType) {
         setConflictError('')
         if (rubroId?.toLowerCase() === 'crear') {
@@ -49,16 +62,7 @@ function RubrosForm({ rubroId, rubro }: RubrosFromProps) {
             return
         }
 
-        const res = await updateRubro(data)
-        if ('error' in res) {
-            // @ts-expect-error data is a property of the error object
-            setConflictError(res.error.data.error)
-            // @ts-expect-error data is a property of the error object
-            toast.error(`Error al crear el rubro: ${res.error.data.error}`)
-            return
-        }
-
-        toast.success('Rubro actualizado exitosamente')
+        updateRubroMutation.mutate({ data })
     }
     return (
         <>
