@@ -1,5 +1,5 @@
 import { store } from '@/redux/store'
-import type { MaterialType } from '@/types/materials'
+import type { MaterialCreateType, MaterialType } from '@/types/materials'
 
 const URL = import.meta.env.VITE_BACKEND_SERVER
 
@@ -19,4 +19,25 @@ export async function GetAllMaterials() {
     }
 
     return (await response.json()) as MaterialType
+}
+
+export async function CreateMaterial({ data }: { data: MaterialCreateType }) {
+    const state = store.getState()
+
+    const response = await fetch(`${URL}/parametros/materiales`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${state.login.token}`,
+        },
+        body: JSON.stringify(data),
+    })
+
+    if (!response.ok) {
+        const data = await response.json()
+
+        throw new Error(data.error)
+    }
+
+    return
 }

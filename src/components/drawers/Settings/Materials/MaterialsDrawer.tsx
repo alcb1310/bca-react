@@ -4,14 +4,16 @@ import BcaSelect from '@/components/input/BcaSelect'
 import BcaTextField from '@/components/input/BcaTextField'
 import DrawerTitle from '@/components/titles/DrawerTitle'
 import { GetAllCategories } from '@/queries/parametros/categories'
+import { CreateMaterial } from '@/queries/parametros/materials'
+import { useUpdateMaterialMutation } from '@/redux/api/bca-backend/parametros/materialsSlice'
 import {
-    useCreateMaterialMutation,
-    useUpdateMaterialMutation,
-} from '@/redux/api/bca-backend/parametros/materialsSlice'
-import { type MaterialType, materialSchema } from '@/types/materials'
+    type MaterialType,
+    materialSchema,
+    type MaterialCreateType,
+} from '@/types/materials'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { CircularProgress, Typography } from '@mui/material'
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
@@ -27,6 +29,7 @@ export default function MaterialsDrawer({
     onClose,
     defaultValues,
 }: MaterialsDrawerProps) {
+    const queryClient = useQueryClient()
     const [conflictError, setConflictError] = useState<string>('')
 
     const { control, reset, handleSubmit } = useForm<MaterialType>({
@@ -39,25 +42,39 @@ export default function MaterialsDrawer({
         queryFn: () => GetAllCategories(),
     })
 
-    const [createMaterial] = useCreateMaterialMutation()
+    const createMaterialMutation = useMutation({
+        mutationFn: CreateMaterial,
+        onSuccess: () => {
+            onClose()
+            toast.success('Material creado exitosamente')
+        },
+        onError: (error) => {
+            setConflictError(error.message)
+            toast.error(`Error al crear el material: ${error.message}`)
+        },
+        onSettled: () => {
+            queryClient.invalidateQueries({
+                queryKey: ['materials'],
+            })
+        },
+    })
+
     const [updateMaterial] = useUpdateMaterialMutation()
 
     useEffect(() => {
         reset(defaultValues)
+        setConflictError('')
     }, [reset, defaultValues])
 
     async function hadleSubmit(data: MaterialType) {
         if (!defaultValues.id) {
-            const res = await createMaterial(data)
-            if ('data' in res) {
-                onClose()
-                toast.success('Material creado exitosamente')
-                return
+            const material: MaterialCreateType = {
+                code: data.code,
+                name: data.name,
+                unit: data.unit,
+                category_id: data.category.id,
             }
-            // @ts-expect-error data is part of the response
-            setConflictError(res.error.data.message)
-            // @ts-expect-error data is part of the response
-            toast.error(`Error al crear el material: ${res.error.data.message}`)
+            createMaterialMutation.mutate({ data: material })
             return
         }
 
