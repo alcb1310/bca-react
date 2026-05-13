@@ -22,3 +22,24 @@ export async function GetAllRubros() {
 
     return (await response.json()) as RubrosType[]
 }
+
+export async function CreateRubro({ data }: { data: RubrosType }) {
+    const state = store.getState()
+
+    const response = await fetch(`${URL}/parametros/rubros`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${state.login.token}`,
+        },
+        body: JSON.stringify(data),
+    })
+
+    if (!response.ok) {
+        const data = await response.json()
+
+        throw new Error(data.error)
+    }
+
+    return (await response.json()) as RubrosType
+}
