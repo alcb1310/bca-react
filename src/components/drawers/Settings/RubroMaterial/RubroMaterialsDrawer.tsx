@@ -5,16 +5,16 @@ import BcaTextField from '@/components/input/BcaTextField'
 import DrawerTitle from '@/components/titles/DrawerTitle'
 import { GetAllMaterials } from '@/queries/parametros/materials'
 import {
-    useCreateRubrosMaterialMutation,
-    useUpdateRubrosMaterialMutation,
-} from '@/redux/api/bca-backend/parametros/rubroMaterialSlice'
+    CreateRubroMaterial,
+    UpdateRubroMaterial,
+} from '@/queries/parametros/rubroMaterial'
 import {
     type RubroMaterialType,
     rubroMaterialSchema,
 } from '@/types/rubro-material'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Typography } from '@mui/material'
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
@@ -30,6 +30,7 @@ function RubroMaterialsDrawer({
     onClose,
     defaultValues,
 }: RubroMaterialsDrawerProps) {
+    const queryClient = useQueryClient()
     const [confilctError, setConflictError] = useState<string>('')
     const { control, reset, handleSubmit, register } = useForm<RubroMaterialType>(
         {
@@ -43,11 +44,43 @@ function RubroMaterialsDrawer({
         queryFn: () => GetAllMaterials(),
     })
 
-    const [createRubroMaterial] = useCreateRubrosMaterialMutation()
-    const [updateRubroMaterial] = useUpdateRubrosMaterialMutation()
+    const useCreateRubroMaterial = useMutation({
+        mutationFn: CreateRubroMaterial,
+        onSuccess: () => {
+            onClose()
+            toast.success('Rubro creado exitosamente')
+        },
+        onError: (error) => {
+            setConflictError(error.message)
+            toast.error(`Error al crear el rubro: ${error.message}`)
+        },
+        onSettled: () => {
+            queryClient.invalidateQueries({
+                queryKey: ['rubro-materials'],
+            })
+        },
+    })
+
+    const useUpdateRubroMaterial = useMutation({
+        mutationFn: UpdateRubroMaterial,
+        onSuccess: () => {
+            onClose()
+            toast.success('Rubro actualizado exitosamente')
+        },
+        onError: (error) => {
+            setConflictError(error.message)
+            toast.error(`Error al actualizar el rubro: ${error.message}`)
+        },
+        onSettled: () => {
+            queryClient.invalidateQueries({
+                queryKey: ['rubro-materials'],
+            })
+        },
+    })
 
     useEffect(() => {
         reset(defaultValues)
+        setConflictError('')
     }, [reset, defaultValues])
 
     async function hadleSubmit(data: RubroMaterialType) {
@@ -59,31 +92,11 @@ function RubroMaterialsDrawer({
         setConflictError('')
 
         if (!defaultValues.material_id) {
-            const res = await createRubroMaterial(material)
-            if ('data' in res) {
-                onClose()
-                toast.success('Rubro creado exitosamente')
-                return
-            }
-
-            // @ts-expect-error data is a property of the res.error object
-            setConflictError(res.error.data.error)
-            // @ts-expect-error data is a property of the res.error object
-            toast.error(`Error al crear el rubro: ${res.error.data.error}`)
+            useCreateRubroMaterial.mutate({ data: material })
             return
         }
 
-        const res = await updateRubroMaterial(material)
-        if ('data' in res) {
-            onClose()
-            toast.success('Rubro actualizado exitosamente')
-            return
-        }
-
-        // @ts-expect-error data is a property of the res.error object
-        setConflictError(res.error.data.error)
-        // @ts-expect-error data is a property of the res.error object
-        toast.error(`Error al actualizar el rubro: ${res.error.data.error}`)
+        useUpdateRubroMaterial.mutate({ data: material })
     }
 
     return (
