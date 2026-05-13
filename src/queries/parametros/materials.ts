@@ -18,7 +18,7 @@ export async function GetAllMaterials() {
         throw new Error('Network response was not ok')
     }
 
-    return (await response.json()) as MaterialType
+    return (await response.json()) as MaterialType[]
 }
 
 export async function CreateMaterial({ data }: { data: MaterialCreateType }) {

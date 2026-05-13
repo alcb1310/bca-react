@@ -40,7 +40,7 @@ function RubroMaterialsDrawer({
 
     const { data: allMaterials } = useQuery({
         queryKey: ['materials'],
-        queryFn: () => GetAllMaterials,
+        queryFn: () => GetAllMaterials(),
     })
 
     const [createRubroMaterial] = useCreateRubrosMaterialMutation()
