@@ -23,3 +23,24 @@ export async function GetAllCategories() {
 
     return data as CategoryType[]
 }
+
+export async function CreateCategory({ data }: { data: CategoryType }) {
+    const state = store.getState()
+
+    const response = await fetch(`${URL}/parametros/categorias`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${state.login.token}`,
+        },
+        body: JSON.stringify(data),
+    })
+
+    if (!response.ok) {
+        const data = await response.json()
+
+        throw new Error(data.error)
+    }
+
+    return
+}
