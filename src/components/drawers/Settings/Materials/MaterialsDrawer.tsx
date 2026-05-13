@@ -36,8 +36,9 @@ export default function MaterialsDrawer({
 
     const { data: categories, isLoading } = useQuery({
         queryKey: ['categorias'],
-        queryFn: () => GetAllCategories,
+        queryFn: () => GetAllCategories(),
     })
+
     const [createMaterial] = useCreateMaterialMutation()
     const [updateMaterial] = useUpdateMaterialMutation()
 
