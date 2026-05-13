@@ -41,3 +41,24 @@ export async function CreateMaterial({ data }: { data: MaterialCreateType }) {
 
     return
 }
+
+export async function UpdateMaterial({ data }: { data: MaterialType }) {
+    const state = store.getState()
+
+    const response = await fetch(`${URL}/parametros/materiales/${data.id}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${state.login.token}`,
+        },
+        body: JSON.stringify(data),
+    })
+
+    if (!response.ok) {
+        const data = await response.json()
+
+        throw new Error(data.error)
+    }
+
+    return
+}

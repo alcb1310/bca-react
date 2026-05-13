@@ -4,12 +4,11 @@ import BcaSelect from '@/components/input/BcaSelect'
 import BcaTextField from '@/components/input/BcaTextField'
 import DrawerTitle from '@/components/titles/DrawerTitle'
 import { GetAllCategories } from '@/queries/parametros/categories'
-import { CreateMaterial } from '@/queries/parametros/materials'
-import { useUpdateMaterialMutation } from '@/redux/api/bca-backend/parametros/materialsSlice'
+import { CreateMaterial, UpdateMaterial } from '@/queries/parametros/materials'
 import {
+    type MaterialCreateType,
     type MaterialType,
     materialSchema,
-    type MaterialCreateType,
 } from '@/types/materials'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { CircularProgress, Typography } from '@mui/material'
@@ -59,7 +58,22 @@ export default function MaterialsDrawer({
         },
     })
 
-    const [updateMaterial] = useUpdateMaterialMutation()
+    const updateMaterialMutation = useMutation({
+        mutationFn: UpdateMaterial,
+        onSuccess: () => {
+            onClose()
+            toast.success('Material actualizado exitosamente')
+        },
+        onError: (error) => {
+            setConflictError(error.message)
+            toast.error(`Error al actualizar el material: ${error.message}`)
+        },
+        onSettled: () => {
+            queryClient.invalidateQueries({
+                queryKey: ['materials'],
+            })
+        },
+    })
 
     useEffect(() => {
         reset(defaultValues)
@@ -78,17 +92,7 @@ export default function MaterialsDrawer({
             return
         }
 
-        const res = await updateMaterial(data)
-        if ('data' in res) {
-            onClose()
-            toast.success('Material actualizado exitosamente')
-            return
-        }
-
-        // @ts-expect-error data is part of the response
-        setConflictError(res.error.data.message)
-        // @ts-expect-error data is part of the response
-        toast.error(`Error al actualizar el material: ${res.error.data.message}`)
+        updateMaterialMutation.mutate({ data })
     }
 
     return (
