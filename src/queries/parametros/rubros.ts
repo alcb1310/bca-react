@@ -1,0 +1,24 @@
+import { store } from '@/redux/store'
+import type { RubrosType } from '@/types/rubros'
+
+const URL = import.meta.env.VITE_BACKEND_SERVER
+
+export async function GetAllRubros() {
+    const state = store.getState()
+
+    const response = await fetch(`${URL}/parametros/rubros`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${state.login.token}`,
+        },
+    })
+
+    if (!response.ok) {
+        const data = await response.json()
+
+        throw new Error(data.error)
+    }
+
+    return (await response.json()) as RubrosType[]
+}

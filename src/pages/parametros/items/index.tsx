@@ -1,25 +1,30 @@
 import AllRubrosTable from '@/components/settings/rubros/AllRubrosTable'
 import EditToolbar from '@/components/table/headers/toolbar'
 import PageTitle from '@/components/titles/PageTitle'
-import { useGetAllRubrosQuery } from '@/redux/api/bca-backend/parametros/rubrosSlice'
+import { GetAllRubros } from '@/queries/parametros/rubros'
 import { CircularProgress } from '@mui/material'
+import { useQuery } from '@tanstack/react-query'
 import { useNavigate } from 'react-router-dom'
 
 export default function Items() {
-  const { data, isLoading } = useGetAllRubrosQuery()
-  const navigate = useNavigate()
+    const navigate = useNavigate()
 
-  return (
-    <>
-      <PageTitle title='Rubros' />
+    const { data, isLoading } = useQuery({
+        queryKey: ['rubros'],
+        queryFn: () => GetAllRubros(),
+    })
 
-      {isLoading && <CircularProgress />}
-      <EditToolbar
-        title='Crear Rubro'
-        onClick={() => navigate('/parametros/rubros/crear')}
-      />
+    return (
+        <>
+            <PageTitle title='Rubros' />
 
-      <AllRubrosTable data={data!} />
-    </>
-  )
+            {isLoading && <CircularProgress />}
+            <EditToolbar
+                title='Crear Rubro'
+                onClick={() => navigate('/parametros/rubros/crear')}
+            />
+
+            <AllRubrosTable data={data!} />
+        </>
+    )
 }
