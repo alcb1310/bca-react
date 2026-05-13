@@ -2,8 +2,7 @@ import ButtonGroup from '@/components/buttons/button-group'
 import BcaDrawer from '@/components/drawers/BcaDrawer/BcaDrawer'
 import BcaTextField from '@/components/input/BcaTextField'
 import DrawerTitle from '@/components/titles/DrawerTitle'
-import { CreateCategory } from '@/queries/parametros/categories'
-import { useUpdateCategoryMutation } from '@/redux/api/bca-backend/parametros/categoriesSlice'
+import { CreateCategory, UpdateCategory } from '@/queries/parametros/categories'
 import { type CategoryType, categorySchema } from '@/types/categories'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Box, Typography } from '@mui/material'
@@ -31,12 +30,26 @@ export default function CategoriesDrawer({
         resolver: zodResolver(categorySchema),
     })
 
-    const [updateCategory] = useUpdateCategoryMutation()
-
     const createMutation = useMutation({
         mutationFn: CreateCategory,
         onSuccess: () => {
             toast.success('Categoría creada exitosamente')
+            onClose()
+        },
+        onError: (error) => {
+            toast.error(error.message)
+        },
+        onSettled: () => {
+            queryClient.invalidateQueries({
+                queryKey: ['categorias'],
+            })
+        },
+    })
+
+    const updateMutation = useMutation({
+        mutationFn: UpdateCategory,
+        onSuccess: () => {
+            toast.success('Categoría actualizada exitosamente')
             onClose()
         },
         onError: (error) => {
@@ -59,17 +72,7 @@ export default function CategoriesDrawer({
             return
         }
 
-        const res = await updateCategory(data)
-        if ('data' in res) {
-            onClose()
-            toast.success('Categoría actualizada exitosamente')
-            return
-        }
-        // @ts-expect-error data property is part of the res.error object
-        setConflictError(res.error.data.error)
-        // @ts-expect-error data property is part of the res.error object
-        toast.error(`Error al actualizar la categoría: ${res.error.data.error}`)
-        return
+        updateMutation.mutate({ data })
     }
 
     return (
