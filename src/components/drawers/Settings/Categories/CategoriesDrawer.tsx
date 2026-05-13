@@ -38,6 +38,7 @@ export default function CategoriesDrawer({
         },
         onError: (error) => {
             toast.error(error.message)
+            setConflictError(error.message)
         },
         onSettled: () => {
             queryClient.invalidateQueries({
@@ -54,6 +55,7 @@ export default function CategoriesDrawer({
         },
         onError: (error) => {
             toast.error(error.message)
+            setConflictError(error.message)
         },
         onSettled: () => {
             queryClient.invalidateQueries({
