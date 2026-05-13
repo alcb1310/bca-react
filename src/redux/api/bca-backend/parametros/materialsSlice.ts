@@ -2,47 +2,33 @@ import type { MaterialType } from '@/types/materials'
 import { bcaApiSlice } from '../bcaSlice'
 
 const materialsApi = bcaApiSlice.injectEndpoints({
-  overrideExisting: true,
-  endpoints: (builder) => ({
-    getAllMaterials: builder.query<MaterialType[], void>({
-      query() {
-        return {
-          url: '/parametros/materiales',
-          method: 'GET',
-        }
-      },
+    overrideExisting: true,
+    endpoints: (builder) => ({
+        createMaterial: builder.mutation<MaterialType, MaterialType>({
+            query(data) {
+                return {
+                    url: '/parametros/materiales',
+                    method: 'POST',
+                    body: data,
+                }
+            },
 
-      providesTags: ['materiales'],
+            invalidatesTags: ['materiales'],
+        }),
+
+        updateMaterial: builder.mutation<MaterialType, MaterialType>({
+            query(data) {
+                return {
+                    url: `/parametros/materiales/${data.id}`,
+                    method: 'PUT',
+                    body: data,
+                }
+            },
+
+            invalidatesTags: ['materiales'],
+        }),
     }),
-
-    createMaterial: builder.mutation<MaterialType, MaterialType>({
-      query(data) {
-        return {
-          url: '/parametros/materiales',
-          method: 'POST',
-          body: data,
-        }
-      },
-
-      invalidatesTags: ['materiales'],
-    }),
-
-    updateMaterial: builder.mutation<MaterialType, MaterialType>({
-      query(data) {
-        return {
-          url: `/parametros/materiales/${data.id}`,
-          method: 'PUT',
-          body: data,
-        }
-      },
-
-      invalidatesTags: ['materiales'],
-    }),
-  }),
 })
 
-export const {
-  useGetAllMaterialsQuery,
-  useCreateMaterialMutation,
-  useUpdateMaterialMutation,
-} = materialsApi
+export const { useCreateMaterialMutation, useUpdateMaterialMutation } =
+    materialsApi

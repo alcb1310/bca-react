@@ -2,36 +2,41 @@ import MaterialsDrawer from '@/components/drawers/Settings/Materials/MaterialsDr
 import AllMaterialsTable from '@/components/settings/materials/AllMaterialsTable'
 import EditToolbar from '@/components/table/headers/toolbar'
 import PageTitle from '@/components/titles/PageTitle'
-import { useGetAllMaterialsQuery } from '@/redux/api/bca-backend/parametros/materialsSlice'
+import { GetAllMaterials } from '@/queries/parametros/materials'
 import { CircularProgress } from '@mui/material'
+import { useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
 
 export default function Materials() {
-  const [open, setOpen] = useState<boolean>(false)
-  const { data, isLoading } = useGetAllMaterialsQuery()
+    const [open, setOpen] = useState<boolean>(false)
 
-  return (
-    <>
-      <PageTitle title='Materiales' />
-      {isLoading && (
-        <CircularProgress data-testid='page.parameters.materials.loading' />
-      )}
+    const { data, isLoading } = useQuery({
+        queryKey: ['materials'],
+        queryFn: GetAllMaterials,
+    })
 
-      <EditToolbar title='Crear Material' onClick={() => setOpen(true)} />
-      <AllMaterialsTable data={data!} />
-      <MaterialsDrawer
-        open={open}
-        onClose={() => setOpen(false)}
-        defaultValues={{
-          code: '',
-          name: '',
-          unit: '',
-          category: {
-            id: '',
-            name: '',
-          },
-        }}
-      />
-    </>
-  )
+    return (
+        <>
+            <PageTitle title='Materiales' />
+            {isLoading && (
+                <CircularProgress data-testid='page.parameters.materials.loading' />
+            )}
+
+            <EditToolbar title='Crear Material' onClick={() => setOpen(true)} />
+            <AllMaterialsTable data={data!} />
+            <MaterialsDrawer
+                open={open}
+                onClose={() => setOpen(false)}
+                defaultValues={{
+                    code: '',
+                    name: '',
+                    unit: '',
+                    category: {
+                        id: '',
+                        name: '',
+                    },
+                }}
+            />
+        </>
+    )
 }
