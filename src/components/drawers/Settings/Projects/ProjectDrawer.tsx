@@ -2,8 +2,7 @@ import ButtonGroup from '@/components/buttons/button-group'
 import BcaDrawer from '@/components/drawers/BcaDrawer/BcaDrawer'
 import BcaTextField from '@/components/input/BcaTextField'
 import DrawerTitle from '@/components/titles/DrawerTitle'
-import { CreateProject } from '@/queries/parametros/projects'
-import { useUpdateProjectMutation } from '@/redux/api/bca-backend/parametros/projectsSlice'
+import { CreateProject, UpdateProject } from '@/queries/parametros/projects'
 import { type ProjectType, projectSchema } from '@/types/project'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { FormControlLabel, Typography } from '@mui/material'
@@ -46,7 +45,20 @@ export default function ProjectDrawer({
         },
     })
 
-    const [updateProject] = useUpdateProjectMutation()
+    const updateProjectMutation = useMutation({
+        mutationFn: UpdateProject,
+        onSuccess: () => {
+            onClose()
+            toast.success('Proyecto actualizado exitosamente')
+        },
+        onError: (error) => {
+            setConflictError(error.message)
+            toast.error(`Error al crear el proyecto: ${error.message}`)
+        },
+        onSettled: () => {
+            queryClient.invalidateQueries({ queryKey: ['projects'] })
+        },
+    })
 
     useEffect(() => {
         reset()
@@ -62,17 +74,7 @@ export default function ProjectDrawer({
             return
         }
 
-        const res = await updateProject(data)
-        if ('data' in res) {
-            onClose()
-            toast.success('Proyecto actualizado exitosamente')
-            return
-        }
-
-        // @ts-expect-error data property is part of the res.error object
-        setConflictError(res.error.data.error)
-        // @ts-expect-error data property is part of the res.error object
-        toast.error(`Error al actualizar el proyecto: ${res.error.data.error}`)
+        updateProjectMutation.mutate({ data })
     }
 
     return (
