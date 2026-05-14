@@ -30,18 +30,6 @@ const invoiceApiSlice = bcaApiSlice.injectEndpoints({
             providesTags: ['facturas', 'partidas', 'suppliers'],
         }),
 
-        createInvoice: builder.mutation<InvoiceCreateType, InvoiceCreateType>({
-            query: (body) => {
-                return {
-                    url: '/transacciones/facturas',
-                    method: 'POST',
-                    body,
-                }
-            },
-
-            invalidatesTags: ['facturas'],
-        }),
-
         updateInvoice: builder.mutation<InvoiceCreateType, InvoiceCreateType>({
             query: (body) => {
                 return {
@@ -69,7 +57,6 @@ const invoiceApiSlice = bcaApiSlice.injectEndpoints({
 
 export const {
     useGetOneInvoiceQuery,
-    useCreateInvoiceMutation,
     useUpdateInvoiceMutation,
     useDeleteInvoiceMutation,
 } = invoiceApiSlice

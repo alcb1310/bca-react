@@ -4,14 +4,12 @@ import BcaSelect from '@/components/input/BcaSelect'
 import BcaTextField from '@/components/input/BcaTextField'
 import { GetAllProjects } from '@/queries/parametros/projects'
 import { GetAllSuppliers } from '@/queries/parametros/supplier'
-import {
-    useCreateInvoiceMutation,
-    useUpdateInvoiceMutation,
-} from '@/redux/api/bca-backend/transacciones/invoiceSlice'
+import { CreateInvoice } from '@/queries/transacciones/invoice'
+import { useUpdateInvoiceMutation } from '@/redux/api/bca-backend/transacciones/invoiceSlice'
 import { type InvoiceCreateType, invoiceCreateSchema } from '@/types/invoice'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Stack, Typography } from '@mui/material'
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
@@ -40,23 +38,23 @@ function InvoiceForm({ invoiceId, invoice }: InvoiceFormProps) {
         queryFn: () => GetAllSuppliers({}),
     })
 
-    const [createInvoice] = useCreateInvoiceMutation()
     const [updateInvoice] = useUpdateInvoiceMutation()
+    const createInvoiceMutation = useMutation({
+        mutationFn: CreateInvoice,
+        onSuccess: (data) => {
+            toast.success('Factura creada exitosamente')
+            navigate(`/transacciones/facturas/${data.id}`)
+        },
+        onError: (error) => {
+            toast.error(`Error al crear la factura: ${error.message}`)
+            setConflictError(error.message)
+        },
+    })
 
     async function hadleSubmit(data: InvoiceCreateType) {
         setConflictError('')
         if (invoiceId?.toLowerCase() === 'crear') {
-            const res = await createInvoice(data)
-            if ('error' in res) {
-                // @ts-expect-error error type is string
-                screaretConflictError(res.error.data.error)
-                // @ts-expect-error error type is string
-                toast.error(`Error al crear la factura: ${res.error.data.error}`)
-                return
-            }
-
-            toast.success('Factura creada exitosamente')
-            navigate(`/transacciones/facturas/${res.data?.id}`)
+            createInvoiceMutation.mutate({ data })
             return
         }
 
