@@ -3,7 +3,7 @@ import BcaDateTextField from '@/components/input/BcaDateTextField'
 import BcaSelect from '@/components/input/BcaSelect'
 import BcaTextField from '@/components/input/BcaTextField'
 import { GetAllProjects } from '@/queries/parametros/projects'
-import { useGetAllSuppliersQuery } from '@/redux/api/bca-backend/parametros/supplierSlice'
+import { GetAllSuppliers } from '@/queries/parametros/supplier'
 import {
     useCreateInvoiceMutation,
     useUpdateInvoiceMutation,
@@ -34,7 +34,12 @@ function InvoiceForm({ invoiceId, invoice }: InvoiceFormProps) {
         queryKey: ['projects'],
         queryFn: () => GetAllProjects({ active: true }),
     })
-    const { data: suppliers } = useGetAllSuppliersQuery({ search: '' })
+
+    const { data: suppliers } = useQuery({
+        queryKey: ['suppliers'],
+        queryFn: () => GetAllSuppliers({}),
+    })
+
     const [createInvoice] = useCreateInvoiceMutation()
     const [updateInvoice] = useUpdateInvoiceMutation()
 
