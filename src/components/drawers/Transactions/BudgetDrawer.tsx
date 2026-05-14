@@ -3,8 +3,8 @@ import BcaDrawer from '@/components/drawers/BcaDrawer/BcaDrawer'
 import BcaSelect from '@/components/input/BcaSelect'
 import BcaTextField from '@/components/input/BcaTextField'
 import DrawerTitle from '@/components/titles/DrawerTitle'
+import { GetAllBudgetItems } from '@/queries/parametros/budgetItem'
 import { GetAllProjects } from '@/queries/parametros/projects'
-import { useGetAllBudgetItemsQuery } from '@/redux/api/bca-backend/parametros/budgetItemSlice'
 import {
     useCreateBudgetMutation,
     useUpdateBudgetMutation,
@@ -44,8 +44,9 @@ export default function BudgetDrawer({
         queryFn: () => GetAllProjects({ active: true }),
     })
 
-    const { data: budgetItems } = useGetAllBudgetItemsQuery({
-        accum: false,
+    const { data: budgetItems } = useQuery({
+        queryKey: ['partidas'],
+        queryFn: () => GetAllBudgetItems({ accum: false }),
     })
 
     const [createBudget] = useCreateBudgetMutation()
