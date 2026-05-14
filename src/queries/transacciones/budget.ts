@@ -61,3 +61,24 @@ export async function UpdateBudget({ data }: { data: BudgetEditType }) {
 
     return
 }
+
+export async function GetAllBugetsByProjectAndLevel({
+    project_id,
+    level,
+}: {
+    project_id: string
+    level: string
+}) {
+    const state = store.getState()
+    const params = new URLSearchParams()
+    params.append('project_id', project_id)
+    params.append('level', level)
+
+    const response = await fetch(`${URL}/reportes/actual?${params}`, {
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${state.login.token}`,
+        },
+    })
+    return response.json() as Promise<BudgetResponseType[]>
+}
