@@ -43,3 +43,23 @@ export async function CreateSupplier({ data }: { data: SupplierType }) {
 
     return
 }
+
+export async function UpdateSupplier({ data }: { data: SupplierType }) {
+    const state = store.getState()
+
+    const response = await fetch(`${URL}/parametros/proveedores/${data.id}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${state.login.token}`,
+        },
+        body: JSON.stringify(data),
+    })
+
+    if (!response.ok) {
+        const data = await response.json()
+
+        throw new Error(data.error)
+    }
+    return
+}

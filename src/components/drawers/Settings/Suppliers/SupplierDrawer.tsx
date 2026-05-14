@@ -2,8 +2,7 @@ import ButtonGroup from '@/components/buttons/button-group'
 import BcaDrawer from '@/components/drawers/BcaDrawer/BcaDrawer'
 import BcaTextField from '@/components/input/BcaTextField'
 import DrawerTitle from '@/components/titles/DrawerTitle'
-import { CreateSupplier } from '@/queries/parametros/supplier'
-import { useUpdateSupplierMutation } from '@/redux/api/bca-backend/parametros/supplierSlice'
+import { CreateSupplier, UpdateSupplier } from '@/queries/parametros/supplier'
 import { type SupplierType, supplierSchema } from '@/types/supplier'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Typography } from '@mui/material'
@@ -30,8 +29,6 @@ export default function SupplierDrawer({
         resolver: zodResolver(supplierSchema),
     })
 
-    const [updateSupplier] = useUpdateSupplierMutation()
-
     const useCreateSupplierMutation = useMutation({
         mutationFn: CreateSupplier,
         onSuccess: () => {
@@ -47,6 +44,21 @@ export default function SupplierDrawer({
         },
     })
 
+    const useUpdateSupplierMutation = useMutation({
+        mutationFn: UpdateSupplier,
+        onSuccess: () => {
+            onClose()
+            toast.success('Proveedor actualizado exitosamente')
+        },
+        onError: (error) => {
+            setConflictError(error.message)
+            toast.error(`Error al actualizar el proveedor: ${error.message}`)
+        },
+        onSettled: () => {
+            queryClient.invalidateQueries({ queryKey: ['suppliers'] })
+        },
+    })
+
     useEffect(() => {
         reset(defaultValues)
     }, [reset, defaultValues])
@@ -56,17 +68,8 @@ export default function SupplierDrawer({
             useCreateSupplierMutation.mutate({ data })
             return
         }
-        const res = await updateSupplier(data)
-        if ('data' in res) {
-            onClose()
-            toast.success('Proveedor actualizado exitosamente')
-            return
-        }
 
-        // @ts-expect-error data is a property of the error message
-        setConflictError(res.error.data.error)
-        // @ts-expect-error data is a property of the error message
-        toast.error(`Error al actualizar el proveedor: ${res.error.data.error}`)
+        useUpdateSupplierMutation.mutate({ data })
     }
 
     return (
