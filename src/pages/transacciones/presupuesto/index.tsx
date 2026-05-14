@@ -3,7 +3,7 @@ import AllBudgetsTable from '@/components/parameters/budgets/AllBudgetsTable'
 import EditToolbar from '@/components/table/headers/toolbar'
 import PageTitle from '@/components/titles/PageTitle'
 import { GetAllProjects } from '@/queries/parametros/projects'
-import { useGetAllBudgetsQuery } from '@/redux/api/bca-backend/transacciones/budgetSlice'
+import { GetAllBudgets } from '@/queries/transacciones/budget'
 import {
     CircularProgress,
     Grid2,
@@ -18,9 +18,10 @@ export default function Presupuesto() {
     const [open, setOpen] = useState<boolean>(false)
     const [search, setSearch] = useState<string>('')
     const [selectedProject, setSelectedProject] = useState<string>('')
-    const { data, isLoading } = useGetAllBudgetsQuery({
-        query: search,
-        project: selectedProject,
+
+    const { data, isLoading } = useQuery({
+        queryKey: ['budget', search, selectedProject],
+        queryFn: () => GetAllBudgets({ query: search, project: selectedProject }),
     })
     const { data: projects } = useQuery({
         queryKey: ['projects'],
