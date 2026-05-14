@@ -22,3 +22,24 @@ export async function GetAllSuppliers({ search }: { search?: string }) {
 
     return response.json() as Promise<SupplierType[]>
 }
+
+export async function CreateSupplier({ data }: { data: SupplierType }) {
+    const state = store.getState()
+
+    const response = await fetch(`${URL}/parametros/proveedores`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${state.login.token}`,
+        },
+        body: JSON.stringify(data),
+    })
+
+    if (!response.ok) {
+        const data = await response.json()
+
+        throw new Error(data.error)
+    }
+
+    return
+}

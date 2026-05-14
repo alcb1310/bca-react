@@ -2,123 +2,127 @@ import ButtonGroup from '@/components/buttons/button-group'
 import BcaDrawer from '@/components/drawers/BcaDrawer/BcaDrawer'
 import BcaTextField from '@/components/input/BcaTextField'
 import DrawerTitle from '@/components/titles/DrawerTitle'
-import {
-  useCreateSupplierMutation,
-  useUpdateSupplierMutation,
-} from '@/redux/api/bca-backend/parametros/supplierSlice'
+import { CreateSupplier } from '@/queries/parametros/supplier'
+import { useUpdateSupplierMutation } from '@/redux/api/bca-backend/parametros/supplierSlice'
 import { type SupplierType, supplierSchema } from '@/types/supplier'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Typography } from '@mui/material'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 
 type SupplierDrawerProps = {
-  open: boolean
-  onClose: () => void
-  defaultValues: SupplierType
+    open: boolean
+    onClose: () => void
+    defaultValues: SupplierType
 }
 
 export default function SupplierDrawer({
-  open,
-  onClose,
-  defaultValues,
-}: SupplierDrawerProps) {
-  const [conflictError, setConflictError] = useState<string>('')
-  const { control, reset, handleSubmit } = useForm<SupplierType>({
+    open,
+    onClose,
     defaultValues,
-    resolver: zodResolver(supplierSchema),
-  })
+}: SupplierDrawerProps) {
+    const queryClient = useQueryClient()
+    const [conflictError, setConflictError] = useState<string>('')
+    const { control, reset, handleSubmit } = useForm<SupplierType>({
+        defaultValues,
+        resolver: zodResolver(supplierSchema),
+    })
 
-  const [createSupplier] = useCreateSupplierMutation()
-  const [updateSupplier] = useUpdateSupplierMutation()
+    const [updateSupplier] = useUpdateSupplierMutation()
 
-  useEffect(() => {
-    reset(defaultValues)
-  }, [reset, defaultValues])
+    const useCreateSupplierMutation = useMutation({
+        mutationFn: CreateSupplier,
+        onSuccess: () => {
+            onClose()
+            toast.success('Proveedor creado exitosamente')
+        },
+        onError: (error) => {
+            setConflictError(error.message)
+            toast.error(`Error al crear el proveedor: ${error.message}`)
+        },
+        onSettled: () => {
+            queryClient.invalidateQueries({ queryKey: ['suppliers'] })
+        },
+    })
 
-  async function hadleSubmit(data: SupplierType) {
-    if (!defaultValues.id) {
-      const res = await createSupplier(data)
-      if ('data' in res) {
-        onClose()
-        toast.success('Proveedor creado exitosamente')
-        reset
-      }
+    useEffect(() => {
+        reset(defaultValues)
+    }, [reset, defaultValues])
 
-      // @ts-expect-error data is a property of the error message
-      setConflictError(res.error.data.error)
-      // @ts-expect-error data is a property of the error message
-      toast.error(`Error al crear el proveedor: ${res.error.data.error}`)
-      return
+    async function hadleSubmit(data: SupplierType) {
+        if (!defaultValues.id) {
+            useCreateSupplierMutation.mutate({ data })
+            return
+        }
+        const res = await updateSupplier(data)
+        if ('data' in res) {
+            onClose()
+            toast.success('Proveedor actualizado exitosamente')
+            return
+        }
+
+        // @ts-expect-error data is a property of the error message
+        setConflictError(res.error.data.error)
+        // @ts-expect-error data is a property of the error message
+        toast.error(`Error al actualizar el proveedor: ${res.error.data.error}`)
     }
-    const res = await updateSupplier(data)
-    if ('data' in res) {
-      onClose()
-      toast.success('Proveedor actualizado exitosamente')
-      return
-    }
 
-    // @ts-expect-error data is a property of the error message
-    setConflictError(res.error.data.error)
-    // @ts-expect-error data is a property of the error message
-    toast.error(`Error al actualizar el proveedor: ${res.error.data.error}`)
-  }
+    return (
+        <BcaDrawer open={open} onClose={onClose}>
+            <DrawerTitle
+                title={defaultValues.id ? 'Editar Proveedor' : 'Crear Proveedor'}
+                close={onClose}
+            />
 
-  return (
-    <BcaDrawer open={open} onClose={onClose}>
-      <DrawerTitle
-        title={defaultValues.id ? 'Editar Proveedor' : 'Crear Proveedor'}
-        close={onClose}
-      />
+            <form
+                className='mt-5 flex flex-col gap-5'
+                onSubmit={handleSubmit(hadleSubmit)}
+            >
+                {conflictError && (
+                    <Typography color='error'>{conflictError}</Typography>
+                )}
+                <BcaTextField
+                    datatestid='component.drawer.settings.supplier.supplier_id'
+                    name='supplier_id'
+                    control={control}
+                    label='Ruc'
+                />
 
-      <form
-        className='mt-5 flex flex-col gap-5'
-        onSubmit={handleSubmit(hadleSubmit)}
-      >
-        {conflictError && (
-          <Typography color='error'>{conflictError}</Typography>
-        )}
-        <BcaTextField
-          datatestid='component.drawer.settings.supplier.supplier_id'
-          name='supplier_id'
-          control={control}
-          label='Ruc'
-        />
+                <BcaTextField
+                    datatestid='component.drawer.settings.supplier.name'
+                    name='name'
+                    control={control}
+                    label='Nombre'
+                />
 
-        <BcaTextField
-          datatestid='component.drawer.settings.supplier.name'
-          name='name'
-          control={control}
-          label='Nombre'
-        />
+                <BcaTextField
+                    name='contact_name'
+                    datatestid='component.drawer.settings.supplier.contact_name'
+                    control={control}
+                    label='Nombre Contacto'
+                />
 
-        <BcaTextField
-          name='contact_name'
-          datatestid='component.drawer.settings.supplier.contact_name'
-          control={control}
-          label='Nombre Contacto'
-        />
+                <BcaTextField
+                    name='contact_email'
+                    datatestid='component.drawer.settings.supplier.contact_email'
+                    control={control}
+                    label='Email Contacto'
+                />
 
-        <BcaTextField
-          name='contact_email'
-          datatestid='component.drawer.settings.supplier.contact_email'
-          control={control}
-          label='Email Contacto'
-        />
+                <BcaTextField
+                    name='contact_phone'
+                    datatestid='component.drawer.settings.supplier.contact_phone'
+                    control={control}
+                    label='Telefono Contacto'
+                />
 
-        <BcaTextField
-          name='contact_phone'
-          datatestid='component.drawer.settings.supplier.contact_phone'
-          control={control}
-          label='Telefono Contacto'
-        />
-
-        <ButtonGroup
-          saveFunction={handleSubmit(hadleSubmit)}
-          cancelFunction={onClose}
-        />
-      </form>
-    </BcaDrawer>
-  )
+                <ButtonGroup
+                    saveFunction={handleSubmit(hadleSubmit)}
+                    cancelFunction={onClose}
+                />
+            </form>
+        </BcaDrawer>
+    )
 }
