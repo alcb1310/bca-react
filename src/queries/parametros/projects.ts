@@ -22,3 +22,22 @@ export async function GetAllProjects({
     })
     return response.json() as Promise<ProjectType[]>
 }
+
+export async function CreateProject({ data }: { data: ProjectType }) {
+    const state = store.getState()
+
+    const response = await fetch(`${URL}/parametros/proyectos`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${state.login.token}`,
+        },
+        body: JSON.stringify(data),
+    })
+    if (!response.ok) {
+        const data = await response.json()
+        throw new Error(data.error)
+    }
+
+    return
+}
