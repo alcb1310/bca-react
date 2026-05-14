@@ -5,16 +5,14 @@ import BcaTextField from '@/components/input/BcaTextField'
 import DrawerTitle from '@/components/titles/DrawerTitle'
 import { GetAllBudgetItems } from '@/queries/parametros/budgetItem'
 import { GetAllProjects } from '@/queries/parametros/projects'
-import {
-    useCreateBudgetMutation,
-    useUpdateBudgetMutation,
-} from '@/redux/api/bca-backend/transacciones/budgetSlice'
+import { CreateBudget } from '@/queries/transacciones/budget'
+import { useUpdateBudgetMutation } from '@/redux/api/bca-backend/transacciones/budgetSlice'
 import { type BudgetEditType, budgetEditSchema } from '@/types/budget'
 import { calculateTotal } from '@/utils/math'
 import { DevTool } from '@hookform/devtools'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Box, Typography } from '@mui/material'
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
 import { useForm, useWatch } from 'react-hook-form'
 import { toast } from 'sonner'
@@ -30,6 +28,7 @@ export default function BudgetDrawer({
     onClose,
     defaultValues,
 }: BudgetDrawerProps) {
+    const queryClient = useQueryClient()
     const [conflictError, setConflictError] = useState<string>('')
     const { control, reset, handleSubmit } = useForm<BudgetEditType>({
         defaultValues,
@@ -49,11 +48,25 @@ export default function BudgetDrawer({
         queryFn: () => GetAllBudgetItems({ accum: false }),
     })
 
-    const [createBudget] = useCreateBudgetMutation()
     const [updateBudget] = useUpdateBudgetMutation()
+    const createBudgetMutation = useMutation({
+        mutationFn: CreateBudget,
+        onSuccess: () => {
+            onClose()
+            toast.success('Presupuesto creado exitosamente')
+        },
+        onError: (error) => {
+            setConflictError(error.message)
+            toast.error(`Error al crear el presupuesto: ${error.message}`)
+        },
+        onSettled: () => {
+            queryClient.invalidateQueries({ queryKey: ['budget'] })
+        },
+    })
 
     useEffect(() => {
         reset(defaultValues)
+        setConflictError('')
     }, [reset, defaultValues])
 
     async function hadleSubmit(data: BudgetEditType) {
@@ -69,17 +82,7 @@ export default function BudgetDrawer({
         }
 
         if (!defaultValues.project_id) {
-            const res = await createBudget(dataToSave)
-            if ('data' in res) {
-                onClose()
-                toast.success('Presupuesto creado exitosamente')
-                return
-            }
-
-            // @ts-expect-error data property is part of the res.error object
-            setConflictError(res.error.data.error)
-            // @ts-expect-error data property is part of the res.error object
-            toast.error(`Error al crear el presupuesto: ${res.error.data.error}`)
+            createBudgetMutation.mutate({ data: dataToSave })
             return
         }
 
