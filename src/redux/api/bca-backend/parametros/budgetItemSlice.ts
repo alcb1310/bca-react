@@ -5,18 +5,6 @@ const partidasEndpoints = bcaApiSlice.injectEndpoints({
     overrideExisting: true,
 
     endpoints: (builder) => ({
-        createBudgetItem: builder.mutation<BudgetItem, BudgetItem>({
-            query(body) {
-                return {
-                    url: '/parametros/partidas',
-                    method: 'POST',
-                    body,
-                }
-            },
-
-            invalidatesTags: ['partidas'],
-        }),
-
         updateBudgetItem: builder.mutation<BudgetItem, BudgetItem>({
             query(body) {
                 return {
@@ -31,5 +19,4 @@ const partidasEndpoints = bcaApiSlice.injectEndpoints({
     }),
 })
 
-export const { useCreateBudgetItemMutation, useUpdateBudgetItemMutation } =
-    partidasEndpoints
+export const { useUpdateBudgetItemMutation } = partidasEndpoints

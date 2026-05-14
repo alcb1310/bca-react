@@ -3,11 +3,11 @@ import BcaDrawer from '@/components/drawers/BcaDrawer/BcaDrawer'
 import BcaSelect from '@/components/input/BcaSelect'
 import BcaTextField from '@/components/input/BcaTextField'
 import DrawerTitle from '@/components/titles/DrawerTitle'
-import { GetAllBudgetItems } from '@/queries/parametros/budgetItem'
 import {
-    useCreateBudgetItemMutation,
-    useUpdateBudgetItemMutation,
-} from '@/redux/api/bca-backend/parametros/budgetItemSlice'
+    CreateBudgetItem,
+    GetAllBudgetItems,
+} from '@/queries/parametros/budgetItem'
+import { useUpdateBudgetItemMutation } from '@/redux/api/bca-backend/parametros/budgetItemSlice'
 import { type BudgetItem, budgetItemSchema } from '@/types/partidas'
 import { DevTool } from '@hookform/devtools'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -17,7 +17,7 @@ import {
     FormControlLabel,
     Typography,
 } from '@mui/material'
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { RhfSwitch } from 'mui-rhf-integration'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
@@ -34,17 +34,35 @@ export default function BudgetItemDrawer({
     onClose,
     defaultValues,
 }: BudgetItemDrawerProps) {
+    const queryClient = useQueryClient()
     const { control, reset, handleSubmit } = useForm<BudgetItem>({
         defaultValues,
         resolver: zodResolver(budgetItemSchema),
     })
     const [conflictError, setConflictError] = useState<string>('')
 
-    const [createBudgetItem] = useCreateBudgetItemMutation()
+    // const [createBudgetItem] = useCreateBudgetItemMutation()
     const [updateBudgetItem] = useUpdateBudgetItemMutation()
 
+    const createBudgetItemMutation = useMutation({
+        mutationFn: CreateBudgetItem,
+        onSuccess: () => {
+            onClose()
+            toast.success('Partida creada')
+        },
+        onError: (error) => {
+            setConflictError(error.message)
+            toast.error(`Error al crear la partida: ${error.message}`)
+        },
+        onSettled: () => {
+            queryClient.invalidateQueries({
+                queryKey: ['partidas'],
+            })
+        },
+    })
+
     const { data, isLoading } = useQuery({
-        queryKey: ['partidas'],
+        queryKey: ['partidas', 'accum'],
         queryFn: () => GetAllBudgetItems({ accum: true }),
     })
 
@@ -68,16 +86,8 @@ export default function BudgetItemDrawer({
             // @ts-expect-error data property is part of the res.error object
             toast.error(`Error al actualizar la partida: ${res.error.data.error}`)
         }
-        const res = await createBudgetItem(data)
-        if ('data' in res) {
-            onClose()
-            toast.success('Partida creada')
-            return
-        }
-        // @ts-expect-error data property is part of the res.error object
-        setConflictError(res.error.data.error)
-        // @ts-expect-error data property is part of the res.error object
-        toast.error(`Error al crear la partida: ${res.error.data.error}`)
+
+        createBudgetItemMutation.mutate({ data })
     }
 
     return (

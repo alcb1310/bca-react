@@ -15,7 +15,7 @@ export default function BudgetItems() {
 
     const { data, isLoading } = useQuery({
         queryKey: ['partidas'],
-        queryFn: () => GetAllBudgetItems({ query }),
+        queryFn: () => GetAllBudgetItems({ query, accum: undefined }),
     })
 
     function handleClick() {
