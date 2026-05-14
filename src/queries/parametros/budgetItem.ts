@@ -47,3 +47,23 @@ export async function CreateBudgetItem({ data }: { data: BudgetItem }) {
 
     return
 }
+
+export async function UpdateBudgetItem({ data }: { data: BudgetItem }) {
+    const state = store.getState()
+
+    const response = await fetch(`${URL}/parametros/partidas/${data.id}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${state.login.token}`,
+        },
+        body: JSON.stringify(data),
+    })
+
+    if (!response.ok) {
+        const data = await response.json()
+        throw new Error(data.error)
+    }
+
+    return
+}

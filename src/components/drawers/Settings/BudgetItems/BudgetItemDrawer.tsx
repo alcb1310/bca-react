@@ -6,8 +6,8 @@ import DrawerTitle from '@/components/titles/DrawerTitle'
 import {
     CreateBudgetItem,
     GetAllBudgetItems,
+    UpdateBudgetItem,
 } from '@/queries/parametros/budgetItem'
-import { useUpdateBudgetItemMutation } from '@/redux/api/bca-backend/parametros/budgetItemSlice'
 import { type BudgetItem, budgetItemSchema } from '@/types/partidas'
 import { DevTool } from '@hookform/devtools'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -41,9 +41,6 @@ export default function BudgetItemDrawer({
     })
     const [conflictError, setConflictError] = useState<string>('')
 
-    // const [createBudgetItem] = useCreateBudgetItemMutation()
-    const [updateBudgetItem] = useUpdateBudgetItemMutation()
-
     const createBudgetItemMutation = useMutation({
         mutationFn: CreateBudgetItem,
         onSuccess: () => {
@@ -53,6 +50,23 @@ export default function BudgetItemDrawer({
         onError: (error) => {
             setConflictError(error.message)
             toast.error(`Error al crear la partida: ${error.message}`)
+        },
+        onSettled: () => {
+            queryClient.invalidateQueries({
+                queryKey: ['partidas'],
+            })
+        },
+    })
+
+    const updateBudgetItemMutation = useMutation({
+        mutationFn: UpdateBudgetItem,
+        onSuccess: () => {
+            onClose()
+            toast.success('Partida actualizada')
+        },
+        onError: (error) => {
+            setConflictError(error.message)
+            toast.error(`Error al actualizar la partida: ${error.message}`)
         },
         onSettled: () => {
             queryClient.invalidateQueries({
@@ -74,17 +88,8 @@ export default function BudgetItemDrawer({
     async function hadleSubmit(data: BudgetItem) {
         setConflictError('')
         if (defaultValues.id) {
-            const res = await updateBudgetItem(data)
-
-            if ('data' in res) {
-                onClose()
-                toast.success('Partida actualizada')
-                return
-            }
-            // @ts-expect-error data property is part of the res.error object
-            setConflictError(res.error.data.error)
-            // @ts-expect-error data property is part of the res.error object
-            toast.error(`Error al actualizar la partida: ${res.error.data.error}`)
+            updateBudgetItemMutation.mutate({ data })
+            return
         }
 
         createBudgetItemMutation.mutate({ data })
