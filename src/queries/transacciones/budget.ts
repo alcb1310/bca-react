@@ -39,3 +39,25 @@ export async function CreateBudget({ data }: { data: BudgetEditType }) {
 
     return
 }
+
+export async function UpdateBudget({ data }: { data: BudgetEditType }) {
+    const state = store.getState()
+    const response = await fetch(
+        `${URL}/transacciones/presupuestos/${data.project_id}/${data.budget_item_id}`,
+        {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${state.login.token}`,
+            },
+            body: JSON.stringify(data),
+        },
+    )
+
+    if (!response.ok) {
+        const error = await response.json()
+        throw new Error(error.error)
+    }
+
+    return
+}

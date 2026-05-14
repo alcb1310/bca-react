@@ -5,8 +5,7 @@ import BcaTextField from '@/components/input/BcaTextField'
 import DrawerTitle from '@/components/titles/DrawerTitle'
 import { GetAllBudgetItems } from '@/queries/parametros/budgetItem'
 import { GetAllProjects } from '@/queries/parametros/projects'
-import { CreateBudget } from '@/queries/transacciones/budget'
-import { useUpdateBudgetMutation } from '@/redux/api/bca-backend/transacciones/budgetSlice'
+import { CreateBudget, UpdateBudget } from '@/queries/transacciones/budget'
 import { type BudgetEditType, budgetEditSchema } from '@/types/budget'
 import { calculateTotal } from '@/utils/math'
 import { DevTool } from '@hookform/devtools'
@@ -48,7 +47,6 @@ export default function BudgetDrawer({
         queryFn: () => GetAllBudgetItems({ accum: false }),
     })
 
-    const [updateBudget] = useUpdateBudgetMutation()
     const createBudgetMutation = useMutation({
         mutationFn: CreateBudget,
         onSuccess: () => {
@@ -58,6 +56,21 @@ export default function BudgetDrawer({
         onError: (error) => {
             setConflictError(error.message)
             toast.error(`Error al crear el presupuesto: ${error.message}`)
+        },
+        onSettled: () => {
+            queryClient.invalidateQueries({ queryKey: ['budget'] })
+        },
+    })
+
+    const updateBudgetMutation = useMutation({
+        mutationFn: UpdateBudget,
+        onSuccess: () => {
+            onClose()
+            toast.success('Presupuesto actualizado exitosamente')
+        },
+        onError: (error) => {
+            setConflictError(error.message)
+            toast.error(`Error al actualizar el presupuesto: ${error.message}`)
         },
         onSettled: () => {
             queryClient.invalidateQueries({ queryKey: ['budget'] })
@@ -86,17 +99,7 @@ export default function BudgetDrawer({
             return
         }
 
-        const res = await updateBudget(dataToSave)
-        if ('data' in res) {
-            onClose()
-            toast.success('Presupuesto actualizado exitosamente')
-            return
-        }
-
-        // @ts-expect-error data property is part of the res.error object
-        setConflictError(res.error.data.erro)
-        // @ts-expect-error data property is part of the res.error object
-        toast.error(`Error al actualizar el presupuesto: ${res.error.data.error}`)
+        updateBudgetMutation.mutate({ data: dataToSave })
     }
 
     return (
