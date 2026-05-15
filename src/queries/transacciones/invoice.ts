@@ -84,3 +84,21 @@ export async function UpdateInvoice({ data }: { data: InvoiceCreateType }) {
 
     return
 }
+
+export async function DeleteInvoice({ id }: { id: string }) {
+    const state = store.getState()
+    const response = await fetch(`${URL}/transacciones/facturas/${id}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${state.login.token}`,
+        },
+    })
+
+    if (!response.ok) {
+        const error = await response.json()
+        throw new Error(error.error)
+    }
+
+    return
+}
