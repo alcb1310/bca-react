@@ -4,8 +4,7 @@ import ActualTable from '@/components/reports/ActualTable'
 import EditToolbar from '@/components/table/headers/toolbar'
 import PageTitle from '@/components/titles/PageTitle'
 import { GetAllProjects } from '@/queries/parametros/projects'
-import { GetAllLevels } from '@/queries/reports'
-import { useGetAllHistoricQuery } from '@/redux/api/bca-backend/reports/commonSlice'
+import { GetAllHistoric, GetAllLevels } from '@/queries/reports'
 import { useAppSelector } from '@/redux/hooks'
 import { normalizeDate } from '@/utils/date'
 import { downloadExcelFile } from '@/utils/download'
@@ -57,7 +56,22 @@ export default function Historic() {
         queryFn: () => GetAllLevels(),
     })
 
-    const { data: budgets, isFetching } = useGetAllHistoricQuery(selectedReport)
+    const { data: budgets, isFetching } = useQuery({
+        queryKey: [
+            'historic',
+            selectedReport.project_id,
+            selectedReport.level,
+            selectedReport.date,
+        ],
+        queryFn: () =>
+            GetAllHistoric({
+                project_id: selectedReport.project_id,
+                level: selectedReport.level,
+                date: selectedReport.date,
+            }),
+        enabled: selectedReport.project_id !== '' && selectedReport.level !== '',
+    })
+
     const token = useAppSelector((state) => state.login.token)
 
     function generateReport(data: ReportTypes) {
@@ -145,7 +159,7 @@ export default function Historic() {
                     <CircularProgress data-testid='pages.reports.historic.loading' />
                 )}
 
-                <ActualTable data={budgets!} />
+                {budgets && <ActualTable data={budgets} />}
             </form>
         </>
     )

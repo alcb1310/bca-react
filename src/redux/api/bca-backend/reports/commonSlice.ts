@@ -1,4 +1,3 @@
-import type { BudgetResponseType } from '@/types/budget'
 import type {
     BalanceResponseType,
     SpentDetailsType,
@@ -9,23 +8,6 @@ import { bcaApiSlice } from '../bcaSlice'
 const commonApiSlice = bcaApiSlice.injectEndpoints({
     overrideExisting: true,
     endpoints: (builder) => ({
-        getAllHistoric: builder.query<
-            BudgetResponseType[],
-            {
-                project_id: string
-                level: string
-                date: string
-            }
-        >({
-            query: (params) => {
-                return {
-                    url: '/reportes/historico',
-                    method: 'GET',
-                    params,
-                }
-            },
-        }),
-
         getBalanceReport: builder.query<
             BalanceResponseType,
             {
@@ -93,7 +75,6 @@ const commonApiSlice = bcaApiSlice.injectEndpoints({
 })
 
 export const {
-    useGetAllHistoricQuery,
     useGetBalanceReportQuery,
     useSetBalancedInvoiceMutation,
     useGetSpentQuery,
