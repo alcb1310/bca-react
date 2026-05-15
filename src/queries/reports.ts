@@ -127,3 +127,28 @@ export async function GetSpentReport({
 
     return response.json() as Promise<SpentResponseType>
 }
+
+export async function GetSpentDetails({
+    project_id,
+    budget_item_id,
+    date,
+}: {
+    project_id: string
+    budget_item_id: string
+    date: string
+}) {
+    const state = store.getState()
+
+    const response = await fetch(
+        `${URL}/reportes/gastado/${project_id}/${budget_item_id}/${date}`,
+        {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${state.login.token}`,
+            },
+        },
+    )
+
+    return response.json() as Promise<SpentResponseType[]>
+}
