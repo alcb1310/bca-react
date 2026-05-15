@@ -7,7 +7,6 @@ import { useQuery } from '@tanstack/react-query'
 import { useNavigate } from 'react-router-dom'
 
 export default function Factura() {
-    // const { data, isLoading } = useGetAllInvoicesQuery()
     const navigate = useNavigate()
     const { data, isLoading } = useQuery({
         queryKey: ['invoices'],

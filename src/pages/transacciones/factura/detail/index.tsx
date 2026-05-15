@@ -4,7 +4,7 @@ import AllDetailsTable from '@/components/parameters/invoices/AllDetailsTable'
 import EditToolbar from '@/components/table/headers/toolbar'
 import PageTitle from '@/components/titles/PageTitle'
 import { GetOneInvoice } from '@/queries/transacciones/invoice'
-import { useGetAllInvoiceDetailsQuery } from '@/redux/api/bca-backend/transacciones/invoiceDetailsSlice'
+import { GetAllInvoiceDetails } from '@/queries/transacciones/invoiceDetails'
 import { Box, CircularProgress } from '@mui/material'
 import { useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
@@ -14,8 +14,12 @@ export default function IndividualInvoice() {
     const [open, setOpen] = useState<boolean>(false)
     const location = useLocation()
     const invoiceId = location.pathname.split('/')[3]
-    // const { data: invoice, isLoading } = useGetOneInvoiceQuery(invoiceId!)
-    const { data } = useGetAllInvoiceDetailsQuery({ id: invoiceId! })
+
+    const { data } = useQuery({
+        queryKey: ['details', invoiceId],
+        queryFn: () => GetAllInvoiceDetails(invoiceId!),
+        enabled: invoiceId !== 'crear',
+    })
 
     const { data: invoice, isLoading } = useQuery({
         queryKey: ['invoice', invoiceId],

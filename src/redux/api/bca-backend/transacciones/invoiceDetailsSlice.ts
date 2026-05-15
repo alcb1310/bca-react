@@ -1,60 +1,45 @@
 import type {
-  InvoiceDetailsCreateType,
-  InvoiceDetailsResponseType,
+    InvoiceDetailsCreateType,
+    InvoiceDetailsResponseType,
 } from '@/types/invoiceDetails'
 import { bcaApiSlice } from '../bcaSlice'
 
 const invoiceDetailsApiSlice = bcaApiSlice.injectEndpoints({
-  overrideExisting: true,
+    overrideExisting: true,
 
-  endpoints: (builder) => ({
-    getAllInvoiceDetails: builder.query<
-      InvoiceDetailsResponseType[],
-      { id: string }
-    >({
-      query: ({ id }) => {
-        return {
-          url: `/transacciones/facturas/${id}/detalle`,
-          method: 'GET',
-        }
-      },
+    endpoints: (builder) => ({
+        createIvoiceDetails: builder.mutation<
+            InvoiceDetailsResponseType,
+            { body: InvoiceDetailsCreateType; id: string }
+        >({
+            query: ({ id, body }) => {
+                return {
+                    url: `/transacciones/facturas/${id}/detalle`,
+                    method: 'POST',
+                    body,
+                }
+            },
 
-      providesTags: ['detalle', 'facturas', 'partidas'],
+            invalidatesTags: ['detalle', 'facturas'],
+        }),
+
+        deleteInvoiceDetails: builder.mutation<
+            void,
+            { invoiceId: string; detailId: string }
+        >({
+            query: ({ invoiceId, detailId }) => {
+                return {
+                    url: `/transacciones/facturas/${invoiceId}/detalle/${detailId}`,
+                    method: 'DELETE',
+                }
+            },
+
+            invalidatesTags: ['detalle', 'facturas'],
+        }),
     }),
-
-    createIvoiceDetails: builder.mutation<
-      InvoiceDetailsResponseType,
-      { body: InvoiceDetailsCreateType; id: string }
-    >({
-      query: ({ id, body }) => {
-        return {
-          url: `/transacciones/facturas/${id}/detalle`,
-          method: 'POST',
-          body,
-        }
-      },
-
-      invalidatesTags: ['detalle', 'facturas'],
-    }),
-
-    deleteInvoiceDetails: builder.mutation<
-      void,
-      { invoiceId: string; detailId: string }
-    >({
-      query: ({ invoiceId, detailId }) => {
-        return {
-          url: `/transacciones/facturas/${invoiceId}/detalle/${detailId}`,
-          method: 'DELETE',
-        }
-      },
-
-      invalidatesTags: ['detalle', 'facturas'],
-    }),
-  }),
 })
 
 export const {
-  useGetAllInvoiceDetailsQuery,
-  useCreateIvoiceDetailsMutation,
-  useDeleteInvoiceDetailsMutation,
+    useCreateIvoiceDetailsMutation,
+    useDeleteInvoiceDetailsMutation,
 } = invoiceDetailsApiSlice
