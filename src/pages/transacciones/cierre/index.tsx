@@ -1,19 +1,17 @@
-// BUG: In the Pages/Cierre page, when searching the invoices with a date with a one digit day, there is an error when querying the API
-
 import ConfirmationDialog from '@/components/dialog/ConfirmationDialog'
 import BcaDateTextField from '@/components/input/BcaDateTextField'
 import BcaSelect from '@/components/input/BcaSelect'
 import PageTitle from '@/components/titles/PageTitle'
 import { GetAllProjects } from '@/queries/parametros/projects'
-import { useCreateClosureMutation } from '@/redux/api/bca-backend/transacciones/closureSlice'
+import { CreateClosure } from '@/queries/transacciones/closure'
 import { type CierreTypes, cierreSchema } from '@/types/cierre'
-import { DevTool } from '@hookform/devtools'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { SaveOutlined } from '@mui/icons-material'
 import { Box, Button, CircularProgress, Stack, Typography } from '@mui/material'
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
 
 export default function Cierre() {
     const [open, setOpen] = useState<boolean>(false)
@@ -32,7 +30,20 @@ export default function Cierre() {
         },
         resolver: zodResolver(cierreSchema),
     })
-    const [generateCierre] = useCreateClosureMutation()
+
+    const createClosureMuatation = useMutation({
+        mutationFn: CreateClosure,
+        onSuccess: () => {
+            toast.success('Cierre generado correctamente')
+        },
+        onError: (error) => {
+            toast.error(error.message)
+            setConflictError(error.message)
+        },
+        onSettled: () => {
+            setOpen(false)
+        },
+    })
 
     function hadleSubmit(data: CierreTypes) {
         setCierreData(data)
@@ -94,16 +105,10 @@ export default function Cierre() {
                     setOpen={setOpen}
                     message={'Desea generar el cierre'}
                     confirm={async () => {
-                        const res = await generateCierre(cierreData!)
-                        if ('error' in res) {
-                            // @ts-expect-error error property is part of the res.error object
-                            setConflictError(res.error.data.error)
-                        }
-                        setOpen(false)
+                        createClosureMuatation.mutate({ data: cierreData! })
                     }}
                 />
             )}
-            <DevTool control={control} />
         </>
     )
 }
