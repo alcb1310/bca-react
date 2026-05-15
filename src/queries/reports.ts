@@ -1,6 +1,10 @@
 import { store } from '@/redux/store'
 import type { BudgetResponseType } from '@/types/budget'
-import type { BalanceResponseType, LevelType } from '@/types/reports'
+import type {
+    BalanceResponseType,
+    LevelType,
+    SpentResponseType,
+} from '@/types/reports'
 
 const URL = import.meta.env.VITE_BACKEND_SERVER
 
@@ -95,4 +99,31 @@ export async function SetBalancedInvoice({
     }
 
     return
+}
+
+export async function GetSpentReport({
+    project_id,
+    level,
+    date,
+}: {
+    project_id: string
+    level: string
+    date: string
+}) {
+    const state = store.getState()
+
+    const params = new URLSearchParams()
+    params.append('project_id', project_id)
+    params.append('level', level)
+    params.append('date', date)
+
+    const response = await fetch(`${URL}/reportes/gastado?${params}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${state.login.token}`,
+        },
+    })
+
+    return response.json() as Promise<SpentResponseType>
 }

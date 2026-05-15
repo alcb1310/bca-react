@@ -5,8 +5,7 @@ import SpentTable from '@/components/reports/SpentTable'
 import EditToolbar from '@/components/table/headers/toolbar'
 import PageTitle from '@/components/titles/PageTitle'
 import { GetAllProjects } from '@/queries/parametros/projects'
-import { GetAllLevels } from '@/queries/reports'
-import { useGetSpentQuery } from '@/redux/api/bca-backend/reports/commonSlice'
+import { GetAllLevels, GetSpentReport } from '@/queries/reports'
 import { useAppSelector } from '@/redux/hooks'
 import type { Spent as SpentType } from '@/types/reports'
 import { normalizeDate } from '@/utils/date'
@@ -64,7 +63,16 @@ export default function Spent() {
         queryFn: () => GetAllLevels(),
     })
 
-    const { data, isFetching } = useGetSpentQuery(selectedReport!)
+    const { data, isFetching } = useQuery({
+        queryKey: [
+            'spent',
+            selectedReport.project_id,
+            selectedReport.level,
+            selectedReport.date,
+        ],
+        queryFn: () => GetSpentReport(selectedReport),
+        enabled: selectedReport.project_id !== '' && selectedReport.level !== '',
+    })
 
     function generateReport(info: ReportTypes) {
         const date = normalizeDate(info.date)
