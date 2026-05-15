@@ -3,8 +3,8 @@ import ActualTable from '@/components/reports/ActualTable'
 import EditToolbar from '@/components/table/headers/toolbar'
 import PageTitle from '@/components/titles/PageTitle'
 import { GetAllProjects } from '@/queries/parametros/projects'
+import { GetAllLevels } from '@/queries/reports'
 import { GetAllBugetsByProjectAndLevel } from '@/queries/transacciones/budget'
-import { useGetAllLevelsQuery } from '@/redux/api/bca-backend/reports/commonSlice'
 import { useAppSelector } from '@/redux/hooks'
 import { downloadExcelFile } from '@/utils/download'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -35,7 +35,11 @@ export default function Actual() {
         queryFn: () => GetAllProjects({ active: true }),
     })
 
-    const { data: levels } = useGetAllLevelsQuery()
+    const { data: levels } = useQuery({
+        queryKey: ['levels'],
+        queryFn: () => GetAllLevels(),
+    })
+
     const [selectedReport, setSelectedReport] = useState<ReportTypes>({
         project_id: '',
         level: '',

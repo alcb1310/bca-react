@@ -4,10 +4,8 @@ import ActualTable from '@/components/reports/ActualTable'
 import EditToolbar from '@/components/table/headers/toolbar'
 import PageTitle from '@/components/titles/PageTitle'
 import { GetAllProjects } from '@/queries/parametros/projects'
-import {
-    useGetAllHistoricQuery,
-    useGetAllLevelsQuery,
-} from '@/redux/api/bca-backend/reports/commonSlice'
+import { GetAllLevels } from '@/queries/reports'
+import { useGetAllHistoricQuery } from '@/redux/api/bca-backend/reports/commonSlice'
 import { useAppSelector } from '@/redux/hooks'
 import { normalizeDate } from '@/utils/date'
 import { downloadExcelFile } from '@/utils/download'
@@ -54,7 +52,11 @@ export default function Historic() {
         queryKey: ['projects'],
         queryFn: () => GetAllProjects({ active: true }),
     })
-    const { data: levels } = useGetAllLevelsQuery()
+    const { data: levels } = useQuery({
+        queryKey: ['levels'],
+        queryFn: () => GetAllLevels(),
+    })
+
     const { data: budgets, isFetching } = useGetAllHistoricQuery(selectedReport)
     const token = useAppSelector((state) => state.login.token)
 
