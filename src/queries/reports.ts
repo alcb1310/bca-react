@@ -75,3 +75,24 @@ export async function GetBalanceReport({
 
     return response.json() as Promise<BalanceResponseType>
 }
+
+export async function SetBalancedInvoice({
+    invoice_id,
+}: { invoice_id: string }) {
+    const state = store.getState()
+
+    const response = await fetch(`${URL}/reportes/cuadre/${invoice_id}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${state.login.token}`,
+        },
+    })
+
+    if (!response.ok) {
+        const err = await response.json()
+        throw new Error(err.error)
+    }
+
+    return
+}
