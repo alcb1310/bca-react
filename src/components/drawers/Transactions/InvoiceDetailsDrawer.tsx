@@ -4,7 +4,7 @@ import BcaSelect from '@/components/input/BcaSelect'
 import BcaTextField from '@/components/input/BcaTextField'
 import DrawerTitle from '@/components/titles/DrawerTitle'
 import { GetAllBudgetItems } from '@/queries/parametros/budgetItem'
-import { useCreateIvoiceDetailsMutation } from '@/redux/api/bca-backend/transacciones/invoiceDetailsSlice'
+import { CreateInvoiceDetail } from '@/queries/transacciones/invoiceDetails'
 import {
     type InvoiceDetailsCreateType,
     invoiceDetailsCreateSchema,
@@ -12,7 +12,7 @@ import {
 import { calculateTotal } from '@/utils/math'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Stack, Typography } from '@mui/material'
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
 import { useForm, useWatch } from 'react-hook-form'
 import { toast } from 'sonner'
@@ -28,6 +28,7 @@ export default function InvoiceDetailsDrawer({
     onClose,
     invoiceId,
 }: InvoiceDetailsDrawerProps) {
+    const queryClient = useQueryClient()
     const [conflictError, setConflictError] = useState<string>('')
 
     const { data: budgetItems } = useQuery({
@@ -41,29 +42,37 @@ export default function InvoiceDetailsDrawer({
     })
 
     useEffect(() => {
-        reset({ budget_item_id: '', quantity: 0, cost: 0, total: 0 })
-    }, [reset])
+        if (open) {
+            reset({ budget_item_id: '', quantity: 0, cost: 0, total: 0 })
+        }
+    }, [reset, open])
 
     const results = useWatch({ control })
     const total = calculateTotal(results.quantity, results.cost)
 
-    const [createInvoiceDetail] = useCreateIvoiceDetailsMutation()
+    const createInvoiceDetailMutation = useMutation({
+        mutationFn: CreateInvoiceDetail,
+        onSuccess: async () => {
+            toast.success('Detalle creado exitosamente')
+
+            await Promise.all([
+                queryClient.invalidateQueries({
+                    queryKey: ['invoice', invoiceId],
+                }),
+                queryClient.invalidateQueries({
+                    queryKey: ['details', invoiceId],
+                }),
+            ])
+        },
+        onError: (error) => {
+            toast.error('Error al crear el detalle')
+            setConflictError(error.message)
+        },
+    })
 
     async function hadleSubmit(data: InvoiceDetailsCreateType) {
         setConflictError('')
-        const res = await createInvoiceDetail({
-            body: data!,
-            id: invoiceId,
-        })
-
-        if ('error' in res) {
-            // @ts-expect-error data is part of the error object
-            setConflictError(res.error.data.error)
-            // @ts-expect-error data is part of the error object
-            toast.error(`Error al crear el detalle: ${res.error.data.error}`)
-            return
-        }
-        toast.success('Detalle creado exitosamente')
+        createInvoiceDetailMutation.mutate({ id: invoiceId, data })
     }
 
     return (

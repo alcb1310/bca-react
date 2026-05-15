@@ -1,5 +1,8 @@
 import { store } from '@/redux/store'
-import type { InvoiceDetailsResponseType } from '@/types/invoiceDetails'
+import type {
+    InvoiceDetailsCreateType,
+    InvoiceDetailsResponseType,
+} from '@/types/invoiceDetails'
 
 const URL = import.meta.env.VITE_BACKEND_SERVER
 
@@ -19,4 +22,30 @@ export async function GetAllInvoiceDetails(id: string) {
     }
 
     return response.json() as Promise<InvoiceDetailsResponseType[]>
+}
+
+export async function CreateInvoiceDetail({
+    id,
+    data,
+}: {
+    id: string
+    data: InvoiceDetailsCreateType
+}) {
+    const state = store.getState()
+
+    const response = await fetch(`${URL}/transacciones/facturas/${id}/detalle`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${state.login.token}`,
+        },
+        body: JSON.stringify(data),
+    })
+
+    if (!response.ok) {
+        const error = await response.json()
+        throw new Error(error.error)
+    }
+
+    return
 }

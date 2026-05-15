@@ -9,7 +9,7 @@ import { type InvoiceCreateType, invoiceCreateSchema } from '@/types/invoice'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Stack, Typography } from '@mui/material'
 import { useMutation, useQuery } from '@tanstack/react-query'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
@@ -22,10 +22,14 @@ type InvoiceFormProps = {
 function InvoiceForm({ invoiceId, invoice }: InvoiceFormProps) {
     const [conflictError, setConflictError] = useState<string>('')
     const navigate = useNavigate()
-    const { control, handleSubmit } = useForm<InvoiceCreateType>({
+    const { control, handleSubmit, reset } = useForm<InvoiceCreateType>({
         defaultValues: invoice,
         resolver: zodResolver(invoiceCreateSchema),
     })
+
+    useEffect(() => {
+        reset({ ...invoice })
+    }, [reset, invoice])
 
     const { data: projects } = useQuery({
         queryKey: ['projects'],
