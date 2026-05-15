@@ -4,7 +4,7 @@ import BalanceTable from '@/components/reports/BalanceTable'
 import EditToolbar from '@/components/table/headers/toolbar'
 import PageTitle from '@/components/titles/PageTitle'
 import { GetAllProjects } from '@/queries/parametros/projects'
-import { useGetBalanceReportQuery } from '@/redux/api/bca-backend/reports/commonSlice'
+import { GetBalanceReport } from '@/queries/reports'
 import { useAppSelector } from '@/redux/hooks'
 import { normalizeDate } from '@/utils/date'
 import { downloadExcelFile } from '@/utils/download'
@@ -42,7 +42,16 @@ export default function Balance() {
         queryFn: () => GetAllProjects({ active: true }),
     })
 
-    const { data, isFetching } = useGetBalanceReportQuery(selectedData!)
+    const { data, isFetching } = useQuery({
+        queryKey: ['balance', selectedData.project_id, selectedData.date],
+        queryFn: () =>
+            GetBalanceReport({
+                project_id: selectedData.project_id,
+                date: selectedData.date,
+            }),
+        enabled: selectedData.project_id !== '' && selectedData.date !== '',
+    })
+
     const token = useAppSelector((state) => state.login.token)
 
     function generateReport(data: ReportType) {
