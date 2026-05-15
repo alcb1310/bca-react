@@ -65,3 +65,22 @@ export async function GetOneInvoice(id: string) {
 
     return response.json() as Promise<InvoiceCreateType>
 }
+
+export async function UpdateInvoice({ data }: { data: InvoiceCreateType }) {
+    const state = store.getState()
+    const response = await fetch(`${URL}/transacciones/facturas/${data.id}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${state.login.token}`,
+        },
+        body: JSON.stringify(data),
+    })
+
+    if (!response.ok) {
+        const error = await response.json()
+        throw new Error(error.error)
+    }
+
+    return
+}

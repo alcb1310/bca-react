@@ -4,8 +4,7 @@ import BcaSelect from '@/components/input/BcaSelect'
 import BcaTextField from '@/components/input/BcaTextField'
 import { GetAllProjects } from '@/queries/parametros/projects'
 import { GetAllSuppliers } from '@/queries/parametros/supplier'
-import { CreateInvoice } from '@/queries/transacciones/invoice'
-import { useUpdateInvoiceMutation } from '@/redux/api/bca-backend/transacciones/invoiceSlice'
+import { CreateInvoice, UpdateInvoice } from '@/queries/transacciones/invoice'
 import { type InvoiceCreateType, invoiceCreateSchema } from '@/types/invoice'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Stack, Typography } from '@mui/material'
@@ -38,7 +37,6 @@ function InvoiceForm({ invoiceId, invoice }: InvoiceFormProps) {
         queryFn: () => GetAllSuppliers({}),
     })
 
-    const [updateInvoice] = useUpdateInvoiceMutation()
     const createInvoiceMutation = useMutation({
         mutationFn: CreateInvoice,
         onSuccess: (data) => {
@@ -51,6 +49,17 @@ function InvoiceForm({ invoiceId, invoice }: InvoiceFormProps) {
         },
     })
 
+    const updateInvoiceMutation = useMutation({
+        mutationFn: UpdateInvoice,
+        onSuccess: () => {
+            toast.success('Factura actualizada exitosamente')
+        },
+        onError: (error) => {
+            toast.error(`Error al actualizar la factura: ${error.message}`)
+            setConflictError(error.message)
+        },
+    })
+
     async function hadleSubmit(data: InvoiceCreateType) {
         setConflictError('')
         if (invoiceId?.toLowerCase() === 'crear') {
@@ -58,16 +67,7 @@ function InvoiceForm({ invoiceId, invoice }: InvoiceFormProps) {
             return
         }
 
-        const res = await updateInvoice(data)
-        if ('error' in res) {
-            // @ts-expect-error error type is string
-            setConflictError(res.error.data.error)
-            // @ts-expect-error error type is string
-            toast.error(`Error al actualizar la factura: ${res.error.data.error}`)
-            return
-        }
-
-        toast.success('Factura actualizada exitosamente')
+        updateInvoiceMutation.mutate({ data })
     }
 
     return (
