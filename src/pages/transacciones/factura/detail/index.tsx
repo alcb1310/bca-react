@@ -3,53 +3,59 @@ import InvoiceForm from '@/components/forms/Invoice'
 import AllDetailsTable from '@/components/parameters/invoices/AllDetailsTable'
 import EditToolbar from '@/components/table/headers/toolbar'
 import PageTitle from '@/components/titles/PageTitle'
+import { GetOneInvoice } from '@/queries/transacciones/invoice'
 import { useGetAllInvoiceDetailsQuery } from '@/redux/api/bca-backend/transacciones/invoiceDetailsSlice'
-import { useGetOneInvoiceQuery } from '@/redux/api/bca-backend/transacciones/invoiceSlice'
 import { Box, CircularProgress } from '@mui/material'
+import { useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
 import { useLocation } from 'react-router-dom'
 
 export default function IndividualInvoice() {
-  const [open, setOpen] = useState<boolean>(false)
-  const location = useLocation()
-  const invoiceId = location.pathname.split('/')[3]
-  const { data: invoice, isLoading } = useGetOneInvoiceQuery(invoiceId!)
-  const { data } = useGetAllInvoiceDetailsQuery({ id: invoiceId! })
+    const [open, setOpen] = useState<boolean>(false)
+    const location = useLocation()
+    const invoiceId = location.pathname.split('/')[3]
+    // const { data: invoice, isLoading } = useGetOneInvoiceQuery(invoiceId!)
+    const { data } = useGetAllInvoiceDetailsQuery({ id: invoiceId! })
 
-  return (
-    <>
-      <PageTitle
-        title={
-          invoiceId?.toLowerCase() === 'crear'
-            ? 'Crear Factura'
-            : 'Editar Factura'
-        }
-      />
+    const { data: invoice, isLoading } = useQuery({
+        queryKey: ['invoice', invoiceId],
+        queryFn: () => GetOneInvoice(invoiceId),
+    })
 
-      {isLoading ? (
-        <CircularProgress data-testid='page.transactions.invoice.details.loading' />
-      ) : (
+    return (
         <>
-          <Box sx={{ width: '50%', mx: 'auto', mt: 2 }}>
-            <InvoiceForm invoiceId={invoiceId!} invoice={invoice!} />
-          </Box>
+            <PageTitle
+                title={
+                    invoiceId?.toLowerCase() === 'crear'
+                        ? 'Crear Factura'
+                        : 'Editar Factura'
+                }
+            />
 
-          {invoiceId?.toLowerCase() !== 'crear' && (
-            <>
-              <EditToolbar
-                title='Agregar Detalle'
-                onClick={() => setOpen(true)}
-              />
-              <AllDetailsTable data={data!} invoiceId={invoiceId!} />
-              <InvoiceDetailsDrawer
-                open={open}
-                onClose={() => setOpen(false)}
-                invoiceId={invoiceId!}
-              />
-            </>
-          )}
+            {isLoading ? (
+                <CircularProgress data-testid='page.transactions.invoice.details.loading' />
+            ) : (
+                <>
+                    <Box sx={{ width: '50%', mx: 'auto', mt: 2 }}>
+                        <InvoiceForm invoiceId={invoiceId!} invoice={invoice!} />
+                    </Box>
+
+                    {invoiceId?.toLowerCase() !== 'crear' && (
+                        <>
+                            <EditToolbar
+                                title='Agregar Detalle'
+                                onClick={() => setOpen(true)}
+                            />
+                            <AllDetailsTable data={data!} invoiceId={invoiceId!} />
+                            <InvoiceDetailsDrawer
+                                open={open}
+                                onClose={() => setOpen(false)}
+                                invoiceId={invoiceId!}
+                            />
+                        </>
+                    )}
+                </>
+            )}
         </>
-      )}
-    </>
-  )
+    )
 }

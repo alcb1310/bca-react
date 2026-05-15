@@ -38,3 +38,30 @@ export async function CreateInvoice({ data }: { data: InvoiceCreateType }) {
 
     return response.json() as Promise<InvoiceResponseType>
 }
+
+export async function GetOneInvoice(id: string) {
+    if (id === 'crear') {
+        return {
+            project_id: '',
+            supplier_id: '',
+            invoice_number: '',
+            invoice_date: '',
+            invoice_total: 0,
+        }
+    }
+
+    const state = store.getState()
+    const response = await fetch(`${URL}/transacciones/facturas/${id}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${state.login.token}`,
+        },
+    })
+
+    if (!response.ok) {
+        throw new Error('Network response was not ok')
+    }
+
+    return response.json() as Promise<InvoiceCreateType>
+}
