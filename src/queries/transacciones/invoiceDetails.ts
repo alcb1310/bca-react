@@ -49,3 +49,27 @@ export async function CreateInvoiceDetail({
 
     return
 }
+
+export async function DeleteInvoiceDetail({
+    invoiceId,
+    detailId,
+}: { invoiceId: string; detailId: string }) {
+    const state = store.getState()
+    const response = await fetch(
+        `${URL}/transacciones/facturas/${invoiceId}/detalle/${detailId}`,
+        {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${state.login.token}`,
+            },
+        },
+    )
+
+    if (!response.ok) {
+        const error = await response.json()
+        throw new Error(error.error)
+    }
+
+    return
+}
