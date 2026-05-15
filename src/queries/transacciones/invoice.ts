@@ -42,12 +42,13 @@ export async function CreateInvoice({ data }: { data: InvoiceCreateType }) {
 export async function GetOneInvoice(id: string) {
     if (id === 'crear') {
         return {
+            id: '',
             project_id: '',
             supplier_id: '',
             invoice_number: '',
-            invoice_date: '',
+            invoice_date: new Date(),
             invoice_total: 0,
-        }
+        } as InvoiceCreateType
     }
 
     const state = store.getState()
@@ -63,7 +64,7 @@ export async function GetOneInvoice(id: string) {
         throw new Error('Network response was not ok')
     }
 
-    return response.json() as Promise<InvoiceCreateType>
+    return (await response.json()) as InvoiceCreateType
 }
 
 export async function UpdateInvoice({ data }: { data: InvoiceCreateType }) {
