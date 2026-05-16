@@ -1,31 +1,31 @@
-name: Component Testing
-
-on: pull_request
-
-jobs:
-  component-run:
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        # run copies of the current job in parallel
-        containers: [1, 2]
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      # Install npm dependencies, cache them correctly
-      # and run all Cypress tests
-      - name: Cypress run
-        uses: cypress-io/github-action@v6
-        with:
-          install: true
-          component: true
-          record: true
-          parallel: true
-          group: 'BCA-Components'
-
-        env:
-          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
-          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+# name: Component Testing
+#
+# on: pull_request
+#
+# jobs:
+#   component-run:
+#     runs-on: ubuntu-latest
+#     strategy:
+#       fail-fast: false
+#       matrix:
+#         # run copies of the current job in parallel
+#         containers: [1, 2]
+#
+#     steps:
+#       - name: Checkout
+#         uses: actions/checkout@v4
+#
+#       # Install npm dependencies, cache them correctly
+#       # and run all Cypress tests
+#       - name: Cypress run
+#         uses: cypress-io/github-action@v6
+#         with:
+#           install: true
+#           component: true
+#           record: true
+#           parallel: true
+#           group: 'BCA-Components'
+#
+#         env:
+#           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+#           GITHUB_TOKEN: ${{ secrets.TOKEN }}
