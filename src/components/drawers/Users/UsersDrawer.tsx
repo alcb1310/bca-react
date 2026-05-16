@@ -2,138 +2,140 @@ import ButtonGroup from '@/components/buttons/button-group'
 import BcaDrawer from '@/components/drawers/BcaDrawer/BcaDrawer'
 import BcaTextField from '@/components/input/BcaTextField'
 import DrawerTitle from '@/components/titles/DrawerTitle'
+import { CreateUser } from '@/queries/users'
+import { useUpdateUserMutation } from '@/redux/api/bca-backend/user/userSlice'
 import {
-  useCreateUserMutation,
-  useUpdateUserMutation,
-} from '@/redux/api/bca-backend/user/userSlice'
-import {
-  type UserCreate,
-  type UserResponse,
-  userCreateSchema,
-  userResponseSchema,
+    type UserCreate,
+    type UserResponse,
+    userCreateSchema,
+    userResponseSchema,
 } from '@/types/user'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Box, Typography } from '@mui/material'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 
 type UsersDrawerProps = {
-  open: boolean
-  onClose: () => void
-  userData: UserResponse | UserCreate
+    open: boolean
+    onClose: () => void
+    userData: UserResponse | UserCreate
 }
 
 export default function UsersDrawer({
-  open,
-  onClose,
-  userData,
+    open,
+    onClose,
+    userData,
 }: UsersDrawerProps) {
-  const [createUser] = useCreateUserMutation()
-  const [updateUser] = useUpdateUserMutation()
-  const [conflictError, setConflictError] = useState<string>('')
+    const queryClient = useQueryClient()
+    const [updateUser] = useUpdateUserMutation()
+    const [conflictError, setConflictError] = useState<string>('')
 
-  const resolver =
-    'id' in userData
-      ? zodResolver(userResponseSchema)
-      : zodResolver(userCreateSchema)
+    const useCreateUserMutation = useMutation({
+        mutationFn: CreateUser,
+        onSuccess: () => {
+            onClose()
+            reset()
+            toast.success('Usuario creado exitosamente')
+            queryClient.invalidateQueries({ queryKey: ['users'] })
+        },
+        onError: (error) => {
+            setConflictError(error.message)
+            toast.error(`Error al crear el usuario: ${error.message}`)
+        },
+    })
 
-  const { control, reset, handleSubmit } = useForm<UserCreate | UserResponse>({
-    defaultValues: {
-      ...userData,
-    },
-    resolver,
-  })
+    const resolver =
+        'id' in userData
+            ? zodResolver(userResponseSchema)
+            : zodResolver(userCreateSchema)
 
-  useEffect(() => {
-    setConflictError('')
-    reset(userData)
-  }, [reset, userData])
+    const { control, reset, handleSubmit } = useForm<UserCreate | UserResponse>({
+        defaultValues: {
+            ...userData,
+        },
+        resolver,
+    })
 
-  async function hadleSubmit(data: UserCreate | UserResponse) {
-    setConflictError('')
-    if ('password' in data) {
-      const res = await createUser(data)
-      if ('data' in res) {
-        onClose()
-        reset()
-        toast.success('Usuario creado exitosamente')
-        return
-      }
+    useEffect(() => {
+        setConflictError('')
+        reset(userData)
+    }, [reset, userData])
 
-      // @ts-expect-error data property is part of the res.error object
-      setConflictError(res.error.data.error)
-      // @ts-expect-error data property is part of the res.error object
-      toast.error(`Error al crear el usuario: ${res.error.data.error}`)
-      return
+    async function hadleSubmit(data: UserCreate | UserResponse) {
+        setConflictError('')
+        if ('password' in data) {
+            useCreateUserMutation.mutate({ data })
+            return
+        }
+
+        const res = await updateUser(data)
+        if ('data' in res) {
+            onClose()
+            reset()
+            toast.success('Usuario actualizado exitosamente')
+            return
+        }
+
+        // @ts-expect-error data property is part of the res.error object
+        setConflictError(res.error.data.error)
+        // @ts-expect-error data property is part of the res.error object
+        toast.error(`Error al actualizar el usuario: ${res.error.data.error}`)
     }
 
-    const res = await updateUser(data)
-    if ('data' in res) {
-      onClose()
-      reset()
-      toast.success('Usuario actualizado exitosamente')
-      return
-    }
-
-    // @ts-expect-error data property is part of the res.error object
-    setConflictError(res.error.data.error)
-    // @ts-expect-error data property is part of the res.error object
-    toast.error(`Error al actualizar el usuario: ${res.error.data.error}`)
-  }
-
-  return (
-    <BcaDrawer open={open} onClose={onClose}>
-      <DrawerTitle
-        title={'password' in userData ? 'Crear usuario' : 'Editar usuario'}
-        close={onClose}
-      />
-
-      <Box mt={2}>
-        <form
-          className='w-full flex flex-col gap-5'
-          onSubmit={handleSubmit(hadleSubmit)}
-        >
-          {conflictError && (
-            <Typography color='error' variant='body2'>
-              {conflictError}
-            </Typography>
-          )}
-
-          <BcaTextField
-            name='email'
-            datatestid='component.drawer.user.email'
-            label='Email'
-            type='email'
-            control={control}
-            disabled={'id' in userData}
-          />
-
-          <BcaTextField
-            name='name'
-            datatestid='component.drawer.user.name'
-            label='Nombre'
-            type='text'
-            control={control}
-          />
-
-          {'password' in userData && (
-            <BcaTextField
-              name='password'
-              datatestid='component.drawer.user.password'
-              type='password'
-              label='Contraseña'
-              disabled={'id' in userData}
-              control={control}
+    return (
+        <BcaDrawer open={open} onClose={onClose}>
+            <DrawerTitle
+                title={'password' in userData ? 'Crear usuario' : 'Editar usuario'}
+                close={onClose}
             />
-          )}
 
-          <ButtonGroup
-            saveFunction={handleSubmit(hadleSubmit)}
-            cancelFunction={onClose}
-          />
-        </form>
-      </Box>
-    </BcaDrawer>
-  )
+            <Box mt={2}>
+                <form
+                    className='w-full flex flex-col gap-5'
+                    onSubmit={handleSubmit(hadleSubmit)}
+                >
+                    {conflictError && (
+                        <Typography color='error' variant='body2'>
+                            {conflictError}
+                        </Typography>
+                    )}
+
+                    <BcaTextField
+                        name='email'
+                        datatestid='component.drawer.user.email'
+                        label='Email'
+                        type='email'
+                        control={control}
+                        disabled={'id' in userData}
+                    />
+
+                    <BcaTextField
+                        name='name'
+                        datatestid='component.drawer.user.name'
+                        label='Nombre'
+                        type='text'
+                        control={control}
+                    />
+
+                    {'password' in userData && (
+                        <BcaTextField
+                            name='password'
+                            datatestid='component.drawer.user.password'
+                            type='password'
+                            label='Contraseña'
+                            disabled={'id' in userData}
+                            control={control}
+                        />
+                    )}
+
+                    <ButtonGroup
+                        saveFunction={handleSubmit(hadleSubmit)}
+                        cancelFunction={onClose}
+                    />
+                </form>
+            </Box>
+        </BcaDrawer>
+    )
 }
