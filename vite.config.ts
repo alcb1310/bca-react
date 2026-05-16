@@ -1,13 +1,17 @@
-import react from "@vitejs/plugin-react";
-import path from "path";
-import { defineConfig } from "vite";
+import { defineConfig } from 'vite'
+import { tanstackStart } from '@tanstack/react-start/plugin/vite'
+import viteReact from '@vitejs/plugin-react'
 
-// https://vitejs.dev/config/
 export default defineConfig({
-	plugins: [react()],
-   resolve: {
-    alias: {
-      "@": path.resolve(__dirname, "./src"),
+    server: {
+        port: 5173,
     },
-  },
-});
+    resolve: {
+        tsconfigPaths: true,
+    },
+    plugins: [
+        tanstackStart(),
+        // react's vite plugin must come after start's vite plugin
+        viteReact(),
+    ],
+})
