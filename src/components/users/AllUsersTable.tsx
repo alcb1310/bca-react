@@ -1,7 +1,6 @@
 import ConfirmationDialog from '@/components/dialog/ConfirmationDialog'
 import UsersDrawer from '@/components/drawers/Users/UsersDrawer'
-import { GetAllUsers, Me } from '@/queries/users'
-import { useDeleteUserMutation } from '@/redux/api/bca-backend/user/userSlice'
+import { DeleteUser, GetAllUsers, Me } from '@/queries/users'
 import type { UserResponse } from '@/types/user'
 import { DeleteOutline, EditOutlined } from '@mui/icons-material'
 import { CircularProgress } from '@mui/material'
@@ -11,11 +10,12 @@ import {
     type GridColDef,
     type GridRowParams,
 } from '@mui/x-data-grid'
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
 import { toast } from 'sonner'
 
 export default function AllUsersTable() {
+    const queryClient = useQueryClient()
     const [confirmationDialogOpen, setConfirmationDialogOpen] =
         useState<boolean>(false)
     const [userIdToDelete, setUserIdToDelete] = useState<string>('')
@@ -32,7 +32,16 @@ export default function AllUsersTable() {
         queryFn: () => Me(),
     })
 
-    const [deleteUser] = useDeleteUserMutation()
+    const deleteUserMutation = useMutation({
+        mutationFn: DeleteUser,
+        onSuccess: () => {
+            toast.success('Usuario borrado exitosamente')
+            queryClient.invalidateQueries({ queryKey: ['users'] })
+        },
+        onError: (error) => {
+            toast.error(`Error al borrar el usuario: ${error.message}`)
+        },
+    })
 
     function setOpenConfirmationDialog(open: boolean, id: string, name: string) {
         setUserIdToDelete(id)
@@ -104,15 +113,7 @@ export default function AllUsersTable() {
                     setOpen={setConfirmationDialogOpen}
                     message={message}
                     confirm={async () => {
-                        const res = await deleteUser(userIdToDelete)
-
-                        if ('error' in res) {
-                            // @ts-expect-error error type is string
-                            toast.error(`Error al borrar el usuario: ${res.error.data.error}`)
-                            return
-                        }
-
-                        toast.success('Usuario borrado exitosamente')
+                        deleteUserMutation.mutate(userIdToDelete)
                     }}
                 />
             )}

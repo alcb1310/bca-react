@@ -60,3 +60,22 @@ export async function CreateUser({ data }: { data: UserCreate }) {
 
     return
 }
+
+export async function DeleteUser(id: string) {
+    const state = store.getState()
+
+    const response = await fetch(`${URL}/users/${id}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${state.login.token}`,
+        },
+    })
+
+    if (!response.ok) {
+        const data = await response.json()
+        throw new Error(data.error)
+    }
+
+    return
+}
