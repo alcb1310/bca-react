@@ -3,6 +3,7 @@ import type { BudgetResponseType } from '@/types/budget'
 import type {
     BalanceResponseType,
     LevelType,
+    SpentDetailsType,
     SpentResponseType,
 } from '@/types/reports'
 
@@ -150,5 +151,5 @@ export async function GetSpentDetails({
         },
     )
 
-    return response.json() as Promise<SpentResponseType[]>
+    return response.json() as Promise<SpentDetailsType[]>
 }
