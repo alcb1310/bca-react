@@ -2,8 +2,7 @@ import ButtonGroup from '@/components/buttons/button-group'
 import BcaDrawer from '@/components/drawers/BcaDrawer/BcaDrawer'
 import BcaTextField from '@/components/input/BcaTextField'
 import DrawerTitle from '@/components/titles/DrawerTitle'
-import { CreateUser } from '@/queries/users'
-import { useUpdateUserMutation } from '@/redux/api/bca-backend/user/userSlice'
+import { CreateUser, UpdateUser } from '@/queries/users'
 import {
     type UserCreate,
     type UserResponse,
@@ -29,8 +28,21 @@ export default function UsersDrawer({
     userData,
 }: UsersDrawerProps) {
     const queryClient = useQueryClient()
-    const [updateUser] = useUpdateUserMutation()
     const [conflictError, setConflictError] = useState<string>('')
+
+    const updateUserMutation = useMutation({
+        mutationFn: UpdateUser,
+        onSuccess: () => {
+            onClose()
+            reset()
+            toast.success('Usuario actualizado exitosamente')
+            queryClient.invalidateQueries({ queryKey: ['users'] })
+        },
+        onError: (error) => {
+            setConflictError(error.message)
+            toast.error(`Error al actualizar el usuario: ${error.message}`)
+        },
+    })
 
     const useCreateUserMutation = useMutation({
         mutationFn: CreateUser,
@@ -70,18 +82,7 @@ export default function UsersDrawer({
             return
         }
 
-        const res = await updateUser(data)
-        if ('data' in res) {
-            onClose()
-            reset()
-            toast.success('Usuario actualizado exitosamente')
-            return
-        }
-
-        // @ts-expect-error data property is part of the res.error object
-        setConflictError(res.error.data.error)
-        // @ts-expect-error data property is part of the res.error object
-        toast.error(`Error al actualizar el usuario: ${res.error.data.error}`)
+        updateUserMutation.mutate({ data })
     }
 
     return (

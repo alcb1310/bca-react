@@ -79,3 +79,23 @@ export async function DeleteUser(id: string) {
 
     return
 }
+
+export async function UpdateUser({ data }: { data: UserResponse }) {
+    const state = store.getState()
+
+    const response = await fetch(`${URL}/users/${data.id}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${state.login.token}`,
+        },
+        body: JSON.stringify(data),
+    })
+
+    if (!response.ok) {
+        const data = await response.json()
+        throw new Error(data.error)
+    }
+
+    return
+}
