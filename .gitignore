@@ -27,3 +27,4 @@ tsconfig.node.tsbuildinfo
 
 .env
 cypress/screenshots/
+.output
