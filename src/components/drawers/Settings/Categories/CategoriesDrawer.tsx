@@ -2,102 +2,113 @@ import ButtonGroup from '@/components/buttons/button-group'
 import BcaDrawer from '@/components/drawers/BcaDrawer/BcaDrawer'
 import BcaTextField from '@/components/input/BcaTextField'
 import DrawerTitle from '@/components/titles/DrawerTitle'
-import {
-  useCreateCategoryMutation,
-  useUpdateCategoryMutation,
-} from '@/redux/api/bca-backend/parametros/categoriesSlice'
+import { CreateCategory, UpdateCategory } from '@/queries/parametros/categories'
 import { type CategoryType, categorySchema } from '@/types/categories'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Box, Typography } from '@mui/material'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 
 type CategoriesDrawerProps = {
-  open: boolean
-  onClose: () => void
-  defaultValues: CategoryType
+    open: boolean
+    onClose: () => void
+    defaultValues: CategoryType
 }
 
 export default function CategoriesDrawer({
-  open,
-  onClose,
-  defaultValues,
-}: CategoriesDrawerProps) {
-  const [conflictError, setConflictError] = useState<string>('')
-
-  const { control, reset, handleSubmit } = useForm<CategoryType>({
+    open,
+    onClose,
     defaultValues,
-    resolver: zodResolver(categorySchema),
-  })
+}: CategoriesDrawerProps) {
+    const queryClient = useQueryClient()
+    const [conflictError, setConflictError] = useState<string>('')
 
-  const [createCategory] = useCreateCategoryMutation()
-  const [updateCategory] = useUpdateCategoryMutation()
+    const { control, reset, handleSubmit } = useForm<CategoryType>({
+        defaultValues,
+        resolver: zodResolver(categorySchema),
+    })
 
-  useEffect(() => {
-    reset(defaultValues)
-  }, [reset, defaultValues])
+    const createMutation = useMutation({
+        mutationFn: CreateCategory,
+        onSuccess: () => {
+            toast.success('Categoría creada exitosamente')
+            onClose()
+        },
+        onError: (error) => {
+            toast.error(error.message)
+            setConflictError(error.message)
+        },
+        onSettled: () => {
+            queryClient.invalidateQueries({
+                queryKey: ['categorias'],
+            })
+        },
+    })
 
-  async function hadleSubmit(data: CategoryType) {
-    if (!defaultValues.id) {
-      const res = await createCategory(data)
-      if ('data' in res) {
-        onClose()
-        toast.success('Categoría creada exitosamente')
-        return
-      }
-      // @ts-expect-error data property is part of the res.error object
-      setConflictError(res.error.data.error)
-      // @ts-expect-error data property is part of the res.error object
-      toast.error(`Error al crear la categoría: ${res.error.data.error}`)
-      return
+    const updateMutation = useMutation({
+        mutationFn: UpdateCategory,
+        onSuccess: () => {
+            toast.success('Categoría actualizada exitosamente')
+            onClose()
+        },
+        onError: (error) => {
+            toast.error(error.message)
+            setConflictError(error.message)
+        },
+        onSettled: () => {
+            queryClient.invalidateQueries({
+                queryKey: ['categorias'],
+            })
+        },
+    })
+
+    useEffect(() => {
+        reset(defaultValues)
+    }, [reset, defaultValues])
+
+    async function hadleSubmit(data: CategoryType) {
+        if (!defaultValues.id) {
+            createMutation.mutate({ data })
+            return
+        }
+
+        updateMutation.mutate({ data })
     }
 
-    const res = await updateCategory(data)
-    if ('data' in res) {
-      onClose()
-      toast.success('Categoría actualizada exitosamente')
-      return
-    }
-    // @ts-expect-error data property is part of the res.error object
-    setConflictError(res.error.data.error)
-    // @ts-expect-error data property is part of the res.error object
-    toast.error(`Error al actualizar la categoría: ${res.error.data.error}`)
-    return
-  }
+    return (
+        <BcaDrawer open={open} onClose={onClose}>
+            <DrawerTitle
+                title={defaultValues.id ? 'Editar Categoria' : 'Crear Categorias'}
+                close={onClose}
+            />
 
-  return (
-    <BcaDrawer open={open} onClose={onClose}>
-      <DrawerTitle
-        title={defaultValues.id ? 'Editar Categoria' : 'Crear Categorias'}
-        close={onClose}
-      />
+            <Box mt={2}>
+                <form
+                    className='w-full flex flex-col gap-5'
+                    onSubmit={handleSubmit(hadleSubmit)}
+                >
+                    {conflictError && (
+                        <Typography color='error' sx={{ fontSize: '0.85rem' }}>
+                            {conflictError}
+                        </Typography>
+                    )}
 
-      <Box mt={2}>
-        <form
-          className='w-full flex flex-col gap-5'
-          onSubmit={handleSubmit(hadleSubmit)}
-        >
-          {conflictError && (
-            <Typography color='error' sx={{ fontSize: '0.85rem' }}>
-              {conflictError}
-            </Typography>
-          )}
+                    <BcaTextField
+                        name='name'
+                        label='Categoría'
+                        datatestid='component.drawer.settings.category.name'
+                        type='text'
+                        control={control}
+                    />
 
-          <BcaTextField
-            name='name'
-            label='Categoría'
-            datatestid='component.drawer.settings.category.name'
-            type='text'
-            control={control}
-          />
-
-          <ButtonGroup
-            saveFunction={handleSubmit(hadleSubmit)}
-            cancelFunction={onClose}
-          />
-        </form>
-      </Box>
-    </BcaDrawer>
-  )
+                    <ButtonGroup
+                        saveFunction={handleSubmit(hadleSubmit)}
+                        cancelFunction={onClose}
+                    />
+                </form>
+            </Box>
+        </BcaDrawer>
+    )
 }
