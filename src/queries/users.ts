@@ -99,3 +99,23 @@ export async function UpdateUser({ data }: { data: UserResponse }) {
 
     return
 }
+
+export async function UpdatePassword({ data }: { data: { password: string } }) {
+    const state = store.getState()
+
+    const response = await fetch(`${URL}/users/password`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${state.login.token}`,
+        },
+        body: JSON.stringify(data),
+    })
+
+    if (!response.ok) {
+        const data = await response.json()
+        throw new Error(data.error)
+    }
+
+    return
+}
