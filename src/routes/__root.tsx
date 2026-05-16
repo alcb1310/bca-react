@@ -8,6 +8,8 @@ import {
     Scripts,
 } from '@tanstack/react-router'
 
+import appCss from '../styles.css?url'
+
 export const Route = createRootRoute({
     head: () => ({
         meta: [
@@ -22,6 +24,7 @@ export const Route = createRootRoute({
                 title: 'BCA',
             },
         ],
+        links: [{ rel: 'stylesheet', href: appCss }],
     }),
     component: RootComponent,
 })
