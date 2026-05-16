@@ -1,10 +1,7 @@
 import ConfirmationDialog from '@/components/dialog/ConfirmationDialog'
 import UsersDrawer from '@/components/drawers/Users/UsersDrawer'
-import { Me } from '@/queries/users'
-import {
-    useAllUsersQuery,
-    useDeleteUserMutation,
-} from '@/redux/api/bca-backend/user/userSlice'
+import { GetAllUsers, Me } from '@/queries/users'
+import { useDeleteUserMutation } from '@/redux/api/bca-backend/user/userSlice'
 import type { UserResponse } from '@/types/user'
 import { DeleteOutline, EditOutlined } from '@mui/icons-material'
 import { CircularProgress } from '@mui/material'
@@ -26,9 +23,10 @@ export default function AllUsersTable() {
     const [openUserDrawer, setOpenUserDrawer] = useState<boolean>(false)
     const [userData, setUserData] = useState<UserResponse | null>(null)
 
-    const { data, isLoading } = useAllUsersQuery()
-    // const { data: me } = useMeQuery()
-
+    const { data, isLoading } = useQuery({
+        queryKey: ['users'],
+        queryFn: () => GetAllUsers(),
+    })
     const { data: me } = useQuery({
         queryKey: ['me'],
         queryFn: () => Me(),
