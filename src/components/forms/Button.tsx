@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button'
-import { useFormContext } from '@/src/hooks/formHook'
+import { useFormContext } from '@/hooks/formHook'
 import type { ComponentProps } from 'react'
 
 interface FormButtonProps extends ComponentProps<typeof Button> {

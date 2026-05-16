@@ -1,6 +1,6 @@
 import { Field, FieldDescription, FieldError, FieldLabel } from '@/components/ui/field'
 import { NativeSelect, NativeSelectOption } from '@/components/ui/native-select'
-import { useFieldContext } from '@/src/hooks/formHook'
+import { useFieldContext } from '@/hooks/formHook'
 import { useStore } from '@tanstack/react-form'
 import type { ComponentProps } from 'react'
 

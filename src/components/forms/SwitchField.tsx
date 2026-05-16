@@ -1,6 +1,6 @@
 import type { Switch as SwitchPrimitive } from 'radix-ui'
 import { Field, FieldDescription, FieldError, FieldLabel } from '@/components/ui/field'
-import { useFieldContext } from '@/src/hooks/formHook'
+import { useFieldContext } from '@/hooks/formHook'
 import { useStore } from '@tanstack/react-form'
 import type { ComponentProps } from 'react'
 import { Switch } from '@/components/ui/switch'
