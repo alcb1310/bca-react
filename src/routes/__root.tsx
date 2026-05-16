@@ -9,7 +9,9 @@ import {
 import type { ReactNode } from 'react'
 import appCss from '../styles.css?url'
 
-export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
+export const Route = createRootRouteWithContext<{
+    queryClient: QueryClient
+}>()(
     {
         head: () => ({
             meta: [
