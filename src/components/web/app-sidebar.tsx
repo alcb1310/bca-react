@@ -1,9 +1,11 @@
 import { ComponentProps, ForwardRefExoticComponent, RefAttributes } from "react";
-import { Sidebar, SidebarContent, SidebarGroup, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarMenuSub, SidebarMenuSubButton, SidebarMenuSubItem } from "../ui/sidebar";
+import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarMenuSub, SidebarMenuSubButton, SidebarMenuSubItem } from "../ui/sidebar";
 import { Link } from "@tanstack/react-router";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "../ui/collapsible";
 import type { FileRoutesByTo } from '@/routeTree.gen'
 import { BanknoteArrowDownIcon, BrickWallIcon, CableIcon, ChartBarStackedIcon, ChartCandlestickIcon, ChartSplineIcon, ChevronRight, ClipboardClockIcon, CreditCardIcon, FolderKanbanIcon, FolderOpenIcon, LayoutListIcon, LucideProps, ScaleIcon, ShellIcon, ShoppingBasketIcon, ShoppingCartIcon } from "lucide-react";
+import { authStore } from "@/store/auth";
+import { NavUser, UserData } from "./nav-user";
 
 type NavData = {
     title: string;
@@ -17,7 +19,25 @@ type NavData = {
     }[];
 }
 
-const data: { navMain: NavData[] } = {
+const data: { navMain: NavData[], userNav: UserData } = {
+    userNav: {
+        name: authStore.get().user?.name,
+        email: authStore.get().user?.email,
+        options: [
+            {
+                title: 'Perfil',
+                path: '/usuarios/perfil'
+            },
+            {
+                title: 'Administrar',
+                path: '/usuarios/administrar'
+            },
+            {
+                title: 'Cambiar Contraseña',
+                path: '/usuarios/cambio-contrasena'
+            },
+        ]
+    },
     navMain: [
         {
             title: 'Transacciones',
@@ -166,5 +186,8 @@ export function AppSidebar({ ...props }: ComponentProps<typeof Sidebar>) {
                 </SidebarMenu>
             </SidebarGroup>
         </SidebarContent>
+        <SidebarFooter>
+            <NavUser user={data.userNav} />
+        </SidebarFooter>
     </Sidebar>
 }
