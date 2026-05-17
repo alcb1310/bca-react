@@ -24,17 +24,17 @@ const data: { navMain: NavData[] } = {
             items: [
                 {
                     title: 'Presupuesto',
-                    path: '/',
+                    path: '/transacciones/presupuesto',
                     icon: ShoppingCartIcon
                 },
                 {
                     title: 'Facturas',
-                    path: '/',
+                    path: '/transacciones/facturas',
                     icon: CreditCardIcon
                 },
                 {
                     title: 'Cierre mensual',
-                    path: '/',
+                    path: '/transacciones/cierre-mensual',
                     icon: ChartCandlestickIcon
                 }
             ]
@@ -42,14 +42,26 @@ const data: { navMain: NavData[] } = {
         {
             title: 'Reportes',
             items: [
-                { title: 'Actual', path: '/', icon: FolderOpenIcon },
-                { title: 'Cuadre', path: '/', icon: ScaleIcon },
+                {
+                    title: 'Actual',
+                    path: '/reportes/actual',
+                    icon: FolderOpenIcon
+                },
+                {
+                    title: 'Cuadre',
+                    path: '/reportes/cuadre',
+                    icon: ScaleIcon
+                },
                 {
                     title: 'Gastado por Partida',
-                    path: '/',
+                    path: '/reportes/gastado-por-partida',
                     icon: BanknoteArrowDownIcon,
                 },
-                { title: 'Histórico', path: '/', icon: ClipboardClockIcon },
+                {
+                    title: 'Histórico',
+                    path: '/reportes/historico',
+                    icon: ClipboardClockIcon
+                },
             ],
         },
         {
@@ -57,32 +69,32 @@ const data: { navMain: NavData[] } = {
             items: [
                 {
                     title: 'Partidas',
-                    path: '/',
+                    path: '/parametros/partidas',
                     icon: LayoutListIcon,
                 },
                 {
                     title: 'Categorias',
-                    path: '/',
+                    path: '/parametros/categorias',
                     icon: ChartBarStackedIcon,
                 },
                 {
                     title: 'Materiales',
-                    path: '/',
+                    path: '/parametros/materiales',
                     icon: BrickWallIcon,
                 },
                 {
                     title: 'Proyectos',
-                    path: '/',
+                    path: '/parametros/proyectos',
                     icon: FolderKanbanIcon,
                 },
                 {
                     title: 'Proveedores',
-                    path: '/',
+                    path: '/parametros/proveedores',
                     icon: CableIcon,
                 },
                 {
                     title: 'Rubros',
-                    path: '/',
+                    path: '/parametros/rubros',
                     icon: ShoppingBasketIcon,
                 },
             ],
@@ -90,8 +102,16 @@ const data: { navMain: NavData[] } = {
         {
             title: 'Analisis',
             items: [
-                { title: 'Cantidades', path: '/', icon: ShellIcon },
-                { title: 'Analisis', path: '/', icon: ChartSplineIcon },
+                {
+                    title: 'Cantidades',
+                    path: '/analisis/cantidades',
+                    icon: ShellIcon
+                },
+                {
+                    title: 'Analisis',
+                    path: '/analisis/analisis',
+                    icon: ChartSplineIcon
+                },
             ],
         },
 

@@ -12,6 +12,21 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as AuthRouteRouteImport } from './routes/_auth/route'
 import { Route as AuthIndexRouteImport } from './routes/_auth/index'
+import { Route as AuthTransaccionesPresupuestoRouteImport } from './routes/_auth/transacciones/presupuesto'
+import { Route as AuthTransaccionesFacturasRouteImport } from './routes/_auth/transacciones/facturas'
+import { Route as AuthTransaccionesCierreMensualRouteImport } from './routes/_auth/transacciones/cierre-mensual'
+import { Route as AuthReportesHistoricoRouteImport } from './routes/_auth/reportes/historico'
+import { Route as AuthReportesGastadoPorPartidaRouteImport } from './routes/_auth/reportes/gastado-por-partida'
+import { Route as AuthReportesCuadreRouteImport } from './routes/_auth/reportes/cuadre'
+import { Route as AuthReportesActualRouteImport } from './routes/_auth/reportes/actual'
+import { Route as AuthParametrosRubrosRouteImport } from './routes/_auth/parametros/rubros'
+import { Route as AuthParametrosProyectosRouteImport } from './routes/_auth/parametros/proyectos'
+import { Route as AuthParametrosProveedoresRouteImport } from './routes/_auth/parametros/proveedores'
+import { Route as AuthParametrosPartidasRouteImport } from './routes/_auth/parametros/partidas'
+import { Route as AuthParametrosMaterialesRouteImport } from './routes/_auth/parametros/materiales'
+import { Route as AuthParametrosCategoriasRouteImport } from './routes/_auth/parametros/categorias'
+import { Route as AuthAnalisisCantidadesRouteImport } from './routes/_auth/analisis/cantidades'
+import { Route as AuthAnalisisAnalisisRouteImport } from './routes/_auth/analisis/analisis'
 
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
@@ -27,27 +42,207 @@ const AuthIndexRoute = AuthIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AuthRouteRoute,
 } as any)
+const AuthTransaccionesPresupuestoRoute =
+  AuthTransaccionesPresupuestoRouteImport.update({
+    id: '/transacciones/presupuesto',
+    path: '/transacciones/presupuesto',
+    getParentRoute: () => AuthRouteRoute,
+  } as any)
+const AuthTransaccionesFacturasRoute =
+  AuthTransaccionesFacturasRouteImport.update({
+    id: '/transacciones/facturas',
+    path: '/transacciones/facturas',
+    getParentRoute: () => AuthRouteRoute,
+  } as any)
+const AuthTransaccionesCierreMensualRoute =
+  AuthTransaccionesCierreMensualRouteImport.update({
+    id: '/transacciones/cierre-mensual',
+    path: '/transacciones/cierre-mensual',
+    getParentRoute: () => AuthRouteRoute,
+  } as any)
+const AuthReportesHistoricoRoute = AuthReportesHistoricoRouteImport.update({
+  id: '/reportes/historico',
+  path: '/reportes/historico',
+  getParentRoute: () => AuthRouteRoute,
+} as any)
+const AuthReportesGastadoPorPartidaRoute =
+  AuthReportesGastadoPorPartidaRouteImport.update({
+    id: '/reportes/gastado-por-partida',
+    path: '/reportes/gastado-por-partida',
+    getParentRoute: () => AuthRouteRoute,
+  } as any)
+const AuthReportesCuadreRoute = AuthReportesCuadreRouteImport.update({
+  id: '/reportes/cuadre',
+  path: '/reportes/cuadre',
+  getParentRoute: () => AuthRouteRoute,
+} as any)
+const AuthReportesActualRoute = AuthReportesActualRouteImport.update({
+  id: '/reportes/actual',
+  path: '/reportes/actual',
+  getParentRoute: () => AuthRouteRoute,
+} as any)
+const AuthParametrosRubrosRoute = AuthParametrosRubrosRouteImport.update({
+  id: '/parametros/rubros',
+  path: '/parametros/rubros',
+  getParentRoute: () => AuthRouteRoute,
+} as any)
+const AuthParametrosProyectosRoute = AuthParametrosProyectosRouteImport.update({
+  id: '/parametros/proyectos',
+  path: '/parametros/proyectos',
+  getParentRoute: () => AuthRouteRoute,
+} as any)
+const AuthParametrosProveedoresRoute =
+  AuthParametrosProveedoresRouteImport.update({
+    id: '/parametros/proveedores',
+    path: '/parametros/proveedores',
+    getParentRoute: () => AuthRouteRoute,
+  } as any)
+const AuthParametrosPartidasRoute = AuthParametrosPartidasRouteImport.update({
+  id: '/parametros/partidas',
+  path: '/parametros/partidas',
+  getParentRoute: () => AuthRouteRoute,
+} as any)
+const AuthParametrosMaterialesRoute =
+  AuthParametrosMaterialesRouteImport.update({
+    id: '/parametros/materiales',
+    path: '/parametros/materiales',
+    getParentRoute: () => AuthRouteRoute,
+  } as any)
+const AuthParametrosCategoriasRoute =
+  AuthParametrosCategoriasRouteImport.update({
+    id: '/parametros/categorias',
+    path: '/parametros/categorias',
+    getParentRoute: () => AuthRouteRoute,
+  } as any)
+const AuthAnalisisCantidadesRoute = AuthAnalisisCantidadesRouteImport.update({
+  id: '/analisis/cantidades',
+  path: '/analisis/cantidades',
+  getParentRoute: () => AuthRouteRoute,
+} as any)
+const AuthAnalisisAnalisisRoute = AuthAnalisisAnalisisRouteImport.update({
+  id: '/analisis/analisis',
+  path: '/analisis/analisis',
+  getParentRoute: () => AuthRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof AuthIndexRoute
   '/login': typeof LoginRoute
+  '/analisis/analisis': typeof AuthAnalisisAnalisisRoute
+  '/analisis/cantidades': typeof AuthAnalisisCantidadesRoute
+  '/parametros/categorias': typeof AuthParametrosCategoriasRoute
+  '/parametros/materiales': typeof AuthParametrosMaterialesRoute
+  '/parametros/partidas': typeof AuthParametrosPartidasRoute
+  '/parametros/proveedores': typeof AuthParametrosProveedoresRoute
+  '/parametros/proyectos': typeof AuthParametrosProyectosRoute
+  '/parametros/rubros': typeof AuthParametrosRubrosRoute
+  '/reportes/actual': typeof AuthReportesActualRoute
+  '/reportes/cuadre': typeof AuthReportesCuadreRoute
+  '/reportes/gastado-por-partida': typeof AuthReportesGastadoPorPartidaRoute
+  '/reportes/historico': typeof AuthReportesHistoricoRoute
+  '/transacciones/cierre-mensual': typeof AuthTransaccionesCierreMensualRoute
+  '/transacciones/facturas': typeof AuthTransaccionesFacturasRoute
+  '/transacciones/presupuesto': typeof AuthTransaccionesPresupuestoRoute
 }
 export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/': typeof AuthIndexRoute
+  '/analisis/analisis': typeof AuthAnalisisAnalisisRoute
+  '/analisis/cantidades': typeof AuthAnalisisCantidadesRoute
+  '/parametros/categorias': typeof AuthParametrosCategoriasRoute
+  '/parametros/materiales': typeof AuthParametrosMaterialesRoute
+  '/parametros/partidas': typeof AuthParametrosPartidasRoute
+  '/parametros/proveedores': typeof AuthParametrosProveedoresRoute
+  '/parametros/proyectos': typeof AuthParametrosProyectosRoute
+  '/parametros/rubros': typeof AuthParametrosRubrosRoute
+  '/reportes/actual': typeof AuthReportesActualRoute
+  '/reportes/cuadre': typeof AuthReportesCuadreRoute
+  '/reportes/gastado-por-partida': typeof AuthReportesGastadoPorPartidaRoute
+  '/reportes/historico': typeof AuthReportesHistoricoRoute
+  '/transacciones/cierre-mensual': typeof AuthTransaccionesCierreMensualRoute
+  '/transacciones/facturas': typeof AuthTransaccionesFacturasRoute
+  '/transacciones/presupuesto': typeof AuthTransaccionesPresupuestoRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_auth': typeof AuthRouteRouteWithChildren
   '/login': typeof LoginRoute
   '/_auth/': typeof AuthIndexRoute
+  '/_auth/analisis/analisis': typeof AuthAnalisisAnalisisRoute
+  '/_auth/analisis/cantidades': typeof AuthAnalisisCantidadesRoute
+  '/_auth/parametros/categorias': typeof AuthParametrosCategoriasRoute
+  '/_auth/parametros/materiales': typeof AuthParametrosMaterialesRoute
+  '/_auth/parametros/partidas': typeof AuthParametrosPartidasRoute
+  '/_auth/parametros/proveedores': typeof AuthParametrosProveedoresRoute
+  '/_auth/parametros/proyectos': typeof AuthParametrosProyectosRoute
+  '/_auth/parametros/rubros': typeof AuthParametrosRubrosRoute
+  '/_auth/reportes/actual': typeof AuthReportesActualRoute
+  '/_auth/reportes/cuadre': typeof AuthReportesCuadreRoute
+  '/_auth/reportes/gastado-por-partida': typeof AuthReportesGastadoPorPartidaRoute
+  '/_auth/reportes/historico': typeof AuthReportesHistoricoRoute
+  '/_auth/transacciones/cierre-mensual': typeof AuthTransaccionesCierreMensualRoute
+  '/_auth/transacciones/facturas': typeof AuthTransaccionesFacturasRoute
+  '/_auth/transacciones/presupuesto': typeof AuthTransaccionesPresupuestoRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/login'
+  fullPaths:
+    | '/'
+    | '/login'
+    | '/analisis/analisis'
+    | '/analisis/cantidades'
+    | '/parametros/categorias'
+    | '/parametros/materiales'
+    | '/parametros/partidas'
+    | '/parametros/proveedores'
+    | '/parametros/proyectos'
+    | '/parametros/rubros'
+    | '/reportes/actual'
+    | '/reportes/cuadre'
+    | '/reportes/gastado-por-partida'
+    | '/reportes/historico'
+    | '/transacciones/cierre-mensual'
+    | '/transacciones/facturas'
+    | '/transacciones/presupuesto'
   fileRoutesByTo: FileRoutesByTo
-  to: '/login' | '/'
-  id: '__root__' | '/_auth' | '/login' | '/_auth/'
+  to:
+    | '/login'
+    | '/'
+    | '/analisis/analisis'
+    | '/analisis/cantidades'
+    | '/parametros/categorias'
+    | '/parametros/materiales'
+    | '/parametros/partidas'
+    | '/parametros/proveedores'
+    | '/parametros/proyectos'
+    | '/parametros/rubros'
+    | '/reportes/actual'
+    | '/reportes/cuadre'
+    | '/reportes/gastado-por-partida'
+    | '/reportes/historico'
+    | '/transacciones/cierre-mensual'
+    | '/transacciones/facturas'
+    | '/transacciones/presupuesto'
+  id:
+    | '__root__'
+    | '/_auth'
+    | '/login'
+    | '/_auth/'
+    | '/_auth/analisis/analisis'
+    | '/_auth/analisis/cantidades'
+    | '/_auth/parametros/categorias'
+    | '/_auth/parametros/materiales'
+    | '/_auth/parametros/partidas'
+    | '/_auth/parametros/proveedores'
+    | '/_auth/parametros/proyectos'
+    | '/_auth/parametros/rubros'
+    | '/_auth/reportes/actual'
+    | '/_auth/reportes/cuadre'
+    | '/_auth/reportes/gastado-por-partida'
+    | '/_auth/reportes/historico'
+    | '/_auth/transacciones/cierre-mensual'
+    | '/_auth/transacciones/facturas'
+    | '/_auth/transacciones/presupuesto'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -78,15 +273,150 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthIndexRouteImport
       parentRoute: typeof AuthRouteRoute
     }
+    '/_auth/transacciones/presupuesto': {
+      id: '/_auth/transacciones/presupuesto'
+      path: '/transacciones/presupuesto'
+      fullPath: '/transacciones/presupuesto'
+      preLoaderRoute: typeof AuthTransaccionesPresupuestoRouteImport
+      parentRoute: typeof AuthRouteRoute
+    }
+    '/_auth/transacciones/facturas': {
+      id: '/_auth/transacciones/facturas'
+      path: '/transacciones/facturas'
+      fullPath: '/transacciones/facturas'
+      preLoaderRoute: typeof AuthTransaccionesFacturasRouteImport
+      parentRoute: typeof AuthRouteRoute
+    }
+    '/_auth/transacciones/cierre-mensual': {
+      id: '/_auth/transacciones/cierre-mensual'
+      path: '/transacciones/cierre-mensual'
+      fullPath: '/transacciones/cierre-mensual'
+      preLoaderRoute: typeof AuthTransaccionesCierreMensualRouteImport
+      parentRoute: typeof AuthRouteRoute
+    }
+    '/_auth/reportes/historico': {
+      id: '/_auth/reportes/historico'
+      path: '/reportes/historico'
+      fullPath: '/reportes/historico'
+      preLoaderRoute: typeof AuthReportesHistoricoRouteImport
+      parentRoute: typeof AuthRouteRoute
+    }
+    '/_auth/reportes/gastado-por-partida': {
+      id: '/_auth/reportes/gastado-por-partida'
+      path: '/reportes/gastado-por-partida'
+      fullPath: '/reportes/gastado-por-partida'
+      preLoaderRoute: typeof AuthReportesGastadoPorPartidaRouteImport
+      parentRoute: typeof AuthRouteRoute
+    }
+    '/_auth/reportes/cuadre': {
+      id: '/_auth/reportes/cuadre'
+      path: '/reportes/cuadre'
+      fullPath: '/reportes/cuadre'
+      preLoaderRoute: typeof AuthReportesCuadreRouteImport
+      parentRoute: typeof AuthRouteRoute
+    }
+    '/_auth/reportes/actual': {
+      id: '/_auth/reportes/actual'
+      path: '/reportes/actual'
+      fullPath: '/reportes/actual'
+      preLoaderRoute: typeof AuthReportesActualRouteImport
+      parentRoute: typeof AuthRouteRoute
+    }
+    '/_auth/parametros/rubros': {
+      id: '/_auth/parametros/rubros'
+      path: '/parametros/rubros'
+      fullPath: '/parametros/rubros'
+      preLoaderRoute: typeof AuthParametrosRubrosRouteImport
+      parentRoute: typeof AuthRouteRoute
+    }
+    '/_auth/parametros/proyectos': {
+      id: '/_auth/parametros/proyectos'
+      path: '/parametros/proyectos'
+      fullPath: '/parametros/proyectos'
+      preLoaderRoute: typeof AuthParametrosProyectosRouteImport
+      parentRoute: typeof AuthRouteRoute
+    }
+    '/_auth/parametros/proveedores': {
+      id: '/_auth/parametros/proveedores'
+      path: '/parametros/proveedores'
+      fullPath: '/parametros/proveedores'
+      preLoaderRoute: typeof AuthParametrosProveedoresRouteImport
+      parentRoute: typeof AuthRouteRoute
+    }
+    '/_auth/parametros/partidas': {
+      id: '/_auth/parametros/partidas'
+      path: '/parametros/partidas'
+      fullPath: '/parametros/partidas'
+      preLoaderRoute: typeof AuthParametrosPartidasRouteImport
+      parentRoute: typeof AuthRouteRoute
+    }
+    '/_auth/parametros/materiales': {
+      id: '/_auth/parametros/materiales'
+      path: '/parametros/materiales'
+      fullPath: '/parametros/materiales'
+      preLoaderRoute: typeof AuthParametrosMaterialesRouteImport
+      parentRoute: typeof AuthRouteRoute
+    }
+    '/_auth/parametros/categorias': {
+      id: '/_auth/parametros/categorias'
+      path: '/parametros/categorias'
+      fullPath: '/parametros/categorias'
+      preLoaderRoute: typeof AuthParametrosCategoriasRouteImport
+      parentRoute: typeof AuthRouteRoute
+    }
+    '/_auth/analisis/cantidades': {
+      id: '/_auth/analisis/cantidades'
+      path: '/analisis/cantidades'
+      fullPath: '/analisis/cantidades'
+      preLoaderRoute: typeof AuthAnalisisCantidadesRouteImport
+      parentRoute: typeof AuthRouteRoute
+    }
+    '/_auth/analisis/analisis': {
+      id: '/_auth/analisis/analisis'
+      path: '/analisis/analisis'
+      fullPath: '/analisis/analisis'
+      preLoaderRoute: typeof AuthAnalisisAnalisisRouteImport
+      parentRoute: typeof AuthRouteRoute
+    }
   }
 }
 
 interface AuthRouteRouteChildren {
   AuthIndexRoute: typeof AuthIndexRoute
+  AuthAnalisisAnalisisRoute: typeof AuthAnalisisAnalisisRoute
+  AuthAnalisisCantidadesRoute: typeof AuthAnalisisCantidadesRoute
+  AuthParametrosCategoriasRoute: typeof AuthParametrosCategoriasRoute
+  AuthParametrosMaterialesRoute: typeof AuthParametrosMaterialesRoute
+  AuthParametrosPartidasRoute: typeof AuthParametrosPartidasRoute
+  AuthParametrosProveedoresRoute: typeof AuthParametrosProveedoresRoute
+  AuthParametrosProyectosRoute: typeof AuthParametrosProyectosRoute
+  AuthParametrosRubrosRoute: typeof AuthParametrosRubrosRoute
+  AuthReportesActualRoute: typeof AuthReportesActualRoute
+  AuthReportesCuadreRoute: typeof AuthReportesCuadreRoute
+  AuthReportesGastadoPorPartidaRoute: typeof AuthReportesGastadoPorPartidaRoute
+  AuthReportesHistoricoRoute: typeof AuthReportesHistoricoRoute
+  AuthTransaccionesCierreMensualRoute: typeof AuthTransaccionesCierreMensualRoute
+  AuthTransaccionesFacturasRoute: typeof AuthTransaccionesFacturasRoute
+  AuthTransaccionesPresupuestoRoute: typeof AuthTransaccionesPresupuestoRoute
 }
 
 const AuthRouteRouteChildren: AuthRouteRouteChildren = {
   AuthIndexRoute: AuthIndexRoute,
+  AuthAnalisisAnalisisRoute: AuthAnalisisAnalisisRoute,
+  AuthAnalisisCantidadesRoute: AuthAnalisisCantidadesRoute,
+  AuthParametrosCategoriasRoute: AuthParametrosCategoriasRoute,
+  AuthParametrosMaterialesRoute: AuthParametrosMaterialesRoute,
+  AuthParametrosPartidasRoute: AuthParametrosPartidasRoute,
+  AuthParametrosProveedoresRoute: AuthParametrosProveedoresRoute,
+  AuthParametrosProyectosRoute: AuthParametrosProyectosRoute,
+  AuthParametrosRubrosRoute: AuthParametrosRubrosRoute,
+  AuthReportesActualRoute: AuthReportesActualRoute,
+  AuthReportesCuadreRoute: AuthReportesCuadreRoute,
+  AuthReportesGastadoPorPartidaRoute: AuthReportesGastadoPorPartidaRoute,
+  AuthReportesHistoricoRoute: AuthReportesHistoricoRoute,
+  AuthTransaccionesCierreMensualRoute: AuthTransaccionesCierreMensualRoute,
+  AuthTransaccionesFacturasRoute: AuthTransaccionesFacturasRoute,
+  AuthTransaccionesPresupuestoRoute: AuthTransaccionesPresupuestoRoute,
 }
 
 const AuthRouteRouteWithChildren = AuthRouteRoute._addFileChildren(
