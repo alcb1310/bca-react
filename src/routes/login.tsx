@@ -1,8 +1,9 @@
 import { Field, FieldDescription, FieldGroup, FieldSet } from '@/components/ui/field'
 import { useAppForm } from '@/hooks/formHook'
 import { LoginMutation } from '@/queries/auth'
+import { authStore } from '@/store/auth'
 import { useMutation } from '@tanstack/react-query'
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import z from 'zod'
 
 export const Route = createFileRoute('/login')({
@@ -17,10 +18,13 @@ const loginSchema = z.object({
 type LoginType = z.infer<typeof loginSchema>
 
 function RouteComponent() {
+    const navigate = useNavigate()
+
     const loginMutation = useMutation({
         mutationFn: LoginMutation,
-        onSuccess: () => {
-            alert('Bienvenido')
+        onSuccess: (data) => {
+            authStore.setState(state => ({ ...state, user: data.user, token: data.token }))
+            navigate({ to: '/' })
         },
         onError: (error) => {
             alert(error.message)
