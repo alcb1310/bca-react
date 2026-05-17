@@ -28,5 +28,5 @@ export async function LoginMutation({
         throw new Error(err.error)
     }
 
-    return response.json()
+    return response.json() as Promise<LoginResponse>
 }
