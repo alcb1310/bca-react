@@ -1,13 +1,22 @@
 import { Separator } from '@/components/ui/separator'
 import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
 import { AppSidebar } from '@/components/web/app-sidebar'
-import { createFileRoute, Outlet } from '@tanstack/react-router'
+import { authStore } from '@/store/auth'
+import { createFileRoute, Outlet, redirect } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/_auth')({
     component: RouteComponent,
+    beforeLoad: () => {
+        const auth = authStore.get()
+        if (auth.token === '') {
+            throw redirect({ to: '/login' })
+        }
+    }
 })
 
 function RouteComponent() {
+
+
     return <div>
         <SidebarProvider>
             <AppSidebar />
