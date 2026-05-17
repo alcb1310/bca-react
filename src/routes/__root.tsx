@@ -8,6 +8,7 @@ import {
 } from '@tanstack/react-router'
 import type { ReactNode } from 'react'
 import appCss from '../styles.css?url'
+import { TooltipProvider } from '@/components/ui/tooltip'
 
 export const Route = createRootRouteWithContext<{
     queryClient: QueryClient
@@ -35,7 +36,9 @@ export const Route = createRootRouteWithContext<{
 function RootComponent() {
     return (
         <RootDocument>
-            <Outlet />
+            <TooltipProvider>
+                <Outlet />
+            </TooltipProvider>
         </RootDocument>
     )
 }
