@@ -201,7 +201,11 @@ export function AppSidebar({ ...props }: ComponentProps<typeof Sidebar>) {
 							>
 								<SidebarMenuItem>
 									<CollapsibleTrigger asChild>
-										<SidebarMenuButton tooltip={items.title}>
+										<SidebarMenuButton
+											tooltip={items.title}
+											className="bg-primary text-primary-foreground hover:bg-primary/50"
+											size={"sm"}
+										>
 											{items.icon && <items.icon />}
 											<span>{items.title}</span>
 											<ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
@@ -211,7 +215,7 @@ export function AppSidebar({ ...props }: ComponentProps<typeof Sidebar>) {
 										<SidebarMenuSub>
 											{items.items.map((subItem) => (
 												<SidebarMenuSubItem key={subItem.title}>
-													<SidebarMenuSubButton asChild>
+													<SidebarMenuSubButton asChild size="sm">
 														<Link to={subItem.path}>
 															{subItem.icon && <subItem.icon />}
 															<span>{subItem.title}</span>
