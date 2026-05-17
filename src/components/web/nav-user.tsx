@@ -2,6 +2,7 @@ import { useNavigate } from "@tanstack/react-router";
 import { ChevronsUpDown, LogOutIcon, type LucideProps } from "lucide-react";
 import type { ForwardRefExoticComponent, RefAttributes } from "react";
 import type { FileRoutesByTo } from "@/routeTree.gen";
+import { authStore } from "@/store/auth";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -66,7 +67,16 @@ export function NavUser({ user }: NavUserProps) {
 							))}
 						</DropdownMenuGroup>
 						<DropdownMenuSeparator />
-						<DropdownMenuItem>
+						<DropdownMenuItem
+							onClick={() => {
+								authStore.setState((state) => ({
+									...state,
+									user: null,
+									token: "",
+								}));
+								navigate({ to: "/login" });
+							}}
+						>
 							<LogOutIcon />
 							Cerrar Session
 						</DropdownMenuItem>
