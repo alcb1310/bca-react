@@ -1,9 +1,94 @@
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
+import type { ColumnDef } from "@tanstack/react-table";
+import { DataTable } from "@/components/ui/data-table";
+import { Spinner } from "@/components/ui/spinner";
+import PageTitle from "@/components/web/pageTitle";
+import { GetAllUsers } from "@/queries/users";
+import type { UserResponse } from "@/types/user";
+import { Button } from "@/components/ui/button";
+import {
+	DropdownMenuTrigger,
+	DropdownMenuContent,
+	DropdownMenuLabel,
+	DropdownMenuItem,
+	DropdownMenuSeparator,
+	DropdownMenu,
+} from "@/components/ui/dropdown-menu";
+import { DeleteIcon, EditIcon, MoreHorizontal, PlusIcon } from "lucide-react";
 
 export const Route = createFileRoute("/_auth/usuarios/administrar")({
 	component: RouteComponent,
+	beforeLoad: ({ context: { queryClient } }) => {
+		queryClient.ensureQueryData({
+			queryKey: ["usuarios"],
+			queryFn: () => GetAllUsers(),
+		});
+	},
 });
 
 function RouteComponent() {
-	return <div>Hello "/_auth/usuarios/administrar"!</div>;
+	const { data, isLoading } = useSuspenseQuery({
+		queryKey: ["usuarios"],
+		queryFn: () => GetAllUsers(),
+	});
+
+	const columns: ColumnDef<UserResponse>[] = [
+		{
+			accessorKey: "name",
+			header: "Nombre",
+		},
+		{
+			accessorKey: "email",
+			header: "Email",
+		},
+		{
+			id: "actions",
+			cell: ({ row }) => {
+				const usuario = row.original;
+
+				if (!usuario) return null;
+
+				return (
+					<DropdownMenu>
+						<DropdownMenuTrigger asChild>
+							<Button variant="ghost" className="h-8 w-8 p-0">
+								<span className="sr-only">Open menu</span>
+								<MoreHorizontal className="h-4 w-4" />
+							</Button>
+						</DropdownMenuTrigger>
+						<DropdownMenuContent align="end">
+							<DropdownMenuLabel>Acciones</DropdownMenuLabel>
+							<DropdownMenuSeparator />
+							<DropdownMenuItem>
+								Editar
+								<EditIcon size={16} className="text-yellow-600" />
+							</DropdownMenuItem>
+							<DropdownMenuItem>
+								Borrar
+								<DeleteIcon size={16} className="text-red-600" />
+							</DropdownMenuItem>
+						</DropdownMenuContent>
+					</DropdownMenu>
+				);
+			},
+		},
+	];
+
+	return (
+		<div>
+			<PageTitle title="Administrar Usuarios" />
+
+			{isLoading && <Spinner />}
+
+			<Button variant="default" className="my-3">
+				<PlusIcon />
+				Crear Usuario
+			</Button>
+
+			<div className="max-w-2/3">
+				<DataTable columns={columns} data={data} />
+			</div>
+		</div>
+	);
 }
