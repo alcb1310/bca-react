@@ -12,6 +12,9 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as AuthRouteRouteImport } from './routes/_auth/route'
 import { Route as AuthIndexRouteImport } from './routes/_auth/index'
+import { Route as AuthUsuariosPerfilRouteImport } from './routes/_auth/usuarios/perfil'
+import { Route as AuthUsuariosCambioContrasenaRouteImport } from './routes/_auth/usuarios/cambio-contrasena'
+import { Route as AuthUsuariosAdministrarRouteImport } from './routes/_auth/usuarios/administrar'
 import { Route as AuthTransaccionesPresupuestoRouteImport } from './routes/_auth/transacciones/presupuesto'
 import { Route as AuthTransaccionesFacturasRouteImport } from './routes/_auth/transacciones/facturas'
 import { Route as AuthTransaccionesCierreMensualRouteImport } from './routes/_auth/transacciones/cierre-mensual'
@@ -40,6 +43,22 @@ const AuthRouteRoute = AuthRouteRouteImport.update({
 const AuthIndexRoute = AuthIndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => AuthRouteRoute,
+} as any)
+const AuthUsuariosPerfilRoute = AuthUsuariosPerfilRouteImport.update({
+  id: '/usuarios/perfil',
+  path: '/usuarios/perfil',
+  getParentRoute: () => AuthRouteRoute,
+} as any)
+const AuthUsuariosCambioContrasenaRoute =
+  AuthUsuariosCambioContrasenaRouteImport.update({
+    id: '/usuarios/cambio-contrasena',
+    path: '/usuarios/cambio-contrasena',
+    getParentRoute: () => AuthRouteRoute,
+  } as any)
+const AuthUsuariosAdministrarRoute = AuthUsuariosAdministrarRouteImport.update({
+  id: '/usuarios/administrar',
+  path: '/usuarios/administrar',
   getParentRoute: () => AuthRouteRoute,
 } as any)
 const AuthTransaccionesPresupuestoRoute =
@@ -143,6 +162,9 @@ export interface FileRoutesByFullPath {
   '/transacciones/cierre-mensual': typeof AuthTransaccionesCierreMensualRoute
   '/transacciones/facturas': typeof AuthTransaccionesFacturasRoute
   '/transacciones/presupuesto': typeof AuthTransaccionesPresupuestoRoute
+  '/usuarios/administrar': typeof AuthUsuariosAdministrarRoute
+  '/usuarios/cambio-contrasena': typeof AuthUsuariosCambioContrasenaRoute
+  '/usuarios/perfil': typeof AuthUsuariosPerfilRoute
 }
 export interface FileRoutesByTo {
   '/login': typeof LoginRoute
@@ -162,6 +184,9 @@ export interface FileRoutesByTo {
   '/transacciones/cierre-mensual': typeof AuthTransaccionesCierreMensualRoute
   '/transacciones/facturas': typeof AuthTransaccionesFacturasRoute
   '/transacciones/presupuesto': typeof AuthTransaccionesPresupuestoRoute
+  '/usuarios/administrar': typeof AuthUsuariosAdministrarRoute
+  '/usuarios/cambio-contrasena': typeof AuthUsuariosCambioContrasenaRoute
+  '/usuarios/perfil': typeof AuthUsuariosPerfilRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -183,6 +208,9 @@ export interface FileRoutesById {
   '/_auth/transacciones/cierre-mensual': typeof AuthTransaccionesCierreMensualRoute
   '/_auth/transacciones/facturas': typeof AuthTransaccionesFacturasRoute
   '/_auth/transacciones/presupuesto': typeof AuthTransaccionesPresupuestoRoute
+  '/_auth/usuarios/administrar': typeof AuthUsuariosAdministrarRoute
+  '/_auth/usuarios/cambio-contrasena': typeof AuthUsuariosCambioContrasenaRoute
+  '/_auth/usuarios/perfil': typeof AuthUsuariosPerfilRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -204,6 +232,9 @@ export interface FileRouteTypes {
     | '/transacciones/cierre-mensual'
     | '/transacciones/facturas'
     | '/transacciones/presupuesto'
+    | '/usuarios/administrar'
+    | '/usuarios/cambio-contrasena'
+    | '/usuarios/perfil'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/login'
@@ -223,6 +254,9 @@ export interface FileRouteTypes {
     | '/transacciones/cierre-mensual'
     | '/transacciones/facturas'
     | '/transacciones/presupuesto'
+    | '/usuarios/administrar'
+    | '/usuarios/cambio-contrasena'
+    | '/usuarios/perfil'
   id:
     | '__root__'
     | '/_auth'
@@ -243,6 +277,9 @@ export interface FileRouteTypes {
     | '/_auth/transacciones/cierre-mensual'
     | '/_auth/transacciones/facturas'
     | '/_auth/transacciones/presupuesto'
+    | '/_auth/usuarios/administrar'
+    | '/_auth/usuarios/cambio-contrasena'
+    | '/_auth/usuarios/perfil'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -271,6 +308,27 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof AuthIndexRouteImport
+      parentRoute: typeof AuthRouteRoute
+    }
+    '/_auth/usuarios/perfil': {
+      id: '/_auth/usuarios/perfil'
+      path: '/usuarios/perfil'
+      fullPath: '/usuarios/perfil'
+      preLoaderRoute: typeof AuthUsuariosPerfilRouteImport
+      parentRoute: typeof AuthRouteRoute
+    }
+    '/_auth/usuarios/cambio-contrasena': {
+      id: '/_auth/usuarios/cambio-contrasena'
+      path: '/usuarios/cambio-contrasena'
+      fullPath: '/usuarios/cambio-contrasena'
+      preLoaderRoute: typeof AuthUsuariosCambioContrasenaRouteImport
+      parentRoute: typeof AuthRouteRoute
+    }
+    '/_auth/usuarios/administrar': {
+      id: '/_auth/usuarios/administrar'
+      path: '/usuarios/administrar'
+      fullPath: '/usuarios/administrar'
+      preLoaderRoute: typeof AuthUsuariosAdministrarRouteImport
       parentRoute: typeof AuthRouteRoute
     }
     '/_auth/transacciones/presupuesto': {
@@ -398,6 +456,9 @@ interface AuthRouteRouteChildren {
   AuthTransaccionesCierreMensualRoute: typeof AuthTransaccionesCierreMensualRoute
   AuthTransaccionesFacturasRoute: typeof AuthTransaccionesFacturasRoute
   AuthTransaccionesPresupuestoRoute: typeof AuthTransaccionesPresupuestoRoute
+  AuthUsuariosAdministrarRoute: typeof AuthUsuariosAdministrarRoute
+  AuthUsuariosCambioContrasenaRoute: typeof AuthUsuariosCambioContrasenaRoute
+  AuthUsuariosPerfilRoute: typeof AuthUsuariosPerfilRoute
 }
 
 const AuthRouteRouteChildren: AuthRouteRouteChildren = {
@@ -417,6 +478,9 @@ const AuthRouteRouteChildren: AuthRouteRouteChildren = {
   AuthTransaccionesCierreMensualRoute: AuthTransaccionesCierreMensualRoute,
   AuthTransaccionesFacturasRoute: AuthTransaccionesFacturasRoute,
   AuthTransaccionesPresupuestoRoute: AuthTransaccionesPresupuestoRoute,
+  AuthUsuariosAdministrarRoute: AuthUsuariosAdministrarRoute,
+  AuthUsuariosCambioContrasenaRoute: AuthUsuariosCambioContrasenaRoute,
+  AuthUsuariosPerfilRoute: AuthUsuariosPerfilRoute,
 }
 
 const AuthRouteRouteWithChildren = AuthRouteRoute._addFileChildren(
