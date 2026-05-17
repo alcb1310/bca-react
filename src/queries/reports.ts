@@ -1,155 +1,160 @@
-import { store } from '@/redux/store'
-import type { BudgetResponseType } from '@/types/budget'
+import { store } from "@/redux/store";
+import type { BudgetResponseType } from "@/types/budget";
 import type {
-    BalanceResponseType,
-    LevelType,
-    SpentDetailsType,
-    SpentResponseType,
-} from '@/types/reports'
+	BalanceResponseType,
+	LevelType,
+	SpentDetailsType,
+	SpentResponseType,
+} from "@/types/reports";
 
-const URL = import.meta.env.VITE_BACKEND_SERVER
+const URL = import.meta.env.VITE_BACKEND_SERVER;
 
 export async function GetAllLevels() {
-    const state = store.getState()
+	const state = store.getState();
 
-    const response = await fetch(`${URL}/reportes/levels`, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${state.login.token}`,
-        },
-    })
-    const data = await response.json()
-    return data as LevelType[]
+	const response = await fetch(`${URL}/reportes/levels`, {
+		method: "GET",
+		headers: {
+			"Content-Type": "application/json",
+			Authorization: `Bearer ${state.login.token}`,
+		},
+	});
+	const data = await response.json();
+	return data as LevelType[];
 }
 
 export async function GetAllHistoric({
-    project_id,
-    level,
-    date,
+	project_id,
+	level,
+	date,
 }: {
-    project_id: string
-    level: string
-    date: string
+	project_id: string;
+	level: string;
+	date: string;
 }) {
-    const state = store.getState()
+	const state = store.getState();
 
-    const params = new URLSearchParams()
-    params.append('project_id', project_id)
-    params.append('level', level)
-    params.append('date', date)
+	const params = new URLSearchParams();
+	params.append("project_id", project_id);
+	params.append("level", level);
+	params.append("date", date);
 
-    const response = await fetch(`${URL}/reportes/historico?${params}`, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${state.login.token}`,
-        },
-    })
+	const response = await fetch(`${URL}/reportes/historico?${params}`, {
+		method: "GET",
+		headers: {
+			"Content-Type": "application/json",
+			Authorization: `Bearer ${state.login.token}`,
+		},
+	});
 
-    if (!response.ok) {
-        throw new Error('Network error')
-    }
+	if (!response.ok) {
+		throw new Error("Network error");
+	}
 
-    if (response.status === 204) return [] as BudgetResponseType[]
+	if (response.status === 204) return [] as BudgetResponseType[];
 
-    return response.json() as Promise<BudgetResponseType[]>
+	return response.json() as Promise<BudgetResponseType[]>;
 }
 
 export async function GetBalanceReport({
-    project_id,
-    date,
-}: { project_id: string; date: string }) {
-    const state = store.getState()
+	project_id,
+	date,
+}: {
+	project_id: string;
+	date: string;
+}) {
+	const state = store.getState();
 
-    const params = new URLSearchParams()
-    params.append('project_id', project_id)
-    params.append('date', date)
+	const params = new URLSearchParams();
+	params.append("project_id", project_id);
+	params.append("date", date);
 
-    const response = await fetch(`${URL}/reportes/cuadre?${params}`, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${state.login.token}`,
-        },
-    })
+	const response = await fetch(`${URL}/reportes/cuadre?${params}`, {
+		method: "GET",
+		headers: {
+			"Content-Type": "application/json",
+			Authorization: `Bearer ${state.login.token}`,
+		},
+	});
 
-    if (!response.ok) {
-        throw new Error('Network error')
-    }
+	if (!response.ok) {
+		throw new Error("Network error");
+	}
 
-    return response.json() as Promise<BalanceResponseType>
+	return response.json() as Promise<BalanceResponseType>;
 }
 
 export async function SetBalancedInvoice({
-    invoice_id,
-}: { invoice_id: string }) {
-    const state = store.getState()
+	invoice_id,
+}: {
+	invoice_id: string;
+}) {
+	const state = store.getState();
 
-    const response = await fetch(`${URL}/reportes/cuadre/${invoice_id}`, {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${state.login.token}`,
-        },
-    })
+	const response = await fetch(`${URL}/reportes/cuadre/${invoice_id}`, {
+		method: "PUT",
+		headers: {
+			"Content-Type": "application/json",
+			Authorization: `Bearer ${state.login.token}`,
+		},
+	});
 
-    if (!response.ok) {
-        const err = await response.json()
-        throw new Error(err.error)
-    }
+	if (!response.ok) {
+		const err = await response.json();
+		throw new Error(err.error);
+	}
 
-    return
+	return;
 }
 
 export async function GetSpentReport({
-    project_id,
-    level,
-    date,
+	project_id,
+	level,
+	date,
 }: {
-    project_id: string
-    level: string
-    date: string
+	project_id: string;
+	level: string;
+	date: string;
 }) {
-    const state = store.getState()
+	const state = store.getState();
 
-    const params = new URLSearchParams()
-    params.append('project_id', project_id)
-    params.append('level', level)
-    params.append('date', date)
+	const params = new URLSearchParams();
+	params.append("project_id", project_id);
+	params.append("level", level);
+	params.append("date", date);
 
-    const response = await fetch(`${URL}/reportes/gastado?${params}`, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${state.login.token}`,
-        },
-    })
+	const response = await fetch(`${URL}/reportes/gastado?${params}`, {
+		method: "GET",
+		headers: {
+			"Content-Type": "application/json",
+			Authorization: `Bearer ${state.login.token}`,
+		},
+	});
 
-    return response.json() as Promise<SpentResponseType>
+	return response.json() as Promise<SpentResponseType>;
 }
 
 export async function GetSpentDetails({
-    project_id,
-    budget_item_id,
-    date,
+	project_id,
+	budget_item_id,
+	date,
 }: {
-    project_id: string
-    budget_item_id: string
-    date: string
+	project_id: string;
+	budget_item_id: string;
+	date: string;
 }) {
-    const state = store.getState()
+	const state = store.getState();
 
-    const response = await fetch(
-        `${URL}/reportes/gastado/${project_id}/${budget_item_id}/${date}`,
-        {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${state.login.token}`,
-            },
-        },
-    )
+	const response = await fetch(
+		`${URL}/reportes/gastado/${project_id}/${budget_item_id}/${date}`,
+		{
+			method: "GET",
+			headers: {
+				"Content-Type": "application/json",
+				Authorization: `Bearer ${state.login.token}`,
+			},
+		},
+	);
 
-    return response.json() as Promise<SpentDetailsType[]>
+	return response.json() as Promise<SpentDetailsType[]>;
 }

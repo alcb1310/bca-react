@@ -1,102 +1,110 @@
-import { Field, FieldDescription, FieldGroup, FieldSet } from '@/components/ui/field'
-import { useAppForm } from '@/hooks/formHook'
-import { LoginMutation } from '@/queries/auth'
-import { authStore } from '@/store/auth'
-import { useMutation } from '@tanstack/react-query'
-import { createFileRoute, useNavigate } from '@tanstack/react-router'
-import z from 'zod'
+import { useMutation } from "@tanstack/react-query";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import z from "zod";
+import {
+	Field,
+	FieldDescription,
+	FieldGroup,
+	FieldSet,
+} from "@/components/ui/field";
+import { useAppForm } from "@/hooks/formHook";
+import { LoginMutation } from "@/queries/auth";
+import { authStore } from "@/store/auth";
 
-export const Route = createFileRoute('/login')({
-    component: RouteComponent,
-})
+export const Route = createFileRoute("/login")({
+	component: RouteComponent,
+});
 
 const loginSchema = z.object({
-    email: z.string({ message: 'Ingrese un correo' }).min(1, { message: 'Ingrese un correo' }),
-    password: z.string({ message: 'Ingrese una contraseña' }).min(3, { message: 'La contraseña debe tener al menos 3 caracteres' }),
-})
+	email: z
+		.string({ message: "Ingrese un correo" })
+		.min(1, { message: "Ingrese un correo" }),
+	password: z
+		.string({ message: "Ingrese una contraseña" })
+		.min(3, { message: "La contraseña debe tener al menos 3 caracteres" }),
+});
 
-type LoginType = z.infer<typeof loginSchema>
+type LoginType = z.infer<typeof loginSchema>;
 
 function RouteComponent() {
-    const navigate = useNavigate()
+	const navigate = useNavigate();
 
-    const loginMutation = useMutation({
-        mutationFn: LoginMutation,
-        onSuccess: (data) => {
-            authStore.setState(state => ({ ...state, user: data.user, token: data.token }))
-            navigate({ to: '/' })
-        },
-        onError: (error) => {
-            alert(error.message)
-        }
-    })
+	const loginMutation = useMutation({
+		mutationFn: LoginMutation,
+		onSuccess: (data) => {
+			authStore.setState((state) => ({
+				...state,
+				user: data.user,
+				token: data.token,
+			}));
+			navigate({ to: "/" });
+		},
+		onError: (error) => {
+			alert(error.message);
+		},
+	});
 
-    const form = useAppForm({
-        defaultValues: {
-            email: '',
-            password: '',
-        } satisfies LoginType as LoginType,
-        validators: {
-            onSubmit: loginSchema,
-        },
-        onSubmit: (data) => {
-            loginMutation.mutate(data.value)
-        }
-    })
+	const form = useAppForm({
+		defaultValues: {
+			email: "",
+			password: "",
+		} satisfies LoginType as LoginType,
+		validators: {
+			onSubmit: loginSchema,
+		},
+		onSubmit: (data) => {
+			loginMutation.mutate(data.value);
+		},
+	});
 
-    return (
-        <div className='w-1/2 mx-auto my-[10%]'>
-            <h2 className="scroll-m-20 border-b pb-2 text-3xl text-center font-semibold tracking-tight first:mt-0">Login</h2>
-            <form
-                className='border border-gray-300 rounded-lg p-5'
-                onSubmit={(e) => {
-                    e.preventDefault()
-                    e.stopPropagation()
-                    form.handleSubmit()
-                }}
+	return (
+		<div className="w-1/2 mx-auto my-[10%]">
+			<h2 className="scroll-m-20 border-b pb-2 text-3xl text-center font-semibold tracking-tight first:mt-0">
+				Login
+			</h2>
+			<form
+				className="border border-gray-300 rounded-lg p-5"
+				onSubmit={(e) => {
+					e.preventDefault();
+					e.stopPropagation();
+					form.handleSubmit();
+				}}
+			>
+				<FieldGroup>
+					<FieldSet>
+						<FieldDescription>Ingrese sus credenciales</FieldDescription>
+					</FieldSet>
+				</FieldGroup>
+				<FieldGroup className="my-5">
+					<FieldSet>
+						<form.AppField name="email">
+							{(field) => (
+								<field.TextField label="Email" type="email" name="email" />
+							)}
+						</form.AppField>
 
-            >
-                <FieldGroup>
-                    <FieldSet>
-                        <FieldDescription>
-                            Ingrese sus credenciales
-                        </FieldDescription>
-                    </FieldSet>
-                </FieldGroup>
-                <FieldGroup className='my-5'>
-                    <FieldSet>
-                        <form.AppField name='email'>
-                            {(field) => (
-                                <field.TextField
-                                    label='Email'
-                                    type='email'
-                                    name='email'
-                                />
-                            )}
-                        </form.AppField>
-
-                        <form.AppField name='password'>
-                            {(field) => (
-                                <field.TextField
-                                    label='Password'
-                                    type='password'
-                                    name='password'
-                                />
-                            )}
-                        </form.AppField>
-                    </FieldSet>
-                </FieldGroup>
-                <Field orientation={'horizontal'}>
-                    <form.AppForm>
-                        <form.FormButton
-                            size='lg'
-                            type='submit'
-                            label='Ingresar'
-                            className='w-full'
-                        />
-                    </form.AppForm>
-                </Field>
-            </form>
-        </div>
-    )
+						<form.AppField name="password">
+							{(field) => (
+								<field.TextField
+									label="Password"
+									type="password"
+									name="password"
+								/>
+							)}
+						</form.AppField>
+					</FieldSet>
+				</FieldGroup>
+				<Field orientation={"horizontal"}>
+					<form.AppForm>
+						<form.FormButton
+							size="lg"
+							type="submit"
+							label="Ingresar"
+							className="w-full"
+						/>
+					</form.AppForm>
+				</Field>
+			</form>
+		</div>
+	);
 }

@@ -1,11 +1,11 @@
-import PageTitle from './PageTitle'
+import PageTitle from "./PageTitle";
 
-describe('<PageTitle />', () => {
-  it('should display the corret page ttle', () => {
-    cy.wrapper(<PageTitle title='Test Page Title' />)
+describe("<PageTitle />", () => {
+	it("should display the corret page ttle", () => {
+		cy.wrapper(<PageTitle title="Test Page Title" />);
 
-    cy.getByTestId('component.pagetitle.title')
-      .should('be.visible')
-      .should('have.text', 'Test Page Title')
-  })
-})
+		cy.getByTestId("component.pagetitle.title")
+			.should("be.visible")
+			.should("have.text", "Test Page Title");
+	});
+});
