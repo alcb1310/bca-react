@@ -1,4 +1,3 @@
-import { z } from "zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import {
 	CircleXIcon,
@@ -9,6 +8,7 @@ import {
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
+import { z } from "zod";
 import {
 	Drawer,
 	DrawerClose,
@@ -32,8 +32,6 @@ import {
 	userCreateSchema,
 	userResponseSchema,
 } from "@/types/user";
-import { Button } from "../ui/button";
-import { FieldGroup, FieldSet } from "../ui/field";
 import {
 	AlertDialog,
 	AlertDialogAction,
@@ -46,16 +44,18 @@ import {
 	AlertDialogTitle,
 	AlertDialogTrigger,
 } from "../ui/alert-dialog";
+import { Button } from "../ui/button";
 import {
 	Dialog,
-	DialogContent,
 	DialogClose,
-	DialogFooter,
+	DialogContent,
 	DialogDescription,
+	DialogFooter,
 	DialogHeader,
 	DialogTitle,
 	DialogTrigger,
 } from "../ui/dialog";
+import { FieldGroup, FieldSet } from "../ui/field";
 
 type EditUserDrawerProps = {
 	user: UserResponse;
