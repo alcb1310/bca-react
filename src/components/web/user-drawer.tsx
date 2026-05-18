@@ -1,5 +1,7 @@
-import { userCreateSchema, type UserCreate } from "@/types/user";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { CircleXIcon, PlusIcon, SaveIcon } from "lucide-react";
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
 import {
 	Drawer,
 	DrawerClose,
@@ -10,13 +12,11 @@ import {
 	DrawerTitle,
 	DrawerTrigger,
 } from "@/components/ui/drawer";
-import { Button } from "../ui/button";
 import { useAppForm } from "@/hooks/formHook";
-import { FieldGroup, FieldSet } from "../ui/field";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { CreateUser } from "@/queries/users";
-import { useEffect, useState } from "react";
-import { toast } from "sonner";
+import { type UserCreate, userCreateSchema } from "@/types/user";
+import { Button } from "../ui/button";
+import { FieldGroup, FieldSet } from "../ui/field";
 
 export function UserCreateDrawer() {
 	const queryClient = useQueryClient();

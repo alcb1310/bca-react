@@ -1,5 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { toast } from "sonner";
 import z from "zod";
 import {
 	Field,
@@ -10,7 +11,6 @@ import {
 import { useAppForm } from "@/hooks/formHook";
 import { LoginMutation } from "@/queries/auth";
 import { authStore } from "@/store/auth";
-import { toast } from "sonner";
 
 export const Route = createFileRoute("/login")({
 	component: RouteComponent,

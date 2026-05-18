@@ -1,22 +1,22 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import type { ColumnDef } from "@tanstack/react-table";
+import { DeleteIcon, EditIcon, MoreHorizontal } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { DataTable } from "@/components/ui/data-table";
+import {
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuItem,
+	DropdownMenuLabel,
+	DropdownMenuSeparator,
+	DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { Spinner } from "@/components/ui/spinner";
 import PageTitle from "@/components/web/pageTitle";
+import { UserCreateDrawer } from "@/components/web/user-drawer";
 import { GetAllUsers } from "@/queries/users";
 import type { UserResponse } from "@/types/user";
-import { Button } from "@/components/ui/button";
-import {
-	DropdownMenuTrigger,
-	DropdownMenuContent,
-	DropdownMenuLabel,
-	DropdownMenuItem,
-	DropdownMenuSeparator,
-	DropdownMenu,
-} from "@/components/ui/dropdown-menu";
-import { DeleteIcon, EditIcon, MoreHorizontal } from "lucide-react";
-import { UserCreateDrawer } from "@/components/web/user-drawer";
 
 export const Route = createFileRoute("/_auth/usuarios/administrar")({
 	component: RouteComponent,
