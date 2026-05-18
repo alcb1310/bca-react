@@ -1,6 +1,9 @@
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { CircleXIcon, PlusIcon, SaveIcon } from "lucide-react";
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
 import { useAppForm } from "@/hooks/formHook";
+import { CreateCategory } from "@/queries/parametros/categories";
 import { type CategoryType, categorySchema } from "@/types/categories";
 import { Button } from "../ui/button";
 import {
@@ -16,7 +19,26 @@ import {
 import { FieldGroup, FieldSet } from "../ui/field";
 
 export function CategoryCreateDrawer() {
+	const queryClient = useQueryClient();
 	const [open, setOpen] = useState(false);
+
+	const useCreateCategoryMutation = useMutation({
+		mutationFn: CreateCategory,
+		onSuccess: () => {
+			setOpen(false);
+			toast.success("Categoria creada exitosamente");
+			queryClient.invalidateQueries({ queryKey: ["categorias"] });
+		},
+		onError: (error) => {
+			toast.error(error.message, {
+				position: "top-center",
+				style: {
+					color: "red",
+				},
+			});
+		},
+	});
+
 	const form = useAppForm({
 		defaultValues: {
 			name: "",
@@ -25,7 +47,7 @@ export function CategoryCreateDrawer() {
 			onSubmit: categorySchema,
 		},
 		onSubmit: (data) => {
-			console.log(data.value);
+			useCreateCategoryMutation.mutate({ data: data.value });
 		},
 	});
 
