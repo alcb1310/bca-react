@@ -16,6 +16,7 @@ import { FieldGroup, FieldSet } from "../ui/field";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { CreateUser } from "@/queries/users";
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
 
 export function UserCreateDrawer() {
 	const queryClient = useQueryClient();
@@ -26,11 +27,16 @@ export function UserCreateDrawer() {
 		mutationFn: CreateUser,
 		onSuccess: () => {
 			setOpen(false);
-			// toast.success("Usuario creado exitosamente");
+			toast.success("Usuario creado exitosamente");
 			queryClient.invalidateQueries({ queryKey: ["usuarios"] });
 		},
 		onError: (error) => {
-			// toast.error(`Error al crear el usuario: ${error.message}`);
+			toast.error(error.message, {
+				position: "top-center",
+				style: {
+					color: "red",
+				},
+			});
 		},
 	});
 
