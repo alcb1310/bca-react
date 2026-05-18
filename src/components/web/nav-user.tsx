@@ -1,6 +1,6 @@
 import { useNavigate } from "@tanstack/react-router";
 import { ChevronsUpDown, LogOutIcon, type LucideProps } from "lucide-react";
-import type { ForwardRefExoticComponent, RefAttributes } from "react";
+import type { ForwardRefExoticComponent, JSX, RefAttributes } from "react";
 import type { FileRoutesByTo } from "@/routeTree.gen";
 import { authStore } from "@/store/auth";
 import {
@@ -12,6 +12,7 @@ import {
 	DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "../ui/sidebar";
+import { UserChangePasswordDialog } from "./user-drawer";
 
 export type UserData = {
 	name?: string;
@@ -59,15 +60,19 @@ export function NavUser({ user }: NavUserProps) {
 						sideOffset={4}
 					>
 						<DropdownMenuGroup>
-							{user.options.map((option) => (
-								<DropdownMenuItem
-									key={option.title}
-									onClick={() => navigate({ to: option.path })}
-								>
-									{option.icon && <option.icon />}
-									<span>{option.title}</span>
-								</DropdownMenuItem>
-							))}
+							{user.options.map((option) => {
+								return (
+									<DropdownMenuItem
+										key={option.title}
+										onClick={() => navigate({ to: option.path })}
+									>
+										{option.icon && <option.icon />}
+										<span>{option.title}</span>
+									</DropdownMenuItem>
+								);
+							})}
+
+							<UserChangePasswordDialog />
 						</DropdownMenuGroup>
 						<DropdownMenuSeparator />
 						<DropdownMenuItem

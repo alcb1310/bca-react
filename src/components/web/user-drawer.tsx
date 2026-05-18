@@ -1,3 +1,4 @@
+import { z } from "zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import {
 	CircleXIcon,
@@ -19,7 +20,12 @@ import {
 	DrawerTrigger,
 } from "@/components/ui/drawer";
 import { useAppForm } from "@/hooks/formHook";
-import { CreateUser, DeleteUser, UpdateUser } from "@/queries/users";
+import {
+	CreateUser,
+	DeleteUser,
+	UpdatePassword,
+	UpdateUser,
+} from "@/queries/users";
 import {
 	type UserCreate,
 	type UserResponse,
@@ -40,6 +46,16 @@ import {
 	AlertDialogTitle,
 	AlertDialogTrigger,
 } from "../ui/alert-dialog";
+import {
+	Dialog,
+	DialogContent,
+	DialogClose,
+	DialogFooter,
+	DialogDescription,
+	DialogHeader,
+	DialogTitle,
+	DialogTrigger,
+} from "../ui/dialog";
 
 type EditUserDrawerProps = {
 	user: UserResponse;
@@ -331,5 +347,91 @@ export function UserDeleteDialog({ user }: EditUserDrawerProps) {
 				</AlertDialogFooter>
 			</AlertDialogContent>
 		</AlertDialog>
+	);
+}
+
+export function UserChangePasswordDialog() {
+	const useUpdatePasswordMutation = useMutation({
+		mutationFn: UpdatePassword,
+		onSuccess: () => {
+			toast.success("Contraseña actualizada exitosamente");
+		},
+		onError: (error) => {
+			toast.error(error.message, {
+				position: "top-center",
+				style: {
+					color: "red",
+				},
+			});
+		},
+	});
+
+	const form = useAppForm({
+		defaultValues: {
+			password: "",
+		},
+		validators: {
+			onSubmit: z.object({
+				password: z
+					.string()
+					.min(6, "La contraseña debe tener al menos 6 caracteres"),
+			}),
+		},
+		onSubmit: (data) => {
+			useUpdatePasswordMutation.mutate({ data: data.value });
+		},
+	});
+
+	useEffect(() => {
+		form.reset();
+	}, [form.reset]);
+
+	return (
+		<Dialog>
+			<DialogTrigger className="my-2 px-2 text-xs hover:bg-accent">
+				Cambiar Contraseña
+			</DialogTrigger>
+			<DialogContent>
+				<form
+					onSubmit={(e) => {
+						e.preventDefault();
+						e.stopPropagation();
+						form.handleSubmit();
+					}}
+				>
+					<DialogHeader>
+						<DialogTitle>Cambiar Contraseña</DialogTitle>
+						<DialogDescription>
+							Cambia la contraseña del usuario
+						</DialogDescription>
+					</DialogHeader>
+					<FieldGroup className="my-2 px-4">
+						<FieldSet>
+							<form.AppField name="password">
+								{(field) => (
+									<field.TextField
+										label="Contraseña"
+										type="password"
+										name="password"
+										placeholder="*******"
+									/>
+								)}
+							</form.AppField>
+						</FieldSet>
+					</FieldGroup>
+
+					<DialogFooter>
+						<DialogClose asChild>
+							<Button type="button" variant="outline">
+								Cancelar
+							</Button>
+						</DialogClose>
+						<DialogClose asChild>
+							<Button type="submit">Guardar</Button>
+						</DialogClose>
+					</DialogFooter>
+				</form>
+			</DialogContent>
+		</Dialog>
 	);
 }

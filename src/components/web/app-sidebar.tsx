@@ -44,6 +44,7 @@ import {
 	SidebarMenuSubItem,
 } from "../ui/sidebar";
 import { NavUser, type UserData } from "./nav-user";
+import { UserChangePasswordDialog } from "./user-drawer";
 
 type NavData = {
 	title: string;
@@ -69,10 +70,6 @@ const data: { navMain: NavData[]; userNav: UserData } = {
 			{
 				title: "Administrar",
 				path: "/usuarios/administrar",
-			},
-			{
-				title: "Cambiar Contraseña",
-				path: "/usuarios/cambio-contrasena",
 			},
 		],
 	},

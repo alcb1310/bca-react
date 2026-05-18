@@ -33,7 +33,7 @@ function RouteComponent() {
 			</p>
 
 			<p className="text-xs font-extralight">
-				Para modificar el perfil, favor contactarse con el administrador
+				Para modificar la información, favor contactarse con el administrador
 			</p>
 		</div>
 	);
