@@ -8,7 +8,10 @@ import { EditIcon, PlusIcon } from "lucide-react";
 import type { ColumnDef } from "@tanstack/react-table";
 import type { MaterialType } from "@/types/materials";
 import { DataTable } from "@/components/ui/data-table";
-import { MaterialCreateDrawer } from "@/components/web/material-drawer";
+import {
+	MaterialCreateDrawer,
+	MaterialEditDrawer,
+} from "@/components/web/material-drawer";
 
 export const Route = createFileRoute("/_auth/parametros/materiales")({
 	component: RouteComponent,
@@ -47,12 +50,18 @@ function RouteComponent() {
 			id: "actions",
 			cell: ({ row }) => {
 				const material = row.original;
-				if (!material) return null;
+				if (!material.id) return null;
 
 				return (
-					<div>
-						<EditIcon size={10} className="text-yellow-600" />
-					</div>
+					<MaterialEditDrawer
+						material={{
+							code: material.code,
+							name: material.name,
+							unit: material.unit,
+							id: material.id,
+							category: material.category,
+						}}
+					/>
 				);
 			},
 		},

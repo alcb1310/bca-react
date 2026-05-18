@@ -24,7 +24,7 @@ function RouteComponent() {
 			{isLoading && <Spinner />}
 
 			<p>
-				<strong>Nombre:</strong>{" "}
+				<strong>Nombre:</strong>
 				<span className="text-chart-3">{data?.name}</span>
 			</p>
 			<p className="mb-5">
