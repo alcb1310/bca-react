@@ -1,16 +1,16 @@
-import { store } from "@/redux/store";
+import { authStore } from "@/store/auth";
 import type { MaterialCreateType, MaterialType } from "@/types/materials";
 
 const URL = import.meta.env.VITE_BACKEND_SERVER;
 
 export async function GetAllMaterials() {
-	const state = store.getState();
+	const token = authStore.state.token;
 
 	const response = await fetch(`${URL}/parametros/materiales`, {
 		method: "GET",
 		headers: {
 			"Content-Type": "application/json",
-			Authorization: `Bearer ${state.login.token}`,
+			Authorization: `Bearer ${token}`,
 		},
 	});
 
@@ -22,13 +22,13 @@ export async function GetAllMaterials() {
 }
 
 export async function CreateMaterial({ data }: { data: MaterialCreateType }) {
-	const state = store.getState();
+	const token = authStore.state.token;
 
 	const response = await fetch(`${URL}/parametros/materiales`, {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",
-			Authorization: `Bearer ${state.login.token}`,
+			Authorization: `Bearer ${token}`,
 		},
 		body: JSON.stringify(data),
 	});
@@ -43,13 +43,13 @@ export async function CreateMaterial({ data }: { data: MaterialCreateType }) {
 }
 
 export async function UpdateMaterial({ data }: { data: MaterialType }) {
-	const state = store.getState();
+	const token = authStore.state.token;
 
 	const response = await fetch(`${URL}/parametros/materiales/${data.id}`, {
 		method: "PUT",
 		headers: {
 			"Content-Type": "application/json",
-			Authorization: `Bearer ${state.login.token}`,
+			Authorization: `Bearer ${token}`,
 		},
 		body: JSON.stringify(data),
 	});
