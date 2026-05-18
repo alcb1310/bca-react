@@ -13,8 +13,27 @@ import {
 import { Button } from "../ui/button";
 import { useAppForm } from "@/hooks/formHook";
 import { FieldGroup, FieldSet } from "../ui/field";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { CreateUser } from "@/queries/users";
+import { useEffect, useState } from "react";
 
 export function UserCreateDrawer() {
+	const queryClient = useQueryClient();
+
+	const [open, setOpen] = useState(false);
+
+	const useCreateUserMutation = useMutation({
+		mutationFn: CreateUser,
+		onSuccess: () => {
+			setOpen(false);
+			// toast.success("Usuario creado exitosamente");
+			queryClient.invalidateQueries({ queryKey: ["usuarios"] });
+		},
+		onError: (error) => {
+			// toast.error(`Error al crear el usuario: ${error.message}`);
+		},
+	});
+
 	const form = useAppForm({
 		defaultValues: {
 			email: "",
@@ -25,12 +44,18 @@ export function UserCreateDrawer() {
 			onSubmit: userCreateSchema,
 		},
 		onSubmit: (data) => {
-			console.log(data.value);
+			useCreateUserMutation.mutate({ data: data.value });
 		},
 	});
 
+	useEffect(() => {
+		if (open) {
+			form.reset();
+		}
+	}, [open, form.reset]);
+
 	return (
-		<Drawer direction="right">
+		<Drawer direction="right" open={open} onOpenChange={setOpen}>
 			<DrawerTrigger asChild>
 				<Button variant="default" className="my-3">
 					<PlusIcon />
