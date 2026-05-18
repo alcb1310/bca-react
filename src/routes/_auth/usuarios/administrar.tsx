@@ -5,7 +5,11 @@ import { DeleteIcon } from "lucide-react";
 import { DataTable } from "@/components/ui/data-table";
 import { Spinner } from "@/components/ui/spinner";
 import PageTitle from "@/components/web/pageTitle";
-import { UserCreateDrawer, UserEditDrawer } from "@/components/web/user-drawer";
+import {
+	UserCreateDrawer,
+	UserDeleteDialog,
+	UserEditDrawer,
+} from "@/components/web/user-drawer";
 import { GetAllUsers } from "@/queries/users";
 import type { UserResponse } from "@/types/user";
 
@@ -44,7 +48,7 @@ function RouteComponent() {
 				return (
 					<div className="flex px-3 justify-end items-center gap-2">
 						<UserEditDrawer user={usuario} />
-						<DeleteIcon size={16} className="text-red-600" />
+						<UserDeleteDialog user={usuario} />
 					</div>
 				);
 			},

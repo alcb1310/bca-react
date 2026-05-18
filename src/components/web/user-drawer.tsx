@@ -1,5 +1,11 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { CircleXIcon, EditIcon, PlusIcon, SaveIcon } from "lucide-react";
+import {
+	CircleXIcon,
+	DeleteIcon,
+	EditIcon,
+	PlusIcon,
+	SaveIcon,
+} from "lucide-react";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import {
@@ -13,7 +19,7 @@ import {
 	DrawerTrigger,
 } from "@/components/ui/drawer";
 import { useAppForm } from "@/hooks/formHook";
-import { CreateUser, UpdateUser } from "@/queries/users";
+import { CreateUser, DeleteUser, UpdateUser } from "@/queries/users";
 import {
 	type UserCreate,
 	type UserResponse,
@@ -22,6 +28,18 @@ import {
 } from "@/types/user";
 import { Button } from "../ui/button";
 import { FieldGroup, FieldSet } from "../ui/field";
+import {
+	AlertDialog,
+	AlertDialogAction,
+	AlertDialogCancel,
+	AlertDialogContent,
+	AlertDialogDescription,
+	AlertDialogFooter,
+	AlertDialogHeader,
+	AlertDialogMedia,
+	AlertDialogTitle,
+	AlertDialogTrigger,
+} from "../ui/alert-dialog";
 
 type EditUserDrawerProps = {
 	user: UserResponse;
@@ -261,5 +279,57 @@ export function UserEditDrawer({ user }: EditUserDrawerProps) {
 				</form>
 			</DrawerContent>
 		</Drawer>
+	);
+}
+
+export function UserDeleteDialog({ user }: EditUserDrawerProps) {
+	const queryClient = useQueryClient();
+
+	const useDeleteUserMutation = useMutation({
+		mutationFn: DeleteUser,
+		onSuccess: () => {
+			toast.success("Usuario eliminado exitosamente");
+			queryClient.invalidateQueries({ queryKey: ["usuarios"] });
+		},
+		onError: (error) => {
+			toast.error(error.message, {
+				position: "top-center",
+				style: {
+					color: "red",
+				},
+			});
+		},
+	});
+
+	return (
+		<AlertDialog>
+			<AlertDialogTrigger asChild>
+				<DeleteIcon size={16} className="text-red-600" />
+			</AlertDialogTrigger>
+			<AlertDialogContent>
+				<AlertDialogHeader>
+					<AlertDialogMedia className="bg-white">
+						<DeleteIcon size={16} className="bg-white text-red-600" />
+					</AlertDialogMedia>
+					<AlertDialogTitle className="text-red-600">
+						Eliminar Usuario
+					</AlertDialogTitle>
+					<AlertDialogDescription>
+						¿Estás seguro de eliminar el usuario {user.name}?. Esta acción no se
+						puede deshacer
+					</AlertDialogDescription>
+				</AlertDialogHeader>
+				<AlertDialogFooter>
+					<AlertDialogCancel>Cancelar</AlertDialogCancel>
+					<AlertDialogAction
+						onClick={() => {
+							useDeleteUserMutation.mutate(user.id);
+						}}
+					>
+						Eliminar
+					</AlertDialogAction>
+				</AlertDialogFooter>
+			</AlertDialogContent>
+		</AlertDialog>
 	);
 }

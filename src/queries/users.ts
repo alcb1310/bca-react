@@ -73,6 +73,10 @@ export async function DeleteUser(id: string) {
 	});
 
 	if (!response.ok) {
+		if (response.status === 403) {
+			throw new Error("No tienes permiso para realizar esta acción");
+		}
+
 		const data = await response.json();
 		throw new Error(data.error);
 	}
