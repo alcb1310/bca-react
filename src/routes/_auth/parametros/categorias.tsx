@@ -1,10 +1,12 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import type { ColumnDef } from "@tanstack/react-table";
-import { EditIcon } from "lucide-react";
 import { DataTable } from "@/components/ui/data-table";
 import { Spinner } from "@/components/ui/spinner";
-import { CategoryCreateDrawer } from "@/components/web/category-drawer";
+import {
+	CategoryCreateDrawer,
+	CategoryEditDrawer,
+} from "@/components/web/category-drawer";
 import PageTitle from "@/components/web/pageTitle";
 import { GetAllCategories } from "@/queries/parametros/categories";
 import type { CategoryType } from "@/types/categories";
@@ -35,15 +37,7 @@ function RouteComponent() {
 			cell: ({ row }) => {
 				const category = row.original;
 
-				return (
-					<EditIcon
-						className="text-yellow-600"
-						size={16}
-						onClick={() => {
-							console.log(category);
-						}}
-					/>
-				);
+				return <CategoryEditDrawer category={category} />;
 			},
 		},
 	];
