@@ -15,7 +15,8 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenu,
 } from "@/components/ui/dropdown-menu";
-import { DeleteIcon, EditIcon, MoreHorizontal, PlusIcon } from "lucide-react";
+import { DeleteIcon, EditIcon, MoreHorizontal } from "lucide-react";
+import { UserCreateDrawer } from "@/components/web/user-drawer";
 
 export const Route = createFileRoute("/_auth/usuarios/administrar")({
 	component: RouteComponent,
@@ -80,11 +81,7 @@ function RouteComponent() {
 			<PageTitle title="Administrar Usuarios" />
 
 			{isLoading && <Spinner />}
-
-			<Button variant="default" className="my-3">
-				<PlusIcon />
-				Crear Usuario
-			</Button>
+			<UserCreateDrawer />
 
 			<div className="max-w-2/3">
 				<DataTable columns={columns} data={data} />
