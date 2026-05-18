@@ -10,6 +10,7 @@ import {
 import { useAppForm } from "@/hooks/formHook";
 import { LoginMutation } from "@/queries/auth";
 import { authStore } from "@/store/auth";
+import { toast } from "sonner";
 
 export const Route = createFileRoute("/login")({
 	component: RouteComponent,
@@ -40,7 +41,12 @@ function RouteComponent() {
 			navigate({ to: "/" });
 		},
 		onError: (error) => {
-			alert(error.message);
+			toast.error(error.message, {
+				position: "top-center",
+				style: {
+					color: "red",
+				},
+			});
 		},
 	});
 
