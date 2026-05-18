@@ -3,7 +3,10 @@ import { CircleXIcon, EditIcon, PlusIcon, SaveIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { useAppForm } from "@/hooks/formHook";
-import { CreateCategory } from "@/queries/parametros/categories";
+import {
+	CreateCategory,
+	UpdateCategory,
+} from "@/queries/parametros/categories";
 import { type CategoryType, categorySchema } from "@/types/categories";
 import { Button } from "../ui/button";
 import {
@@ -115,17 +118,36 @@ export function CategoryCreateDrawer() {
 }
 
 export function CategoryEditDrawer({ category }: EditCategoryDrawerProps) {
+	const queryClient = useQueryClient();
 	const [open, setOpen] = useState(false);
+
+	const useUpdateCategoryMutation = useMutation({
+		mutationFn: UpdateCategory,
+		onSuccess: () => {
+			setOpen(false);
+			toast.success("Categoria actualizada exitosamente");
+			queryClient.invalidateQueries({ queryKey: ["categorias"] });
+		},
+		onError: (error) => {
+			toast.error(error.message, {
+				position: "top-center",
+				style: {
+					color: "red",
+				},
+			});
+		},
+	});
 
 	const form = useAppForm({
 		defaultValues: {
 			name: category.name,
+			id: category.id,
 		} as CategoryType,
 		validators: {
 			onSubmit: categorySchema,
 		},
 		onSubmit: (data) => {
-			// useUpdateCategoryMutation.mutate({ data: data.value });
+			useUpdateCategoryMutation.mutate({ data: data.value });
 		},
 	});
 
@@ -147,6 +169,7 @@ export function CategoryEditDrawer({ category }: EditCategoryDrawerProps) {
 					onSubmit={(e) => {
 						e.preventDefault();
 						e.stopPropagation();
+						form.handleSubmit();
 					}}
 				>
 					<DrawerHeader>
@@ -172,7 +195,7 @@ export function CategoryEditDrawer({ category }: EditCategoryDrawerProps) {
 								<SaveIcon size={10} />
 								Guardar
 							</Button>
-							<DrawerClose>
+							<DrawerClose asChild>
 								<Button type="button" variant="secondary">
 									<CircleXIcon size={10} />
 									Cancelar
