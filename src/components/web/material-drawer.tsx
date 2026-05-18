@@ -1,8 +1,10 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { CircleXIcon, PlusIcon, SaveIcon } from "lucide-react";
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
 import { useAppForm } from "@/hooks/formHook";
 import { GetAllCategories } from "@/queries/parametros/categories";
+import { CreateMaterial } from "@/queries/parametros/materials";
 import {
 	type MaterialCreateType,
 	materialCreateSchema,
@@ -21,10 +23,28 @@ import {
 import { FieldGroup, FieldSet } from "../ui/field";
 
 export function MaterialCreateDrawer() {
+	const queryClient = useQueryClient();
 	const [open, setOpen] = useState(false);
 	const { data } = useQuery({
 		queryKey: ["categorias"],
 		queryFn: () => GetAllCategories(),
+	});
+
+	const useCreateMaterialMutation = useMutation({
+		mutationFn: CreateMaterial,
+		onSuccess: () => {
+			setOpen(false);
+			toast.success("Material creado exitosamente");
+			queryClient.invalidateQueries({ queryKey: ["materiales"] });
+		},
+		onError: (error) => {
+			toast.error(error.message, {
+				position: "top-center",
+				style: {
+					color: "red",
+				},
+			});
+		},
 	});
 
 	const form = useAppForm({
@@ -38,7 +58,7 @@ export function MaterialCreateDrawer() {
 			onSubmit: materialCreateSchema,
 		},
 		onSubmit: (data) => {
-			console.log(data.value);
+			useCreateMaterialMutation.mutate({ data: data.value });
 		},
 	});
 
