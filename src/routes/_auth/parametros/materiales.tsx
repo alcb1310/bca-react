@@ -8,6 +8,7 @@ import { EditIcon, PlusIcon } from "lucide-react";
 import type { ColumnDef } from "@tanstack/react-table";
 import type { MaterialType } from "@/types/materials";
 import { DataTable } from "@/components/ui/data-table";
+import { MaterialCreateDrawer } from "@/components/web/material-drawer";
 
 export const Route = createFileRoute("/_auth/parametros/materiales")({
 	component: RouteComponent,
@@ -62,11 +63,7 @@ function RouteComponent() {
 			<PageTitle title="Materiales" />
 			{isLoading && <Spinner />}
 
-			<Button>
-				<PlusIcon size={16} />
-				Crear Material
-			</Button>
-
+			<MaterialCreateDrawer />
 			<DataTable columns={columns} data={data} />
 		</div>
 	);
