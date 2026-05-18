@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { useAppForm } from "@/hooks/formHook";
 import { GetAllCategories } from "@/queries/parametros/categories";
-import { CreateMaterial } from "@/queries/parametros/materials";
+import { CreateMaterial, UpdateMaterial } from "@/queries/parametros/materials";
 import {
     type MaterialCreateType,
     type MaterialType,
@@ -170,18 +170,33 @@ export function MaterialCreateDrawer() {
 }
 
 export function MaterialEditDrawer({ material }: MaterialEditDrawerProps) {
+    const queryClient = useQueryClient();
     const [open, setOpen] = useState(false);
-    const { data } = useQuery({
-        queryKey: ["categorias"],
-        queryFn: () => GetAllCategories(),
+
+    const useUpdateMaterialMutation = useMutation({
+        mutationFn: UpdateMaterial,
+        onSuccess: () => {
+            setOpen(false);
+            toast.success("Material creado exitosamente");
+            queryClient.invalidateQueries({ queryKey: ["materiales"] });
+        },
+        onError: (error) => {
+            toast.error(error.message, {
+                position: "top-center",
+                style: {
+                    color: "red",
+                },
+            });
+        },
     });
+
     const form = useAppForm({
         defaultValues: material,
         validators: {
             onSubmit: materialSchema,
         },
         onSubmit: (data) => {
-            console.log(data);
+            useUpdateMaterialMutation.mutate({ data: data.value });
         },
     });
 
@@ -190,16 +205,6 @@ export function MaterialEditDrawer({ material }: MaterialEditDrawerProps) {
             form.reset();
         }
     }, [open, form.reset]);
-
-    const catValues =
-        data?.map((item) => ({
-            label: item.name,
-            value: item.id as string,
-        })) || [];
-    catValues.unshift({
-        label: "Seleccione una categoria",
-        value: "",
-    });
 
     return (
         <Drawer direction="right" open={open} onOpenChange={setOpen}>
@@ -254,12 +259,13 @@ export function MaterialEditDrawer({ material }: MaterialEditDrawerProps) {
                                 )}
                             </form.AppField>
 
-                            <form.AppField name="category.id">
+                            <form.AppField name="category.name">
                                 {(field) => (
-                                    <field.SelectField
+                                    <field.TextField
+                                        name="category.name"
                                         label="Categoría"
-                                        name="category.id"
-                                        options={catValues}
+                                        placeholder="unidad"
+                                        disabled
                                     />
                                 )}
                             </form.AppField>
