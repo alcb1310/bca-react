@@ -1,16 +1,16 @@
-import { store } from "@/redux/store";
+import { authStore } from "@/store/auth";
 import type { CategoryType } from "@/types/categories";
 
 const URL = import.meta.env.VITE_BACKEND_SERVER;
 
 export async function GetAllCategories() {
-	const state = store.getState();
+	const token = authStore.state.token;
 
 	const response = await fetch(`${URL}/parametros/categorias`, {
 		method: "GET",
 		headers: {
 			"Content-Type": "application/json",
-			Authorization: `Bearer ${state.login.token}`,
+			Authorization: `Bearer ${token}`,
 		},
 	});
 
@@ -24,13 +24,13 @@ export async function GetAllCategories() {
 }
 
 export async function CreateCategory({ data }: { data: CategoryType }) {
-	const state = store.getState();
+	const token = authStore.state.token;
 
 	const response = await fetch(`${URL}/parametros/categorias`, {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",
-			Authorization: `Bearer ${state.login.token}`,
+			Authorization: `Bearer ${token}`,
 		},
 		body: JSON.stringify(data),
 	});
@@ -45,13 +45,13 @@ export async function CreateCategory({ data }: { data: CategoryType }) {
 }
 
 export async function UpdateCategory({ data }: { data: CategoryType }) {
-	const state = store.getState();
+	const token = authStore.state.token;
 
 	const response = await fetch(`${URL}/parametros/categorias/${data.id}`, {
 		method: "PUT",
 		headers: {
 			"Content-Type": "application/json",
-			Authorization: `Bearer ${state.login.token}`,
+			Authorization: `Bearer ${token}`,
 		},
 		body: JSON.stringify(data),
 	});
