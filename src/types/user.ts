@@ -5,7 +5,6 @@ export const userResponseSchema = z.object({
 	name: z.string().min(1, "Nombre es obligatorio"),
 	email: z.string(),
 	company_id: z.string().uuid(),
-	role_id: z.string(),
 });
 
 export type UserResponse = z.infer<typeof userResponseSchema>;
