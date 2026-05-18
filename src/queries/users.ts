@@ -107,7 +107,7 @@ export async function UpdateUser({ data }: { data: UserResponse }) {
 export async function UpdatePassword({ data }: { data: { password: string } }) {
 	const token = authStore.get().token;
 
-	const response = await fetch(`${URL}/users/password`, {
+	const response = await fetch(`${URL}/users`, {
 		method: "PUT",
 		headers: {
 			"Content-Type": "application/json",
