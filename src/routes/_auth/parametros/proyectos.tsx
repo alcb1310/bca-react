@@ -76,7 +76,7 @@ function RouteComponent() {
 			cell: ({ row }) => {
 				return (
 					<span className="block w-full text-right">
-						{row.original.is_active ? <CheckIcon size={16} /> : <X />}
+						{row.original.is_active ? <CheckIcon size={16} /> : <X size={16} />}
 					</span>
 				);
 			},

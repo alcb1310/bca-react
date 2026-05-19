@@ -1,6 +1,9 @@
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { CircleXIcon, PlusIcon, SaveIcon } from "lucide-react";
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
 import { useAppForm } from "@/hooks/formHook";
+import { CreateProject } from "@/queries/parametros/projects";
 import { type ProjectType, projectSchema } from "@/types/project";
 import { Button } from "../ui/button";
 import {
@@ -16,7 +19,26 @@ import {
 import { FieldGroup, FieldSet } from "../ui/field";
 
 export function CreateProjectDrawer() {
+	const queryClient = useQueryClient();
 	const [open, setOpen] = useState(false);
+
+	const createProjectMutation = useMutation({
+		mutationFn: CreateProject,
+		onSuccess: () => {
+			setOpen(false);
+			toast.success("Proyecto creado exitosamente");
+			queryClient.invalidateQueries({ queryKey: ["proyectos"] });
+		},
+		onError: (error) => {
+			toast.error(error.message, {
+				position: "top-center",
+				style: {
+					color: "red",
+				},
+			});
+		},
+	});
+
 	const form = useAppForm({
 		defaultValues: {
 			name: "",
@@ -32,7 +54,8 @@ export function CreateProjectDrawer() {
 				gross_area: Number.parseFloat(data.value.gross_area?.toString() || "0"),
 				net_area: Number.parseFloat(data.value.net_area?.toString() || "0"),
 			};
-			alert(JSON.stringify(realData));
+
+			createProjectMutation.mutate({ data: realData });
 		},
 	});
 
@@ -106,7 +129,7 @@ export function CreateProjectDrawer() {
 								<SaveIcon size={10} />
 								Guardar
 							</Button>
-							<DrawerClose>
+							<DrawerClose asChild>
 								<Button type="button" variant="secondary">
 									<CircleXIcon size={10} />
 									Cancelar
