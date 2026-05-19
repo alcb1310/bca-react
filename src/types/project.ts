@@ -5,13 +5,13 @@ export const projectSchema = z.object({
 	name: z.string().min(1, { message: "El nombre es requerido" }),
 	net_area: z
 		.custom<number>((val) => {
-			const num = Number.parseFloat(val);
+			const num = Number.parseFloat(val as string);
 			return !Number.isNaN(num) || val === "";
 		}, "El valor debe ser un número")
 		.optional(),
 	gross_area: z
 		.custom<number>((val) => {
-			const num = Number.parseFloat(val);
+			const num = Number.parseFloat(val as string);
 			return !Number.isNaN(num) || val === "";
 		}, "El valor debe ser un número")
 		.optional(),
