@@ -3,7 +3,7 @@ import { CircleXIcon, EditIcon, PlusIcon, SaveIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { useAppForm } from "@/hooks/formHook";
-import { CreateProject } from "@/queries/parametros/projects";
+import { CreateProject, UpdateProject } from "@/queries/parametros/projects";
 import { type ProjectType, projectSchema } from "@/types/project";
 import { Button } from "../ui/button";
 import {
@@ -148,7 +148,26 @@ export function CreateProjectDrawer() {
 }
 
 export function EditProjectDrawer({ project }: EditProjectDrawerProps) {
+	const queryClient = useQueryClient();
 	const [open, setOpen] = useState(false);
+
+	const editProjectMutation = useMutation({
+		mutationFn: UpdateProject,
+		onSuccess: () => {
+			setOpen(false);
+			toast.success("Proyecto actualizado exitosamente");
+			queryClient.invalidateQueries({ queryKey: ["proyectos"] });
+		},
+		onError: (error) => {
+			toast.error(error.message, {
+				position: "top-center",
+				style: {
+					color: "red",
+				},
+			});
+		},
+	});
+
 	const form = useAppForm({
 		defaultValues: project,
 		validators: {
@@ -163,7 +182,7 @@ export function EditProjectDrawer({ project }: EditProjectDrawerProps) {
 				net_area: Number.parseFloat(data.value.net_area?.toString() || "0"),
 			};
 
-			console.log(realData);
+			editProjectMutation.mutate({ data: realData });
 		},
 	});
 
