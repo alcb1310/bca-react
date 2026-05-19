@@ -97,22 +97,22 @@ export function DataTable<TData, TValue>({
 				</Table>
 			</div>
 			<div className="flex items-center justify-end space-x-2 py-4">
-				<div className="flex-1 text-sm text-muted-foreground">
+				<div className="flex-1 text-xs text-muted-foreground">
 					<div className="flex items-center space-x-2">
-						<p className="text-sm font-medium">Filas por página</p>
+						<p>Filas por página</p>
 						<Select
 							value={`${table.getState().pagination.pageSize}`}
 							onValueChange={(value) => {
 								table.setPageSize(Number(value));
 							}}
 						>
-							<SelectTrigger className="h-8 w-17.5">
+							<SelectTrigger size="sm" className="h-8 w-17.5">
 								<SelectValue
 									placeholder={table.getState().pagination.pageSize}
 								/>
 							</SelectTrigger>
 							<SelectContent side="top">
-								{[10, 20, 25, 30, 40, 50].map((pageSize) => (
+								{[10, 25, 50].map((pageSize) => (
 									<SelectItem key={pageSize} value={`${pageSize}`}>
 										{pageSize}
 									</SelectItem>
@@ -121,7 +121,7 @@ export function DataTable<TData, TValue>({
 						</Select>
 					</div>
 				</div>
-				<div className="flex items-center space-x-6 lg:space-x-8">
+				<div className="flex items-center gap-2">
 					<Button
 						variant="outline"
 						size="sm"
