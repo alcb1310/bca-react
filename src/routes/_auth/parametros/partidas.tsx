@@ -1,12 +1,12 @@
 import { useQueryClient, useSuspenseQuery } from '@tanstack/react-query'
 import { createFileRoute } from '@tanstack/react-router'
 import type { ColumnDef } from '@tanstack/react-table'
-import { CheckIcon, PlusIcon, X } from 'lucide-react'
+import { CheckIcon, X } from 'lucide-react'
 import { useEffect, useState } from 'react'
-import { Button } from '@/components/ui/button'
 import { DataTable } from '@/components/ui/data-table'
 import { Input } from '@/components/ui/input'
 import { Spinner } from '@/components/ui/spinner'
+import { PartidaCreateDrawer } from '@/components/web/budget-items-drawer'
 import PageTitle from '@/components/web/pageTitle'
 import { GetAllPartidas } from '@/queries/parametros/budgetItem'
 import type { BudgetItemResponse } from '@/types/partidas'
@@ -79,10 +79,7 @@ function RouteComponent() {
 		<div>
 			<PageTitle title='Partidas' />
 			<div className='flex my-3 justify-start gap-4'>
-				<Button>
-					<PlusIcon size={16} />
-					Crear Partida
-				</Button>
+				<PartidaCreateDrawer />
 
 				<Input
 					placeholder='Buscar'
