@@ -1,16 +1,16 @@
-import { store } from '@/redux/store'
+import { authStore } from '@/store/auth'
 import type { BudgetItem, BudgetItemResponse } from '@/types/partidas'
 
 const URL = import.meta.env.VITE_BACKEND_SERVER
 
-export async function GetAllBudgetItems({
+export async function GetAllPartidas({
 	query,
 	accum,
 }: {
 	query?: string
 	accum?: boolean
 }) {
-	const state = store.getState()
+	const token = authStore.state.token
 
 	const params = new URLSearchParams()
 	if (query) params.set('query', query)
@@ -22,7 +22,7 @@ export async function GetAllBudgetItems({
 		method: 'GET',
 		headers: {
 			'Content-Type': 'application/json',
-			Authorization: `Bearer ${state.login.token}`,
+			Authorization: `Bearer ${token}`,
 		},
 	})
 
@@ -31,14 +31,14 @@ export async function GetAllBudgetItems({
 	return response.json() as Promise<BudgetItemResponse[]>
 }
 
-export async function CreateBudgetItem({ data }: { data: BudgetItem }) {
-	const state = store.getState()
+export async function CreatePartida({ data }: { data: BudgetItem }) {
+	const token = authStore.state.token
 
 	const response = await fetch(`${URL}/parametros/partidas`, {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',
-			Authorization: `Bearer ${state.login.token}`,
+			Authorization: `Bearer ${token}`,
 		},
 		body: JSON.stringify(data),
 	})
@@ -51,14 +51,14 @@ export async function CreateBudgetItem({ data }: { data: BudgetItem }) {
 	return
 }
 
-export async function UpdateBudgetItem({ data }: { data: BudgetItem }) {
-	const state = store.getState()
+export async function UpdatePartida({ data }: { data: BudgetItem }) {
+	const token = authStore.state.token
 
 	const response = await fetch(`${URL}/parametros/partidas/${data.id}`, {
 		method: 'PUT',
 		headers: {
 			'Content-Type': 'application/json',
-			Authorization: `Bearer ${state.login.token}`,
+			Authorization: `Bearer ${token}`,
 		},
 		body: JSON.stringify(data),
 	})

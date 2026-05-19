@@ -14,6 +14,7 @@ export const budgetItemResponseShema = z.object({
 	id: z.string().uuid(),
 	code: z.string().min(1, 'Código es obligatorio'),
 	name: z.string().min(1, 'Nombre es obligatorio'),
+	level: z.number(),
 	accumulate: z.boolean(),
 	parent: budgetItemSchema.optional(),
 })
