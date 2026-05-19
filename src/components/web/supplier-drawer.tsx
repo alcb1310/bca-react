@@ -1,6 +1,9 @@
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { CircleXIcon, PlusIcon, SaveIcon } from "lucide-react";
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
 import { useAppForm } from "@/hooks/formHook";
+import { CreateSupplier } from "@/queries/parametros/supplier";
 import {
 	type SupplierCreateType,
 	supplierCreateSchema,
@@ -19,7 +22,26 @@ import {
 import { FieldGroup, FieldSet } from "../ui/field";
 
 export function SupplierCreateDrawer() {
+	const queryClient = useQueryClient();
 	const [open, setOpen] = useState(false);
+
+	const useCreateSupplierMutation = useMutation({
+		mutationFn: CreateSupplier,
+		onSuccess: () => {
+			setOpen(false);
+			toast.success("Proveedor creado exitosamente");
+			queryClient.invalidateQueries({ queryKey: ["proveedores"] });
+		},
+		onError: (error) => {
+			toast.error(error.message, {
+				position: "top-center",
+				style: {
+					color: "red",
+				},
+			});
+		},
+	});
+
 	const form = useAppForm({
 		defaultValues: {
 			name: "",
@@ -32,7 +54,7 @@ export function SupplierCreateDrawer() {
 			onSubmit: supplierCreateSchema,
 		},
 		onSubmit: (data) => {
-			console.log(data.value);
+			useCreateSupplierMutation.mutate({ data: data.value });
 		},
 	});
 

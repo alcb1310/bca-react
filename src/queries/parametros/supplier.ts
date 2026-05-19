@@ -1,5 +1,5 @@
 import { authStore } from "@/store/auth";
-import type { SupplierType } from "@/types/supplier";
+import type { SupplierCreateType, SupplierType } from "@/types/supplier";
 
 const URL = import.meta.env.VITE_BACKEND_SERVER;
 
@@ -23,7 +23,7 @@ export async function GetAllSuppliers({ search }: { search?: string }) {
 	return response.json() as Promise<SupplierType[]>;
 }
 
-export async function CreateSupplier({ data }: { data: SupplierType }) {
+export async function CreateSupplier({ data }: { data: SupplierCreateType }) {
 	const token = authStore.state.token;
 
 	const response = await fetch(`${URL}/parametros/proveedores`, {
