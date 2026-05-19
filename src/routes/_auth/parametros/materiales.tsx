@@ -1,17 +1,17 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
-import { Spinner } from "@/components/ui/spinner";
-import PageTitle from "@/components/web/pageTitle";
-import { GetAllMaterials } from "@/queries/parametros/materials";
-import { Button } from "@/components/ui/button";
-import { EditIcon, PlusIcon } from "lucide-react";
 import type { ColumnDef } from "@tanstack/react-table";
-import type { MaterialType } from "@/types/materials";
+import { EditIcon, PlusIcon } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { DataTable } from "@/components/ui/data-table";
+import { Spinner } from "@/components/ui/spinner";
 import {
 	MaterialCreateDrawer,
 	MaterialEditDrawer,
 } from "@/components/web/material-drawer";
+import PageTitle from "@/components/web/pageTitle";
+import { GetAllMaterials } from "@/queries/parametros/materials";
+import type { MaterialType } from "@/types/materials";
 
 export const Route = createFileRoute("/_auth/parametros/materiales")({
 	component: RouteComponent,
