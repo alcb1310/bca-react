@@ -44,10 +44,16 @@ export async function CreateSupplier({ data }: { data: SupplierCreateType }) {
 	return;
 }
 
-export async function UpdateSupplier({ data }: { data: SupplierType }) {
+export async function UpdateSupplier({
+	data,
+	id,
+}: {
+	data: SupplierCreateType;
+	id: string;
+}) {
 	const token = authStore.state.token;
 
-	const response = await fetch(`${URL}/parametros/proveedores/${data.id}`, {
+	const response = await fetch(`${URL}/parametros/proveedores/${id}`, {
 		method: "PUT",
 		headers: {
 			"Content-Type": "application/json",

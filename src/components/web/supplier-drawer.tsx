@@ -3,7 +3,7 @@ import { CircleXIcon, EditIcon, PlusIcon, SaveIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { useAppForm } from "@/hooks/formHook";
-import { CreateSupplier } from "@/queries/parametros/supplier";
+import { CreateSupplier, UpdateSupplier } from "@/queries/parametros/supplier";
 import {
 	type SupplierCreateType,
 	type SupplierType,
@@ -164,14 +164,44 @@ export function SupplierCreateDrawer() {
 }
 
 export function SupplierEditDrawer({ supplier }: EditSupplierDrawerProps) {
+	const queryClient = useQueryClient();
 	const [open, setOpen] = useState(false);
+
+	const useUpdateSupplierMutation = useMutation({
+		mutationFn: UpdateSupplier,
+		onSuccess: () => {
+			setOpen(false);
+			toast.success("Proveedor actualizado exitosamente");
+			queryClient.invalidateQueries({ queryKey: ["proveedores"] });
+		},
+		onError: (error) => {
+			toast.error(error.message, {
+				position: "top-center",
+				style: {
+					color: "red",
+				},
+			});
+		},
+	});
+
 	const form = useAppForm({
 		defaultValues: supplier,
 		validators: {
 			onSubmit: supplierSchema,
 		},
 		onSubmit: (data) => {
-			console.log(data.value);
+			const edited = {
+				name: data.value.name,
+				supplier_id: data.value.supplier_id,
+				contact_email: data.value.contact_email.String || "",
+				contact_name: data.value.contact_name.String || "",
+				contact_phone: data.value.contact_phone.String || "",
+			};
+
+			useUpdateSupplierMutation.mutate({
+				data: edited,
+				id: supplier.id as string,
+			});
 		},
 	});
 
