@@ -7,7 +7,10 @@ import { DataTable } from "@/components/ui/data-table";
 import { Input } from "@/components/ui/input";
 import { Spinner } from "@/components/ui/spinner";
 import PageTitle from "@/components/web/pageTitle";
-import { CreateProjectDrawer } from "@/components/web/projects-drawer";
+import {
+	CreateProjectDrawer,
+	EditProjectDrawer,
+} from "@/components/web/projects-drawer";
 import { GetAllProjects } from "@/queries/parametros/projects";
 import type { ProjectType } from "@/types/project";
 
@@ -86,7 +89,7 @@ function RouteComponent() {
 			cell: ({ row }) => {
 				const project = row.original;
 
-				return <EditIcon size={10} className="text-yellow-600" />;
+				return <EditProjectDrawer project={project} />;
 			},
 		},
 	];
