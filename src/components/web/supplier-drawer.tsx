@@ -1,12 +1,14 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { CircleXIcon, PlusIcon, SaveIcon } from "lucide-react";
+import { CircleXIcon, EditIcon, PlusIcon, SaveIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { useAppForm } from "@/hooks/formHook";
 import { CreateSupplier } from "@/queries/parametros/supplier";
 import {
 	type SupplierCreateType,
+	type SupplierType,
 	supplierCreateSchema,
+	supplierSchema,
 } from "@/types/supplier";
 import { Button } from "../ui/button";
 import {
@@ -20,6 +22,10 @@ import {
 	DrawerTrigger,
 } from "../ui/drawer";
 import { FieldGroup, FieldSet } from "../ui/field";
+
+type EditSupplierDrawerProps = {
+	supplier: SupplierType;
+};
 
 export function SupplierCreateDrawer() {
 	const queryClient = useQueryClient();
@@ -130,6 +136,118 @@ export function SupplierCreateDrawer() {
 								{(field) => (
 									<field.TextField
 										name="contact_phone"
+										label="Telefono contacto"
+										placeholder="0999999999"
+									/>
+								)}
+							</form.AppField>
+						</FieldSet>
+					</FieldGroup>
+					<DrawerFooter>
+						<div className="flex justify-start items-center space-x-2">
+							<Button type="submit">
+								<SaveIcon size={10} />
+								Guardar
+							</Button>
+							<DrawerClose>
+								<Button type="button" variant="secondary">
+									<CircleXIcon size={10} />
+									Cancelar
+								</Button>
+							</DrawerClose>
+						</div>
+					</DrawerFooter>
+				</form>
+			</DrawerContent>
+		</Drawer>
+	);
+}
+
+export function SupplierEditDrawer({ supplier }: EditSupplierDrawerProps) {
+	const [open, setOpen] = useState(false);
+	const form = useAppForm({
+		defaultValues: supplier,
+		validators: {
+			onSubmit: supplierSchema,
+		},
+		onSubmit: (data) => {
+			console.log(data.value);
+		},
+	});
+
+	useEffect(() => {
+		if (open) {
+			form.reset();
+		}
+	}, [open, form.reset]);
+
+	return (
+		<Drawer direction="right" open={open} onOpenChange={setOpen}>
+			<DrawerTrigger asChild>
+				<Button variant="ghost">
+					<EditIcon size={10} className="text-yellow-600" />
+				</Button>
+			</DrawerTrigger>
+			<DrawerContent>
+				<form
+					onSubmit={(e) => {
+						e.preventDefault();
+						e.stopPropagation();
+						form.handleSubmit();
+					}}
+				>
+					<DrawerHeader>
+						<DrawerTitle>Editar Proveedor</DrawerTitle>
+						<DrawerDescription>
+							Edita la informacion del proveedor seleccionado
+						</DrawerDescription>
+					</DrawerHeader>
+					<FieldGroup className="my-2 px-4">
+						<FieldSet>
+							<form.AppField name="name">
+								{(field) => (
+									<field.TextField
+										name="name"
+										label="Nombre"
+										placeholder="Nombre del Proveedor"
+									/>
+								)}
+							</form.AppField>
+
+							<form.AppField name="supplier_id">
+								{(field) => (
+									<field.TextField
+										name="supplier_id"
+										label="RUC"
+										placeholder="1234567890001"
+									/>
+								)}
+							</form.AppField>
+
+							<form.AppField name="contact_name.String">
+								{(field) => (
+									<field.TextField
+										name="contact_name.String"
+										label="Nombre Contacto"
+										placeholder="Juan Perez"
+									/>
+								)}
+							</form.AppField>
+
+							<form.AppField name="contact_email.String">
+								{(field) => (
+									<field.TextField
+										name="contact_email.String"
+										label="Email contacto"
+										placeholder="mail@empresa.com"
+									/>
+								)}
+							</form.AppField>
+
+							<form.AppField name="contact_phone.String">
+								{(field) => (
+									<field.TextField
+										name="contact_phone.String"
 										label="Telefono contacto"
 										placeholder="0999999999"
 									/>

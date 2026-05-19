@@ -7,7 +7,10 @@ import { DataTable } from "@/components/ui/data-table";
 import { Input } from "@/components/ui/input";
 import { Spinner } from "@/components/ui/spinner";
 import PageTitle from "@/components/web/pageTitle";
-import { SupplierCreateDrawer } from "@/components/web/supplier-drawer";
+import {
+	SupplierCreateDrawer,
+	SupplierEditDrawer,
+} from "@/components/web/supplier-drawer";
 import { GetAllSuppliers } from "@/queries/parametros/supplier";
 import type { SupplierType } from "@/types/supplier";
 
@@ -55,9 +58,9 @@ function RouteComponent() {
 		{
 			id: "actions",
 			cell: ({ row }) => {
-				const project = row.original;
+				const supplier = row.original;
 
-				return <EditIcon size={10} className="text-yellow-600" />;
+				return <SupplierEditDrawer supplier={supplier} />;
 			},
 		},
 	];
