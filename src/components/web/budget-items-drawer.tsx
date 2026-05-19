@@ -1,8 +1,9 @@
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { CircleXIcon, PlusIcon, SaveIcon } from 'lucide-react'
 import { useEffect, useState } from 'react'
+import { toast } from 'sonner'
 import { useAppForm } from '@/hooks/formHook'
-import { GetAllPartidas } from '@/queries/parametros/budgetItem'
+import { CreatePartida, GetAllPartidas } from '@/queries/parametros/budgetItem'
 import { type BudgetItem, budgetItemSchema } from '@/types/partidas'
 import { Button } from '../ui/button'
 import {
@@ -18,6 +19,7 @@ import {
 import { FieldGroup, FieldSet } from '../ui/field'
 
 export function PartidaCreateDrawer() {
+	const queryClient = useQueryClient()
 	const [open, setOpen] = useState(false)
 	const { data: partidas } = useQuery({
 		queryKey: ['partidas', 'accum'],
@@ -25,6 +27,23 @@ export function PartidaCreateDrawer() {
 			GetAllPartidas({
 				accum: true,
 			}),
+	})
+
+	const useCreatePartidaMutation = useMutation({
+		mutationFn: CreatePartida,
+		onSuccess: () => {
+			setOpen(false)
+			toast.success('Partida creada exitosamente')
+			queryClient.invalidateQueries({ queryKey: ['partidas'] })
+		},
+		onError: (error) => {
+			toast.error(error.message, {
+				position: 'top-center',
+				style: {
+					color: 'red',
+				},
+			})
+		},
 	})
 
 	const form = useAppForm({
@@ -38,7 +57,7 @@ export function PartidaCreateDrawer() {
 			onSubmit: budgetItemSchema,
 		},
 		onSubmit: (data) => {
-			console.log(data.value)
+			useCreatePartidaMutation.mutate({ data: data.value })
 		},
 	})
 
@@ -54,12 +73,12 @@ export function PartidaCreateDrawer() {
 
 	useEffect(() => {
 		if (open) {
-			setOpen(true)
+			form.reset()
 		}
-	}, [open, setOpen])
+	}, [open, form.reset])
 
 	return (
-		<Drawer direction='right'>
+		<Drawer direction='right' open={open} onOpenChange={setOpen}>
 			<DrawerTrigger>
 				<Button>
 					<PlusIcon size={16} />
