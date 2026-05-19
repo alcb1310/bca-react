@@ -1,10 +1,10 @@
-import { store } from "@/redux/store";
+import { authStore } from "@/store/auth";
 import type { SupplierType } from "@/types/supplier";
 
 const URL = import.meta.env.VITE_BACKEND_SERVER;
 
 export async function GetAllSuppliers({ search }: { search?: string }) {
-	const state = store.getState();
+	const token = authStore.state.token;
 
 	const params = new URLSearchParams();
 	if (search) params.append("query", search);
@@ -12,7 +12,7 @@ export async function GetAllSuppliers({ search }: { search?: string }) {
 	const response = await fetch(`${URL}/parametros/proveedores?${params}`, {
 		headers: {
 			"Content-Type": "application/json",
-			Authorization: `Bearer ${state.login.token}`,
+			Authorization: `Bearer ${token}`,
 		},
 	});
 
@@ -24,13 +24,13 @@ export async function GetAllSuppliers({ search }: { search?: string }) {
 }
 
 export async function CreateSupplier({ data }: { data: SupplierType }) {
-	const state = store.getState();
+	const token = authStore.state.token;
 
 	const response = await fetch(`${URL}/parametros/proveedores`, {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",
-			Authorization: `Bearer ${state.login.token}`,
+			Authorization: `Bearer ${token}`,
 		},
 		body: JSON.stringify(data),
 	});
@@ -45,13 +45,13 @@ export async function CreateSupplier({ data }: { data: SupplierType }) {
 }
 
 export async function UpdateSupplier({ data }: { data: SupplierType }) {
-	const state = store.getState();
+	const token = authStore.state.token;
 
 	const response = await fetch(`${URL}/parametros/proveedores/${data.id}`, {
 		method: "PUT",
 		headers: {
 			"Content-Type": "application/json",
-			Authorization: `Bearer ${state.login.token}`,
+			Authorization: `Bearer ${token}`,
 		},
 		body: JSON.stringify(data),
 	});
