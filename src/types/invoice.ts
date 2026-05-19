@@ -1,6 +1,6 @@
-import { z } from "zod";
-import { projectSchema } from "./project";
-import { supplierSchema } from "./supplier";
+import { z } from 'zod'
+import { projectSchema } from './project'
+import { supplierSchema } from './supplier'
 
 export const invoiceResponseSchema = z.object({
 	id: z.string().uuid(),
@@ -12,22 +12,22 @@ export const invoiceResponseSchema = z.object({
 	invoice_total: z.number(),
 	company_id: z.string().uuid().optional(),
 	is_balanced: z.boolean().optional(),
-});
+})
 
-export type InvoiceResponseType = z.infer<typeof invoiceResponseSchema>;
+export type InvoiceResponseType = z.infer<typeof invoiceResponseSchema>
 
 export const invoiceCreateSchema = z.object({
 	id: z.string().uuid().optional(),
-	supplier_id: z.string().uuid("Seleccione un proveedor"),
-	project_id: z.string().uuid("Seleccione un proyecto"),
-	invoice_number: z.string().min(1, "Ingrese el numero de la Factura"),
+	supplier_id: z.string().uuid('Seleccione un proveedor'),
+	project_id: z.string().uuid('Seleccione un proyecto'),
+	invoice_number: z.string().min(1, 'Ingrese el numero de la Factura'),
 	invoice_date: z.coerce.date({
-		message: "Ingrese una fecha",
+		message: 'Ingrese una fecha',
 	}),
 	invoice_total: z.custom<number>((val) => {
-		const num = Number.parseFloat(val);
-		return !Number.isNaN(num);
-	}, "El total deber ser un  número"),
-});
+		const num = Number.parseFloat(val)
+		return !Number.isNaN(num)
+	}, 'El total deber ser un  número'),
+})
 
-export type InvoiceCreateType = z.infer<typeof invoiceCreateSchema>;
+export type InvoiceCreateType = z.infer<typeof invoiceCreateSchema>

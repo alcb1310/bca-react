@@ -1,17 +1,17 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { CircleXIcon, EditIcon, PlusIcon, SaveIcon } from "lucide-react";
-import { useEffect, useState } from "react";
-import { toast } from "sonner";
-import { useAppForm } from "@/hooks/formHook";
-import { GetAllCategories } from "@/queries/parametros/categories";
-import { CreateMaterial, UpdateMaterial } from "@/queries/parametros/materials";
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { CircleXIcon, EditIcon, PlusIcon, SaveIcon } from 'lucide-react'
+import { useEffect, useState } from 'react'
+import { toast } from 'sonner'
+import { useAppForm } from '@/hooks/formHook'
+import { GetAllCategories } from '@/queries/parametros/categories'
+import { CreateMaterial, UpdateMaterial } from '@/queries/parametros/materials'
 import {
 	type MaterialCreateType,
 	type MaterialType,
 	materialCreateSchema,
 	materialSchema,
-} from "@/types/materials";
-import { Button } from "../ui/button";
+} from '@/types/materials'
+import { Button } from '../ui/button'
 import {
 	Drawer,
 	DrawerClose,
@@ -21,73 +21,73 @@ import {
 	DrawerHeader,
 	DrawerTitle,
 	DrawerTrigger,
-} from "../ui/drawer";
-import { FieldGroup, FieldSet } from "../ui/field";
+} from '../ui/drawer'
+import { FieldGroup, FieldSet } from '../ui/field'
 
 type MaterialEditDrawerProps = {
-	material: MaterialType;
-};
+	material: MaterialType
+}
 
 export function MaterialCreateDrawer() {
-	const queryClient = useQueryClient();
-	const [open, setOpen] = useState(false);
+	const queryClient = useQueryClient()
+	const [open, setOpen] = useState(false)
 	const { data } = useQuery({
-		queryKey: ["categorias"],
+		queryKey: ['categorias'],
 		queryFn: () => GetAllCategories(),
-	});
+	})
 
 	const useCreateMaterialMutation = useMutation({
 		mutationFn: CreateMaterial,
 		onSuccess: () => {
-			setOpen(false);
-			toast.success("Material creado exitosamente");
-			queryClient.invalidateQueries({ queryKey: ["materiales"] });
+			setOpen(false)
+			toast.success('Material creado exitosamente')
+			queryClient.invalidateQueries({ queryKey: ['materiales'] })
 		},
 		onError: (error) => {
 			toast.error(error.message, {
-				position: "top-center",
+				position: 'top-center',
 				style: {
-					color: "red",
+					color: 'red',
 				},
-			});
+			})
 		},
-	});
+	})
 
 	const form = useAppForm({
 		defaultValues: {
-			name: "",
-			code: "",
-			unit: "",
-			category_id: "",
+			name: '',
+			code: '',
+			unit: '',
+			category_id: '',
 		} as MaterialCreateType,
 		validators: {
 			onSubmit: materialCreateSchema,
 		},
 		onSubmit: (data) => {
-			useCreateMaterialMutation.mutate({ data: data.value });
+			useCreateMaterialMutation.mutate({ data: data.value })
 		},
-	});
+	})
 
 	useEffect(() => {
 		if (open) {
-			form.reset();
+			form.reset()
 		}
-	}, [open, form.reset]);
+	}, [open, form.reset])
 
 	const catValues =
 		data?.map((item) => ({
 			label: item.name,
 			value: item.id as string,
-		})) || [];
+		})) || []
 	catValues.unshift({
-		label: "Seleccione una categoria",
-		value: "",
-	});
+		label: 'Seleccione una categoria',
+		value: '',
+	})
 
 	return (
-		<Drawer direction="right" open={open} onOpenChange={setOpen}>
+		<Drawer direction='right' open={open} onOpenChange={setOpen}>
 			<DrawerTrigger asChild>
-				<Button variant="default" className="my-3">
+				<Button variant='default' className='my-3'>
 					<PlusIcon size={16} />
 					Crear Material
 				</Button>
@@ -95,9 +95,9 @@ export function MaterialCreateDrawer() {
 			<DrawerContent>
 				<form
 					onSubmit={(e) => {
-						e.preventDefault();
-						e.stopPropagation();
-						form.handleSubmit();
+						e.preventDefault()
+						e.stopPropagation()
+						form.handleSubmit()
 					}}
 				>
 					<DrawerHeader>
@@ -106,43 +106,43 @@ export function MaterialCreateDrawer() {
 							Crea un nuevo material por cada categoria existente
 						</DrawerDescription>
 					</DrawerHeader>
-					<FieldGroup className="my-2 px-4">
+					<FieldGroup className='my-2 px-4'>
 						<FieldSet>
-							<form.AppField name="code">
+							<form.AppField name='code'>
 								{(field) => (
 									<field.TextField
-										name="code"
-										label="Código"
-										placeholder="cod"
+										name='code'
+										label='Código'
+										placeholder='cod'
 									/>
 								)}
 							</form.AppField>
 
-							<form.AppField name="name">
+							<form.AppField name='name'>
 								{(field) => (
 									<field.TextField
-										name="name"
-										label="Nombre"
-										placeholder="Nombre del Material"
+										name='name'
+										label='Nombre'
+										placeholder='Nombre del Material'
 									/>
 								)}
 							</form.AppField>
 
-							<form.AppField name="unit">
+							<form.AppField name='unit'>
 								{(field) => (
 									<field.TextField
-										name="unit"
-										label="Unidad"
-										placeholder="unidad"
+										name='unit'
+										label='Unidad'
+										placeholder='unidad'
 									/>
 								)}
 							</form.AppField>
 
-							<form.AppField name="category_id">
+							<form.AppField name='category_id'>
 								{(field) => (
 									<field.SelectField
-										label="Categoría"
-										name="category_id"
+										label='Categoría'
+										name='category_id'
 										options={catValues}
 									/>
 								)}
@@ -150,13 +150,13 @@ export function MaterialCreateDrawer() {
 						</FieldSet>
 					</FieldGroup>
 					<DrawerFooter>
-						<div className="flex justify-start items-center space-x-2">
-							<Button type="submit">
+						<div className='flex justify-start items-center space-x-2'>
+							<Button type='submit'>
 								<SaveIcon size={10} />
 								Guardar
 							</Button>
 							<DrawerClose asChild>
-								<Button type="button" variant="secondary">
+								<Button type='button' variant='secondary'>
 									<CircleXIcon size={10} />
 									Cancelar
 								</Button>
@@ -166,29 +166,29 @@ export function MaterialCreateDrawer() {
 				</form>
 			</DrawerContent>
 		</Drawer>
-	);
+	)
 }
 
 export function MaterialEditDrawer({ material }: MaterialEditDrawerProps) {
-	const queryClient = useQueryClient();
-	const [open, setOpen] = useState(false);
+	const queryClient = useQueryClient()
+	const [open, setOpen] = useState(false)
 
 	const useUpdateMaterialMutation = useMutation({
 		mutationFn: UpdateMaterial,
 		onSuccess: () => {
-			setOpen(false);
-			toast.success("Material creado exitosamente");
-			queryClient.invalidateQueries({ queryKey: ["materiales"] });
+			setOpen(false)
+			toast.success('Material creado exitosamente')
+			queryClient.invalidateQueries({ queryKey: ['materiales'] })
 		},
 		onError: (error) => {
 			toast.error(error.message, {
-				position: "top-center",
+				position: 'top-center',
 				style: {
-					color: "red",
+					color: 'red',
 				},
-			});
+			})
 		},
-	});
+	})
 
 	const form = useAppForm({
 		defaultValues: material,
@@ -196,29 +196,29 @@ export function MaterialEditDrawer({ material }: MaterialEditDrawerProps) {
 			onSubmit: materialSchema,
 		},
 		onSubmit: (data) => {
-			useUpdateMaterialMutation.mutate({ data: data.value });
+			useUpdateMaterialMutation.mutate({ data: data.value })
 		},
-	});
+	})
 
 	useEffect(() => {
 		if (open) {
-			form.reset();
+			form.reset()
 		}
-	}, [open, form.reset]);
+	}, [open, form.reset])
 
 	return (
-		<Drawer direction="right" open={open} onOpenChange={setOpen}>
+		<Drawer direction='right' open={open} onOpenChange={setOpen}>
 			<DrawerTrigger asChild>
-				<Button variant="ghost">
-					<EditIcon size={10} className="text-yellow-600" />
+				<Button variant='ghost'>
+					<EditIcon size={10} className='text-yellow-600' />
 				</Button>
 			</DrawerTrigger>
 			<DrawerContent>
 				<form
 					onSubmit={(e) => {
-						e.preventDefault();
-						e.stopPropagation();
-						form.handleSubmit();
+						e.preventDefault()
+						e.stopPropagation()
+						form.handleSubmit()
 					}}
 				>
 					<DrawerHeader>
@@ -227,44 +227,44 @@ export function MaterialEditDrawer({ material }: MaterialEditDrawerProps) {
 							Edita el material seleccionado
 						</DrawerDescription>
 					</DrawerHeader>
-					<FieldGroup className="my-2 px-4">
+					<FieldGroup className='my-2 px-4'>
 						<FieldSet>
-							<form.AppField name="code">
+							<form.AppField name='code'>
 								{(field) => (
 									<field.TextField
-										name="code"
-										label="Código"
-										placeholder="cod"
+										name='code'
+										label='Código'
+										placeholder='cod'
 									/>
 								)}
 							</form.AppField>
 
-							<form.AppField name="name">
+							<form.AppField name='name'>
 								{(field) => (
 									<field.TextField
-										name="name"
-										label="Nombre"
-										placeholder="Nombre del Material"
+										name='name'
+										label='Nombre'
+										placeholder='Nombre del Material'
 									/>
 								)}
 							</form.AppField>
 
-							<form.AppField name="unit">
+							<form.AppField name='unit'>
 								{(field) => (
 									<field.TextField
-										name="unit"
-										label="Unidad"
-										placeholder="unidad"
+										name='unit'
+										label='Unidad'
+										placeholder='unidad'
 									/>
 								)}
 							</form.AppField>
 
-							<form.AppField name="category.name">
+							<form.AppField name='category.name'>
 								{(field) => (
 									<field.TextField
-										name="category.name"
-										label="Categoría"
-										placeholder="unidad"
+										name='category.name'
+										label='Categoría'
+										placeholder='unidad'
 										disabled
 									/>
 								)}
@@ -272,13 +272,13 @@ export function MaterialEditDrawer({ material }: MaterialEditDrawerProps) {
 						</FieldSet>
 					</FieldGroup>
 					<DrawerFooter>
-						<div className="flex justify-start items-center space-x-2">
-							<Button type="submit">
+						<div className='flex justify-start items-center space-x-2'>
+							<Button type='submit'>
 								<SaveIcon size={10} />
 								Guardar
 							</Button>
 							<DrawerClose asChild>
-								<Button type="button" variant="secondary">
+								<Button type='button' variant='secondary'>
 									<CircleXIcon size={10} />
 									Cancelar
 								</Button>
@@ -288,5 +288,5 @@ export function MaterialEditDrawer({ material }: MaterialEditDrawerProps) {
 				</form>
 			</DrawerContent>
 		</Drawer>
-	);
+	)
 }

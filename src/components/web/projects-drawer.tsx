@@ -1,11 +1,11 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { CircleXIcon, EditIcon, PlusIcon, SaveIcon } from "lucide-react";
-import { useEffect, useState } from "react";
-import { toast } from "sonner";
-import { useAppForm } from "@/hooks/formHook";
-import { CreateProject, UpdateProject } from "@/queries/parametros/projects";
-import { type ProjectType, projectSchema } from "@/types/project";
-import { Button } from "../ui/button";
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { CircleXIcon, EditIcon, PlusIcon, SaveIcon } from 'lucide-react'
+import { useEffect, useState } from 'react'
+import { toast } from 'sonner'
+import { useAppForm } from '@/hooks/formHook'
+import { CreateProject, UpdateProject } from '@/queries/parametros/projects'
+import { type ProjectType, projectSchema } from '@/types/project'
+import { Button } from '../ui/button'
 import {
 	Drawer,
 	DrawerClose,
@@ -15,37 +15,37 @@ import {
 	DrawerHeader,
 	DrawerTitle,
 	DrawerTrigger,
-} from "../ui/drawer";
-import { FieldGroup, FieldSet } from "../ui/field";
+} from '../ui/drawer'
+import { FieldGroup, FieldSet } from '../ui/field'
 
 type EditProjectDrawerProps = {
-	project: ProjectType;
-};
+	project: ProjectType
+}
 
 export function CreateProjectDrawer() {
-	const queryClient = useQueryClient();
-	const [open, setOpen] = useState(false);
+	const queryClient = useQueryClient()
+	const [open, setOpen] = useState(false)
 
 	const createProjectMutation = useMutation({
 		mutationFn: CreateProject,
 		onSuccess: () => {
-			setOpen(false);
-			toast.success("Proyecto creado exitosamente");
-			queryClient.invalidateQueries({ queryKey: ["proyectos"] });
+			setOpen(false)
+			toast.success('Proyecto creado exitosamente')
+			queryClient.invalidateQueries({ queryKey: ['proyectos'] })
 		},
 		onError: (error) => {
 			toast.error(error.message, {
-				position: "top-center",
+				position: 'top-center',
 				style: {
-					color: "red",
+					color: 'red',
 				},
-			});
+			})
 		},
-	});
+	})
 
 	const form = useAppForm({
 		defaultValues: {
-			name: "",
+			name: '',
 			is_active: false,
 		} as ProjectType,
 		validators: {
@@ -55,22 +55,22 @@ export function CreateProjectDrawer() {
 			const realData: ProjectType = {
 				name: data.value.name,
 				is_active: data.value.is_active,
-				gross_area: Number.parseFloat(data.value.gross_area?.toString() || "0"),
-				net_area: Number.parseFloat(data.value.net_area?.toString() || "0"),
-			};
+				gross_area: Number.parseFloat(data.value.gross_area?.toString() || '0'),
+				net_area: Number.parseFloat(data.value.net_area?.toString() || '0'),
+			}
 
-			createProjectMutation.mutate({ data: realData });
+			createProjectMutation.mutate({ data: realData })
 		},
-	});
+	})
 
 	useEffect(() => {
 		if (open) {
-			form.reset();
+			form.reset()
 		}
-	}, [open, form.reset]);
+	}, [open, form.reset])
 
 	return (
-		<Drawer direction="right" open={open} onOpenChange={setOpen}>
+		<Drawer direction='right' open={open} onOpenChange={setOpen}>
 			<DrawerTrigger asChild>
 				<Button>
 					<PlusIcon size={16} /> Crear Proyecto
@@ -79,62 +79,62 @@ export function CreateProjectDrawer() {
 			<DrawerContent>
 				<form
 					onSubmit={(e) => {
-						e.preventDefault();
-						e.stopPropagation();
-						form.handleSubmit();
+						e.preventDefault()
+						e.stopPropagation()
+						form.handleSubmit()
 					}}
 				>
 					<DrawerHeader>
 						<DrawerTitle>Crear Proyecto</DrawerTitle>
 						<DrawerDescription>Crear un nuevo proyecto</DrawerDescription>
 					</DrawerHeader>
-					<FieldGroup className="my-2 px-4">
+					<FieldGroup className='my-2 px-4'>
 						<FieldSet>
-							<form.AppField name="name">
+							<form.AppField name='name'>
 								{(field) => (
 									<field.TextField
-										name="name"
-										label="Nombre"
-										placeholder="Nombre del proyecto"
+										name='name'
+										label='Nombre'
+										placeholder='Nombre del proyecto'
 									/>
 								)}
 							</form.AppField>
 
-							<form.AppField name="gross_area">
+							<form.AppField name='gross_area'>
 								{(field) => (
 									<field.TextField
-										name="gross_area"
-										label="Area Bruta"
-										placeholder="Area Bruta en m2"
+										name='gross_area'
+										label='Area Bruta'
+										placeholder='Area Bruta en m2'
 									/>
 								)}
 							</form.AppField>
 
-							<form.AppField name="net_area">
+							<form.AppField name='net_area'>
 								{(field) => (
 									<field.TextField
-										name="net_area"
-										label="Area Neta"
-										placeholder="Area Neta en m2"
+										name='net_area'
+										label='Area Neta'
+										placeholder='Area Neta en m2'
 									/>
 								)}
 							</form.AppField>
 
-							<form.AppField name="is_active">
+							<form.AppField name='is_active'>
 								{(field) => (
-									<field.SwitchField name="is_active" label="Activo" />
+									<field.SwitchField name='is_active' label='Activo' />
 								)}
 							</form.AppField>
 						</FieldSet>
 					</FieldGroup>
 					<DrawerFooter>
-						<div className="flex justify-start items-center space-x-2">
-							<Button type="submit">
+						<div className='flex justify-start items-center space-x-2'>
+							<Button type='submit'>
 								<SaveIcon size={10} />
 								Guardar
 							</Button>
 							<DrawerClose asChild>
-								<Button type="button" variant="secondary">
+								<Button type='button' variant='secondary'>
 									<CircleXIcon size={10} />
 									Cancelar
 								</Button>
@@ -144,29 +144,29 @@ export function CreateProjectDrawer() {
 				</form>
 			</DrawerContent>
 		</Drawer>
-	);
+	)
 }
 
 export function EditProjectDrawer({ project }: EditProjectDrawerProps) {
-	const queryClient = useQueryClient();
-	const [open, setOpen] = useState(false);
+	const queryClient = useQueryClient()
+	const [open, setOpen] = useState(false)
 
 	const editProjectMutation = useMutation({
 		mutationFn: UpdateProject,
 		onSuccess: () => {
-			setOpen(false);
-			toast.success("Proyecto actualizado exitosamente");
-			queryClient.invalidateQueries({ queryKey: ["proyectos"] });
+			setOpen(false)
+			toast.success('Proyecto actualizado exitosamente')
+			queryClient.invalidateQueries({ queryKey: ['proyectos'] })
 		},
 		onError: (error) => {
 			toast.error(error.message, {
-				position: "top-center",
+				position: 'top-center',
 				style: {
-					color: "red",
+					color: 'red',
 				},
-			});
+			})
 		},
-	});
+	})
 
 	const form = useAppForm({
 		defaultValues: project,
@@ -178,80 +178,80 @@ export function EditProjectDrawer({ project }: EditProjectDrawerProps) {
 				id: project.id,
 				name: data.value.name,
 				is_active: data.value.is_active,
-				gross_area: Number.parseFloat(data.value.gross_area?.toString() || "0"),
-				net_area: Number.parseFloat(data.value.net_area?.toString() || "0"),
-			};
+				gross_area: Number.parseFloat(data.value.gross_area?.toString() || '0'),
+				net_area: Number.parseFloat(data.value.net_area?.toString() || '0'),
+			}
 
-			editProjectMutation.mutate({ data: realData });
+			editProjectMutation.mutate({ data: realData })
 		},
-	});
+	})
 
 	return (
-		<Drawer direction="right" open={open} onOpenChange={setOpen}>
+		<Drawer direction='right' open={open} onOpenChange={setOpen}>
 			<DrawerTrigger asChild>
-				<Button variant="ghost">
-					<EditIcon size={10} className="text-yellow-600" />
+				<Button variant='ghost'>
+					<EditIcon size={10} className='text-yellow-600' />
 				</Button>
 			</DrawerTrigger>
 			<DrawerContent>
 				<form
 					onSubmit={(e) => {
-						e.preventDefault();
-						e.stopPropagation();
-						form.handleSubmit();
+						e.preventDefault()
+						e.stopPropagation()
+						form.handleSubmit()
 					}}
 				>
 					<DrawerHeader>
 						<DrawerTitle>Crear Proyecto</DrawerTitle>
 						<DrawerDescription>Crear un nuevo proyecto</DrawerDescription>
 					</DrawerHeader>
-					<FieldGroup className="my-2 px-4">
+					<FieldGroup className='my-2 px-4'>
 						<FieldSet>
-							<form.AppField name="name">
+							<form.AppField name='name'>
 								{(field) => (
 									<field.TextField
-										name="name"
-										label="Nombre"
-										placeholder="Nombre del proyecto"
+										name='name'
+										label='Nombre'
+										placeholder='Nombre del proyecto'
 									/>
 								)}
 							</form.AppField>
 
-							<form.AppField name="gross_area">
+							<form.AppField name='gross_area'>
 								{(field) => (
 									<field.TextField
-										name="gross_area"
-										label="Area Bruta"
-										placeholder="Area Bruta en m2"
+										name='gross_area'
+										label='Area Bruta'
+										placeholder='Area Bruta en m2'
 									/>
 								)}
 							</form.AppField>
 
-							<form.AppField name="net_area">
+							<form.AppField name='net_area'>
 								{(field) => (
 									<field.TextField
-										name="net_area"
-										label="Area Neta"
-										placeholder="Area Neta en m2"
+										name='net_area'
+										label='Area Neta'
+										placeholder='Area Neta en m2'
 									/>
 								)}
 							</form.AppField>
 
-							<form.AppField name="is_active">
+							<form.AppField name='is_active'>
 								{(field) => (
-									<field.SwitchField name="is_active" label="Activo" />
+									<field.SwitchField name='is_active' label='Activo' />
 								)}
 							</form.AppField>
 						</FieldSet>
 					</FieldGroup>
 					<DrawerFooter>
-						<div className="flex justify-start items-center space-x-2">
-							<Button type="submit">
+						<div className='flex justify-start items-center space-x-2'>
+							<Button type='submit'>
 								<SaveIcon size={10} />
 								Guardar
 							</Button>
 							<DrawerClose asChild>
-								<Button type="button" variant="secondary">
+								<Button type='button' variant='secondary'>
 									<CircleXIcon size={10} />
 									Cancelar
 								</Button>
@@ -261,5 +261,5 @@ export function EditProjectDrawer({ project }: EditProjectDrawerProps) {
 				</form>
 			</DrawerContent>
 		</Drawer>
-	);
+	)
 }

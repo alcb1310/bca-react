@@ -1,22 +1,22 @@
-import { Box, Drawer } from "@mui/material";
+import { Box, Drawer } from '@mui/material'
 
 type BcaDrawerProps = {
-	open: boolean;
-	onClose: () => void;
-	children: React.ReactNode;
-	width?: string;
-};
+	open: boolean
+	onClose: () => void
+	children: React.ReactNode
+	width?: string
+}
 
 export default function BcaDrawer({
 	open,
 	onClose,
 	children,
-	width = "300px",
+	width = '300px',
 }: BcaDrawerProps) {
 	return (
 		<Drawer
-			anchor="right"
-			data-testid="component.drawer"
+			anchor='right'
+			data-testid='component.drawer'
 			open={open}
 			onClose={onClose}
 			PaperProps={{
@@ -24,13 +24,13 @@ export default function BcaDrawer({
 			}}
 			sx={{
 				width: width,
-				"& .MuiDrawer-paper": {
+				'& .MuiDrawer-paper': {
 					width: width,
-					boxSizing: "border-box",
+					boxSizing: 'border-box',
 				},
 			}}
 		>
 			<Box p={3}>{children}</Box>
 		</Drawer>
-	);
+	)
 }

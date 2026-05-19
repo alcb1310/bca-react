@@ -1,125 +1,125 @@
-import { authStore } from "@/store/auth";
-import type { UserCreate, UserResponse } from "@/types/user";
+import { authStore } from '@/store/auth'
+import type { UserCreate, UserResponse } from '@/types/user'
 
-const URL = import.meta.env.VITE_BACKEND_SERVER;
+const URL = import.meta.env.VITE_BACKEND_SERVER
 
 export async function Me() {
-	const token = authStore.get().token;
+	const token = authStore.get().token
 
 	const response = await fetch(`${URL}/users/me`, {
-		method: "GET",
+		method: 'GET',
 		headers: {
-			"Content-Type": "application/json",
+			'Content-Type': 'application/json',
 			Authorization: `Bearer ${token}`,
 		},
-	});
+	})
 
 	if (!response.ok) {
-		const data = await response.json();
-		throw new Error(data.error);
+		const data = await response.json()
+		throw new Error(data.error)
 	}
 
-	return (await response.json()) as UserResponse;
+	return (await response.json()) as UserResponse
 }
 
 export async function GetAllUsers() {
-	const token = authStore.get().token;
+	const token = authStore.get().token
 
 	const response = await fetch(`${URL}/users`, {
-		method: "GET",
+		method: 'GET',
 		headers: {
-			"Content-Type": "application/json",
+			'Content-Type': 'application/json',
 			Authorization: `Bearer ${token}`,
 		},
-	});
+	})
 
 	if (!response.ok) {
-		const data = await response.json();
-		throw new Error(data.error);
+		const data = await response.json()
+		throw new Error(data.error)
 	}
 
-	return (await response.json()) as UserResponse[];
+	return (await response.json()) as UserResponse[]
 }
 
 export async function CreateUser({ data }: { data: UserCreate }) {
-	const token = authStore.get().token;
+	const token = authStore.get().token
 
 	const response = await fetch(`${URL}/users`, {
-		method: "POST",
+		method: 'POST',
 		headers: {
-			"Content-Type": "application/json",
+			'Content-Type': 'application/json',
 			Authorization: `Bearer ${token}`,
 		},
 		body: JSON.stringify(data),
-	});
+	})
 
 	if (!response.ok) {
-		const data = await response.json();
-		throw new Error(data.error);
+		const data = await response.json()
+		throw new Error(data.error)
 	}
 
-	return;
+	return
 }
 
 export async function DeleteUser(id: string) {
-	const token = authStore.get().token;
+	const token = authStore.get().token
 
 	const response = await fetch(`${URL}/users/${id}`, {
-		method: "DELETE",
+		method: 'DELETE',
 		headers: {
-			"Content-Type": "application/json",
+			'Content-Type': 'application/json',
 			Authorization: `Bearer ${token}`,
 		},
-	});
+	})
 
 	if (!response.ok) {
 		if (response.status === 403) {
-			throw new Error("No tienes permiso para realizar esta acción");
+			throw new Error('No tienes permiso para realizar esta acción')
 		}
 
-		const data = await response.json();
-		throw new Error(data.error);
+		const data = await response.json()
+		throw new Error(data.error)
 	}
 
-	return;
+	return
 }
 
 export async function UpdateUser({ data }: { data: UserResponse }) {
-	const token = authStore.get().token;
+	const token = authStore.get().token
 
 	const response = await fetch(`${URL}/users/${data.id}`, {
-		method: "PUT",
+		method: 'PUT',
 		headers: {
-			"Content-Type": "application/json",
+			'Content-Type': 'application/json',
 			Authorization: `Bearer ${token}`,
 		},
 		body: JSON.stringify(data),
-	});
+	})
 
 	if (!response.ok) {
-		const data = await response.json();
-		throw new Error(data.error);
+		const data = await response.json()
+		throw new Error(data.error)
 	}
 
-	return;
+	return
 }
 
 export async function UpdatePassword({ data }: { data: { password: string } }) {
-	const token = authStore.get().token;
+	const token = authStore.get().token
 
 	const response = await fetch(`${URL}/users`, {
-		method: "PUT",
+		method: 'PUT',
 		headers: {
-			"Content-Type": "application/json",
+			'Content-Type': 'application/json',
 			Authorization: `Bearer ${token}`,
 		},
 		body: JSON.stringify(data),
-	});
+	})
 
 	if (!response.ok) {
-		const data = await response.json();
-		throw new Error(data.error);
+		const data = await response.json()
+		throw new Error(data.error)
 	}
 
-	return;
+	return
 }

@@ -1,16 +1,16 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { CircleXIcon, EditIcon, PlusIcon, SaveIcon } from "lucide-react";
-import { useEffect, useState } from "react";
-import { toast } from "sonner";
-import { useAppForm } from "@/hooks/formHook";
-import { CreateSupplier, UpdateSupplier } from "@/queries/parametros/supplier";
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { CircleXIcon, EditIcon, PlusIcon, SaveIcon } from 'lucide-react'
+import { useEffect, useState } from 'react'
+import { toast } from 'sonner'
+import { useAppForm } from '@/hooks/formHook'
+import { CreateSupplier, UpdateSupplier } from '@/queries/parametros/supplier'
 import {
 	type SupplierCreateType,
 	type SupplierType,
 	supplierCreateSchema,
 	supplierSchema,
-} from "@/types/supplier";
-import { Button } from "../ui/button";
+} from '@/types/supplier'
+import { Button } from '../ui/button'
 import {
 	Drawer,
 	DrawerClose,
@@ -20,58 +20,58 @@ import {
 	DrawerHeader,
 	DrawerTitle,
 	DrawerTrigger,
-} from "../ui/drawer";
-import { FieldGroup, FieldSet } from "../ui/field";
+} from '../ui/drawer'
+import { FieldGroup, FieldSet } from '../ui/field'
 
 type EditSupplierDrawerProps = {
-	supplier: SupplierType;
-};
+	supplier: SupplierType
+}
 
 export function SupplierCreateDrawer() {
-	const queryClient = useQueryClient();
-	const [open, setOpen] = useState(false);
+	const queryClient = useQueryClient()
+	const [open, setOpen] = useState(false)
 
 	const useCreateSupplierMutation = useMutation({
 		mutationFn: CreateSupplier,
 		onSuccess: () => {
-			setOpen(false);
-			toast.success("Proveedor creado exitosamente");
-			queryClient.invalidateQueries({ queryKey: ["proveedores"] });
+			setOpen(false)
+			toast.success('Proveedor creado exitosamente')
+			queryClient.invalidateQueries({ queryKey: ['proveedores'] })
 		},
 		onError: (error) => {
 			toast.error(error.message, {
-				position: "top-center",
+				position: 'top-center',
 				style: {
-					color: "red",
+					color: 'red',
 				},
-			});
+			})
 		},
-	});
+	})
 
 	const form = useAppForm({
 		defaultValues: {
-			name: "",
-			supplier_id: "",
-			contact_email: "",
-			contact_name: "",
-			contact_phone: "",
+			name: '',
+			supplier_id: '',
+			contact_email: '',
+			contact_name: '',
+			contact_phone: '',
 		} as SupplierCreateType,
 		validators: {
 			onSubmit: supplierCreateSchema,
 		},
 		onSubmit: (data) => {
-			useCreateSupplierMutation.mutate({ data: data.value });
+			useCreateSupplierMutation.mutate({ data: data.value })
 		},
-	});
+	})
 
 	useEffect(() => {
 		if (open) {
-			form.reset();
+			form.reset()
 		}
-	}, [open, form.reset]);
+	}, [open, form.reset])
 
 	return (
-		<Drawer direction="right" open={open} onOpenChange={setOpen}>
+		<Drawer direction='right' open={open} onOpenChange={setOpen}>
 			<DrawerTrigger asChild>
 				<Button>
 					<PlusIcon size={16} />
@@ -81,76 +81,76 @@ export function SupplierCreateDrawer() {
 			<DrawerContent>
 				<form
 					onSubmit={(e) => {
-						e.preventDefault();
-						e.stopPropagation();
-						form.handleSubmit();
+						e.preventDefault()
+						e.stopPropagation()
+						form.handleSubmit()
 					}}
 				>
 					<DrawerHeader>
 						<DrawerTitle>Crear Proveedor</DrawerTitle>
 						<DrawerDescription>Crea un nuevo proveedor</DrawerDescription>
 					</DrawerHeader>
-					<FieldGroup className="my-2 px-4">
+					<FieldGroup className='my-2 px-4'>
 						<FieldSet>
-							<form.AppField name="name">
+							<form.AppField name='name'>
 								{(field) => (
 									<field.TextField
-										name="name"
-										label="Nombre"
-										placeholder="Nombre del Proveedor"
+										name='name'
+										label='Nombre'
+										placeholder='Nombre del Proveedor'
 									/>
 								)}
 							</form.AppField>
 
-							<form.AppField name="supplier_id">
+							<form.AppField name='supplier_id'>
 								{(field) => (
 									<field.TextField
-										name="supplier_id"
-										label="RUC"
-										placeholder="1234567890001"
+										name='supplier_id'
+										label='RUC'
+										placeholder='1234567890001'
 									/>
 								)}
 							</form.AppField>
 
-							<form.AppField name="contact_name">
+							<form.AppField name='contact_name'>
 								{(field) => (
 									<field.TextField
-										name="contact_name"
-										label="Nombre Contacto"
-										placeholder="Juan Perez"
+										name='contact_name'
+										label='Nombre Contacto'
+										placeholder='Juan Perez'
 									/>
 								)}
 							</form.AppField>
 
-							<form.AppField name="contact_email">
+							<form.AppField name='contact_email'>
 								{(field) => (
 									<field.TextField
-										name="contact_email"
-										label="Email contacto"
-										placeholder="mail@empresa.com"
+										name='contact_email'
+										label='Email contacto'
+										placeholder='mail@empresa.com'
 									/>
 								)}
 							</form.AppField>
 
-							<form.AppField name="contact_phone">
+							<form.AppField name='contact_phone'>
 								{(field) => (
 									<field.TextField
-										name="contact_phone"
-										label="Telefono contacto"
-										placeholder="0999999999"
+										name='contact_phone'
+										label='Telefono contacto'
+										placeholder='0999999999'
 									/>
 								)}
 							</form.AppField>
 						</FieldSet>
 					</FieldGroup>
 					<DrawerFooter>
-						<div className="flex justify-start items-center space-x-2">
-							<Button type="submit">
+						<div className='flex justify-start items-center space-x-2'>
+							<Button type='submit'>
 								<SaveIcon size={10} />
 								Guardar
 							</Button>
 							<DrawerClose>
-								<Button type="button" variant="secondary">
+								<Button type='button' variant='secondary'>
 									<CircleXIcon size={10} />
 									Cancelar
 								</Button>
@@ -160,29 +160,29 @@ export function SupplierCreateDrawer() {
 				</form>
 			</DrawerContent>
 		</Drawer>
-	);
+	)
 }
 
 export function SupplierEditDrawer({ supplier }: EditSupplierDrawerProps) {
-	const queryClient = useQueryClient();
-	const [open, setOpen] = useState(false);
+	const queryClient = useQueryClient()
+	const [open, setOpen] = useState(false)
 
 	const useUpdateSupplierMutation = useMutation({
 		mutationFn: UpdateSupplier,
 		onSuccess: () => {
-			setOpen(false);
-			toast.success("Proveedor actualizado exitosamente");
-			queryClient.invalidateQueries({ queryKey: ["proveedores"] });
+			setOpen(false)
+			toast.success('Proveedor actualizado exitosamente')
+			queryClient.invalidateQueries({ queryKey: ['proveedores'] })
 		},
 		onError: (error) => {
 			toast.error(error.message, {
-				position: "top-center",
+				position: 'top-center',
 				style: {
-					color: "red",
+					color: 'red',
 				},
-			});
+			})
 		},
-	});
+	})
 
 	const form = useAppForm({
 		defaultValues: supplier,
@@ -193,37 +193,37 @@ export function SupplierEditDrawer({ supplier }: EditSupplierDrawerProps) {
 			const edited = {
 				name: data.value.name,
 				supplier_id: data.value.supplier_id,
-				contact_email: data.value.contact_email.String || "",
-				contact_name: data.value.contact_name.String || "",
-				contact_phone: data.value.contact_phone.String || "",
-			};
+				contact_email: data.value.contact_email.String || '',
+				contact_name: data.value.contact_name.String || '',
+				contact_phone: data.value.contact_phone.String || '',
+			}
 
 			useUpdateSupplierMutation.mutate({
 				data: edited,
 				id: supplier.id as string,
-			});
+			})
 		},
-	});
+	})
 
 	useEffect(() => {
 		if (open) {
-			form.reset();
+			form.reset()
 		}
-	}, [open, form.reset]);
+	}, [open, form.reset])
 
 	return (
-		<Drawer direction="right" open={open} onOpenChange={setOpen}>
+		<Drawer direction='right' open={open} onOpenChange={setOpen}>
 			<DrawerTrigger asChild>
-				<Button variant="ghost">
-					<EditIcon size={10} className="text-yellow-600" />
+				<Button variant='ghost'>
+					<EditIcon size={10} className='text-yellow-600' />
 				</Button>
 			</DrawerTrigger>
 			<DrawerContent>
 				<form
 					onSubmit={(e) => {
-						e.preventDefault();
-						e.stopPropagation();
-						form.handleSubmit();
+						e.preventDefault()
+						e.stopPropagation()
+						form.handleSubmit()
 					}}
 				>
 					<DrawerHeader>
@@ -232,67 +232,67 @@ export function SupplierEditDrawer({ supplier }: EditSupplierDrawerProps) {
 							Edita la informacion del proveedor seleccionado
 						</DrawerDescription>
 					</DrawerHeader>
-					<FieldGroup className="my-2 px-4">
+					<FieldGroup className='my-2 px-4'>
 						<FieldSet>
-							<form.AppField name="name">
+							<form.AppField name='name'>
 								{(field) => (
 									<field.TextField
-										name="name"
-										label="Nombre"
-										placeholder="Nombre del Proveedor"
+										name='name'
+										label='Nombre'
+										placeholder='Nombre del Proveedor'
 									/>
 								)}
 							</form.AppField>
 
-							<form.AppField name="supplier_id">
+							<form.AppField name='supplier_id'>
 								{(field) => (
 									<field.TextField
-										name="supplier_id"
-										label="RUC"
-										placeholder="1234567890001"
+										name='supplier_id'
+										label='RUC'
+										placeholder='1234567890001'
 									/>
 								)}
 							</form.AppField>
 
-							<form.AppField name="contact_name.String">
+							<form.AppField name='contact_name.String'>
 								{(field) => (
 									<field.TextField
-										name="contact_name.String"
-										label="Nombre Contacto"
-										placeholder="Juan Perez"
+										name='contact_name.String'
+										label='Nombre Contacto'
+										placeholder='Juan Perez'
 									/>
 								)}
 							</form.AppField>
 
-							<form.AppField name="contact_email.String">
+							<form.AppField name='contact_email.String'>
 								{(field) => (
 									<field.TextField
-										name="contact_email.String"
-										label="Email contacto"
-										placeholder="mail@empresa.com"
+										name='contact_email.String'
+										label='Email contacto'
+										placeholder='mail@empresa.com'
 									/>
 								)}
 							</form.AppField>
 
-							<form.AppField name="contact_phone.String">
+							<form.AppField name='contact_phone.String'>
 								{(field) => (
 									<field.TextField
-										name="contact_phone.String"
-										label="Telefono contacto"
-										placeholder="0999999999"
+										name='contact_phone.String'
+										label='Telefono contacto'
+										placeholder='0999999999'
 									/>
 								)}
 							</form.AppField>
 						</FieldSet>
 					</FieldGroup>
 					<DrawerFooter>
-						<div className="flex justify-start items-center space-x-2">
-							<Button type="submit">
+						<div className='flex justify-start items-center space-x-2'>
+							<Button type='submit'>
 								<SaveIcon size={10} />
 								Guardar
 							</Button>
 							<DrawerClose>
-								<Button type="button" variant="secondary">
+								<Button type='button' variant='secondary'>
 									<CircleXIcon size={10} />
 									Cancelar
 								</Button>
@@ -302,5 +302,5 @@ export function SupplierEditDrawer({ supplier }: EditSupplierDrawerProps) {
 				</form>
 			</DrawerContent>
 		</Drawer>
-	);
+	)
 }

@@ -1,38 +1,38 @@
-import { EditOutlined } from "@mui/icons-material";
+import { EditOutlined } from '@mui/icons-material'
 import {
 	DataGrid,
 	GridActionsCellItem,
 	type GridColDef,
 	type GridRowParams,
-} from "@mui/x-data-grid";
-import { useNavigate } from "react-router-dom";
-import type { RubrosType } from "@/types/rubros";
+} from '@mui/x-data-grid'
+import { useNavigate } from 'react-router-dom'
+import type { RubrosType } from '@/types/rubros'
 
 type AllRubrosTableProps = {
-	data: RubrosType[];
-};
+	data: RubrosType[]
+}
 
 export default function AllRubrosTable({ data }: AllRubrosTableProps) {
-	const navigate = useNavigate();
+	const navigate = useNavigate()
 
 	const cols: GridColDef<RubrosType>[] = [
-		{ field: "code", headerName: "Código", width: 200 },
-		{ field: "name", headerName: "Nombre", width: 400 },
-		{ field: "unit", headerName: "Unidad", width: 200 },
+		{ field: 'code', headerName: 'Código', width: 200 },
+		{ field: 'name', headerName: 'Nombre', width: 400 },
+		{ field: 'unit', headerName: 'Unidad', width: 200 },
 		{
-			field: "actions",
-			type: "actions",
+			field: 'actions',
+			type: 'actions',
 			width: 10,
 			getActions: (params: GridRowParams<RubrosType>) => [
 				<GridActionsCellItem
 					key={params.id}
-					icon=<EditOutlined color="warning" />
-					label="Edit"
+					icon=<EditOutlined color='warning' />
+					label='Edit'
 					onClick={() => navigate(`/parametros/rubros/${params.row.id}`)}
 				/>,
 			],
 		},
-	];
+	]
 
 	return (
 		<>
@@ -45,7 +45,7 @@ export default function AllRubrosTable({ data }: AllRubrosTableProps) {
 				disableColumnResize
 				disableRowSelectionOnClick
 				disableMultipleRowSelection
-				sx={{ "&, [class^=MuiDataGrid]": { border: "none" } }}
+				sx={{ '&, [class^=MuiDataGrid]': { border: 'none' } }}
 				pagination
 				initialState={{
 					pagination: {
@@ -54,5 +54,5 @@ export default function AllRubrosTable({ data }: AllRubrosTableProps) {
 				}}
 			/>
 		</>
-	);
+	)
 }

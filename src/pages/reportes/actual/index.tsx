@@ -1,98 +1,98 @@
-import { zodResolver } from "@hookform/resolvers/zod";
-import { CircularProgress, Stack } from "@mui/material";
-import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import BcaSelect from "@/components/input/BcaSelect";
-import ActualTable from "@/components/reports/ActualTable";
-import EditToolbar from "@/components/table/headers/toolbar";
-import PageTitle from "@/components/titles/PageTitle";
-import { GetAllProjects } from "@/queries/parametros/projects";
-import { GetAllLevels } from "@/queries/reports";
-import { GetAllBugetsByProjectAndLevel } from "@/queries/transacciones/budget";
-import { useAppSelector } from "@/redux/hooks";
-import { downloadExcelFile } from "@/utils/download";
+import { zodResolver } from '@hookform/resolvers/zod'
+import { CircularProgress, Stack } from '@mui/material'
+import { useQuery } from '@tanstack/react-query'
+import { useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
+import BcaSelect from '@/components/input/BcaSelect'
+import ActualTable from '@/components/reports/ActualTable'
+import EditToolbar from '@/components/table/headers/toolbar'
+import PageTitle from '@/components/titles/PageTitle'
+import { GetAllProjects } from '@/queries/parametros/projects'
+import { GetAllLevels } from '@/queries/reports'
+import { GetAllBugetsByProjectAndLevel } from '@/queries/transacciones/budget'
+import { useAppSelector } from '@/redux/hooks'
+import { downloadExcelFile } from '@/utils/download'
 
 const reportSchema = z.object({
 	project_id: z
-		.string({ message: "Seleccione un proyecto" })
-		.uuid("Seleccione un proyecto"),
+		.string({ message: 'Seleccione un proyecto' })
+		.uuid('Seleccione un proyecto'),
 	level: z
-		.string({ message: "Seleccione un nivel" })
-		.min(1, "Seleccione un nivel"),
-});
+		.string({ message: 'Seleccione un nivel' })
+		.min(1, 'Seleccione un nivel'),
+})
 
-type ReportTypes = z.infer<typeof reportSchema>;
+type ReportTypes = z.infer<typeof reportSchema>
 
 export default function Actual() {
 	const { control, handleSubmit } = useForm<ReportTypes>({
 		resolver: zodResolver(reportSchema),
-	});
+	})
 
 	const { data: projects } = useQuery({
-		queryKey: ["projects"],
+		queryKey: ['projects'],
 		queryFn: () => GetAllProjects({ active: true }),
-	});
+	})
 
 	const { data: levels } = useQuery({
-		queryKey: ["levels"],
+		queryKey: ['levels'],
 		queryFn: () => GetAllLevels(),
-	});
+	})
 
 	const [selectedReport, setSelectedReport] = useState<ReportTypes>({
-		project_id: "",
-		level: "",
-	});
+		project_id: '',
+		level: '',
+	})
 
 	const { data, isFetching } = useQuery({
-		queryKey: ["actual", selectedReport],
+		queryKey: ['actual', selectedReport],
 		queryFn: () =>
 			GetAllBugetsByProjectAndLevel({
 				project_id: selectedReport.project_id,
 				level: selectedReport.level,
 			}),
 		enabled: !!selectedReport.project_id && !!selectedReport.level,
-	});
+	})
 
-	const token = useAppSelector((state) => state.login.token);
+	const token = useAppSelector((state) => state.login.token)
 
 	function hadleSubmit(data: ReportTypes) {
-		setSelectedReport(data);
+		setSelectedReport(data)
 	}
 
 	async function exportClick(data: ReportTypes) {
-		const url = import.meta.env.VITE_BACKEND_SERVER;
+		const url = import.meta.env.VITE_BACKEND_SERVER
 		const res = await fetch(
 			`${url}/reportes/excel/actual?proyecto=${data.project_id}&nivel=${data.level}`,
 			{
-				method: "GET",
+				method: 'GET',
 				headers: {
 					Authorization: `Bearer ${token}`,
 				},
 			},
-		);
+		)
 
-		const blob = await res.blob();
+		const blob = await res.blob()
 		const filename =
-			res.headers.get("Content-Disposition")?.split("filename=")[1] ||
-			"excel-file.xlsx";
+			res.headers.get('Content-Disposition')?.split('filename=')[1] ||
+			'excel-file.xlsx'
 
-		downloadExcelFile(blob, filename);
+		downloadExcelFile(blob, filename)
 	}
 
 	return (
 		<>
-			<PageTitle title="Actual" />
+			<PageTitle title='Actual' />
 			<form onSubmit={handleSubmit(hadleSubmit)}>
-				<Stack width="50%" direction="column" spacing={2} mx="auto" mt={2}>
+				<Stack width='50%' direction='column' spacing={2} mx='auto' mt={2}>
 					<BcaSelect
-						datatestid="page.reports.actual.project"
-						name="project_id"
-						label="Proyecto"
+						datatestid='page.reports.actual.project'
+						name='project_id'
+						label='Proyecto'
 						control={control}
 					>
-						<option value="">Seleccione un proyecto</option>
+						<option value=''>Seleccione un proyecto</option>
 						{projects?.map((project) => (
 							<option key={project.id} value={project.id}>
 								{project.name}
@@ -100,12 +100,12 @@ export default function Actual() {
 						))}
 					</BcaSelect>
 					<BcaSelect
-						datatestid="page.reports.actual.level"
-						name="level"
-						label="Nivel"
+						datatestid='page.reports.actual.level'
+						name='level'
+						label='Nivel'
 						control={control}
 					>
-						<option value="">Seleccione un nivel</option>
+						<option value=''>Seleccione un nivel</option>
 						{levels?.map((level) => (
 							<option key={level.key} value={level.key}>
 								{level.value}
@@ -114,19 +114,19 @@ export default function Actual() {
 					</BcaSelect>
 
 					<EditToolbar
-						title="Generar"
+						title='Generar'
 						onClick={handleSubmit(hadleSubmit)}
-						color="primary"
+						color='primary'
 						hasExportButton
 						exportClick={handleSubmit(exportClick)}
 					/>
 				</Stack>
 			</form>
 			{isFetching && (
-				<CircularProgress data-testid="page.reports.actual.loading" />
+				<CircularProgress data-testid='page.reports.actual.loading' />
 			)}
 
 			<ActualTable data={data!} />
 		</>
-	);
+	)
 }

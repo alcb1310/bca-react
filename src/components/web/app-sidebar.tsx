@@ -1,4 +1,4 @@
-import { Link } from "@tanstack/react-router";
+import { Link } from '@tanstack/react-router'
 import {
 	BanknoteArrowDownIcon,
 	BrickWallIcon,
@@ -17,19 +17,19 @@ import {
 	ShellIcon,
 	ShoppingBasketIcon,
 	ShoppingCartIcon,
-} from "lucide-react";
+} from 'lucide-react'
 import type {
 	ComponentProps,
 	ForwardRefExoticComponent,
 	RefAttributes,
-} from "react";
-import type { FileRoutesByTo } from "@/routeTree.gen";
-import { authStore } from "@/store/auth";
+} from 'react'
+import type { FileRoutesByTo } from '@/routeTree.gen'
+import { authStore } from '@/store/auth'
 import {
 	Collapsible,
 	CollapsibleContent,
 	CollapsibleTrigger,
-} from "../ui/collapsible";
+} from '../ui/collapsible'
 import {
 	Sidebar,
 	SidebarContent,
@@ -42,21 +42,21 @@ import {
 	SidebarMenuSub,
 	SidebarMenuSubButton,
 	SidebarMenuSubItem,
-} from "../ui/sidebar";
-import { NavUser, type UserData } from "./nav-user";
-import { UserChangePasswordDialog } from "./user-drawer";
+} from '../ui/sidebar'
+import { NavUser, type UserData } from './nav-user'
+import { UserChangePasswordDialog } from './user-drawer'
 
 type NavData = {
-	title: string;
-	icon?: string;
+	title: string
+	icon?: string
 	items: {
-		title: string;
-		path: keyof FileRoutesByTo;
+		title: string
+		path: keyof FileRoutesByTo
 		icon?: ForwardRefExoticComponent<
-			Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>
-		>;
-	}[];
-};
+			Omit<LucideProps, 'ref'> & RefAttributes<SVGSVGElement>
+		>
+	}[]
+}
 
 const data: { navMain: NavData[]; userNav: UserData } = {
 	userNav: {
@@ -64,113 +64,113 @@ const data: { navMain: NavData[]; userNav: UserData } = {
 		email: authStore.get().user?.email,
 		options: [
 			{
-				title: "Perfil",
-				path: "/usuarios/perfil",
+				title: 'Perfil',
+				path: '/usuarios/perfil',
 			},
 			{
-				title: "Administrar",
-				path: "/usuarios/administrar",
+				title: 'Administrar',
+				path: '/usuarios/administrar',
 			},
 		],
 	},
 	navMain: [
 		{
-			title: "Transacciones",
+			title: 'Transacciones',
 			items: [
 				{
-					title: "Presupuesto",
-					path: "/transacciones/presupuesto",
+					title: 'Presupuesto',
+					path: '/transacciones/presupuesto',
 					icon: ShoppingCartIcon,
 				},
 				{
-					title: "Facturas",
-					path: "/transacciones/facturas",
+					title: 'Facturas',
+					path: '/transacciones/facturas',
 					icon: CreditCardIcon,
 				},
 				{
-					title: "Cierre mensual",
-					path: "/transacciones/cierre-mensual",
+					title: 'Cierre mensual',
+					path: '/transacciones/cierre-mensual',
 					icon: ChartCandlestickIcon,
 				},
 			],
 		},
 		{
-			title: "Reportes",
+			title: 'Reportes',
 			items: [
 				{
-					title: "Actual",
-					path: "/reportes/actual",
+					title: 'Actual',
+					path: '/reportes/actual',
 					icon: FolderOpenIcon,
 				},
 				{
-					title: "Cuadre",
-					path: "/reportes/cuadre",
+					title: 'Cuadre',
+					path: '/reportes/cuadre',
 					icon: ScaleIcon,
 				},
 				{
-					title: "Gastado por Partida",
-					path: "/reportes/gastado-por-partida",
+					title: 'Gastado por Partida',
+					path: '/reportes/gastado-por-partida',
 					icon: BanknoteArrowDownIcon,
 				},
 				{
-					title: "Histórico",
-					path: "/reportes/historico",
+					title: 'Histórico',
+					path: '/reportes/historico',
 					icon: ClipboardClockIcon,
 				},
 			],
 		},
 		{
-			title: "Parámetros",
+			title: 'Parámetros',
 			items: [
 				{
-					title: "Partidas",
-					path: "/parametros/partidas",
+					title: 'Partidas',
+					path: '/parametros/partidas',
 					icon: LayoutListIcon,
 				},
 				{
-					title: "Categorias",
-					path: "/parametros/categorias",
+					title: 'Categorias',
+					path: '/parametros/categorias',
 					icon: ChartBarStackedIcon,
 				},
 				{
-					title: "Materiales",
-					path: "/parametros/materiales",
+					title: 'Materiales',
+					path: '/parametros/materiales',
 					icon: BrickWallIcon,
 				},
 				{
-					title: "Proyectos",
-					path: "/parametros/proyectos",
+					title: 'Proyectos',
+					path: '/parametros/proyectos',
 					icon: FolderKanbanIcon,
 				},
 				{
-					title: "Proveedores",
-					path: "/parametros/proveedores",
+					title: 'Proveedores',
+					path: '/parametros/proveedores',
 					icon: CableIcon,
 				},
 				{
-					title: "Rubros",
-					path: "/parametros/rubros",
+					title: 'Rubros',
+					path: '/parametros/rubros',
 					icon: ShoppingBasketIcon,
 				},
 			],
 		},
 		{
-			title: "Analisis",
+			title: 'Analisis',
 			items: [
 				{
-					title: "Cantidades",
-					path: "/analisis/cantidades",
+					title: 'Cantidades',
+					path: '/analisis/cantidades',
 					icon: ShellIcon,
 				},
 				{
-					title: "Analisis",
-					path: "/analisis/analisis",
+					title: 'Analisis',
+					path: '/analisis/analisis',
 					icon: ChartSplineIcon,
 				},
 			],
 		},
 	],
-};
+}
 
 export function AppSidebar({ ...props }: ComponentProps<typeof Sidebar>) {
 	return (
@@ -178,9 +178,9 @@ export function AppSidebar({ ...props }: ComponentProps<typeof Sidebar>) {
 			<SidebarHeader>
 				<SidebarMenu>
 					<SidebarMenuItem>
-						<SidebarMenuButton size="lg" asChild>
-							<Link to="/">
-								<p className="w-full text-primary text-center text-xl">BCA</p>
+						<SidebarMenuButton size='lg' asChild>
+							<Link to='/'>
+								<p className='w-full text-primary text-center text-xl'>BCA</p>
 							</Link>
 						</SidebarMenuButton>
 					</SidebarMenuItem>
@@ -193,26 +193,26 @@ export function AppSidebar({ ...props }: ComponentProps<typeof Sidebar>) {
 							<Collapsible
 								key={items.title}
 								asChild
-								className="group/collapsible"
+								className='group/collapsible'
 								defaultOpen={true}
 							>
 								<SidebarMenuItem>
 									<CollapsibleTrigger asChild>
 										<SidebarMenuButton
 											tooltip={items.title}
-											className="bg-primary text-primary-foreground hover:bg-primary/50"
-											size={"sm"}
+											className='bg-primary text-primary-foreground hover:bg-primary/50'
+											size={'sm'}
 										>
 											{items.icon && <items.icon />}
 											<span>{items.title}</span>
-											<ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+											<ChevronRight className='ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90' />
 										</SidebarMenuButton>
 									</CollapsibleTrigger>
 									<CollapsibleContent>
 										<SidebarMenuSub>
 											{items.items.map((subItem) => (
 												<SidebarMenuSubItem key={subItem.title}>
-													<SidebarMenuSubButton asChild size="sm">
+													<SidebarMenuSubButton asChild size='sm'>
 														<Link to={subItem.path}>
 															{subItem.icon && <subItem.icon />}
 															<span>{subItem.title}</span>
@@ -232,5 +232,5 @@ export function AppSidebar({ ...props }: ComponentProps<typeof Sidebar>) {
 				<NavUser user={data.userNav} />
 			</SidebarFooter>
 		</Sidebar>
-	);
+	)
 }

@@ -1,17 +1,17 @@
-import { VisibilityOutlined } from "@mui/icons-material";
+import { VisibilityOutlined } from '@mui/icons-material'
 import {
 	DataGrid,
 	GridActionsCellItem,
 	type GridColDef,
-} from "@mui/x-data-grid";
-import type { Dispatch, SetStateAction } from "react";
-import type { Spent, SpentResponseType } from "@/types/reports";
+} from '@mui/x-data-grid'
+import type { Dispatch, SetStateAction } from 'react'
+import type { Spent, SpentResponseType } from '@/types/reports'
 
 type SpentTableProps = {
-	data: SpentResponseType;
-	setOpen: (open: boolean) => void;
-	setSelected: Dispatch<SetStateAction<Spent | undefined>>;
-};
+	data: SpentResponseType
+	setOpen: (open: boolean) => void
+	setSelected: Dispatch<SetStateAction<Spent | undefined>>
+}
 
 export default function SpentTable({
 	data,
@@ -20,53 +20,53 @@ export default function SpentTable({
 }: SpentTableProps) {
 	const cols: GridColDef<Spent>[] = [
 		{
-			field: "code",
-			headerName: "Codigo",
+			field: 'code',
+			headerName: 'Codigo',
 			width: 100,
 			hideable: false,
 			renderCell(params) {
-				return params.row.budget_item.code;
+				return params.row.budget_item.code
 			},
 		},
 		{
-			field: "name",
-			headerName: "Nombre",
+			field: 'name',
+			headerName: 'Nombre',
 			width: 380,
 			hideable: false,
 			renderCell(params) {
-				return params.row.budget_item.name;
+				return params.row.budget_item.name
 			},
 		},
 		{
-			field: "spent",
-			headerName: "Total",
+			field: 'spent',
+			headerName: 'Total',
 			width: 130,
 			hideable: false,
-			align: "right",
+			align: 'right',
 			valueFormatter: (params: number) => {
-				return params.toLocaleString("es-EC", {
+				return params.toLocaleString('es-EC', {
 					minimumFractionDigits: 2,
 					maximumFractionDigits: 2,
-				});
+				})
 			},
 		},
 		{
-			field: "actions",
-			type: "actions",
+			field: 'actions',
+			type: 'actions',
 			width: 10,
 			getActions: (params) => [
 				<GridActionsCellItem
 					key={params.id}
 					icon={<VisibilityOutlined />}
-					label="Borrar"
+					label='Borrar'
 					onClick={() => {
-						setOpen(true);
-						setSelected(params.row);
+						setOpen(true)
+						setSelected(params.row)
 					}}
 				/>,
 			],
 		},
-	];
+	]
 
 	return (
 		<>
@@ -75,7 +75,7 @@ export default function SpentTable({
 				rows={data?.spent}
 				rowHeight={25}
 				getRowId={(row) => {
-					return row.budget_item.id!;
+					return row.budget_item.id!
 				}}
 				pageSizeOptions={[]}
 				disableColumnFilter
@@ -85,9 +85,9 @@ export default function SpentTable({
 				disableMultipleRowSelection
 				hideFooter
 				sx={{
-					"&, [class^=MuiDataGrid]": { border: "none" },
+					'&, [class^=MuiDataGrid]': { border: 'none' },
 				}}
 			/>
 		</>
-	);
+	)
 }

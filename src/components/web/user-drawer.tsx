@@ -1,14 +1,14 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import {
 	CircleXIcon,
 	DeleteIcon,
 	EditIcon,
 	PlusIcon,
 	SaveIcon,
-} from "lucide-react";
-import { useEffect, useState } from "react";
-import { toast } from "sonner";
-import { z } from "zod";
+} from 'lucide-react'
+import { useEffect, useState } from 'react'
+import { toast } from 'sonner'
+import { z } from 'zod'
 import {
 	Drawer,
 	DrawerClose,
@@ -18,20 +18,20 @@ import {
 	DrawerHeader,
 	DrawerTitle,
 	DrawerTrigger,
-} from "@/components/ui/drawer";
-import { useAppForm } from "@/hooks/formHook";
+} from '@/components/ui/drawer'
+import { useAppForm } from '@/hooks/formHook'
 import {
 	CreateUser,
 	DeleteUser,
 	UpdatePassword,
 	UpdateUser,
-} from "@/queries/users";
+} from '@/queries/users'
 import {
 	type UserCreate,
 	type UserResponse,
 	userCreateSchema,
 	userResponseSchema,
-} from "@/types/user";
+} from '@/types/user'
 import {
 	AlertDialog,
 	AlertDialogAction,
@@ -43,8 +43,8 @@ import {
 	AlertDialogMedia,
 	AlertDialogTitle,
 	AlertDialogTrigger,
-} from "../ui/alert-dialog";
-import { Button } from "../ui/button";
+} from '../ui/alert-dialog'
+import { Button } from '../ui/button'
 import {
 	Dialog,
 	DialogClose,
@@ -54,59 +54,59 @@ import {
 	DialogHeader,
 	DialogTitle,
 	DialogTrigger,
-} from "../ui/dialog";
-import { FieldGroup, FieldSet } from "../ui/field";
+} from '../ui/dialog'
+import { FieldGroup, FieldSet } from '../ui/field'
 
 type EditUserDrawerProps = {
-	user: UserResponse;
-};
+	user: UserResponse
+}
 
 export function UserCreateDrawer() {
-	const queryClient = useQueryClient();
+	const queryClient = useQueryClient()
 
-	const [open, setOpen] = useState(false);
+	const [open, setOpen] = useState(false)
 
 	const useCreateUserMutation = useMutation({
 		mutationFn: CreateUser,
 		onSuccess: () => {
-			setOpen(false);
-			toast.success("Usuario creado exitosamente");
-			queryClient.invalidateQueries({ queryKey: ["usuarios"] });
+			setOpen(false)
+			toast.success('Usuario creado exitosamente')
+			queryClient.invalidateQueries({ queryKey: ['usuarios'] })
 		},
 		onError: (error) => {
 			toast.error(error.message, {
-				position: "top-center",
+				position: 'top-center',
 				style: {
-					color: "red",
+					color: 'red',
 				},
-			});
+			})
 		},
-	});
+	})
 
 	const form = useAppForm({
 		defaultValues: {
-			email: "",
-			password: "",
-			name: "",
+			email: '',
+			password: '',
+			name: '',
 		} satisfies UserCreate as UserCreate,
 		validators: {
 			onSubmit: userCreateSchema,
 		},
 		onSubmit: (data) => {
-			useCreateUserMutation.mutate({ data: data.value });
+			useCreateUserMutation.mutate({ data: data.value })
 		},
-	});
+	})
 
 	useEffect(() => {
 		if (open) {
-			form.reset();
+			form.reset()
 		}
-	}, [open, form.reset]);
+	}, [open, form.reset])
 
 	return (
-		<Drawer direction="right" open={open} onOpenChange={setOpen}>
+		<Drawer direction='right' open={open} onOpenChange={setOpen}>
 			<DrawerTrigger asChild>
-				<Button variant="default" className="my-3">
+				<Button variant='default' className='my-3'>
 					<PlusIcon />
 					Crear Usuario
 				</Button>
@@ -114,57 +114,57 @@ export function UserCreateDrawer() {
 			<DrawerContent>
 				<form
 					onSubmit={(e) => {
-						e.preventDefault();
-						e.stopPropagation();
-						form.handleSubmit();
+						e.preventDefault()
+						e.stopPropagation()
+						form.handleSubmit()
 					}}
 				>
 					<DrawerHeader>
 						<DrawerTitle>Crear Usuario</DrawerTitle>
 						<DrawerDescription>Crear un nuevo usuario</DrawerDescription>
 					</DrawerHeader>
-					<FieldGroup className="my-2 px-4">
+					<FieldGroup className='my-2 px-4'>
 						<FieldSet>
-							<form.AppField name="name">
+							<form.AppField name='name'>
 								{(field) => (
 									<field.TextField
-										name="name"
-										label="Nombre"
-										placeholder="Juan Perez"
+										name='name'
+										label='Nombre'
+										placeholder='Juan Perez'
 									/>
 								)}
 							</form.AppField>
 
-							<form.AppField name="email">
+							<form.AppField name='email'>
 								{(field) => (
 									<field.TextField
-										name="email"
-										label="Email"
-										placeholder="usuario@correo.com"
+										name='email'
+										label='Email'
+										placeholder='usuario@correo.com'
 									/>
 								)}
 							</form.AppField>
 
-							<form.AppField name="password">
+							<form.AppField name='password'>
 								{(field) => (
 									<field.TextField
-										label="Contraseña"
-										type="password"
-										name="password"
-										placeholder="*******"
+										label='Contraseña'
+										type='password'
+										name='password'
+										placeholder='*******'
 									/>
 								)}
 							</form.AppField>
 						</FieldSet>
 					</FieldGroup>
 					<DrawerFooter>
-						<div className="flex justify-start items-center space-x-2">
-							<Button type="submit">
+						<div className='flex justify-start items-center space-x-2'>
+							<Button type='submit'>
 								<SaveIcon size={10} />
 								Guardar
 							</Button>
 							<DrawerClose>
-								<Button type="button" variant="secondary">
+								<Button type='button' variant='secondary'>
 									<CircleXIcon size={10} />
 									Cancelar
 								</Button>
@@ -174,30 +174,30 @@ export function UserCreateDrawer() {
 				</form>
 			</DrawerContent>
 		</Drawer>
-	);
+	)
 }
 
 export function UserEditDrawer({ user }: EditUserDrawerProps) {
-	const queryClient = useQueryClient();
+	const queryClient = useQueryClient()
 
-	const [open, setOpen] = useState(false);
+	const [open, setOpen] = useState(false)
 
 	const useEditUserMutation = useMutation({
 		mutationFn: UpdateUser,
 		onSuccess: () => {
-			setOpen(false);
-			toast.success("Usuario actualizado exitosamente");
-			queryClient.invalidateQueries({ queryKey: ["usuarios"] });
+			setOpen(false)
+			toast.success('Usuario actualizado exitosamente')
+			queryClient.invalidateQueries({ queryKey: ['usuarios'] })
 		},
 		onError: (error) => {
 			toast.error(error.message, {
-				position: "top-center",
+				position: 'top-center',
 				style: {
-					color: "red",
+					color: 'red',
 				},
-			});
+			})
 		},
-	});
+	})
 
 	const form = useAppForm({
 		defaultValues: {
@@ -210,82 +210,82 @@ export function UserEditDrawer({ user }: EditUserDrawerProps) {
 			onSubmit: userResponseSchema,
 		},
 		onSubmit: (data) => {
-			useEditUserMutation.mutate({ data: data.value });
+			useEditUserMutation.mutate({ data: data.value })
 		},
-	});
+	})
 
 	useEffect(() => {
 		if (open) {
-			form.reset();
+			form.reset()
 		}
-	}, [open, form.reset]);
+	}, [open, form.reset])
 
 	return (
-		<Drawer direction="right" open={open} onOpenChange={setOpen}>
+		<Drawer direction='right' open={open} onOpenChange={setOpen}>
 			<DrawerTrigger asChild>
-				<Button variant="ghost">
-					<EditIcon size={10} className="text-yellow-600" />
+				<Button variant='ghost'>
+					<EditIcon size={10} className='text-yellow-600' />
 				</Button>
 			</DrawerTrigger>
 			<DrawerContent>
 				<form
 					onSubmit={(e) => {
-						e.preventDefault();
-						e.stopPropagation();
-						form.handleSubmit();
+						e.preventDefault()
+						e.stopPropagation()
+						form.handleSubmit()
 					}}
 				>
 					<DrawerHeader>
 						<DrawerTitle>Editar Usuario</DrawerTitle>
 						<DrawerDescription>Edita el usuario seleccionado</DrawerDescription>
 					</DrawerHeader>
-					<form.AppField name="id">
+					<form.AppField name='id'>
 						{(field) => (
-							<field.TextField type="hidden" name="id" label="" disabled />
+							<field.TextField type='hidden' name='id' label='' disabled />
 						)}
 					</form.AppField>
-					<form.AppField name="company_id">
+					<form.AppField name='company_id'>
 						{(field) => (
 							<field.TextField
-								type="hidden"
-								name="company_id"
-								label=""
+								type='hidden'
+								name='company_id'
+								label=''
 								disabled
 							/>
 						)}
 					</form.AppField>
 
-					<FieldGroup className="my-2 px-4">
+					<FieldGroup className='my-2 px-4'>
 						<FieldSet>
-							<form.AppField name="name">
+							<form.AppField name='name'>
 								{(field) => (
 									<field.TextField
-										name="name"
-										label="Nombre"
-										placeholder="Juan Perez"
+										name='name'
+										label='Nombre'
+										placeholder='Juan Perez'
 									/>
 								)}
 							</form.AppField>
 
-							<form.AppField name="email">
+							<form.AppField name='email'>
 								{(field) => (
 									<field.TextField
-										name="email"
-										label="Email"
-										placeholder="usuario@correo.com"
+										name='email'
+										label='Email'
+										placeholder='usuario@correo.com'
 									/>
 								)}
 							</form.AppField>
 						</FieldSet>
 					</FieldGroup>
 					<DrawerFooter>
-						<div className="flex justify-start items-center space-x-2">
-							<Button type="submit">
+						<div className='flex justify-start items-center space-x-2'>
+							<Button type='submit'>
 								<SaveIcon size={10} />
 								Guardar
 							</Button>
 							<DrawerClose asChild>
-								<Button type="button" variant="secondary">
+								<Button type='button' variant='secondary'>
 									<CircleXIcon size={10} />
 									Cancelar
 								</Button>
@@ -295,39 +295,39 @@ export function UserEditDrawer({ user }: EditUserDrawerProps) {
 				</form>
 			</DrawerContent>
 		</Drawer>
-	);
+	)
 }
 
 export function UserDeleteDialog({ user }: EditUserDrawerProps) {
-	const queryClient = useQueryClient();
+	const queryClient = useQueryClient()
 
 	const useDeleteUserMutation = useMutation({
 		mutationFn: DeleteUser,
 		onSuccess: () => {
-			toast.success("Usuario eliminado exitosamente");
-			queryClient.invalidateQueries({ queryKey: ["usuarios"] });
+			toast.success('Usuario eliminado exitosamente')
+			queryClient.invalidateQueries({ queryKey: ['usuarios'] })
 		},
 		onError: (error) => {
 			toast.error(error.message, {
-				position: "top-center",
+				position: 'top-center',
 				style: {
-					color: "red",
+					color: 'red',
 				},
-			});
+			})
 		},
-	});
+	})
 
 	return (
 		<AlertDialog>
 			<AlertDialogTrigger asChild>
-				<DeleteIcon size={16} className="text-red-600" />
+				<DeleteIcon size={16} className='text-red-600' />
 			</AlertDialogTrigger>
 			<AlertDialogContent>
 				<AlertDialogHeader>
-					<AlertDialogMedia className="bg-white">
-						<DeleteIcon size={16} className="bg-white text-red-600" />
+					<AlertDialogMedia className='bg-white'>
+						<DeleteIcon size={16} className='bg-white text-red-600' />
 					</AlertDialogMedia>
-					<AlertDialogTitle className="text-red-600">
+					<AlertDialogTitle className='text-red-600'>
 						Eliminar Usuario
 					</AlertDialogTitle>
 					<AlertDialogDescription>
@@ -339,7 +339,7 @@ export function UserDeleteDialog({ user }: EditUserDrawerProps) {
 					<AlertDialogCancel>Cancelar</AlertDialogCancel>
 					<AlertDialogAction
 						onClick={() => {
-							useDeleteUserMutation.mutate(user.id);
+							useDeleteUserMutation.mutate(user.id)
 						}}
 					>
 						Eliminar
@@ -347,56 +347,56 @@ export function UserDeleteDialog({ user }: EditUserDrawerProps) {
 				</AlertDialogFooter>
 			</AlertDialogContent>
 		</AlertDialog>
-	);
+	)
 }
 
 export function UserChangePasswordDialog() {
 	const useUpdatePasswordMutation = useMutation({
 		mutationFn: UpdatePassword,
 		onSuccess: () => {
-			toast.success("Contraseña actualizada exitosamente");
+			toast.success('Contraseña actualizada exitosamente')
 		},
 		onError: (error) => {
 			toast.error(error.message, {
-				position: "top-center",
+				position: 'top-center',
 				style: {
-					color: "red",
+					color: 'red',
 				},
-			});
+			})
 		},
-	});
+	})
 
 	const form = useAppForm({
 		defaultValues: {
-			password: "",
+			password: '',
 		},
 		validators: {
 			onSubmit: z.object({
 				password: z
 					.string()
-					.min(6, "La contraseña debe tener al menos 6 caracteres"),
+					.min(6, 'La contraseña debe tener al menos 6 caracteres'),
 			}),
 		},
 		onSubmit: (data) => {
-			useUpdatePasswordMutation.mutate({ data: data.value });
+			useUpdatePasswordMutation.mutate({ data: data.value })
 		},
-	});
+	})
 
 	useEffect(() => {
-		form.reset();
-	}, [form.reset]);
+		form.reset()
+	}, [form.reset])
 
 	return (
 		<Dialog>
-			<DialogTrigger className="my-2 px-2 text-xs hover:bg-accent">
+			<DialogTrigger className='my-2 px-2 text-xs hover:bg-accent'>
 				Cambiar Contraseña
 			</DialogTrigger>
 			<DialogContent>
 				<form
 					onSubmit={(e) => {
-						e.preventDefault();
-						e.stopPropagation();
-						form.handleSubmit();
+						e.preventDefault()
+						e.stopPropagation()
+						form.handleSubmit()
 					}}
 				>
 					<DialogHeader>
@@ -405,15 +405,15 @@ export function UserChangePasswordDialog() {
 							Cambia la contraseña del usuario
 						</DialogDescription>
 					</DialogHeader>
-					<FieldGroup className="my-2 px-4">
+					<FieldGroup className='my-2 px-4'>
 						<FieldSet>
-							<form.AppField name="password">
+							<form.AppField name='password'>
 								{(field) => (
 									<field.TextField
-										label="Contraseña"
-										type="password"
-										name="password"
-										placeholder="*******"
+										label='Contraseña'
+										type='password'
+										name='password'
+										placeholder='*******'
 									/>
 								)}
 							</form.AppField>
@@ -422,16 +422,16 @@ export function UserChangePasswordDialog() {
 
 					<DialogFooter>
 						<DialogClose asChild>
-							<Button type="button" variant="outline">
+							<Button type='button' variant='outline'>
 								Cancelar
 							</Button>
 						</DialogClose>
 						<DialogClose asChild>
-							<Button type="submit">Guardar</Button>
+							<Button type='submit'>Guardar</Button>
 						</DialogClose>
 					</DialogFooter>
 				</form>
 			</DialogContent>
 		</Dialog>
-	);
+	)
 }

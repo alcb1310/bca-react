@@ -1,8 +1,8 @@
-import { useNavigate } from "@tanstack/react-router";
-import { ChevronsUpDown, LogOutIcon, type LucideProps } from "lucide-react";
-import type { ForwardRefExoticComponent, JSX, RefAttributes } from "react";
-import type { FileRoutesByTo } from "@/routeTree.gen";
-import { authStore } from "@/store/auth";
+import { useNavigate } from '@tanstack/react-router'
+import { ChevronsUpDown, LogOutIcon, type LucideProps } from 'lucide-react'
+import type { ForwardRefExoticComponent, JSX, RefAttributes } from 'react'
+import type { FileRoutesByTo } from '@/routeTree.gen'
+import { authStore } from '@/store/auth'
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -10,28 +10,28 @@ import {
 	DropdownMenuItem,
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
-} from "../ui/dropdown-menu";
-import { SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "../ui/sidebar";
-import { UserChangePasswordDialog } from "./user-drawer";
+} from '../ui/dropdown-menu'
+import { SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '../ui/sidebar'
+import { UserChangePasswordDialog } from './user-drawer'
 
 export type UserData = {
-	name?: string;
-	email?: string;
+	name?: string
+	email?: string
 	options: {
-		title: string;
-		path: keyof FileRoutesByTo;
+		title: string
+		path: keyof FileRoutesByTo
 		icon?: ForwardRefExoticComponent<
-			Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>
-		>;
-	}[];
-};
+			Omit<LucideProps, 'ref'> & RefAttributes<SVGSVGElement>
+		>
+	}[]
+}
 
 type NavUserProps = {
-	user: UserData;
-};
+	user: UserData
+}
 
 export function NavUser({ user }: NavUserProps) {
-	const navigate = useNavigate();
+	const navigate = useNavigate()
 
 	return (
 		<SidebarMenu>
@@ -39,24 +39,24 @@ export function NavUser({ user }: NavUserProps) {
 				<DropdownMenu>
 					<DropdownMenuTrigger asChild>
 						<SidebarMenuButton
-							size={"lg"}
-							className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground bg-primary text-primary-foreground/80"
+							size={'lg'}
+							className='data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground bg-primary text-primary-foreground/80'
 						>
-							<div className="grid flex-1 text-left text-sm leading-tight">
-								<span className="truncate text-lg font-medium">
+							<div className='grid flex-1 text-left text-sm leading-tight'>
+								<span className='truncate text-lg font-medium'>
 									{user.name}
 								</span>
-								<span className="truncate text-xs font-extralight">
+								<span className='truncate text-xs font-extralight'>
 									{user.email}
 								</span>
 							</div>
-							<ChevronsUpDown className="ml-auto size-4" />
+							<ChevronsUpDown className='ml-auto size-4' />
 						</SidebarMenuButton>
 					</DropdownMenuTrigger>
 					<DropdownMenuContent
-						className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg"
-						side="right"
-						align="end"
+						className='w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg'
+						side='right'
+						align='end'
 						sideOffset={4}
 					>
 						<DropdownMenuGroup>
@@ -69,7 +69,7 @@ export function NavUser({ user }: NavUserProps) {
 										{option.icon && <option.icon />}
 										<span>{option.title}</span>
 									</DropdownMenuItem>
-								);
+								)
 							})}
 
 							<UserChangePasswordDialog />
@@ -80,9 +80,9 @@ export function NavUser({ user }: NavUserProps) {
 								authStore.setState((state) => ({
 									...state,
 									user: null,
-									token: "",
-								}));
-								navigate({ to: "/login" });
+									token: '',
+								}))
+								navigate({ to: '/login' })
 							}}
 						>
 							<LogOutIcon />
@@ -92,5 +92,5 @@ export function NavUser({ user }: NavUserProps) {
 				</DropdownMenu>
 			</SidebarMenuItem>
 		</SidebarMenu>
-	);
+	)
 }
