@@ -44,7 +44,6 @@ import {
 	SidebarMenuSubItem,
 } from '../ui/sidebar'
 import { NavUser, type UserData } from './nav-user'
-import { UserChangePasswordDialog } from './user-drawer'
 
 type NavData = {
 	title: string
@@ -123,11 +122,6 @@ const data: { navMain: NavData[]; userNav: UserData } = {
 			title: 'Parámetros',
 			items: [
 				{
-					title: 'Partidas',
-					path: '/parametros/partidas',
-					icon: LayoutListIcon,
-				},
-				{
 					title: 'Categorias',
 					path: '/parametros/categorias',
 					icon: ChartBarStackedIcon,
@@ -136,6 +130,11 @@ const data: { navMain: NavData[]; userNav: UserData } = {
 					title: 'Materiales',
 					path: '/parametros/materiales',
 					icon: BrickWallIcon,
+				},
+				{
+					title: 'Partidas',
+					path: '/parametros/partidas',
+					icon: LayoutListIcon,
 				},
 				{
 					title: 'Proyectos',
