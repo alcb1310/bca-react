@@ -173,7 +173,7 @@ const data: { navMain: NavData[]; userNav: UserData } = {
 
 export function AppSidebar({ ...props }: ComponentProps<typeof Sidebar>) {
 	return (
-		<Sidebar {...props}>
+		<Sidebar variant='inset' {...props}>
 			<SidebarHeader>
 				<SidebarMenu>
 					<SidebarMenuItem>
