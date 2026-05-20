@@ -1,9 +1,12 @@
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { SaveIcon } from 'lucide-react'
+import { toast } from 'sonner'
 import { Button, buttonVariants } from '@/components/ui/button'
 import { FieldGroup, FieldSet } from '@/components/ui/field'
 import PageTitle from '@/components/web/pageTitle'
 import { useAppForm } from '@/hooks/formHook'
+import { CreateRubro } from '@/queries/parametros/rubros'
 import { type RubrosType, rubrosSchema } from '@/types/rubros'
 
 export const Route = createFileRoute('/_auth/parametros/rubros/crear')({
@@ -11,6 +14,25 @@ export const Route = createFileRoute('/_auth/parametros/rubros/crear')({
 })
 
 function RouteComponent() {
+	const queryClient = useQueryClient()
+
+	const createRubroMutation = useMutation({
+		mutationFn: CreateRubro,
+		onSuccess: () => {
+			toast.success('Rubro creado exitosamente')
+			queryClient.invalidateQueries({ queryKey: ['rubros'] })
+			// TODO: redirect to the edit rubros page
+		},
+		onError: (error) => {
+			toast.error(error.message, {
+				position: 'top-center',
+				style: {
+					color: 'red',
+				},
+			})
+		},
+	})
+
 	const form = useAppForm({
 		defaultValues: {
 			code: '',
@@ -21,7 +43,7 @@ function RouteComponent() {
 			onSubmit: rubrosSchema,
 		},
 		onSubmit: (data) => {
-			console.log(data.value)
+			createRubroMutation.mutate({ data: data.value })
 		},
 	})
 
