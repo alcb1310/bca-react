@@ -16,13 +16,11 @@ import { Route as AuthUsuariosPerfilRouteImport } from './routes/_auth/usuarios/
 import { Route as AuthUsuariosCambioContrasenaRouteImport } from './routes/_auth/usuarios/cambio-contrasena'
 import { Route as AuthUsuariosAdministrarRouteImport } from './routes/_auth/usuarios/administrar'
 import { Route as AuthTransaccionesPresupuestoRouteImport } from './routes/_auth/transacciones/presupuesto'
-import { Route as AuthTransaccionesFacturasRouteImport } from './routes/_auth/transacciones/facturas'
 import { Route as AuthTransaccionesCierreMensualRouteImport } from './routes/_auth/transacciones/cierre-mensual'
 import { Route as AuthReportesHistoricoRouteImport } from './routes/_auth/reportes/historico'
 import { Route as AuthReportesGastadoPorPartidaRouteImport } from './routes/_auth/reportes/gastado-por-partida'
 import { Route as AuthReportesCuadreRouteImport } from './routes/_auth/reportes/cuadre'
 import { Route as AuthReportesActualRouteImport } from './routes/_auth/reportes/actual'
-import { Route as AuthParametrosRubrosRouteImport } from './routes/_auth/parametros/rubros'
 import { Route as AuthParametrosProyectosRouteImport } from './routes/_auth/parametros/proyectos'
 import { Route as AuthParametrosProveedoresRouteImport } from './routes/_auth/parametros/proveedores'
 import { Route as AuthParametrosPartidasRouteImport } from './routes/_auth/parametros/partidas'
@@ -30,6 +28,12 @@ import { Route as AuthParametrosMaterialesRouteImport } from './routes/_auth/par
 import { Route as AuthParametrosCategoriasRouteImport } from './routes/_auth/parametros/categorias'
 import { Route as AuthAnalisisCantidadesRouteImport } from './routes/_auth/analisis/cantidades'
 import { Route as AuthAnalisisAnalisisRouteImport } from './routes/_auth/analisis/analisis'
+import { Route as AuthTransaccionesFacturasIndexRouteImport } from './routes/_auth/transacciones/facturas/index'
+import { Route as AuthParametrosRubrosIndexRouteImport } from './routes/_auth/parametros/rubros/index'
+import { Route as AuthTransaccionesFacturasCrearRouteImport } from './routes/_auth/transacciones/facturas/crear'
+import { Route as AuthTransaccionesFacturasFacturaIdRouteImport } from './routes/_auth/transacciones/facturas/$facturaId'
+import { Route as AuthParametrosRubrosCrearRouteImport } from './routes/_auth/parametros/rubros/crear'
+import { Route as AuthParametrosRubrosRubroIdRouteImport } from './routes/_auth/parametros/rubros/$rubroId'
 
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
@@ -67,12 +71,6 @@ const AuthTransaccionesPresupuestoRoute =
     path: '/transacciones/presupuesto',
     getParentRoute: () => AuthRouteRoute,
   } as any)
-const AuthTransaccionesFacturasRoute =
-  AuthTransaccionesFacturasRouteImport.update({
-    id: '/transacciones/facturas',
-    path: '/transacciones/facturas',
-    getParentRoute: () => AuthRouteRoute,
-  } as any)
 const AuthTransaccionesCierreMensualRoute =
   AuthTransaccionesCierreMensualRouteImport.update({
     id: '/transacciones/cierre-mensual',
@@ -98,11 +96,6 @@ const AuthReportesCuadreRoute = AuthReportesCuadreRouteImport.update({
 const AuthReportesActualRoute = AuthReportesActualRouteImport.update({
   id: '/reportes/actual',
   path: '/reportes/actual',
-  getParentRoute: () => AuthRouteRoute,
-} as any)
-const AuthParametrosRubrosRoute = AuthParametrosRubrosRouteImport.update({
-  id: '/parametros/rubros',
-  path: '/parametros/rubros',
   getParentRoute: () => AuthRouteRoute,
 } as any)
 const AuthParametrosProyectosRoute = AuthParametrosProyectosRouteImport.update({
@@ -143,6 +136,42 @@ const AuthAnalisisAnalisisRoute = AuthAnalisisAnalisisRouteImport.update({
   path: '/analisis/analisis',
   getParentRoute: () => AuthRouteRoute,
 } as any)
+const AuthTransaccionesFacturasIndexRoute =
+  AuthTransaccionesFacturasIndexRouteImport.update({
+    id: '/transacciones/facturas/',
+    path: '/transacciones/facturas/',
+    getParentRoute: () => AuthRouteRoute,
+  } as any)
+const AuthParametrosRubrosIndexRoute =
+  AuthParametrosRubrosIndexRouteImport.update({
+    id: '/parametros/rubros/',
+    path: '/parametros/rubros/',
+    getParentRoute: () => AuthRouteRoute,
+  } as any)
+const AuthTransaccionesFacturasCrearRoute =
+  AuthTransaccionesFacturasCrearRouteImport.update({
+    id: '/transacciones/facturas/crear',
+    path: '/transacciones/facturas/crear',
+    getParentRoute: () => AuthRouteRoute,
+  } as any)
+const AuthTransaccionesFacturasFacturaIdRoute =
+  AuthTransaccionesFacturasFacturaIdRouteImport.update({
+    id: '/transacciones/facturas/$facturaId',
+    path: '/transacciones/facturas/$facturaId',
+    getParentRoute: () => AuthRouteRoute,
+  } as any)
+const AuthParametrosRubrosCrearRoute =
+  AuthParametrosRubrosCrearRouteImport.update({
+    id: '/parametros/rubros/crear',
+    path: '/parametros/rubros/crear',
+    getParentRoute: () => AuthRouteRoute,
+  } as any)
+const AuthParametrosRubrosRubroIdRoute =
+  AuthParametrosRubrosRubroIdRouteImport.update({
+    id: '/parametros/rubros/$rubroId',
+    path: '/parametros/rubros/$rubroId',
+    getParentRoute: () => AuthRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof AuthIndexRoute
@@ -154,17 +183,21 @@ export interface FileRoutesByFullPath {
   '/parametros/partidas': typeof AuthParametrosPartidasRoute
   '/parametros/proveedores': typeof AuthParametrosProveedoresRoute
   '/parametros/proyectos': typeof AuthParametrosProyectosRoute
-  '/parametros/rubros': typeof AuthParametrosRubrosRoute
   '/reportes/actual': typeof AuthReportesActualRoute
   '/reportes/cuadre': typeof AuthReportesCuadreRoute
   '/reportes/gastado-por-partida': typeof AuthReportesGastadoPorPartidaRoute
   '/reportes/historico': typeof AuthReportesHistoricoRoute
   '/transacciones/cierre-mensual': typeof AuthTransaccionesCierreMensualRoute
-  '/transacciones/facturas': typeof AuthTransaccionesFacturasRoute
   '/transacciones/presupuesto': typeof AuthTransaccionesPresupuestoRoute
   '/usuarios/administrar': typeof AuthUsuariosAdministrarRoute
   '/usuarios/cambio-contrasena': typeof AuthUsuariosCambioContrasenaRoute
   '/usuarios/perfil': typeof AuthUsuariosPerfilRoute
+  '/parametros/rubros/$rubroId': typeof AuthParametrosRubrosRubroIdRoute
+  '/parametros/rubros/crear': typeof AuthParametrosRubrosCrearRoute
+  '/transacciones/facturas/$facturaId': typeof AuthTransaccionesFacturasFacturaIdRoute
+  '/transacciones/facturas/crear': typeof AuthTransaccionesFacturasCrearRoute
+  '/parametros/rubros/': typeof AuthParametrosRubrosIndexRoute
+  '/transacciones/facturas/': typeof AuthTransaccionesFacturasIndexRoute
 }
 export interface FileRoutesByTo {
   '/login': typeof LoginRoute
@@ -176,17 +209,21 @@ export interface FileRoutesByTo {
   '/parametros/partidas': typeof AuthParametrosPartidasRoute
   '/parametros/proveedores': typeof AuthParametrosProveedoresRoute
   '/parametros/proyectos': typeof AuthParametrosProyectosRoute
-  '/parametros/rubros': typeof AuthParametrosRubrosRoute
   '/reportes/actual': typeof AuthReportesActualRoute
   '/reportes/cuadre': typeof AuthReportesCuadreRoute
   '/reportes/gastado-por-partida': typeof AuthReportesGastadoPorPartidaRoute
   '/reportes/historico': typeof AuthReportesHistoricoRoute
   '/transacciones/cierre-mensual': typeof AuthTransaccionesCierreMensualRoute
-  '/transacciones/facturas': typeof AuthTransaccionesFacturasRoute
   '/transacciones/presupuesto': typeof AuthTransaccionesPresupuestoRoute
   '/usuarios/administrar': typeof AuthUsuariosAdministrarRoute
   '/usuarios/cambio-contrasena': typeof AuthUsuariosCambioContrasenaRoute
   '/usuarios/perfil': typeof AuthUsuariosPerfilRoute
+  '/parametros/rubros/$rubroId': typeof AuthParametrosRubrosRubroIdRoute
+  '/parametros/rubros/crear': typeof AuthParametrosRubrosCrearRoute
+  '/transacciones/facturas/$facturaId': typeof AuthTransaccionesFacturasFacturaIdRoute
+  '/transacciones/facturas/crear': typeof AuthTransaccionesFacturasCrearRoute
+  '/parametros/rubros': typeof AuthParametrosRubrosIndexRoute
+  '/transacciones/facturas': typeof AuthTransaccionesFacturasIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -200,17 +237,21 @@ export interface FileRoutesById {
   '/_auth/parametros/partidas': typeof AuthParametrosPartidasRoute
   '/_auth/parametros/proveedores': typeof AuthParametrosProveedoresRoute
   '/_auth/parametros/proyectos': typeof AuthParametrosProyectosRoute
-  '/_auth/parametros/rubros': typeof AuthParametrosRubrosRoute
   '/_auth/reportes/actual': typeof AuthReportesActualRoute
   '/_auth/reportes/cuadre': typeof AuthReportesCuadreRoute
   '/_auth/reportes/gastado-por-partida': typeof AuthReportesGastadoPorPartidaRoute
   '/_auth/reportes/historico': typeof AuthReportesHistoricoRoute
   '/_auth/transacciones/cierre-mensual': typeof AuthTransaccionesCierreMensualRoute
-  '/_auth/transacciones/facturas': typeof AuthTransaccionesFacturasRoute
   '/_auth/transacciones/presupuesto': typeof AuthTransaccionesPresupuestoRoute
   '/_auth/usuarios/administrar': typeof AuthUsuariosAdministrarRoute
   '/_auth/usuarios/cambio-contrasena': typeof AuthUsuariosCambioContrasenaRoute
   '/_auth/usuarios/perfil': typeof AuthUsuariosPerfilRoute
+  '/_auth/parametros/rubros/$rubroId': typeof AuthParametrosRubrosRubroIdRoute
+  '/_auth/parametros/rubros/crear': typeof AuthParametrosRubrosCrearRoute
+  '/_auth/transacciones/facturas/$facturaId': typeof AuthTransaccionesFacturasFacturaIdRoute
+  '/_auth/transacciones/facturas/crear': typeof AuthTransaccionesFacturasCrearRoute
+  '/_auth/parametros/rubros/': typeof AuthParametrosRubrosIndexRoute
+  '/_auth/transacciones/facturas/': typeof AuthTransaccionesFacturasIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -224,17 +265,21 @@ export interface FileRouteTypes {
     | '/parametros/partidas'
     | '/parametros/proveedores'
     | '/parametros/proyectos'
-    | '/parametros/rubros'
     | '/reportes/actual'
     | '/reportes/cuadre'
     | '/reportes/gastado-por-partida'
     | '/reportes/historico'
     | '/transacciones/cierre-mensual'
-    | '/transacciones/facturas'
     | '/transacciones/presupuesto'
     | '/usuarios/administrar'
     | '/usuarios/cambio-contrasena'
     | '/usuarios/perfil'
+    | '/parametros/rubros/$rubroId'
+    | '/parametros/rubros/crear'
+    | '/transacciones/facturas/$facturaId'
+    | '/transacciones/facturas/crear'
+    | '/parametros/rubros/'
+    | '/transacciones/facturas/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/login'
@@ -246,17 +291,21 @@ export interface FileRouteTypes {
     | '/parametros/partidas'
     | '/parametros/proveedores'
     | '/parametros/proyectos'
-    | '/parametros/rubros'
     | '/reportes/actual'
     | '/reportes/cuadre'
     | '/reportes/gastado-por-partida'
     | '/reportes/historico'
     | '/transacciones/cierre-mensual'
-    | '/transacciones/facturas'
     | '/transacciones/presupuesto'
     | '/usuarios/administrar'
     | '/usuarios/cambio-contrasena'
     | '/usuarios/perfil'
+    | '/parametros/rubros/$rubroId'
+    | '/parametros/rubros/crear'
+    | '/transacciones/facturas/$facturaId'
+    | '/transacciones/facturas/crear'
+    | '/parametros/rubros'
+    | '/transacciones/facturas'
   id:
     | '__root__'
     | '/_auth'
@@ -269,17 +318,21 @@ export interface FileRouteTypes {
     | '/_auth/parametros/partidas'
     | '/_auth/parametros/proveedores'
     | '/_auth/parametros/proyectos'
-    | '/_auth/parametros/rubros'
     | '/_auth/reportes/actual'
     | '/_auth/reportes/cuadre'
     | '/_auth/reportes/gastado-por-partida'
     | '/_auth/reportes/historico'
     | '/_auth/transacciones/cierre-mensual'
-    | '/_auth/transacciones/facturas'
     | '/_auth/transacciones/presupuesto'
     | '/_auth/usuarios/administrar'
     | '/_auth/usuarios/cambio-contrasena'
     | '/_auth/usuarios/perfil'
+    | '/_auth/parametros/rubros/$rubroId'
+    | '/_auth/parametros/rubros/crear'
+    | '/_auth/transacciones/facturas/$facturaId'
+    | '/_auth/transacciones/facturas/crear'
+    | '/_auth/parametros/rubros/'
+    | '/_auth/transacciones/facturas/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -338,13 +391,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthTransaccionesPresupuestoRouteImport
       parentRoute: typeof AuthRouteRoute
     }
-    '/_auth/transacciones/facturas': {
-      id: '/_auth/transacciones/facturas'
-      path: '/transacciones/facturas'
-      fullPath: '/transacciones/facturas'
-      preLoaderRoute: typeof AuthTransaccionesFacturasRouteImport
-      parentRoute: typeof AuthRouteRoute
-    }
     '/_auth/transacciones/cierre-mensual': {
       id: '/_auth/transacciones/cierre-mensual'
       path: '/transacciones/cierre-mensual'
@@ -378,13 +424,6 @@ declare module '@tanstack/react-router' {
       path: '/reportes/actual'
       fullPath: '/reportes/actual'
       preLoaderRoute: typeof AuthReportesActualRouteImport
-      parentRoute: typeof AuthRouteRoute
-    }
-    '/_auth/parametros/rubros': {
-      id: '/_auth/parametros/rubros'
-      path: '/parametros/rubros'
-      fullPath: '/parametros/rubros'
-      preLoaderRoute: typeof AuthParametrosRubrosRouteImport
       parentRoute: typeof AuthRouteRoute
     }
     '/_auth/parametros/proyectos': {
@@ -436,6 +475,48 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthAnalisisAnalisisRouteImport
       parentRoute: typeof AuthRouteRoute
     }
+    '/_auth/transacciones/facturas/': {
+      id: '/_auth/transacciones/facturas/'
+      path: '/transacciones/facturas'
+      fullPath: '/transacciones/facturas/'
+      preLoaderRoute: typeof AuthTransaccionesFacturasIndexRouteImport
+      parentRoute: typeof AuthRouteRoute
+    }
+    '/_auth/parametros/rubros/': {
+      id: '/_auth/parametros/rubros/'
+      path: '/parametros/rubros'
+      fullPath: '/parametros/rubros/'
+      preLoaderRoute: typeof AuthParametrosRubrosIndexRouteImport
+      parentRoute: typeof AuthRouteRoute
+    }
+    '/_auth/transacciones/facturas/crear': {
+      id: '/_auth/transacciones/facturas/crear'
+      path: '/transacciones/facturas/crear'
+      fullPath: '/transacciones/facturas/crear'
+      preLoaderRoute: typeof AuthTransaccionesFacturasCrearRouteImport
+      parentRoute: typeof AuthRouteRoute
+    }
+    '/_auth/transacciones/facturas/$facturaId': {
+      id: '/_auth/transacciones/facturas/$facturaId'
+      path: '/transacciones/facturas/$facturaId'
+      fullPath: '/transacciones/facturas/$facturaId'
+      preLoaderRoute: typeof AuthTransaccionesFacturasFacturaIdRouteImport
+      parentRoute: typeof AuthRouteRoute
+    }
+    '/_auth/parametros/rubros/crear': {
+      id: '/_auth/parametros/rubros/crear'
+      path: '/parametros/rubros/crear'
+      fullPath: '/parametros/rubros/crear'
+      preLoaderRoute: typeof AuthParametrosRubrosCrearRouteImport
+      parentRoute: typeof AuthRouteRoute
+    }
+    '/_auth/parametros/rubros/$rubroId': {
+      id: '/_auth/parametros/rubros/$rubroId'
+      path: '/parametros/rubros/$rubroId'
+      fullPath: '/parametros/rubros/$rubroId'
+      preLoaderRoute: typeof AuthParametrosRubrosRubroIdRouteImport
+      parentRoute: typeof AuthRouteRoute
+    }
   }
 }
 
@@ -448,17 +529,21 @@ interface AuthRouteRouteChildren {
   AuthParametrosPartidasRoute: typeof AuthParametrosPartidasRoute
   AuthParametrosProveedoresRoute: typeof AuthParametrosProveedoresRoute
   AuthParametrosProyectosRoute: typeof AuthParametrosProyectosRoute
-  AuthParametrosRubrosRoute: typeof AuthParametrosRubrosRoute
   AuthReportesActualRoute: typeof AuthReportesActualRoute
   AuthReportesCuadreRoute: typeof AuthReportesCuadreRoute
   AuthReportesGastadoPorPartidaRoute: typeof AuthReportesGastadoPorPartidaRoute
   AuthReportesHistoricoRoute: typeof AuthReportesHistoricoRoute
   AuthTransaccionesCierreMensualRoute: typeof AuthTransaccionesCierreMensualRoute
-  AuthTransaccionesFacturasRoute: typeof AuthTransaccionesFacturasRoute
   AuthTransaccionesPresupuestoRoute: typeof AuthTransaccionesPresupuestoRoute
   AuthUsuariosAdministrarRoute: typeof AuthUsuariosAdministrarRoute
   AuthUsuariosCambioContrasenaRoute: typeof AuthUsuariosCambioContrasenaRoute
   AuthUsuariosPerfilRoute: typeof AuthUsuariosPerfilRoute
+  AuthParametrosRubrosRubroIdRoute: typeof AuthParametrosRubrosRubroIdRoute
+  AuthParametrosRubrosCrearRoute: typeof AuthParametrosRubrosCrearRoute
+  AuthTransaccionesFacturasFacturaIdRoute: typeof AuthTransaccionesFacturasFacturaIdRoute
+  AuthTransaccionesFacturasCrearRoute: typeof AuthTransaccionesFacturasCrearRoute
+  AuthParametrosRubrosIndexRoute: typeof AuthParametrosRubrosIndexRoute
+  AuthTransaccionesFacturasIndexRoute: typeof AuthTransaccionesFacturasIndexRoute
 }
 
 const AuthRouteRouteChildren: AuthRouteRouteChildren = {
@@ -470,17 +555,22 @@ const AuthRouteRouteChildren: AuthRouteRouteChildren = {
   AuthParametrosPartidasRoute: AuthParametrosPartidasRoute,
   AuthParametrosProveedoresRoute: AuthParametrosProveedoresRoute,
   AuthParametrosProyectosRoute: AuthParametrosProyectosRoute,
-  AuthParametrosRubrosRoute: AuthParametrosRubrosRoute,
   AuthReportesActualRoute: AuthReportesActualRoute,
   AuthReportesCuadreRoute: AuthReportesCuadreRoute,
   AuthReportesGastadoPorPartidaRoute: AuthReportesGastadoPorPartidaRoute,
   AuthReportesHistoricoRoute: AuthReportesHistoricoRoute,
   AuthTransaccionesCierreMensualRoute: AuthTransaccionesCierreMensualRoute,
-  AuthTransaccionesFacturasRoute: AuthTransaccionesFacturasRoute,
   AuthTransaccionesPresupuestoRoute: AuthTransaccionesPresupuestoRoute,
   AuthUsuariosAdministrarRoute: AuthUsuariosAdministrarRoute,
   AuthUsuariosCambioContrasenaRoute: AuthUsuariosCambioContrasenaRoute,
   AuthUsuariosPerfilRoute: AuthUsuariosPerfilRoute,
+  AuthParametrosRubrosRubroIdRoute: AuthParametrosRubrosRubroIdRoute,
+  AuthParametrosRubrosCrearRoute: AuthParametrosRubrosCrearRoute,
+  AuthTransaccionesFacturasFacturaIdRoute:
+    AuthTransaccionesFacturasFacturaIdRoute,
+  AuthTransaccionesFacturasCrearRoute: AuthTransaccionesFacturasCrearRoute,
+  AuthParametrosRubrosIndexRoute: AuthParametrosRubrosIndexRoute,
+  AuthTransaccionesFacturasIndexRoute: AuthTransaccionesFacturasIndexRoute,
 }
 
 const AuthRouteRouteWithChildren = AuthRouteRoute._addFileChildren(
