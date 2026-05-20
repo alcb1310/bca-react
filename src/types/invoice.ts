@@ -22,9 +22,6 @@ export const invoiceCreateSchema = z.object({
 	project_id: z.string().uuid('Seleccione un proyecto'),
 	invoice_number: z.string().min(1, 'Ingrese el numero de la Factura'),
 	invoice_date: z.string().min(1, 'Ingrese la fecha de la factura'),
-	// invoice_date: z.coerce.date({
-	// 	message: 'Ingrese una fecha',
-	// }),
 	invoice_total: z.custom<number>((val) => {
 		const num = Number.parseFloat(val as string)
 		return !Number.isNaN(num)

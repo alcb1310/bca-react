@@ -47,7 +47,7 @@ export async function GetOneInvoice(id: string) {
 			project_id: '',
 			supplier_id: '',
 			invoice_number: '',
-			invoice_date: new Date(),
+			invoice_date: '',
 			invoice_total: 0,
 		} as InvoiceCreateType
 	}

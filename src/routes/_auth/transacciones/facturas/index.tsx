@@ -54,10 +54,14 @@ function RouteComponent() {
 			accessorKey: 'invoice_total',
 			header: 'Total',
 			cell: ({ row }) => {
-				return row.original.invoice_total.toLocaleString('es-EC', {
-					minimumFractionDigits: 2,
-					maximumFractionDigits: 2,
-				})
+				return (
+					<span className='block w-full text-right'>
+						{row.original.invoice_total.toLocaleString('es-EC', {
+							minimumFractionDigits: 2,
+							maximumFractionDigits: 2,
+						})}
+					</span>
+				)
 			},
 		},
 	]
