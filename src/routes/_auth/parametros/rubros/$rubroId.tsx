@@ -9,6 +9,7 @@ import { FieldGroup, FieldSet } from '@/components/ui/field'
 import { Spinner } from '@/components/ui/spinner'
 import {
 	ItemMaterialsCreateDrawer,
+	ItemMaterialsDeleteDialog,
 	ItemMaterialsEditDrawer,
 } from '@/components/web/items-materials-drawer'
 import PageTitle from '@/components/web/pageTitle'
@@ -86,10 +87,16 @@ function RouteComponent() {
 					quantity: row.original.quantity,
 				}
 				return (
-					<ItemMaterialsEditDrawer
-						material_name={row.original.material.name}
-						material={material}
-					/>
+					<div className='flex px-3 justify-end items-center gap-2'>
+						<ItemMaterialsEditDrawer
+							material_name={row.original.material.name}
+							material={material}
+						/>
+						<ItemMaterialsDeleteDialog
+							material_name={row.original.material.name}
+							material={material}
+						/>
+					</div>
 				)
 			},
 		},

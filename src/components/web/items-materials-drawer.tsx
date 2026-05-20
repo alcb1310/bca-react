@@ -1,17 +1,36 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { CircleXIcon, EditIcon, PlusIcon, SaveIcon } from 'lucide-react'
+import {
+	CircleXIcon,
+	DeleteIcon,
+	EditIcon,
+	PlusIcon,
+	SaveIcon,
+} from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { toast } from 'sonner'
 import { useAppForm } from '@/hooks/formHook'
 import { GetAllMaterials } from '@/queries/parametros/materials'
 import {
 	CreateRubroMaterial,
+	DeleteRubroMaterial,
 	UpdateRubroMaterial,
 } from '@/queries/parametros/rubroMaterial'
 import {
 	type RubroMaterialType,
 	rubroMaterialSchema,
 } from '@/types/rubro-material'
+import {
+	AlertDialog,
+	AlertDialogAction,
+	AlertDialogCancel,
+	AlertDialogContent,
+	AlertDialogDescription,
+	AlertDialogFooter,
+	AlertDialogHeader,
+	AlertDialogMedia,
+	AlertDialogTitle,
+	AlertDialogTrigger,
+} from '../ui/alert-dialog'
 import { Button } from '../ui/button'
 import {
 	Drawer,
@@ -268,5 +287,64 @@ export function ItemMaterialsEditDrawer({
 				</form>
 			</DrawerContent>
 		</Drawer>
+	)
+}
+
+export function ItemMaterialsDeleteDialog({
+	material,
+	material_name,
+}: ItemMaterialsEditDrawerProps) {
+	const queryClient = useQueryClient()
+
+	const useDeleteItemMaterialMutation = useMutation({
+		mutationFn: DeleteRubroMaterial,
+		onSuccess: () => {
+			toast.success('Material eliminado exitosamente')
+			queryClient.invalidateQueries({ queryKey: ['rubros-material'] })
+		},
+		onError: (error) => {
+			toast.error(error.message, {
+				position: 'top-center',
+				style: {
+					color: 'red',
+				},
+			})
+		},
+	})
+	return (
+		<AlertDialog>
+			<AlertDialogTrigger asChild>
+				<Button variant='ghost'>
+					<DeleteIcon size={16} className='text-red-600' />
+				</Button>
+			</AlertDialogTrigger>
+			<AlertDialogContent>
+				<AlertDialogHeader>
+					<AlertDialogMedia className='bg-white'>
+						<DeleteIcon size={16} className='bg-white text-red-600' />
+					</AlertDialogMedia>
+					<AlertDialogTitle className='text-red-600'>
+						Eliminar Material
+					</AlertDialogTitle>
+					<AlertDialogDescription>
+						¿Estás seguro de eliminar el material {material_name}?. Esta acción
+						no se puede deshacer
+					</AlertDialogDescription>
+				</AlertDialogHeader>
+				<AlertDialogFooter>
+					<AlertDialogCancel>Cancelar</AlertDialogCancel>
+					<AlertDialogAction
+						onClick={() => {
+							useDeleteItemMaterialMutation.mutate({
+								rubroId: material.item_id,
+								materialId: material.material_id,
+							})
+						}}
+					>
+						Eliminar
+					</AlertDialogAction>
+				</AlertDialogFooter>
+			</AlertDialogContent>
+		</AlertDialog>
 	)
 }
