@@ -1,8 +1,13 @@
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { CircleXIcon, PlusIcon, SaveIcon } from 'lucide-react'
+import { useEffect, useState } from 'react'
+import { toast } from 'sonner'
 import { useAppForm } from '@/hooks/formHook'
+import { GetAllMaterials } from '@/queries/parametros/materials'
+import { CreateRubroMaterial } from '@/queries/parametros/rubroMaterial'
 import {
-	rubroMaterialSchema,
 	type RubroMaterialType,
+	rubroMaterialSchema,
 } from '@/types/rubro-material'
 import { Button } from '../ui/button'
 import {
@@ -16,8 +21,6 @@ import {
 	DrawerTrigger,
 } from '../ui/drawer'
 import { FieldGroup, FieldSet } from '../ui/field'
-import { useQuery } from '@tanstack/react-query'
-import { GetAllMaterials } from '@/queries/parametros/materials'
 
 type ItemMaterialsCreateDrawerProps = {
 	item: string
@@ -26,9 +29,28 @@ type ItemMaterialsCreateDrawerProps = {
 export function ItemMaterialsCreateDrawer({
 	item,
 }: ItemMaterialsCreateDrawerProps) {
+	const queryClient = useQueryClient()
+	const [open, setOpen] = useState(false)
 	const { data: material } = useQuery({
 		queryKey: ['materiales'],
 		queryFn: () => GetAllMaterials(),
+	})
+
+	const useCreateItemMaterialMutation = useMutation({
+		mutationFn: CreateRubroMaterial,
+		onSuccess: () => {
+			setOpen(false)
+			queryClient.invalidateQueries({ queryKey: ['rubros-material'] })
+			toast.success('Material agregado exitosamente')
+		},
+		onError: (error) => {
+			toast.error(error.message, {
+				position: 'top-center',
+				style: {
+					color: 'red',
+				},
+			})
+		},
 	})
 
 	const form = useAppForm({
@@ -40,7 +62,22 @@ export function ItemMaterialsCreateDrawer({
 		validators: {
 			onSubmit: rubroMaterialSchema,
 		},
+		onSubmit: (data) => {
+			const newData = {
+				item_id: item,
+				material_id: data.value.material_id,
+				quantity: Number.parseFloat(data.value.quantity.toString()),
+			}
+
+			useCreateItemMaterialMutation.mutate({ data: newData })
+		},
 	})
+
+	useEffect(() => {
+		if (open) {
+			form.reset()
+		}
+	}, [open, form.reset])
 
 	const matValues =
 		material?.map((item) => ({
@@ -53,7 +90,7 @@ export function ItemMaterialsCreateDrawer({
 	})
 
 	return (
-		<Drawer direction='right'>
+		<Drawer direction='right' open={open} onOpenChange={setOpen}>
 			<DrawerTrigger asChild>
 				<Button variant='default' className='my-3'>
 					<PlusIcon size={16} />
