@@ -1,12 +1,13 @@
-import { useSuspenseQuery } from '@tanstack/react-query'
+import { useMutation, useSuspenseQuery } from '@tanstack/react-query'
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { CircleXIcon, SaveIcon } from 'lucide-react'
+import { toast } from 'sonner'
 import { Button, buttonVariants } from '@/components/ui/button'
 import { FieldGroup, FieldSet } from '@/components/ui/field'
 import { Spinner } from '@/components/ui/spinner'
 import PageTitle from '@/components/web/pageTitle'
 import { useAppForm } from '@/hooks/formHook'
-import { GetOneRubro } from '@/queries/parametros/rubros'
+import { GetOneRubro, UpdateRubro } from '@/queries/parametros/rubros'
 import { type RubrosType, rubrosSchema } from '@/types/rubros'
 
 export const Route = createFileRoute('/_auth/parametros/rubros/$rubroId')({
@@ -26,13 +27,28 @@ function RouteComponent() {
 		queryFn: () => GetOneRubro(rubroId),
 	})
 
+	const useUpdateRubroMutation = useMutation({
+		mutationFn: UpdateRubro,
+		onSuccess: () => {
+			toast.success('Rubro actualizado exitosamente')
+		},
+		onError: (error) => {
+			toast.error(error.message, {
+				position: 'top-center',
+				style: {
+					color: 'red',
+				},
+			})
+		},
+	})
+
 	const form = useAppForm({
 		defaultValues: rubro as RubrosType,
 		validators: {
 			onSubmit: rubrosSchema,
 		},
 		onSubmit: (data) => {
-			console.log(data.value)
+			useUpdateRubroMutation.mutate({ data: data.value })
 		},
 	})
 
