@@ -7,12 +7,18 @@ import { Button, buttonVariants } from '@/components/ui/button'
 import { DataTable } from '@/components/ui/data-table'
 import { FieldGroup, FieldSet } from '@/components/ui/field'
 import { Spinner } from '@/components/ui/spinner'
-import { ItemMaterialsCreateDrawer } from '@/components/web/items-materials-drawer'
+import {
+	ItemMaterialsCreateDrawer,
+	ItemMaterialsEditDrawer,
+} from '@/components/web/items-materials-drawer'
 import PageTitle from '@/components/web/pageTitle'
 import { useAppForm } from '@/hooks/formHook'
 import { GetAllRubrosMaterials } from '@/queries/parametros/rubroMaterial'
 import { GetOneRubro, UpdateRubro } from '@/queries/parametros/rubros'
-import type { RubroMaterialResponseTye } from '@/types/rubro-material'
+import type {
+	RubroMaterialResponseTye,
+	RubroMaterialType,
+} from '@/types/rubro-material'
 import { type RubrosType, rubrosSchema } from '@/types/rubros'
 
 export const Route = createFileRoute('/_auth/parametros/rubros/$rubroId')({
@@ -67,6 +73,23 @@ function RouteComponent() {
 							maximumFractionDigits: 2,
 						})}
 					</span>
+				)
+			},
+		},
+		{
+			id: 'actions',
+			header: 'Acciones',
+			cell: ({ row }) => {
+				const material: RubroMaterialType = {
+					item_id: row.original.item.id as string,
+					material_id: row.original.material.id as string,
+					quantity: row.original.quantity,
+				}
+				return (
+					<ItemMaterialsEditDrawer
+						material_name={row.original.material.name}
+						material={material}
+					/>
 				)
 			},
 		},
