@@ -1,12 +1,13 @@
 import { useMutation, useSuspenseQuery } from '@tanstack/react-query'
 import { createFileRoute, Link } from '@tanstack/react-router'
 import type { ColumnDef } from '@tanstack/react-table'
-import { CircleXIcon, PlusIcon, SaveIcon } from 'lucide-react'
+import { CircleXIcon, SaveIcon } from 'lucide-react'
 import { toast } from 'sonner'
 import { Button, buttonVariants } from '@/components/ui/button'
 import { DataTable } from '@/components/ui/data-table'
 import { FieldGroup, FieldSet } from '@/components/ui/field'
 import { Spinner } from '@/components/ui/spinner'
+import { ItemMaterialsCreateDrawer } from '@/components/web/items-materials-drawer'
 import PageTitle from '@/components/web/pageTitle'
 import { useAppForm } from '@/hooks/formHook'
 import { GetAllRubrosMaterials } from '@/queries/parametros/rubroMaterial'
@@ -160,10 +161,7 @@ function RouteComponent() {
 			</div>
 			{(isLoading || rubroLoading) && <Spinner />}
 
-			<Button className='my-2'>
-				<PlusIcon size={10} />
-				Agregar Material
-			</Button>
+			<ItemMaterialsCreateDrawer item={rubroId} />
 
 			<DataTable data={data} columns={columns} />
 		</div>
