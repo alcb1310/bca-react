@@ -20,3 +20,11 @@ export const budgetItemResponseShema = z.object({
 })
 
 export type BudgetItemResponse = z.infer<typeof budgetItemResponseShema>
+
+export const budgetItemUpdateSchema = z.object({
+	id: z.string().uuid(),
+	code: z.string().min(1, 'Código es obligatorio'),
+	name: z.string().min(1, 'Nombre es obligatorio'),
+})
+
+export type BudgetItemUpdate = z.infer<typeof budgetItemUpdateSchema>
