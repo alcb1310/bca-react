@@ -1,15 +1,16 @@
-import { store } from '@/redux/store'
+import { authStore } from '@/store/auth'
 import type { InvoiceCreateType, InvoiceResponseType } from '@/types/invoice'
 
 const URL = import.meta.env.VITE_BACKEND_SERVER
 
 export async function GetAllInvoices() {
-	const state = store.getState()
+	const token = authStore.state.token
+
 	const response = await fetch(`${URL}/transacciones/facturas`, {
 		method: 'GET',
 		headers: {
 			'Content-Type': 'application/json',
-			Authorization: `Bearer ${state.login.token}`,
+			Authorization: `Bearer ${token}`,
 		},
 	})
 
@@ -21,12 +22,12 @@ export async function GetAllInvoices() {
 }
 
 export async function CreateInvoice({ data }: { data: InvoiceCreateType }) {
-	const state = store.getState()
+	const token = authStore.state.token
 	const response = await fetch(`${URL}/transacciones/facturas`, {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',
-			Authorization: `Bearer ${state.login.token}`,
+			Authorization: `Bearer ${token}`,
 		},
 		body: JSON.stringify(data),
 	})
@@ -51,12 +52,12 @@ export async function GetOneInvoice(id: string) {
 		} as InvoiceCreateType
 	}
 
-	const state = store.getState()
+	const token = authStore.state.token
 	const response = await fetch(`${URL}/transacciones/facturas/${id}`, {
 		method: 'GET',
 		headers: {
 			'Content-Type': 'application/json',
-			Authorization: `Bearer ${state.login.token}`,
+			Authorization: `Bearer ${token}`,
 		},
 	})
 
@@ -68,12 +69,13 @@ export async function GetOneInvoice(id: string) {
 }
 
 export async function UpdateInvoice({ data }: { data: InvoiceCreateType }) {
-	const state = store.getState()
+	const token = authStore.state.token
+
 	const response = await fetch(`${URL}/transacciones/facturas/${data.id}`, {
 		method: 'PUT',
 		headers: {
 			'Content-Type': 'application/json',
-			Authorization: `Bearer ${state.login.token}`,
+			Authorization: `Bearer ${token}`,
 		},
 		body: JSON.stringify(data),
 	})
@@ -87,12 +89,12 @@ export async function UpdateInvoice({ data }: { data: InvoiceCreateType }) {
 }
 
 export async function DeleteInvoice({ id }: { id: string }) {
-	const state = store.getState()
+	const token = authStore.state.token
 	const response = await fetch(`${URL}/transacciones/facturas/${id}`, {
 		method: 'DELETE',
 		headers: {
 			'Content-Type': 'application/json',
-			Authorization: `Bearer ${state.login.token}`,
+			Authorization: `Bearer ${token}`,
 		},
 	})
 
