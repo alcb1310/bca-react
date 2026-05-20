@@ -3,12 +3,16 @@ import { CircleXIcon, EditIcon, PlusIcon, SaveIcon } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { toast } from 'sonner'
 import { useAppForm } from '@/hooks/formHook'
-import { CreatePartida, GetAllPartidas } from '@/queries/parametros/budgetItem'
+import {
+	CreatePartida,
+	GetAllPartidas,
+	UpdatePartida,
+} from '@/queries/parametros/budgetItem'
 import {
 	type BudgetItem,
 	type BudgetItemResponse,
-	budgetItemResponseShema,
 	budgetItemSchema,
+	budgetItemUpdateSchema,
 } from '@/types/partidas'
 import { Button } from '../ui/button'
 import {
@@ -21,7 +25,9 @@ import {
 	DrawerTitle,
 	DrawerTrigger,
 } from '../ui/drawer'
-import { FieldGroup, FieldSet } from '../ui/field'
+import { Field, FieldGroup, FieldLabel, FieldSet } from '../ui/field'
+import { Input } from '../ui/input'
+import { Switch } from '../ui/switch'
 
 type PartidaEditDrawerProps = {
 	partida: BudgetItemResponse
@@ -166,15 +172,37 @@ export function PartidaCreateDrawer() {
 }
 
 export function PartidaEditDrawer({ partida }: PartidaEditDrawerProps) {
+	const queryClient = useQueryClient()
 	const [open, setOpen] = useState(false)
 
+	const useUpdatePartidaMutation = useMutation({
+		mutationFn: UpdatePartida,
+		onSuccess: () => {
+			setOpen(false)
+			toast.success('Partida actualizada exitosamente')
+			queryClient.invalidateQueries({ queryKey: ['partidas'] })
+		},
+		onError: (error) => {
+			toast.error(error.message, {
+				position: 'top-center',
+				style: {
+					color: 'red',
+				},
+			})
+		},
+	})
+
 	const form = useAppForm({
-		defaultValues: partida,
+		defaultValues: {
+			id: partida.id,
+			code: partida.code,
+			name: partida.name,
+		},
 		validators: {
-			onSubmit: budgetItemResponseShema,
+			onSubmit: budgetItemUpdateSchema,
 		},
 		onSubmit: (data) => {
-			console.log(data.value)
+			useUpdatePartidaMutation.mutate({ data: data.value })
 		},
 	})
 
@@ -186,7 +214,7 @@ export function PartidaEditDrawer({ partida }: PartidaEditDrawerProps) {
 
 	return (
 		<Drawer direction='right' open={open} onOpenChange={setOpen}>
-			<DrawerTrigger>
+			<DrawerTrigger asChild>
 				<Button variant='ghost'>
 					<EditIcon className='inline-block text-yellow-600' />
 				</Button>
@@ -225,25 +253,21 @@ export function PartidaEditDrawer({ partida }: PartidaEditDrawerProps) {
 								)}
 							</form.AppField>
 
-							<form.AppField name='parent.name'>
-								{(field) => (
-									<field.TextField
-										label='Partida padre'
-										name='parent.name'
-										disabled
-									/>
-								)}
-							</form.AppField>
+							<Field>
+								<FieldLabel htmlFor='parent'>Partida padre</FieldLabel>
+								<Input name='parent' value={partida.parent?.name} disabled />
+							</Field>
 
-							<form.AppField name='accumulate'>
-								{(field) => (
-									<field.SwitchField
+							<Field className='mt-2'>
+								<div className='flex gap-2'>
+									<Switch
 										name='accumulate'
-										label='Acumula'
+										checked={partida.accumulate}
 										disabled
 									/>
-								)}
-							</form.AppField>
+									<FieldLabel htmlFor='accumulate'> Acumula </FieldLabel>
+								</div>
+							</Field>
 						</FieldSet>
 					</FieldGroup>
 					<DrawerFooter>
