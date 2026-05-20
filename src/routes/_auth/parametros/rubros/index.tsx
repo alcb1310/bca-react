@@ -43,7 +43,14 @@ function RouteComponent() {
 			cell: ({ row }) => {
 				const rubro = row.original
 
-				return <EditIcon size={10} className='text-yellow-600' />
+				return (
+					<Link
+						to='/parametros/rubros/$rubroId'
+						params={{ rubroId: rubro.id as string }}
+					>
+						<EditIcon size={15} className='text-yellow-600' />
+					</Link>
+				)
 			},
 		},
 	]

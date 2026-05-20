@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { createFileRoute, Link } from '@tanstack/react-router'
-import { SaveIcon } from 'lucide-react'
+import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
+import { CircleXIcon, SaveIcon } from 'lucide-react'
 import { toast } from 'sonner'
 import { Button, buttonVariants } from '@/components/ui/button'
 import { FieldGroup, FieldSet } from '@/components/ui/field'
@@ -15,13 +15,17 @@ export const Route = createFileRoute('/_auth/parametros/rubros/crear')({
 
 function RouteComponent() {
 	const queryClient = useQueryClient()
+	const navigate = useNavigate()
 
 	const createRubroMutation = useMutation({
 		mutationFn: CreateRubro,
-		onSuccess: () => {
+		onSuccess: (data) => {
 			toast.success('Rubro creado exitosamente')
 			queryClient.invalidateQueries({ queryKey: ['rubros'] })
-			// TODO: redirect to the edit rubros page
+			navigate({
+				to: '/parametros/rubros/$rubroId',
+				params: { rubroId: data.id as string },
+			})
 		},
 		onError: (error) => {
 			toast.error(error.message, {
@@ -103,6 +107,7 @@ function RouteComponent() {
 							to='/parametros/rubros'
 							className={buttonVariants({ variant: 'secondary' })}
 						>
+							<CircleXIcon size={10} />
 							Cancelar
 						</Link>
 					</div>
