@@ -4,7 +4,10 @@ import { useEffect, useState } from 'react'
 import { toast } from 'sonner'
 import { useAppForm } from '@/hooks/formHook'
 import { GetAllMaterials } from '@/queries/parametros/materials'
-import { CreateRubroMaterial } from '@/queries/parametros/rubroMaterial'
+import {
+	CreateRubroMaterial,
+	UpdateRubroMaterial,
+} from '@/queries/parametros/rubroMaterial'
 import {
 	type RubroMaterialType,
 	rubroMaterialSchema,
@@ -166,7 +169,25 @@ export function ItemMaterialsEditDrawer({
 	material,
 	material_name,
 }: ItemMaterialsEditDrawerProps) {
+	const queryClient = useQueryClient()
 	const [open, setOpen] = useState(false)
+
+	const useEditItemMaterialMutation = useMutation({
+		mutationFn: UpdateRubroMaterial,
+		onSuccess: () => {
+			setOpen(false)
+			queryClient.invalidateQueries({ queryKey: ['rubros-material'] })
+			toast.success('Material actualizado exitosamente')
+		},
+		onError: (error) => {
+			toast.error(error.message, {
+				position: 'top-center',
+				style: {
+					color: 'red',
+				},
+			})
+		},
+	})
 
 	const form = useAppForm({
 		defaultValues: material,
@@ -180,7 +201,7 @@ export function ItemMaterialsEditDrawer({
 				quantity: Number.parseFloat(data.value.quantity.toString()),
 			}
 
-			console.log(newData)
+			useEditItemMaterialMutation.mutate({ data: newData })
 		},
 	})
 
