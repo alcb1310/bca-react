@@ -1,13 +1,19 @@
-import { useSuspenseQuery } from '@tanstack/react-query'
+import {
+	useMutation,
+	useQueryClient,
+	useSuspenseQuery,
+} from '@tanstack/react-query'
 import { createFileRoute, Link } from '@tanstack/react-router'
+import { CircleXIcon, SaveIcon } from 'lucide-react'
+import { toast } from 'sonner'
+import { Button, buttonVariants } from '@/components/ui/button'
 import { FieldGroup, FieldSet } from '@/components/ui/field'
 import PageTitle from '@/components/web/pageTitle'
 import { useAppForm } from '@/hooks/formHook'
 import { GetAllProjects } from '@/queries/parametros/projects'
 import { GetAllSuppliers } from '@/queries/parametros/supplier'
+import { CreateInvoice } from '@/queries/transacciones/invoice'
 import { type InvoiceCreateType, invoiceCreateSchema } from '@/types/invoice'
-import { Button, buttonVariants } from '@/components/ui/button'
-import { SaveIcon, CircleXIcon } from 'lucide-react'
 
 export const Route = createFileRoute('/_auth/transacciones/facturas/crear')({
 	component: RouteComponent,
@@ -25,6 +31,16 @@ export const Route = createFileRoute('/_auth/transacciones/facturas/crear')({
 })
 
 function RouteComponent() {
+	const queryClient = useQueryClient()
+	const useCreateInvoiceMutation = useMutation({
+		mutationFn: CreateInvoice,
+		onSuccess: (data) => {
+			toast.success('Factura creada exitosamente')
+			queryClient.invalidateQueries({ queryKey: ['facturas'] })
+			// TODO: navegar a la factura creada
+		},
+	})
+
 	const { data: proyectos } = useSuspenseQuery({
 		queryKey: ['proyectos', 'active'],
 		queryFn: () => GetAllProjects({ active: true }),
@@ -46,7 +62,7 @@ function RouteComponent() {
 			onSubmit: invoiceCreateSchema,
 		},
 		onSubmit: (data) => {
-			console.log(data.value)
+			useCreateInvoiceMutation.mutate({ data: data.value })
 		},
 	})
 
@@ -148,7 +164,7 @@ function RouteComponent() {
 						</Button>
 
 						<Link
-							to='/parametros/rubros'
+							to='/transacciones/facturas'
 							className={buttonVariants({ variant: 'secondary' })}
 						>
 							<CircleXIcon size={10} />
