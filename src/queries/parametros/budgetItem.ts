@@ -1,5 +1,9 @@
 import { authStore } from '@/store/auth'
-import type { BudgetItem, BudgetItemResponse } from '@/types/partidas'
+import type {
+	BudgetItem,
+	BudgetItemResponse,
+	BudgetItemUpdate,
+} from '@/types/partidas'
 
 const URL = import.meta.env.VITE_BACKEND_SERVER
 
@@ -51,7 +55,7 @@ export async function CreatePartida({ data }: { data: BudgetItem }) {
 	return
 }
 
-export async function UpdatePartida({ data }: { data: BudgetItem }) {
+export async function UpdatePartida({ data }: { data: BudgetItemUpdate }) {
 	const token = authStore.state.token
 
 	const response = await fetch(`${URL}/parametros/partidas/${data.id}`, {
