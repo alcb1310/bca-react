@@ -1,13 +1,17 @@
 import { useMutation, useSuspenseQuery } from '@tanstack/react-query'
 import { createFileRoute, Link } from '@tanstack/react-router'
-import { CircleXIcon, SaveIcon } from 'lucide-react'
+import type { ColumnDef } from '@tanstack/react-table'
+import { CircleXIcon, PlusIcon, SaveIcon } from 'lucide-react'
 import { toast } from 'sonner'
 import { Button, buttonVariants } from '@/components/ui/button'
+import { DataTable } from '@/components/ui/data-table'
 import { FieldGroup, FieldSet } from '@/components/ui/field'
 import { Spinner } from '@/components/ui/spinner'
 import PageTitle from '@/components/web/pageTitle'
 import { useAppForm } from '@/hooks/formHook'
+import { GetAllRubrosMaterials } from '@/queries/parametros/rubroMaterial'
 import { GetOneRubro, UpdateRubro } from '@/queries/parametros/rubros'
+import type { RubroMaterialResponseTye } from '@/types/rubro-material'
 import { type RubrosType, rubrosSchema } from '@/types/rubros'
 
 export const Route = createFileRoute('/_auth/parametros/rubros/$rubroId')({
@@ -17,15 +21,55 @@ export const Route = createFileRoute('/_auth/parametros/rubros/$rubroId')({
 			queryKey: ['rubros', params.rubroId],
 			queryFn: () => GetOneRubro(params.rubroId),
 		})
+
+		queryClient.prefetchQuery({
+			queryKey: ['rubros-material'],
+			queryFn: () => GetAllRubrosMaterials(params.rubroId),
+		})
 	},
 })
 
 function RouteComponent() {
 	const { rubroId } = Route.useParams()
-	const { data: rubro, isLoading } = useSuspenseQuery({
+
+	const { data, isLoading } = useSuspenseQuery({
+		queryKey: ['rubros-material'],
+		queryFn: () => GetAllRubrosMaterials(rubroId),
+	})
+
+	const { data: rubro, isLoading: rubroLoading } = useSuspenseQuery({
 		queryKey: ['rubros', rubroId],
 		queryFn: () => GetOneRubro(rubroId),
 	})
+
+	const columns: ColumnDef<RubroMaterialResponseTye>[] = [
+		{
+			accessorKey: 'material.code',
+			header: 'Codigo',
+		},
+		{
+			accessorKey: 'material.name',
+			header: 'Codigo',
+		},
+		{
+			accessorKey: 'material.unit',
+			header: 'Unidad',
+		},
+		{
+			accessorKey: 'quantity',
+			header: 'Cantidad',
+			cell: ({ row }) => {
+				return (
+					<span className='block w-full text-right'>
+						{row.original.quantity.toLocaleString('es-EC', {
+							minimumFractionDigits: 2,
+							maximumFractionDigits: 2,
+						})}
+					</span>
+				)
+			},
+		},
+	]
 
 	const useUpdateRubroMutation = useMutation({
 		mutationFn: UpdateRubro,
@@ -106,7 +150,7 @@ function RouteComponent() {
 
 						<Link
 							to='/parametros/rubros'
-							className={buttonVariants({ variant: 'secondary' })}
+							className={buttonVariants({ variant: 'outline' })}
 						>
 							<CircleXIcon size={10} />
 							Cancelar
@@ -114,7 +158,14 @@ function RouteComponent() {
 					</div>
 				</form>
 			</div>
-			{isLoading && <Spinner />}
+			{(isLoading || rubroLoading) && <Spinner />}
+
+			<Button className='my-2'>
+				<PlusIcon size={10} />
+				Agregar Material
+			</Button>
+
+			<DataTable data={data} columns={columns} />
 		</div>
 	)
 }
