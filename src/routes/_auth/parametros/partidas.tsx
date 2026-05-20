@@ -6,7 +6,10 @@ import { useEffect, useState } from 'react'
 import { DataTable } from '@/components/ui/data-table'
 import { Input } from '@/components/ui/input'
 import { Spinner } from '@/components/ui/spinner'
-import { PartidaCreateDrawer } from '@/components/web/budget-items-drawer'
+import {
+	PartidaCreateDrawer,
+	PartidaEditDrawer,
+} from '@/components/web/budget-items-drawer'
 import PageTitle from '@/components/web/pageTitle'
 import { GetAllPartidas } from '@/queries/parametros/budgetItem'
 import type { BudgetItemResponse } from '@/types/partidas'
@@ -62,6 +65,14 @@ function RouteComponent() {
 		{
 			accessorKey: 'parent.code',
 			header: 'Padre',
+		},
+		{
+			id: 'actions',
+			cell: ({ row }) => {
+				const partida = row.original
+
+				return <PartidaEditDrawer partida={partida} />
+			},
 		},
 	]
 
