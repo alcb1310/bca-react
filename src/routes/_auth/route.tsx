@@ -1,4 +1,7 @@
 import { createFileRoute, Outlet, redirect } from '@tanstack/react-router'
+import { createServerFn } from '@tanstack/react-start'
+import { getCookie } from '@tanstack/react-start/server'
+import { useEffect } from 'react'
 import { Separator } from '@/components/ui/separator'
 import {
 	SidebarInset,
@@ -7,9 +10,6 @@ import {
 } from '@/components/ui/sidebar'
 import { AppSidebar } from '@/components/web/app-sidebar'
 import { authStore } from '@/store/auth'
-import { createServerFn } from '@tanstack/react-start'
-import { getCookie } from '@tanstack/react-start/server'
-import { useEffect } from 'react'
 
 export const readCookieFn = createServerFn({ method: 'GET' }).handler(
 	async () => {

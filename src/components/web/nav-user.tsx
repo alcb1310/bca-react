@@ -1,6 +1,8 @@
+import { useQuery } from '@tanstack/react-query'
 import { useNavigate } from '@tanstack/react-router'
 import { ChevronsUpDown, LogOutIcon, type LucideProps } from 'lucide-react'
 import type { ForwardRefExoticComponent, JSX, RefAttributes } from 'react'
+import { Me } from '@/queries/users'
 import type { FileRoutesByTo } from '@/routeTree.gen'
 import { authStore } from '@/store/auth'
 import {
@@ -13,8 +15,6 @@ import {
 } from '../ui/dropdown-menu'
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '../ui/sidebar'
 import { UserChangePasswordDialog } from './user-drawer'
-import { useQuery } from '@tanstack/react-query'
-import { Me } from '@/queries/users'
 
 export type UserData = {
 	name?: string
