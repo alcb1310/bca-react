@@ -3,7 +3,7 @@ import {
 	useQueryClient,
 	useSuspenseQuery,
 } from '@tanstack/react-query'
-import { createFileRoute, Link } from '@tanstack/react-router'
+import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
 import { CircleXIcon, SaveIcon } from 'lucide-react'
 import { toast } from 'sonner'
 import { Button, buttonVariants } from '@/components/ui/button'
@@ -14,7 +14,6 @@ import { GetAllProjects } from '@/queries/parametros/projects'
 import { GetAllSuppliers } from '@/queries/parametros/supplier'
 import { CreateInvoice } from '@/queries/transacciones/invoice'
 import { type InvoiceCreateType, invoiceCreateSchema } from '@/types/invoice'
-import { useNavigate } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/_auth/transacciones/facturas/crear')({
 	component: RouteComponent,

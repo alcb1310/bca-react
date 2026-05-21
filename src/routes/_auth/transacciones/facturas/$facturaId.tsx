@@ -4,36 +4,45 @@ import {
 	useSuspenseQuery,
 } from '@tanstack/react-query'
 import { createFileRoute, Link } from '@tanstack/react-router'
-import { CircleXIcon, SaveIcon } from 'lucide-react'
+import type { ColumnDef } from '@tanstack/react-table'
+import { CircleXIcon, DeleteIcon, PlusIcon, SaveIcon } from 'lucide-react'
 import { toast } from 'sonner'
 import { Button, buttonVariants } from '@/components/ui/button'
+import { DataTable } from '@/components/ui/data-table'
 import { FieldGroup, FieldSet } from '@/components/ui/field'
+import { Spinner } from '@/components/ui/spinner'
 import PageTitle from '@/components/web/pageTitle'
 import { useAppForm } from '@/hooks/formHook'
 import { GetAllProjects } from '@/queries/parametros/projects'
 import { GetAllSuppliers } from '@/queries/parametros/supplier'
 import { GetOneInvoice, UpdateInvoice } from '@/queries/transacciones/invoice'
+import { GetAllInvoiceDetails } from '@/queries/transacciones/invoiceDetails'
 import { invoiceCreateSchema } from '@/types/invoice'
+import type { InvoiceDetailsResponseType } from '@/types/invoiceDetails'
 
 export const Route = createFileRoute(
 	'/_auth/transacciones/facturas/$facturaId',
 )({
 	component: RouteComponent,
-	loader: ({ context: { queryClient }, params }) => {
-		queryClient.ensureQueryData({
-			queryKey: ['proyectos', 'active'],
-			queryFn: () => GetAllProjects({ active: true }),
-		})
-
-		queryClient.ensureQueryData({
-			queryKey: ['proveedores'],
-			queryFn: () => GetAllSuppliers({}),
-		})
-
-		queryClient.ensureQueryData({
-			queryKey: ['facturas', params.facturaId],
-			queryFn: () => GetOneInvoice(params.facturaId),
-		})
+	loader: async ({ context: { queryClient }, params }) => {
+		await Promise.all([
+			queryClient.prefetchQuery({
+				queryKey: ['proyectos', 'active'],
+				queryFn: () => GetAllProjects({ active: true }),
+			}),
+			queryClient.prefetchQuery({
+				queryKey: ['proveedores'],
+				queryFn: () => GetAllSuppliers({}),
+			}),
+			queryClient.prefetchQuery({
+				queryKey: ['facturas', params.facturaId],
+				queryFn: () => GetOneInvoice(params.facturaId),
+			}),
+			queryClient.prefetchQuery({
+				queryKey: ['facturas-detalle'],
+				queryFn: () => GetAllInvoiceDetails(params.facturaId),
+			}),
+		])
 	},
 })
 
@@ -66,10 +75,70 @@ function RouteComponent() {
 		queryFn: () => GetAllSuppliers({}),
 	})
 
-	const { data: factura } = useSuspenseQuery({
+	const { data: factura, isLoading: isLoadingFactura } = useSuspenseQuery({
 		queryKey: ['facturas', facturaId],
 		queryFn: () => GetOneInvoice(facturaId),
 	})
+
+	const { data, isLoading } = useSuspenseQuery({
+		queryKey: ['facturas-detalle'],
+		queryFn: () => GetAllInvoiceDetails(facturaId),
+	})
+	const columns: ColumnDef<InvoiceDetailsResponseType>[] = [
+		{
+			accessorKey: 'budget_item_code',
+			header: 'Codigo',
+		},
+		{
+			accessorKey: 'budget_item_name',
+			header: 'Nombre',
+		},
+		{
+			accessorKey: 'quantity',
+			header: 'Cantidad',
+			cell: ({ row }) => {
+				return (
+					<span className='block w-full text-right'>
+						{row.original.quantity.toLocaleString('es-EC', {
+							minimumFractionDigits: 2,
+						})}
+					</span>
+				)
+			},
+		},
+		{
+			accessorKey: 'cost',
+			header: 'Costo',
+			cell: ({ row }) => {
+				return (
+					<span className='block w-full text-right'>
+						{row.original.cost.toLocaleString('es-EC', {
+							minimumFractionDigits: 2,
+						})}
+					</span>
+				)
+			},
+		},
+		{
+			accessorKey: 'total',
+			header: 'Total',
+			cell: ({ row }) => {
+				return (
+					<span className='block w-full text-right'>
+						{row.original.total.toLocaleString('es-EC', {
+							minimumFractionDigits: 2,
+						})}
+					</span>
+				)
+			},
+		},
+		{
+			id: 'actions',
+			cell: ({ row }) => {
+				return <DeleteIcon size={16} className='text-red-600' />
+			},
+		},
+	]
 
 	const form = useAppForm({
 		defaultValues: factura,
@@ -195,6 +264,15 @@ function RouteComponent() {
 					</div>
 				</form>
 			</div>
+
+			{(isLoading || isLoadingFactura) && <Spinner />}
+
+			<Button variant={'detail'} className='my-3'>
+				<PlusIcon size={10} />
+				Agregar Detalle
+			</Button>
+
+			<DataTable columns={columns} data={data} />
 		</div>
 	)
 }
