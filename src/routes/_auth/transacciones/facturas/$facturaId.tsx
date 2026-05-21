@@ -11,7 +11,10 @@ import { Button, buttonVariants } from '@/components/ui/button'
 import { DataTable } from '@/components/ui/data-table'
 import { FieldGroup, FieldSet } from '@/components/ui/field'
 import { Spinner } from '@/components/ui/spinner'
-import { CreateInvoiceDetailDrawer } from '@/components/web/invoice-details-drawer'
+import {
+	CreateInvoiceDetailDrawer,
+	DeleteInvoiceDetailsDialog,
+} from '@/components/web/invoice-details-drawer'
 import PageTitle from '@/components/web/pageTitle'
 import { useAppForm } from '@/hooks/formHook'
 import { GetAllProjects } from '@/queries/parametros/projects'
@@ -136,7 +139,7 @@ function RouteComponent() {
 		{
 			id: 'actions',
 			cell: ({ row }) => {
-				return <DeleteIcon size={16} className='text-red-600' />
+				return <DeleteInvoiceDetailsDialog invoice_detail={row.original} />
 			},
 		},
 	]

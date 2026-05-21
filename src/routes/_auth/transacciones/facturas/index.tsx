@@ -127,8 +127,8 @@ function RouteComponent() {
 										</AlertDialogTitle>
 										<AlertDialogDescription>
 											Esta seguro que desea eliminar la factura:
-											<ul>
-												<li>
+											<ul className='my-3'>
+												<li className='flex justify-between'>
 													<span className='font-bold'>Fecha:</span>{' '}
 													{new Date(factura.invoice_date).toLocaleDateString(
 														'es-EC',
@@ -139,11 +139,15 @@ function RouteComponent() {
 														},
 													)}
 												</li>
-												<li>
-													<span className='font-bold'>Fecha:</span>{' '}
+												<li className='flex justify-between'>
+													<span className='font-bold'>Proyecto:</span>{' '}
 													{factura.project.name}
 												</li>
-												<li>
+												<li className='flex justify-between'>
+													<span className='font-bold'>Proveedor:</span>{' '}
+													{factura.supplier.name}
+												</li>
+												<li className='flex justify-between'>
 													<span className='font-bold'>N° Factura:</span>{' '}
 													{factura.invoice_number}
 												</li>
