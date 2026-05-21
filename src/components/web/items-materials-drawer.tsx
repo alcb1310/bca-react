@@ -120,7 +120,7 @@ export function ItemMaterialsCreateDrawer({
 	return (
 		<Drawer direction='right' open={open} onOpenChange={setOpen}>
 			<DrawerTrigger asChild>
-				<Button variant='default' className='my-3'>
+				<Button variant='detail' className='my-3'>
 					<PlusIcon size={16} />
 					Agregar Material
 				</Button>
