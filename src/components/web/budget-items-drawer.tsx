@@ -94,7 +94,7 @@ export function PartidaCreateDrawer() {
 
 	return (
 		<Drawer direction='right' open={open} onOpenChange={setOpen}>
-			<DrawerTrigger>
+			<DrawerTrigger asChild>
 				<Button>
 					<PlusIcon size={16} />
 					Crear Partida

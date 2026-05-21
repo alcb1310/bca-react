@@ -4,7 +4,7 @@ import type { UserCreate, UserResponse } from '@/types/user'
 const URL = import.meta.env.VITE_BACKEND_SERVER
 
 export async function Me() {
-	const token = authStore.get().token
+	const token = authStore.state.token
 
 	const response = await fetch(`${URL}/users/me`, {
 		method: 'GET',
@@ -23,7 +23,7 @@ export async function Me() {
 }
 
 export async function GetAllUsers() {
-	const token = authStore.get().token
+	const token = authStore.state.token
 
 	const response = await fetch(`${URL}/users`, {
 		method: 'GET',
@@ -42,7 +42,7 @@ export async function GetAllUsers() {
 }
 
 export async function CreateUser({ data }: { data: UserCreate }) {
-	const token = authStore.get().token
+	const token = authStore.state.token
 
 	const response = await fetch(`${URL}/users`, {
 		method: 'POST',
@@ -62,7 +62,7 @@ export async function CreateUser({ data }: { data: UserCreate }) {
 }
 
 export async function DeleteUser(id: string) {
-	const token = authStore.get().token
+	const token = authStore.state.token
 
 	const response = await fetch(`${URL}/users/${id}`, {
 		method: 'DELETE',
@@ -85,7 +85,7 @@ export async function DeleteUser(id: string) {
 }
 
 export async function UpdateUser({ data }: { data: UserResponse }) {
-	const token = authStore.get().token
+	const token = authStore.state.token
 
 	const response = await fetch(`${URL}/users/${data.id}`, {
 		method: 'PUT',
@@ -105,7 +105,7 @@ export async function UpdateUser({ data }: { data: UserResponse }) {
 }
 
 export async function UpdatePassword({ data }: { data: { password: string } }) {
-	const token = authStore.get().token
+	const token = authStore.state.token
 
 	const response = await fetch(`${URL}/users`, {
 		method: 'PUT',

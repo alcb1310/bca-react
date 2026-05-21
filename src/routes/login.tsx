@@ -11,10 +11,18 @@ import {
 import { useAppForm } from '@/hooks/formHook'
 import { LoginMutation } from '@/queries/auth'
 import { authStore } from '@/store/auth'
+import { createServerFn } from '@tanstack/react-start'
+import { setCookie } from '@tanstack/react-start/server'
 
 export const Route = createFileRoute('/login')({
 	component: RouteComponent,
 })
+
+const saveCookie = createServerFn({ method: 'POST' })
+	.inputValidator((data: { token: string }) => data)
+	.handler(async ({ data: { token } }) => {
+		setCookie('BCA-TOKEN', token, { httpOnly: true })
+	})
 
 const loginSchema = z.object({
 	email: z
@@ -32,12 +40,14 @@ function RouteComponent() {
 
 	const loginMutation = useMutation({
 		mutationFn: LoginMutation,
-		onSuccess: (data) => {
+		onSuccess: async (data) => {
 			authStore.setState((state) => ({
 				...state,
 				user: data.user,
 				token: data.token,
 			}))
+
+			await saveCookie({ data: { token: data.token } })
 			navigate({ to: '/' })
 		},
 		onError: (error) => {

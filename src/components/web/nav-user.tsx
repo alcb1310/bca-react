@@ -13,6 +13,8 @@ import {
 } from '../ui/dropdown-menu'
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '../ui/sidebar'
 import { UserChangePasswordDialog } from './user-drawer'
+import { useQuery } from '@tanstack/react-query'
+import { Me } from '@/queries/users'
 
 export type UserData = {
 	name?: string
@@ -32,6 +34,10 @@ type NavUserProps = {
 
 export function NavUser({ user }: NavUserProps) {
 	const navigate = useNavigate()
+	const { data } = useQuery({
+		queryKey: ['me'],
+		queryFn: () => Me(),
+	})
 
 	return (
 		<SidebarMenu>
@@ -44,10 +50,10 @@ export function NavUser({ user }: NavUserProps) {
 						>
 							<div className='grid flex-1 text-left text-sm leading-tight'>
 								<span className='truncate text-lg font-medium'>
-									{user.name}
+									{data?.name}
 								</span>
 								<span className='truncate text-xs font-extralight'>
-									{user.email}
+									{data?.email}
 								</span>
 							</div>
 							<ChevronsUpDown className='ml-auto size-4' />

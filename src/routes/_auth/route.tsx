@@ -7,18 +7,54 @@ import {
 } from '@/components/ui/sidebar'
 import { AppSidebar } from '@/components/web/app-sidebar'
 import { authStore } from '@/store/auth'
+import { createServerFn } from '@tanstack/react-start'
+import { getCookie } from '@tanstack/react-start/server'
+import { useEffect } from 'react'
+
+export const readCookieFn = createServerFn({ method: 'GET' }).handler(
+	async () => {
+		const cookieValue = getCookie('BCA-TOKEN')
+
+		if (cookieValue) {
+			authStore.state.token = cookieValue || ''
+		}
+		return { cookieValue }
+	},
+)
 
 export const Route = createFileRoute('/_auth')({
 	component: RouteComponent,
-	beforeLoad: () => {
+	beforeLoad: async () => {
+		const token = authStore.state.token
+		if (!token) {
+			const cookie = await readCookieFn()
+			return { token: cookie.cookieValue }
+		}
+		return { token }
+	},
+	loader: ({ context }) => {
 		const auth = authStore.get()
-		if (auth.token === '') {
+		if (auth.token === '' || context.token === '') {
 			throw redirect({ to: '/login' })
 		}
+
+		if (context.token) {
+			return { token: context.token }
+		}
+
+		return { token: auth.token }
 	},
 })
 
 function RouteComponent() {
+	const { token } = Route.useLoaderData()
+	useEffect(() => {
+		authStore.setState((state) => ({
+			...state,
+			token,
+		}))
+	}, [token])
+
 	return (
 		<div>
 			<SidebarProvider>
