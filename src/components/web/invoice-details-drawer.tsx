@@ -1,6 +1,7 @@
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { CircleXIcon, PlusIcon, SaveIcon } from 'lucide-react'
 import { useEffect, useState } from 'react'
+import { toast } from 'sonner'
 import { useAppForm } from '@/hooks/formHook'
 import { GetAllPartidas } from '@/queries/parametros/budgetItem'
 import {
@@ -19,6 +20,7 @@ import {
 	DrawerTrigger,
 } from '../ui/drawer'
 import { FieldGroup, FieldSet } from '../ui/field'
+import { CreateInvoiceDetail } from '@/queries/transacciones/invoiceDetails'
 
 type CreateInvoiceDetailDrawerProps = {
 	invoice_id: string
@@ -27,10 +29,28 @@ type CreateInvoiceDetailDrawerProps = {
 export function CreateInvoiceDetailDrawer({
 	invoice_id,
 }: CreateInvoiceDetailDrawerProps) {
+	const queryClient = useQueryClient()
 	const [open, setOpen] = useState(false)
 	const { data: partidas } = useQuery({
 		queryKey: ['partidas', 'non-accum'],
 		queryFn: () => GetAllPartidas({ accum: false }),
+	})
+
+	const createInvoiceDetailMutation = useMutation({
+		mutationFn: CreateInvoiceDetail,
+		onSuccess: async () => {
+			toast.success('Partida creada exitosamente')
+			queryClient.invalidateQueries({ queryKey: ['facturas'] })
+			queryClient.invalidateQueries({ queryKey: ['facturas-detalle'] })
+		},
+		onError: (error) => {
+			toast.error(error.message, {
+				position: 'top-center',
+				style: {
+					color: 'red',
+				},
+			})
+		},
 	})
 
 	const form = useAppForm({
@@ -62,7 +82,7 @@ export function CreateInvoiceDetailDrawer({
 				cost: Number.parseFloat(data.value.cost.toString()),
 				total: Number.parseFloat(data.value.total.toString()),
 			}
-			console.log(newData)
+			createInvoiceDetailMutation.mutate({ id: invoice_id, data: newData })
 		},
 	})
 
