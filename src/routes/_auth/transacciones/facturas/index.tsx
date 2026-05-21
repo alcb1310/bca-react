@@ -1,7 +1,7 @@
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { createFileRoute, Link } from '@tanstack/react-router'
 import type { ColumnDef } from '@tanstack/react-table'
-import { PlusIcon } from 'lucide-react'
+import { EditIcon, PlusIcon } from 'lucide-react'
 import { buttonVariants } from '@/components/ui/button'
 import { DataTable } from '@/components/ui/data-table'
 import { Spinner } from '@/components/ui/spinner'
@@ -61,6 +61,21 @@ function RouteComponent() {
 							maximumFractionDigits: 2,
 						})}
 					</span>
+				)
+			},
+		},
+		{
+			id: 'actions',
+			cell: ({ row }) => {
+				const factura = row.original
+
+				return (
+					<Link
+						to='/transacciones/facturas/$facturaId'
+						params={{ facturaId: factura.id as string }}
+					>
+						<EditIcon size={15} className='text-yellow-600' />
+					</Link>
 				)
 			},
 		},

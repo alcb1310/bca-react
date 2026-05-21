@@ -14,6 +14,7 @@ import { GetAllProjects } from '@/queries/parametros/projects'
 import { GetAllSuppliers } from '@/queries/parametros/supplier'
 import { CreateInvoice } from '@/queries/transacciones/invoice'
 import { type InvoiceCreateType, invoiceCreateSchema } from '@/types/invoice'
+import { useNavigate } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/_auth/transacciones/facturas/crear')({
 	component: RouteComponent,
@@ -32,12 +33,17 @@ export const Route = createFileRoute('/_auth/transacciones/facturas/crear')({
 
 function RouteComponent() {
 	const queryClient = useQueryClient()
+	const navigate = useNavigate()
+
 	const useCreateInvoiceMutation = useMutation({
 		mutationFn: CreateInvoice,
 		onSuccess: (data) => {
 			toast.success('Factura creada exitosamente')
 			queryClient.invalidateQueries({ queryKey: ['facturas'] })
-			// TODO: navegar a la factura creada
+			navigate({
+				to: '/transacciones/facturas/$facturaId',
+				params: { facturaId: data.id },
+			})
 		},
 	})
 
