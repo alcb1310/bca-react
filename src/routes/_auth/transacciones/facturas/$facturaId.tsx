@@ -5,12 +5,13 @@ import {
 } from '@tanstack/react-query'
 import { createFileRoute, Link } from '@tanstack/react-router'
 import type { ColumnDef } from '@tanstack/react-table'
-import { CircleXIcon, DeleteIcon, PlusIcon, SaveIcon } from 'lucide-react'
+import { CircleXIcon, DeleteIcon, SaveIcon } from 'lucide-react'
 import { toast } from 'sonner'
 import { Button, buttonVariants } from '@/components/ui/button'
 import { DataTable } from '@/components/ui/data-table'
 import { FieldGroup, FieldSet } from '@/components/ui/field'
 import { Spinner } from '@/components/ui/spinner'
+import { CreateInvoiceDetailDrawer } from '@/components/web/invoice-details-drawer'
 import PageTitle from '@/components/web/pageTitle'
 import { useAppForm } from '@/hooks/formHook'
 import { GetAllProjects } from '@/queries/parametros/projects'
@@ -267,10 +268,7 @@ function RouteComponent() {
 
 			{(isLoading || isLoadingFactura) && <Spinner />}
 
-			<Button variant={'detail'} className='my-3'>
-				<PlusIcon size={10} />
-				Agregar Detalle
-			</Button>
+			<CreateInvoiceDetailDrawer invoice_id={facturaId} />
 
 			<DataTable columns={columns} data={data} />
 		</div>
