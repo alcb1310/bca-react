@@ -45,6 +45,14 @@ function RouteComponent() {
 				params: { facturaId: data.id },
 			})
 		},
+		onError: (error) => {
+			toast.error(error.message, {
+				position: 'top-center',
+				style: {
+					color: 'red',
+				},
+			})
+		},
 	})
 
 	const { data: proyectos } = useSuspenseQuery({

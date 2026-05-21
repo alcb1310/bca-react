@@ -1,13 +1,19 @@
-import { useSuspenseQuery } from '@tanstack/react-query'
+import {
+	useMutation,
+	useQueryClient,
+	useSuspenseQuery,
+} from '@tanstack/react-query'
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { CircleXIcon, SaveIcon } from 'lucide-react'
+import { toast } from 'sonner'
 import { Button, buttonVariants } from '@/components/ui/button'
 import { FieldGroup, FieldSet } from '@/components/ui/field'
 import PageTitle from '@/components/web/pageTitle'
 import { useAppForm } from '@/hooks/formHook'
 import { GetAllProjects } from '@/queries/parametros/projects'
 import { GetAllSuppliers } from '@/queries/parametros/supplier'
-import { GetOneInvoice } from '@/queries/transacciones/invoice'
+import { GetOneInvoice, UpdateInvoice } from '@/queries/transacciones/invoice'
+import { invoiceCreateSchema } from '@/types/invoice'
 
 export const Route = createFileRoute(
 	'/_auth/transacciones/facturas/$facturaId',
@@ -32,7 +38,24 @@ export const Route = createFileRoute(
 })
 
 function RouteComponent() {
+	const queryClient = useQueryClient()
 	const { facturaId } = Route.useParams()
+
+	const useUpdateInvoiceMutation = useMutation({
+		mutationFn: UpdateInvoice,
+		onSuccess: () => {
+			toast.success('Factura actualizada exitosamente')
+			queryClient.invalidateQueries({ queryKey: ['facturas'] })
+		},
+		onError: (error) => {
+			toast.error(error.message, {
+				position: 'top-center',
+				style: {
+					color: 'red',
+				},
+			})
+		},
+	})
 
 	const { data: proyectos } = useSuspenseQuery({
 		queryKey: ['proyectos', 'active'],
@@ -50,6 +73,12 @@ function RouteComponent() {
 
 	const form = useAppForm({
 		defaultValues: factura,
+		validators: {
+			onSubmit: invoiceCreateSchema,
+		},
+		onSubmit: (data) => {
+			useUpdateInvoiceMutation.mutate({ data: data.value })
+		},
 	})
 
 	const proyValues =
@@ -126,7 +155,7 @@ function RouteComponent() {
 											label='Fecha'
 											type='date'
 											value={
-												new Date(factura?.invoice_date)
+												new Date(form.state.values.invoice_date)
 													.toISOString()
 													.split('T')[0]
 											}

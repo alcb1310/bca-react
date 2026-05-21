@@ -1,7 +1,7 @@
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { createFileRoute, Link } from '@tanstack/react-router'
 import type { ColumnDef } from '@tanstack/react-table'
-import { EditIcon, PlusIcon } from 'lucide-react'
+import { DeleteIcon, EditIcon, PlusIcon } from 'lucide-react'
 import { buttonVariants } from '@/components/ui/button'
 import { DataTable } from '@/components/ui/data-table'
 import { Spinner } from '@/components/ui/spinner'
@@ -70,12 +70,18 @@ function RouteComponent() {
 				const factura = row.original
 
 				return (
-					<Link
-						to='/transacciones/facturas/$facturaId'
-						params={{ facturaId: factura.id as string }}
-					>
-						<EditIcon size={15} className='text-yellow-600' />
-					</Link>
+					<div className='flex px-3 justify-end items-center gap-2'>
+						<Link
+							to='/transacciones/facturas/$facturaId'
+							params={{ facturaId: factura.id as string }}
+						>
+							<EditIcon size={15} className='text-yellow-600' />
+						</Link>
+
+						{factura.invoice_total === 0 && (
+							<DeleteIcon size={16} className='text-red-600' />
+						)}
+					</div>
 				)
 			},
 		},

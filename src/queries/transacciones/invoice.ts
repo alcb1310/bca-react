@@ -71,13 +71,15 @@ export async function GetOneInvoice(id: string) {
 export async function UpdateInvoice({ data }: { data: InvoiceCreateType }) {
 	const token = authStore.state.token
 
+	const invoice = { ...data, invoice_date: new Date(data.invoice_date) }
+
 	const response = await fetch(`${URL}/transacciones/facturas/${data.id}`, {
 		method: 'PUT',
 		headers: {
 			'Content-Type': 'application/json',
 			Authorization: `Bearer ${token}`,
 		},
-		body: JSON.stringify(data),
+		body: JSON.stringify(invoice),
 	})
 
 	if (!response.ok) {
