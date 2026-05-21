@@ -1,4 +1,4 @@
-import { store } from '@/redux/store'
+import { authStore } from '@/store/auth'
 import type { BudgetEditType, BudgetResponseType } from '@/types/budget'
 
 const URL = import.meta.env.VITE_BACKEND_SERVER
@@ -10,7 +10,7 @@ export async function GetAllBudgets({
 	query?: string
 	project?: string
 }) {
-	const state = store.getState()
+	const token = authStore.state.token
 
 	const params = new URLSearchParams()
 	if (query) params.append('query', query)
@@ -18,19 +18,19 @@ export async function GetAllBudgets({
 
 	const response = await fetch(`${URL}/transacciones/presupuestos?${params}`, {
 		headers: {
-			Authorization: `Bearer ${state.login.token}`,
+			Authorization: `Bearer ${token}`,
 		},
 	})
 	return response.json() as Promise<BudgetResponseType[]>
 }
 
 export async function CreateBudget({ data }: { data: BudgetEditType }) {
-	const state = store.getState()
+	const token = authStore.state.token
 	const response = await fetch(`${URL}/transacciones/presupuestos`, {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',
-			Authorization: `Bearer ${state.login.token}`,
+			Authorization: `Bearer ${token}`,
 		},
 		body: JSON.stringify(data),
 	})
@@ -44,14 +44,14 @@ export async function CreateBudget({ data }: { data: BudgetEditType }) {
 }
 
 export async function UpdateBudget({ data }: { data: BudgetEditType }) {
-	const state = store.getState()
+	const token = authStore.state.token
 	const response = await fetch(
 		`${URL}/transacciones/presupuestos/${data.project_id}/${data.budget_item_id}`,
 		{
 			method: 'PUT',
 			headers: {
 				'Content-Type': 'application/json',
-				Authorization: `Bearer ${state.login.token}`,
+				Authorization: `Bearer ${token}`,
 			},
 			body: JSON.stringify(data),
 		},
@@ -72,7 +72,7 @@ export async function GetAllBugetsByProjectAndLevel({
 	project_id: string
 	level: string
 }) {
-	const state = store.getState()
+	const token = authStore.state.token
 	const params = new URLSearchParams()
 	params.append('project_id', project_id)
 	params.append('level', level)
@@ -80,7 +80,7 @@ export async function GetAllBugetsByProjectAndLevel({
 	const response = await fetch(`${URL}/reportes/actual?${params}`, {
 		headers: {
 			'Content-Type': 'application/json',
-			Authorization: `Bearer ${state.login.token}`,
+			Authorization: `Bearer ${token}`,
 		},
 	})
 	return response.json() as Promise<BudgetResponseType[]>
