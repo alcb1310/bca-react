@@ -1,12 +1,29 @@
-import { useSuspenseQuery } from '@tanstack/react-query'
+import {
+	useMutation,
+	useQueryClient,
+	useSuspenseQuery,
+} from '@tanstack/react-query'
 import { createFileRoute, Link } from '@tanstack/react-router'
 import type { ColumnDef } from '@tanstack/react-table'
 import { DeleteIcon, EditIcon, PlusIcon } from 'lucide-react'
+import { toast } from 'sonner'
+import {
+	AlertDialog,
+	AlertDialogAction,
+	AlertDialogCancel,
+	AlertDialogContent,
+	AlertDialogDescription,
+	AlertDialogFooter,
+	AlertDialogHeader,
+	AlertDialogMedia,
+	AlertDialogTitle,
+	AlertDialogTrigger,
+} from '@/components/ui/alert-dialog'
 import { buttonVariants } from '@/components/ui/button'
 import { DataTable } from '@/components/ui/data-table'
 import { Spinner } from '@/components/ui/spinner'
 import PageTitle from '@/components/web/pageTitle'
-import { GetAllInvoices } from '@/queries/transacciones/invoice'
+import { DeleteInvoice, GetAllInvoices } from '@/queries/transacciones/invoice'
 import type { InvoiceResponseType } from '@/types/invoice'
 
 export const Route = createFileRoute('/_auth/transacciones/facturas/')({
@@ -20,9 +37,26 @@ export const Route = createFileRoute('/_auth/transacciones/facturas/')({
 })
 
 function RouteComponent() {
+	const queryClient = useQueryClient()
 	const { data, isLoading } = useSuspenseQuery({
 		queryKey: ['facturas'],
 		queryFn: () => GetAllInvoices(),
+	})
+
+	const useDeleteInvoiceMutation = useMutation({
+		mutationFn: DeleteInvoice,
+		onSuccess: () => {
+			toast.success('Factura eliminada exitosamente')
+			queryClient.invalidateQueries({ queryKey: ['facturas'] })
+		},
+		onError: (error) => {
+			toast.error(error.message, {
+				position: 'top-center',
+				style: {
+					color: 'red',
+				},
+			})
+		},
 	})
 
 	const columns: ColumnDef<InvoiceResponseType>[] = [
@@ -79,7 +113,58 @@ function RouteComponent() {
 						</Link>
 
 						{factura.invoice_total === 0 && (
-							<DeleteIcon size={16} className='text-red-600' />
+							<AlertDialog>
+								<AlertDialogTrigger>
+									<DeleteIcon size={16} className='text-red-600' />
+								</AlertDialogTrigger>
+								<AlertDialogContent>
+									<AlertDialogHeader>
+										<AlertDialogMedia className='bg-white'>
+											<DeleteIcon size={16} className='bg-white text-red-600' />
+										</AlertDialogMedia>
+										<AlertDialogTitle className='text-red-600'>
+											Eliminar Factura
+										</AlertDialogTitle>
+										<AlertDialogDescription>
+											Esta seguro que desea eliminar la factura:
+											<ul>
+												<li>
+													<span className='font-bold'>Fecha:</span>{' '}
+													{new Date(factura.invoice_date).toLocaleDateString(
+														'es-EC',
+														{
+															year: 'numeric',
+															month: '2-digit',
+															day: '2-digit',
+														},
+													)}
+												</li>
+												<li>
+													<span className='font-bold'>Fecha:</span>{' '}
+													{factura.project.name}
+												</li>
+												<li>
+													<span className='font-bold'>N° Factura:</span>{' '}
+													{factura.invoice_number}
+												</li>
+											</ul>
+											Esta accion no se puede deshacer
+										</AlertDialogDescription>
+									</AlertDialogHeader>
+									<AlertDialogFooter>
+										<AlertDialogCancel>Cancelar</AlertDialogCancel>
+										<AlertDialogAction
+											onClick={() => {
+												useDeleteInvoiceMutation.mutate({
+													id: factura.id as string,
+												})
+											}}
+										>
+											Eliminar
+										</AlertDialogAction>
+									</AlertDialogFooter>
+								</AlertDialogContent>
+							</AlertDialog>
 						)}
 					</div>
 				)
