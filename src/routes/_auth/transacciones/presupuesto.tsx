@@ -1,4 +1,4 @@
-import { useQueryClient, useSuspenseQuery } from '@tanstack/react-query'
+import { useQueryClient, useSuspenseQueries } from '@tanstack/react-query'
 import { createFileRoute } from '@tanstack/react-router'
 import type { ColumnDef } from '@tanstack/react-table'
 import { useEffect, useState } from 'react'
@@ -37,15 +37,21 @@ function RouteComponent() {
 	const [project, setProject] = useState<string>('')
 	const [debounced, setDebounced] = useState<string>(search)
 
-	const { data, isLoading, isFetching } = useSuspenseQuery({
-		queryKey: ['presupuesto'],
-		queryFn: () => GetAllBudgets({ query: search, project: project }),
+	const queries = useSuspenseQueries({
+		queries: [
+			{
+				queryKey: ['presupuesto'],
+				queryFn: () => GetAllBudgets({ query: search, project: project }),
+			},
+			{
+				queryKey: ['proyectos'],
+				queryFn: () => GetAllProjects({ active: true }),
+			},
+		],
 	})
 
-	const { data: activeProjects } = useSuspenseQuery({
-		queryKey: ['proyectos'],
-		queryFn: () => GetAllProjects({ active: true }),
-	})
+	const { data, isLoading, isFetching } = queries[0]
+	const { data: projects } = queries[1]
 
 	const columns: ColumnDef<BudgetResponseType>[] = [
 		{
@@ -167,7 +173,7 @@ function RouteComponent() {
 	}, [debounced, queryClient])
 
 	const proyValues =
-		activeProjects?.map((item) => ({
+		projects?.map((item) => ({
 			label: item.name,
 			value: item.id as string,
 		})) || []

@@ -163,7 +163,7 @@ export function UserCreateDrawer() {
 								<SaveIcon size={10} />
 								Guardar
 							</Button>
-							<DrawerClose>
+							<DrawerClose asChild>
 								<Button type='button' variant='secondary'>
 									<CircleXIcon size={10} />
 									Cancelar
@@ -319,7 +319,7 @@ export function UserDeleteDialog({ user }: EditUserDrawerProps) {
 
 	return (
 		<AlertDialog>
-			<AlertDialogTrigger asChild>
+			<AlertDialogTrigger>
 				<DeleteIcon size={16} className='text-red-600' />
 			</AlertDialogTrigger>
 			<AlertDialogContent>
@@ -331,7 +331,8 @@ export function UserDeleteDialog({ user }: EditUserDrawerProps) {
 						Eliminar Usuario
 					</AlertDialogTitle>
 					<AlertDialogDescription>
-						¿Estás seguro de eliminar el usuario {user.name}?. Esta acción no se
+						¿Estás seguro de eliminar el usuario{' '}
+						<span className='font-bold'>{user.name}</span>?. Esta acción no se
 						puede deshacer
 					</AlertDialogDescription>
 				</AlertDialogHeader>
@@ -339,7 +340,7 @@ export function UserDeleteDialog({ user }: EditUserDrawerProps) {
 					<AlertDialogCancel>Cancelar</AlertDialogCancel>
 					<AlertDialogAction
 						onClick={() => {
-							useDeleteUserMutation.mutate(user.id)
+							useDeleteUserMutation.mutate({ data: { id: user.id } })
 						}}
 					>
 						Eliminar

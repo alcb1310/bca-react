@@ -1,10 +1,13 @@
+import { createServerFn } from '@tanstack/react-start'
+import { getCookie } from '@tanstack/react-start/server'
 import { authStore } from '@/store/auth'
 import type { UserCreate, UserResponse } from '@/types/user'
 
 const URL = import.meta.env.VITE_BACKEND_SERVER
+const cookieName = 'BCA-TOKEN'
 
-export async function Me() {
-	const token = authStore.state.token
+export const Me = createServerFn({ method: 'GET' }).handler(async () => {
+	const token = getCookie(cookieName)
 
 	const response = await fetch(`${URL}/users/me`, {
 		method: 'GET',
@@ -20,106 +23,117 @@ export async function Me() {
 	}
 
 	return (await response.json()) as UserResponse
-}
+})
 
-export async function GetAllUsers() {
-	const token = authStore.state.token
+export const GetAllUsers = createServerFn({ method: 'GET' }).handler(
+	async () => {
+		const token = getCookie(cookieName)
 
-	const response = await fetch(`${URL}/users`, {
-		method: 'GET',
-		headers: {
-			'Content-Type': 'application/json',
-			Authorization: `Bearer ${token}`,
-		},
-	})
+		const response = await fetch(`${URL}/users`, {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: `Bearer ${token}`,
+			},
+		})
 
-	if (!response.ok) {
-		const data = await response.json()
-		throw new Error(data.error)
-	}
-
-	return (await response.json()) as UserResponse[]
-}
-
-export async function CreateUser({ data }: { data: UserCreate }) {
-	const token = authStore.state.token
-
-	const response = await fetch(`${URL}/users`, {
-		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json',
-			Authorization: `Bearer ${token}`,
-		},
-		body: JSON.stringify(data),
-	})
-
-	if (!response.ok) {
-		const data = await response.json()
-		throw new Error(data.error)
-	}
-
-	return
-}
-
-export async function DeleteUser(id: string) {
-	const token = authStore.state.token
-
-	const response = await fetch(`${URL}/users/${id}`, {
-		method: 'DELETE',
-		headers: {
-			'Content-Type': 'application/json',
-			Authorization: `Bearer ${token}`,
-		},
-	})
-
-	if (!response.ok) {
-		if (response.status === 403) {
-			throw new Error('No tienes permiso para realizar esta acción')
+		if (!response.ok) {
+			const data = await response.json()
+			throw new Error(data.error)
 		}
 
-		const data = await response.json()
-		throw new Error(data.error)
-	}
+		return (await response.json()) as UserResponse[]
+	},
+)
 
-	return
-}
+export const CreateUser = createServerFn({ method: 'POST' })
+	.inputValidator((data: UserCreate) => data)
+	.handler(async ({ data }) => {
+		const token = getCookie(cookieName)
 
-export async function UpdateUser({ data }: { data: UserResponse }) {
-	const token = authStore.state.token
+		const response = await fetch(`${URL}/users`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: `Bearer ${token}`,
+			},
+			body: JSON.stringify(data),
+		})
 
-	const response = await fetch(`${URL}/users/${data.id}`, {
-		method: 'PUT',
-		headers: {
-			'Content-Type': 'application/json',
-			Authorization: `Bearer ${token}`,
-		},
-		body: JSON.stringify(data),
+		if (!response.ok) {
+			const data = await response.json()
+			throw new Error(data.error)
+		}
+
+		return
 	})
 
-	if (!response.ok) {
-		const data = await response.json()
-		throw new Error(data.error)
-	}
+export const DeleteUser = createServerFn({ method: 'POST' })
+	.inputValidator((data: { id: string }) => data)
+	.handler(async ({ data: { id } }) => {
+		const token = getCookie(cookieName)
+		console.log('DeleteUser', token)
 
-	return
-}
+		const response = await fetch(`${URL}/users/${id}`, {
+			method: 'DELETE',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: `Bearer ${token}`,
+			},
+		})
 
-export async function UpdatePassword({ data }: { data: { password: string } }) {
-	const token = authStore.state.token
+		if (!response.ok) {
+			if (response.status === 403) {
+				throw new Error('No tienes permiso para realizar esta acción')
+			}
 
-	const response = await fetch(`${URL}/users`, {
-		method: 'PUT',
-		headers: {
-			'Content-Type': 'application/json',
-			Authorization: `Bearer ${token}`,
-		},
-		body: JSON.stringify(data),
+			const data = await response.json()
+			throw new Error(data.error)
+		}
+
+		return
 	})
 
-	if (!response.ok) {
-		const data = await response.json()
-		throw new Error(data.error)
-	}
+export const UpdateUser = createServerFn({ method: 'POST' })
+	.inputValidator((data: UserResponse) => data)
+	.handler(async ({ data }) => {
+		const token = authStore.state.token
 
-	return
-}
+		const response = await fetch(`${URL}/users/${data.id}`, {
+			method: 'PUT',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: `Bearer ${token}`,
+			},
+			body: JSON.stringify(data),
+		})
+
+		if (!response.ok) {
+			const data = await response.json()
+			throw new Error(data.error)
+		}
+
+		return
+	})
+
+export const UpdatePassword = createServerFn({ method: 'POST' })
+	.inputValidator((data: { password: string }) => data)
+	.handler(async ({ data }) => {
+		const token = getCookie(cookieName)
+
+		const response = await fetch(`${URL}/users`, {
+			method: 'PUT',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: `Bearer ${token}`,
+			},
+			body: JSON.stringify(data),
+		})
+
+		if (!response.ok) {
+			const data = await response.json()
+			throw new Error(data.error)
+		}
+
+		return
+	})

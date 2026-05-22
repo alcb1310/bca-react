@@ -15,6 +15,8 @@ import {
 } from '../ui/dropdown-menu'
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '../ui/sidebar'
 import { UserChangePasswordDialog } from './user-drawer'
+import { createServerFn } from '@tanstack/react-start'
+import { deleteCookie } from '@tanstack/react-start/server'
 
 export type UserData = {
 	name?: string
@@ -31,6 +33,10 @@ export type UserData = {
 type NavUserProps = {
 	user: UserData
 }
+
+const logout = createServerFn({ method: 'POST' }).handler(async () => {
+	deleteCookie('BCA-TOKEN')
+})
 
 export function NavUser({ user }: NavUserProps) {
 	const navigate = useNavigate()
@@ -82,12 +88,13 @@ export function NavUser({ user }: NavUserProps) {
 						</DropdownMenuGroup>
 						<DropdownMenuSeparator />
 						<DropdownMenuItem
-							onClick={() => {
+							onClick={async () => {
 								authStore.setState((state) => ({
 									...state,
 									user: null,
 									token: '',
 								}))
+								await logout()
 								navigate({ to: '/login' })
 							}}
 						>
