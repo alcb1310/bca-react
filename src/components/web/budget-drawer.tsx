@@ -1,9 +1,11 @@
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { CircleXIcon, PlusIcon, SaveIcon } from 'lucide-react'
 import { useEffect, useState } from 'react'
+import { toast } from 'sonner'
 import { useAppForm } from '@/hooks/formHook'
 import { GetAllPartidas } from '@/queries/parametros/budgetItem'
 import { GetAllProjects } from '@/queries/parametros/projects'
+import { CreateBudget } from '@/queries/transacciones/budget'
 import { type BudgetEditType, budgetEditSchema } from '@/types/budget'
 import { Button } from '../ui/button'
 import {
@@ -19,6 +21,7 @@ import {
 import { FieldGroup, FieldSet } from '../ui/field'
 
 export function BudgetCreateDrawer() {
+	const queryClient = useQueryClient()
 	const [open, setOpen] = useState(false)
 	const { data: projects } = useQuery({
 		queryKey: ['proyectos', 'active'],
@@ -27,6 +30,23 @@ export function BudgetCreateDrawer() {
 	const { data: budgetItems } = useQuery({
 		queryKey: ['partidas'],
 		queryFn: () => GetAllPartidas({ accum: false }),
+	})
+
+	const useCreateBudgetMutation = useMutation({
+		mutationFn: CreateBudget,
+		onSuccess: () => {
+			setOpen(false)
+			toast.success('Presupuesto creado exitosamente')
+			queryClient.invalidateQueries({ queryKey: ['presupuesto'] })
+		},
+		onError: (error) => {
+			toast.error(error.message, {
+				position: 'top-center',
+				style: {
+					color: 'red',
+				},
+			})
+		},
 	})
 
 	const form = useAppForm({
@@ -52,7 +72,15 @@ export function BudgetCreateDrawer() {
 			},
 		},
 		onSubmit: (data) => {
-			console.log(data.value)
+			const dataValue = {
+				project_id: data.value.project_id,
+				budget_item_id: data.value.budget_item_id,
+				quantity: Number.parseFloat(data.value.quantity.toString()),
+				cost: Number.parseFloat(data.value.cost.toString()),
+				total: Number.parseFloat(data.value.total.toString()),
+			}
+
+			useCreateBudgetMutation.mutate({ data: dataValue })
 		},
 	})
 
