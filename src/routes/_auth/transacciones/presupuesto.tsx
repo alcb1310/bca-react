@@ -25,7 +25,7 @@ export const Route = createFileRoute('/_auth/transacciones/presupuesto')({
 			}),
 			queryClient.prefetchQuery({
 				queryKey: ['presupuesto'],
-				queryFn: () => GetAllBudgets({}),
+				queryFn: () => GetAllBudgets({ data: {} }),
 			}),
 		])
 	},
@@ -41,7 +41,8 @@ function RouteComponent() {
 		queries: [
 			{
 				queryKey: ['presupuesto'],
-				queryFn: () => GetAllBudgets({ query: search, project: project }),
+				queryFn: () =>
+					GetAllBudgets({ data: { query: search, project: project } }),
 			},
 			{
 				queryKey: ['proyectos'],
