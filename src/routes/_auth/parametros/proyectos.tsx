@@ -19,7 +19,7 @@ export const Route = createFileRoute('/_auth/parametros/proyectos')({
 	loader: ({ context: { queryClient } }) => {
 		queryClient.ensureQueryData({
 			queryKey: ['projectos'],
-			queryFn: () => GetAllProjects({}),
+			queryFn: () => GetAllProjects({ data: {} }),
 		})
 	},
 })
@@ -31,7 +31,7 @@ function RouteComponent() {
 	const [debounced, setDebounced] = useState<string>(query)
 	const { data, isLoading, isFetching } = useSuspenseQuery({
 		queryKey: ['proyectos'],
-		queryFn: () => GetAllProjects({ query }),
+		queryFn: () => GetAllProjects({ data: { query } }),
 	})
 
 	useEffect(() => {

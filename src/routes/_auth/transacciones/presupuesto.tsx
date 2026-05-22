@@ -21,7 +21,7 @@ export const Route = createFileRoute('/_auth/transacciones/presupuesto')({
 		Promise.all([
 			queryClient.prefetchQuery({
 				queryKey: ['proyectos'],
-				queryFn: () => GetAllProjects({ active: true }),
+				queryFn: () => GetAllProjects({ data: { active: true } }),
 			}),
 			queryClient.prefetchQuery({
 				queryKey: ['presupuesto'],
@@ -45,7 +45,7 @@ function RouteComponent() {
 			},
 			{
 				queryKey: ['proyectos'],
-				queryFn: () => GetAllProjects({ active: true }),
+				queryFn: () => GetAllProjects({ data: { active: true } }),
 			},
 		],
 	})

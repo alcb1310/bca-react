@@ -20,7 +20,7 @@ export const Route = createFileRoute('/_auth/transacciones/facturas/crear')({
 	loader: ({ context: { queryClient } }) => {
 		queryClient.ensureQueryData({
 			queryKey: ['proyectos', 'active'],
-			queryFn: () => GetAllProjects({ active: true }),
+			queryFn: () => GetAllProjects({ data: { active: true } }),
 		})
 
 		queryClient.ensureQueryData({
@@ -56,7 +56,7 @@ function RouteComponent() {
 
 	const { data: proyectos } = useSuspenseQuery({
 		queryKey: ['proyectos', 'active'],
-		queryFn: () => GetAllProjects({ active: true }),
+		queryFn: () => GetAllProjects({ data: { active: true } }),
 	})
 	const { data: proveedores } = useSuspenseQuery({
 		queryKey: ['proveedores'],

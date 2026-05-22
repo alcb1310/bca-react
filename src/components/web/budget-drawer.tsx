@@ -33,7 +33,7 @@ export function BudgetCreateDrawer() {
 	const [open, setOpen] = useState(false)
 	const { data: projects } = useQuery({
 		queryKey: ['proyectos', 'active'],
-		queryFn: () => GetAllProjects({ active: true }),
+		queryFn: () => GetAllProjects({ data: { active: true } }),
 	})
 	const { data: budgetItems } = useQuery({
 		queryKey: ['partidas'],
@@ -271,7 +271,7 @@ export function BudgetUpdateDrawer({ budget }: BudgetUpdateDrawerProps) {
 
 	const { data: projects } = useQuery({
 		queryKey: ['proyectos', 'active'],
-		queryFn: () => GetAllProjects({ active: true }),
+		queryFn: () => GetAllProjects({ data: { active: true } }),
 	})
 	const { data: budgetItems } = useQuery({
 		queryKey: ['partidas'],

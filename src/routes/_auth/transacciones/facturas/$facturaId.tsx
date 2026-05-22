@@ -32,7 +32,7 @@ export const Route = createFileRoute(
 		await Promise.all([
 			queryClient.prefetchQuery({
 				queryKey: ['proyectos', 'active'],
-				queryFn: () => GetAllProjects({ active: true }),
+				queryFn: () => GetAllProjects({ data: { active: true } }),
 			}),
 			queryClient.prefetchQuery({
 				queryKey: ['proveedores'],
@@ -72,7 +72,7 @@ function RouteComponent() {
 
 	const { data: proyectos } = useSuspenseQuery({
 		queryKey: ['proyectos', 'active'],
-		queryFn: () => GetAllProjects({ active: true }),
+		queryFn: () => GetAllProjects({ data: { active: true } }),
 	})
 	const { data: proveedores } = useSuspenseQuery({
 		queryKey: ['proveedores'],

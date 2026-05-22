@@ -13,7 +13,7 @@ export const Route = createFileRoute('/_auth/transacciones/cierre-mensual')({
 	loader: ({ context: { queryClient } }) => {
 		queryClient.prefetchQuery({
 			queryKey: ['proyectos', 'active'],
-			queryFn: () => GetAllProjects({ active: true }),
+			queryFn: () => GetAllProjects({ data: { active: true } }),
 		})
 	},
 })
@@ -23,7 +23,7 @@ function RouteComponent() {
 	const [fecha, setFecha] = useState('')
 	const { data: projects } = useSuspenseQuery({
 		queryKey: ['proyectos', 'active'],
-		queryFn: () => GetAllProjects({ active: true }),
+		queryFn: () => GetAllProjects({ data: { active: true } }),
 	})
 
 	const proyValues =
