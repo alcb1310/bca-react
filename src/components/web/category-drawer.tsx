@@ -100,7 +100,7 @@ export function CategoryCreateDrawer() {
 								<SaveIcon size={10} />
 								Guardar
 							</Button>
-							<DrawerClose>
+							<DrawerClose asChild>
 								<Button type='button' variant='secondary'>
 									<CircleXIcon size={10} />
 									Cancelar

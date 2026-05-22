@@ -1,66 +1,75 @@
+import { createServerFn } from '@tanstack/react-start'
+import { getCookie } from '@tanstack/react-start/server'
 import { authStore } from '@/store/auth'
 import type { CategoryType } from '@/types/categories'
 
 const URL = import.meta.env.VITE_BACKEND_SERVER
+const cookieName = 'BCA-TOKEN'
 
-export async function GetAllCategories() {
-	const token = authStore.state.token
+export const GetAllCategories = createServerFn({ method: 'GET' }).handler(
+	async () => {
+		const token = getCookie(cookieName)
 
-	const response = await fetch(`${URL}/parametros/categorias`, {
-		method: 'GET',
-		headers: {
-			'Content-Type': 'application/json',
-			Authorization: `Bearer ${token}`,
-		},
-	})
+		const response = await fetch(`${URL}/parametros/categorias`, {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: `Bearer ${token}`,
+			},
+		})
 
-	if (!response.ok) {
-		throw new Error('Network response was not ok')
-	}
+		if (!response.ok) {
+			throw new Error('Network response was not ok')
+		}
 
-	const data = await response.json()
-
-	return data as CategoryType[]
-}
-
-export async function CreateCategory({ data }: { data: CategoryType }) {
-	const token = authStore.state.token
-
-	const response = await fetch(`${URL}/parametros/categorias`, {
-		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json',
-			Authorization: `Bearer ${token}`,
-		},
-		body: JSON.stringify(data),
-	})
-
-	if (!response.ok) {
 		const data = await response.json()
 
-		throw new Error(data.error)
-	}
+		return data as CategoryType[]
+	},
+)
 
-	return
-}
+export const CreateCategory = createServerFn({ method: 'POST' })
+	.inputValidator((data: CategoryType) => data)
+	.handler(async ({ data }) => {
+		const token = getCookie(cookieName)
 
-export async function UpdateCategory({ data }: { data: CategoryType }) {
-	const token = authStore.state.token
+		const response = await fetch(`${URL}/parametros/categorias`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: `Bearer ${token}`,
+			},
+			body: JSON.stringify(data),
+		})
 
-	const response = await fetch(`${URL}/parametros/categorias/${data.id}`, {
-		method: 'PUT',
-		headers: {
-			'Content-Type': 'application/json',
-			Authorization: `Bearer ${token}`,
-		},
-		body: JSON.stringify(data),
+		if (!response.ok) {
+			const data = await response.json()
+
+			throw new Error(data.error)
+		}
+
+		return
 	})
 
-	if (!response.ok) {
-		const data = await response.json()
+export const UpdateCategory = createServerFn({ method: 'POST' })
+	.inputValidator((data: CategoryType) => data)
+	.handler(async ({ data }) => {
+		const token = getCookie(cookieName)
 
-		throw new Error(data.error)
-	}
+		const response = await fetch(`${URL}/parametros/categorias/${data.id}`, {
+			method: 'PUT',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: `Bearer ${token}`,
+			},
+			body: JSON.stringify(data),
+		})
 
-	return
-}
+		if (!response.ok) {
+			const data = await response.json()
+
+			throw new Error(data.error)
+		}
+
+		return
+	})
