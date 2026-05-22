@@ -27,7 +27,7 @@ export const Route = createFileRoute('/_auth/parametros/rubros/$rubroId')({
 	loader: ({ context: { queryClient }, params }) => {
 		queryClient.prefetchQuery({
 			queryKey: ['rubros', params.rubroId],
-			queryFn: () => GetOneRubro(params.rubroId),
+			queryFn: () => GetOneRubro({ data: { id: params.rubroId } }),
 		})
 
 		queryClient.prefetchQuery({
@@ -47,7 +47,7 @@ function RouteComponent() {
 
 	const { data: rubro, isLoading: rubroLoading } = useSuspenseQuery({
 		queryKey: ['rubros', rubroId],
-		queryFn: () => GetOneRubro(rubroId),
+		queryFn: () => GetOneRubro({ data: { id: rubroId } }),
 	})
 
 	const columns: ColumnDef<RubroMaterialResponseTye>[] = [
