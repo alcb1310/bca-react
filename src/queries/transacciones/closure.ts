@@ -1,16 +1,16 @@
-import { store } from '@/redux/store'
+import { authStore } from '@/store/auth'
 import type { CierreTypes } from '@/types/cierre'
 
 const URL = import.meta.env.VITE_BACKEND_SERVER
 
 export async function CreateClosure({ data }: { data: CierreTypes }) {
-	const state = store.getState()
+	const token = authStore.state.token
 
 	const response = await fetch(`${URL}/transacciones/cierre`, {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',
-			Authorization: `Bearer ${state.login.token}`,
+			Authorization: `Bearer ${token}`,
 		},
 		body: JSON.stringify(data),
 	})
