@@ -25,7 +25,7 @@ type ClosureDialogProps = {
 export function ClosureDalog({ projectId, date }: ClosureDialogProps) {
 	const { data } = useQuery({
 		queryKey: ['proyectos', projectId],
-		queryFn: () => GetOneProject(projectId),
+		queryFn: () => GetOneProject({ data: { id: projectId } }),
 	})
 
 	const useGenerateClosureMutation = useMutation({

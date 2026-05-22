@@ -1,24 +1,28 @@
-import { authStore } from '@/store/auth'
+import { createServerFn } from '@tanstack/react-start'
+import { getCookie } from '@tanstack/react-start/server'
 import type { CierreTypes } from '@/types/cierre'
 
 const URL = import.meta.env.VITE_BACKEND_SERVER
+const cookieName = 'BCA-TOKEN'
 
-export async function CreateClosure({ data }: { data: CierreTypes }) {
-	const token = authStore.state.token
+export const CreateClosure = createServerFn({ method: 'POST' })
+    .inputValidator((data: CierreTypes) => data)
+    .handler(async ({ data }) => {
+        const token = getCookie(cookieName)
 
-	const response = await fetch(`${URL}/transacciones/cierre`, {
-		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json',
-			Authorization: `Bearer ${token}`,
-		},
-		body: JSON.stringify(data),
-	})
+        const response = await fetch(`${URL}/transacciones/cierre`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify(data),
+        })
 
-	if (!response.ok) {
-		const error = await response.json()
-		throw new Error(error.error)
-	}
+        if (!response.ok) {
+            const error = await response.json()
+            throw new Error(error.error)
+        }
 
-	return
-}
+        return
+    }
