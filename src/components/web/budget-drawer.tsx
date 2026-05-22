@@ -214,7 +214,7 @@ export function BudgetCreateDrawer() {
 	)
 }
 
-export function BudgetUpdateDrawer({ budget }: { budget: BudgetResponseType }) {
+export function BudgetUpdateDrawer({ budget }: BudgetDeleteDrawerProps) {
 	const [open, setOpen] = useState(false)
 	const queryClient = useQueryClient()
 
