@@ -1,4 +1,8 @@
+import { useMutation, useQuery } from '@tanstack/react-query'
 import { InfoIcon, SaveIcon } from 'lucide-react'
+import { toast } from 'sonner'
+import { GetOneProject } from '@/queries/parametros/projects'
+import { CreateClosure } from '@/queries/transacciones/closure'
 import {
 	AlertDialog,
 	AlertDialogAction,
@@ -12,10 +16,6 @@ import {
 	AlertDialogTrigger,
 } from '../ui/alert-dialog'
 import { Button } from '../ui/button'
-import { useMutation, useQuery } from '@tanstack/react-query'
-import { GetOneProject } from '@/queries/parametros/projects'
-import { CreateClosure } from '@/queries/transacciones/closure'
-import { toast } from 'sonner'
 
 type ClosureDialogProps = {
 	projectId: string
