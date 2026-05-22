@@ -12,8 +12,10 @@ import {
 	AlertDialogTrigger,
 } from '../ui/alert-dialog'
 import { Button } from '../ui/button'
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import { GetOneProject } from '@/queries/parametros/projects'
+import { CreateClosure } from '@/queries/transacciones/closure'
+import { toast } from 'sonner'
 
 type ClosureDialogProps = {
 	projectId: string
@@ -24,6 +26,21 @@ export function ClosureDalog({ projectId, date }: ClosureDialogProps) {
 	const { data } = useQuery({
 		queryKey: ['proyectos', projectId],
 		queryFn: () => GetOneProject(projectId),
+	})
+
+	const useGenerateClosureMutation = useMutation({
+		mutationFn: CreateClosure,
+		onSuccess: () => {
+			toast.success('Cierre creado exitosamente')
+		},
+		onError: (error) => {
+			toast.error(error.message, {
+				position: 'top-center',
+				style: {
+					color: 'red',
+				},
+			})
+		},
 	})
 
 	return (
@@ -50,7 +67,18 @@ export function ClosureDalog({ projectId, date }: ClosureDialogProps) {
 				</AlertDialogHeader>
 				<AlertDialogFooter>
 					<AlertDialogCancel>Cancelar</AlertDialogCancel>
-					<AlertDialogAction>Generar</AlertDialogAction>
+					<AlertDialogAction
+						onClick={() =>
+							useGenerateClosureMutation.mutate({
+								data: {
+									project_id: projectId,
+									date: new Date(date),
+								},
+							})
+						}
+					>
+						Generar
+					</AlertDialogAction>
 				</AlertDialogFooter>
 			</AlertDialogContent>
 		</AlertDialog>

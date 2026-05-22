@@ -70,9 +70,7 @@ function RouteComponent() {
 							/>
 						</div>
 
-						<Button type='submit'>
-							<ClosureDalog projectId={project} date={fecha} />
-						</Button>
+						<ClosureDalog projectId={project} date={fecha} />
 					</FieldSet>
 				</FieldGroup>
 			</div>
