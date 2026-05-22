@@ -12,6 +12,7 @@ import { GetAllProjects } from '@/queries/parametros/projects'
 import { GetAllBudgets } from '@/queries/transacciones/budget'
 import type { BudgetResponseType } from '@/types/budget'
 import { NativeSelect, NativeSelectOption } from '@/components/ui/native-select'
+import { BudgetCreateDrawer } from '@/components/web/budget-drawer'
 
 export const Route = createFileRoute('/_auth/transacciones/presupuesto')({
 	component: RouteComponent,
@@ -40,7 +41,7 @@ function RouteComponent() {
 		queryFn: () => GetAllBudgets({ query: search, project: project }),
 	})
 
-	const { data: proyectos } = useSuspenseQuery({
+	const { data: activeProjects } = useSuspenseQuery({
 		queryKey: ['proyectos'],
 		queryFn: () => GetAllProjects({ active: true }),
 	})
@@ -162,7 +163,7 @@ function RouteComponent() {
 	}, [debounced, queryClient])
 
 	const proyValues =
-		proyectos?.map((item) => ({
+		activeProjects?.map((item) => ({
 			label: item.name,
 			value: item.id as string,
 		})) || []
@@ -175,10 +176,7 @@ function RouteComponent() {
 		<div>
 			<PageTitle title='Presupuesto' />
 			<div className='flex my-3 justify-start gap-4'>
-				<Button>
-					<PlusIcon size={16} />
-					Crear Presupuesto
-				</Button>
+				<BudgetCreateDrawer />
 
 				<NativeSelect
 					name={'proyectos'}
