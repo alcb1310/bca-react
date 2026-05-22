@@ -23,6 +23,7 @@ import { GetOneInvoice, UpdateInvoice } from '@/queries/transacciones/invoice'
 import { GetAllInvoiceDetails } from '@/queries/transacciones/invoiceDetails'
 import { invoiceCreateSchema } from '@/types/invoice'
 import type { InvoiceDetailsResponseType } from '@/types/invoiceDetails'
+import { FormBackground } from '@/components/ui/form-background'
 
 export const Route = createFileRoute(
 	'/_auth/transacciones/facturas/$facturaId',
@@ -178,7 +179,7 @@ function RouteComponent() {
 		<div>
 			<PageTitle title='Crear Factura' />
 
-			<div className='w-1/2 mx-auto my-3 p-3 bg-sidebar-primary-foreground '>
+			<FormBackground>
 				<form
 					onSubmit={(e) => {
 						e.preventDefault()
@@ -267,7 +268,7 @@ function RouteComponent() {
 						</Link>
 					</div>
 				</form>
-			</div>
+			</FormBackground>
 
 			{(isLoading || isLoadingFactura) && <Spinner />}
 

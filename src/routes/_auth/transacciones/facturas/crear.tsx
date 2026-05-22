@@ -14,6 +14,7 @@ import { GetAllProjects } from '@/queries/parametros/projects'
 import { GetAllSuppliers } from '@/queries/parametros/supplier'
 import { CreateInvoice } from '@/queries/transacciones/invoice'
 import { type InvoiceCreateType, invoiceCreateSchema } from '@/types/invoice'
+import { FormBackground } from '@/components/ui/form-background'
 
 export const Route = createFileRoute('/_auth/transacciones/facturas/crear')({
 	component: RouteComponent,
@@ -103,7 +104,7 @@ function RouteComponent() {
 		<div>
 			<PageTitle title='Crear Factura' />
 
-			<div className='w-1/2 mx-auto my-3 p-3 bg-sidebar-primary-foreground '>
+			<FormBackground>
 				<form
 					onSubmit={(e) => {
 						e.preventDefault()
@@ -185,7 +186,7 @@ function RouteComponent() {
 						</Link>
 					</div>
 				</form>
-			</div>
+			</FormBackground>
 		</div>
 	)
 }

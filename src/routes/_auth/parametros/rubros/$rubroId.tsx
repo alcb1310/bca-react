@@ -21,6 +21,7 @@ import type {
 	RubroMaterialType,
 } from '@/types/rubro-material'
 import { type RubrosType, rubrosSchema } from '@/types/rubros'
+import { FormBackground } from '@/components/ui/form-background'
 
 export const Route = createFileRoute('/_auth/parametros/rubros/$rubroId')({
 	component: RouteComponent,
@@ -132,7 +133,7 @@ function RouteComponent() {
 		<div>
 			<PageTitle title='Editar Rubro' />
 
-			<div className='w-1/2 mx-auto my-3 p-3 bg-sidebar-primary-foreground '>
+			<FormBackground>
 				<form
 					onSubmit={(e) => {
 						e.preventDefault()
@@ -189,7 +190,7 @@ function RouteComponent() {
 						</Link>
 					</div>
 				</form>
-			</div>
+			</FormBackground>
 			{(isLoading || rubroLoading) && <Spinner />}
 
 			<ItemMaterialsCreateDrawer item={rubroId} />
