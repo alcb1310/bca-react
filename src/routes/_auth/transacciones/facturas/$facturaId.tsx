@@ -36,11 +36,11 @@ export const Route = createFileRoute(
 			}),
 			queryClient.prefetchQuery({
 				queryKey: ['proveedores'],
-				queryFn: () => GetAllSuppliers({}),
+				queryFn: () => GetAllSuppliers({ data: {} }),
 			}),
 			queryClient.prefetchQuery({
 				queryKey: ['facturas', params.facturaId],
-				queryFn: () => GetOneInvoice(params.facturaId),
+				queryFn: () => GetOneInvoice({ data: { id: params.facturaId } }),
 			}),
 			queryClient.prefetchQuery({
 				queryKey: ['facturas-detalle'],
@@ -76,12 +76,12 @@ function RouteComponent() {
 	})
 	const { data: proveedores } = useSuspenseQuery({
 		queryKey: ['proveedores'],
-		queryFn: () => GetAllSuppliers({}),
+		queryFn: () => GetAllSuppliers({ data: {} }),
 	})
 
 	const { data: factura, isLoading: isLoadingFactura } = useSuspenseQuery({
 		queryKey: ['facturas', facturaId],
-		queryFn: () => GetOneInvoice(facturaId),
+		queryFn: () => GetOneInvoice({ data: { id: facturaId } }),
 	})
 
 	const { data, isLoading } = useSuspenseQuery({

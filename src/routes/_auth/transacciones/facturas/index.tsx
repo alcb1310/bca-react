@@ -160,7 +160,9 @@ function RouteComponent() {
 										<AlertDialogAction
 											onClick={() => {
 												useDeleteInvoiceMutation.mutate({
-													id: factura.id as string,
+													data: {
+														id: factura.id as string,
+													},
 												})
 											}}
 										>
