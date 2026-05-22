@@ -1,7 +1,5 @@
 import { useMutation } from '@tanstack/react-query'
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
-import { createServerFn } from '@tanstack/react-start'
-import { setCookie } from '@tanstack/react-start/server'
 import { toast } from 'sonner'
 import z from 'zod'
 import {
@@ -17,12 +15,6 @@ import { authStore } from '@/store/auth'
 export const Route = createFileRoute('/login')({
 	component: RouteComponent,
 })
-
-const saveCookie = createServerFn({ method: 'POST' })
-	.inputValidator((data: { token: string }) => data)
-	.handler(async ({ data: { token } }) => {
-		setCookie('BCA-TOKEN', token, { httpOnly: true })
-	})
 
 const loginSchema = z.object({
 	email: z
@@ -47,7 +39,6 @@ function RouteComponent() {
 				token: data.token,
 			}))
 
-			await saveCookie({ data: { token: data.token } })
 			navigate({ to: '/' })
 		},
 		onError: (error) => {
@@ -69,7 +60,7 @@ function RouteComponent() {
 			onSubmit: loginSchema,
 		},
 		onSubmit: (data) => {
-			loginMutation.mutate(data.value)
+			loginMutation.mutate({ data: data.value })
 		},
 	})
 
