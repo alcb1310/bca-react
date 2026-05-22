@@ -10,7 +10,7 @@ import { NativeSelect, NativeSelectOption } from '@/components/ui/native-select'
 import { Spinner } from '@/components/ui/spinner'
 import {
 	BudgetCreateDrawer,
-	BudgetDeleteDrawer,
+	BudgetUpdateDrawer,
 } from '@/components/web/budget-drawer'
 import PageTitle from '@/components/web/pageTitle'
 import { GetAllProjects } from '@/queries/parametros/projects'
@@ -146,7 +146,7 @@ function RouteComponent() {
 				return (
 					<>
 						{!budget.budget_item.accumulate && (
-							<BudgetDeleteDrawer budget={budget} />
+							<BudgetUpdateDrawer budget={budget} />
 						)}
 					</>
 				)

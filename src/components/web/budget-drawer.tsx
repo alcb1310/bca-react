@@ -5,7 +5,7 @@ import { toast } from 'sonner'
 import { useAppForm } from '@/hooks/formHook'
 import { GetAllPartidas } from '@/queries/parametros/budgetItem'
 import { GetAllProjects } from '@/queries/parametros/projects'
-import { CreateBudget } from '@/queries/transacciones/budget'
+import { CreateBudget, UpdateBudget } from '@/queries/transacciones/budget'
 import {
 	type BudgetEditType,
 	type BudgetResponseType,
@@ -214,8 +214,26 @@ export function BudgetCreateDrawer() {
 	)
 }
 
-export function BudgetDeleteDrawer({ budget }: { budget: BudgetResponseType }) {
+export function BudgetUpdateDrawer({ budget }: { budget: BudgetResponseType }) {
 	const [open, setOpen] = useState(false)
+	const queryClient = useQueryClient()
+
+	const useUpdateBudgetMutation = useMutation({
+		mutationFn: UpdateBudget,
+		onSuccess: () => {
+			toast.success('Presupuesto actualizado')
+			queryClient.invalidateQueries({ queryKey: ['presupuesto'] })
+		},
+		onError: (error) => {
+			toast.error(error.message, {
+				position: 'top-center',
+				style: {
+					color: 'red',
+				},
+			})
+		},
+	})
+
 	const form = useAppForm({
 		defaultValues: {
 			project_id: budget.project.id,
@@ -239,7 +257,15 @@ export function BudgetDeleteDrawer({ budget }: { budget: BudgetResponseType }) {
 			},
 		},
 		onSubmit: (data) => {
-			console.log(data.value)
+			const newData = {
+				project_id: data.value.project_id,
+				budget_item_id: data.value.budget_item_id,
+				quantity: Number.parseFloat(data.value.quantity.toString()),
+				cost: Number.parseFloat(data.value.cost.toString()),
+				total: Number.parseFloat(data.value.total.toString()),
+			}
+
+			useUpdateBudgetMutation.mutate({ data: newData })
 		},
 	})
 
