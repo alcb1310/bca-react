@@ -1,7 +1,7 @@
 import { useQueryClient, useSuspenseQuery } from '@tanstack/react-query'
 import { createFileRoute } from '@tanstack/react-router'
 import type { ColumnDef } from '@tanstack/react-table'
-import { CheckIcon, EditIcon, X } from 'lucide-react'
+import { CheckIcon, X } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { DataTable } from '@/components/ui/data-table'
 import { Input } from '@/components/ui/input'

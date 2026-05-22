@@ -24,7 +24,7 @@ import {
 } from '../ui/drawer'
 import { FieldGroup, FieldSet } from '../ui/field'
 
-type BudgetDeleteDrawerProps = {
+type BudgetUpdateDrawerProps = {
 	budget: BudgetResponseType
 }
 
@@ -214,7 +214,7 @@ export function BudgetCreateDrawer() {
 	)
 }
 
-export function BudgetUpdateDrawer({ budget }: BudgetDeleteDrawerProps) {
+export function BudgetUpdateDrawer({ budget }: BudgetUpdateDrawerProps) {
 	const [open, setOpen] = useState(false)
 	const queryClient = useQueryClient()
 

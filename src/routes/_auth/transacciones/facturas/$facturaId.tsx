@@ -5,7 +5,7 @@ import {
 } from '@tanstack/react-query'
 import { createFileRoute, Link } from '@tanstack/react-router'
 import type { ColumnDef } from '@tanstack/react-table'
-import { CircleXIcon, DeleteIcon, SaveIcon } from 'lucide-react'
+import { CircleXIcon, SaveIcon } from 'lucide-react'
 import { toast } from 'sonner'
 import { Button, buttonVariants } from '@/components/ui/button'
 import { DataTable } from '@/components/ui/data-table'
