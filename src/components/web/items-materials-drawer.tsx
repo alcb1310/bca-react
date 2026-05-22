@@ -327,8 +327,9 @@ export function ItemMaterialsDeleteDialog({
 						Eliminar Material
 					</AlertDialogTitle>
 					<AlertDialogDescription>
-						¿Estás seguro de eliminar el material {material_name}?. Esta acción
-						no se puede deshacer
+						¿Estás seguro de eliminar el material{' '}
+						<span className='font-bold'>{material_name}</span>?. Esta acción no
+						se puede deshacer
 					</AlertDialogDescription>
 				</AlertDialogHeader>
 				<AlertDialogFooter>
@@ -336,8 +337,10 @@ export function ItemMaterialsDeleteDialog({
 					<AlertDialogAction
 						onClick={() => {
 							useDeleteItemMaterialMutation.mutate({
-								rubroId: material.item_id,
-								materialId: material.material_id,
+								data: {
+									rubroId: material.item_id,
+									materialId: material.material_id,
+								},
 							})
 						}}
 					>
