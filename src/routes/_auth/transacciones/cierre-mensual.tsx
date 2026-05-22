@@ -4,8 +4,11 @@ import { SaveIcon } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { FieldGroup, FieldSet } from '@/components/ui/field'
 import PageTitle from '@/components/web/pageTitle'
-import { useAppForm } from '@/hooks/formHook'
 import { GetAllProjects } from '@/queries/parametros/projects'
+import { NativeSelect, NativeSelectOption } from '@/components/ui/native-select'
+import { useState } from 'react'
+import { Input } from '@/components/ui/input'
+import { ClosureDalog } from '@/components/web/closure-dialog'
 
 export const Route = createFileRoute('/_auth/transacciones/cierre-mensual')({
 	component: RouteComponent,
@@ -18,16 +21,11 @@ export const Route = createFileRoute('/_auth/transacciones/cierre-mensual')({
 })
 
 function RouteComponent() {
+	const [project, setProject] = useState('')
+	const [fecha, setFecha] = useState('')
 	const { data: projects } = useSuspenseQuery({
 		queryKey: ['proyectos', 'active'],
 		queryFn: () => GetAllProjects({ active: true }),
-	})
-
-	const form = useAppForm({
-		defaultValues: {
-			project_id: '',
-			date: '',
-		},
 	})
 
 	const proyValues =
@@ -45,40 +43,38 @@ function RouteComponent() {
 			<PageTitle title='Cierre del Mes' />
 
 			<div className='w-1/2 mx-auto my-3 p-3 bg-sidebar-primary-foreground '>
-				<form
-					onSubmit={(e) => {
-						e.preventDefault()
-						e.stopPropagation()
-						form.handleSubmit()
-					}}
-				>
-					<FieldGroup>
-						<FieldSet>
-							<form.AppField name='project_id'>
-								{(field) => (
-									<field.SelectField
-										label='Proyecto'
-										name='project_id'
-										options={proyValues}
-									/>
-								)}
-							</form.AppField>
-							<div className='flex justify-start gap-24'>
-								<form.AppField name='date'>
-									{(field) => (
-										<field.TextField name='date' label='Fecha' type='date' />
-									)}
-								</form.AppField>
-								<p className='w-1/2' />
-							</div>
+				<FieldGroup>
+					<FieldSet>
+						<NativeSelect
+							className='w-full'
+							name={'proyectos'}
+							size='default'
+							value={project}
+							onChange={(e) => {
+								setProject(e.target.value)
+							}}
+						>
+							{proyValues.map((option) => (
+								<NativeSelectOption key={option.value} value={option.value}>
+									{option.label}
+								</NativeSelectOption>
+							))}
+						</NativeSelect>
 
-							<Button type='submit'>
-								<SaveIcon size={10} />
-								Generar Cierre
-							</Button>
-						</FieldSet>
-					</FieldGroup>
-				</form>
+						<div className='flex justify-start gap-24'>
+							<Input
+								className='w-3/12'
+								type='date'
+								value={fecha}
+								onChange={(e) => setFecha(e.target.value)}
+							/>
+						</div>
+
+						<Button type='submit'>
+							<ClosureDalog projectId={project} date={fecha} />
+						</Button>
+					</FieldSet>
+				</FieldGroup>
 			</div>
 		</div>
 	)
