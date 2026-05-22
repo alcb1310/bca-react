@@ -1,6 +1,5 @@
 import { createServerFn } from '@tanstack/react-start'
 import { getCookie } from '@tanstack/react-start/server'
-import { authStore } from '@/store/auth'
 import type { CategoryType } from '@/types/categories'
 
 const URL = import.meta.env.VITE_BACKEND_SERVER

@@ -1,64 +1,72 @@
-import { authStore } from '@/store/auth'
+import { createServerFn } from '@tanstack/react-start'
+import { getCookie } from '@tanstack/react-start/server'
 import type { MaterialCreateType, MaterialType } from '@/types/materials'
 
 const URL = import.meta.env.VITE_BACKEND_SERVER
+const cookieName = 'BCA-TOKEN'
 
-export async function GetAllMaterials() {
-	const token = authStore.state.token
+export const GetAllMaterials = createServerFn({ method: 'GET' }).handler(
+	async () => {
+		const token = getCookie(cookieName)
 
-	const response = await fetch(`${URL}/parametros/materiales`, {
-		method: 'GET',
-		headers: {
-			'Content-Type': 'application/json',
-			Authorization: `Bearer ${token}`,
-		},
+		const response = await fetch(`${URL}/parametros/materiales`, {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: `Bearer ${token}`,
+			},
+		})
+
+		if (!response.ok) {
+			throw new Error('Network response was not ok')
+		}
+
+		return (await response.json()) as MaterialType[]
+	},
+)
+
+export const CreateMaterial = createServerFn({ method: 'POST' })
+	.inputValidator((data: MaterialCreateType) => data)
+	.handler(async ({ data }) => {
+		const token = getCookie(cookieName)
+
+		const response = await fetch(`${URL}/parametros/materiales`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: `Bearer ${token}`,
+			},
+			body: JSON.stringify(data),
+		})
+
+		if (!response.ok) {
+			const data = await response.json()
+
+			throw new Error(data.error)
+		}
+
+		return
 	})
 
-	if (!response.ok) {
-		throw new Error('Network response was not ok')
-	}
+export const UpdateMaterial = createServerFn({ method: 'POST' })
+	.inputValidator((data: MaterialType) => data)
+	.handler(async ({ data }) => {
+		const token = getCookie(cookieName)
 
-	return (await response.json()) as MaterialType[]
-}
+		const response = await fetch(`${URL}/parametros/materiales/${data.id}`, {
+			method: 'PUT',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: `Bearer ${token}`,
+			},
+			body: JSON.stringify(data),
+		})
 
-export async function CreateMaterial({ data }: { data: MaterialCreateType }) {
-	const token = authStore.state.token
+		if (!response.ok) {
+			const data = await response.json()
 
-	const response = await fetch(`${URL}/parametros/materiales`, {
-		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json',
-			Authorization: `Bearer ${token}`,
-		},
-		body: JSON.stringify(data),
+			throw new Error(data.error)
+		}
+
+		return
 	})
-
-	if (!response.ok) {
-		const data = await response.json()
-
-		throw new Error(data.error)
-	}
-
-	return
-}
-
-export async function UpdateMaterial({ data }: { data: MaterialType }) {
-	const token = authStore.state.token
-
-	const response = await fetch(`${URL}/parametros/materiales/${data.id}`, {
-		method: 'PUT',
-		headers: {
-			'Content-Type': 'application/json',
-			Authorization: `Bearer ${token}`,
-		},
-		body: JSON.stringify(data),
-	})
-
-	if (!response.ok) {
-		const data = await response.json()
-
-		throw new Error(data.error)
-	}
-
-	return
-}
