@@ -63,8 +63,11 @@ function RouteComponent() {
 			},
 		},
 		{
-			accessorKey: 'parent.code',
+			accessorKey: 'parent',
 			header: 'Padre',
+			cell: ({ row }) => {
+				return <span>{row.original.parent?.code}</span>
+			},
 		},
 		{
 			id: 'actions',
