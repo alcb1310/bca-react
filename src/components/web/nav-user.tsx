@@ -1,5 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 import { useNavigate } from '@tanstack/react-router'
+import { createServerFn } from '@tanstack/react-start'
+import { deleteCookie } from '@tanstack/react-start/server'
 import { ChevronsUpDown, LogOutIcon, type LucideProps } from 'lucide-react'
 import type { ForwardRefExoticComponent, RefAttributes } from 'react'
 import { Me } from '@/queries/users'
@@ -15,8 +17,6 @@ import {
 } from '../ui/dropdown-menu'
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '../ui/sidebar'
 import { UserChangePasswordDialog } from './user-drawer'
-import { createServerFn } from '@tanstack/react-start'
-import { deleteCookie } from '@tanstack/react-start/server'
 
 export type UserData = {
 	name?: string
