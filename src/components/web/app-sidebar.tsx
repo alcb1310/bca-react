@@ -24,7 +24,6 @@ import type {
 	RefAttributes,
 } from 'react'
 import type { FileRoutesByTo } from '@/routeTree.gen'
-import { authStore } from '@/store/auth'
 import {
 	Collapsible,
 	CollapsibleContent,
@@ -59,8 +58,8 @@ type NavData = {
 
 const data: { navMain: NavData[]; userNav: UserData } = {
 	userNav: {
-		name: authStore.get().user?.name,
-		email: authStore.get().user?.email,
+		name: '',
+		email: '',
 		options: [
 			{
 				title: 'Perfil',

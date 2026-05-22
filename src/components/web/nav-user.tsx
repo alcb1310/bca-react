@@ -6,7 +6,6 @@ import { ChevronsUpDown, LogOutIcon, type LucideProps } from 'lucide-react'
 import type { ForwardRefExoticComponent, RefAttributes } from 'react'
 import { Me } from '@/queries/users'
 import type { FileRoutesByTo } from '@/routeTree.gen'
-import { authStore } from '@/store/auth'
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -89,11 +88,6 @@ export function NavUser({ user }: NavUserProps) {
 						<DropdownMenuSeparator />
 						<DropdownMenuItem
 							onClick={async () => {
-								authStore.setState((state) => ({
-									...state,
-									user: null,
-									token: '',
-								}))
 								await logout()
 								navigate({ to: '/login' })
 							}}

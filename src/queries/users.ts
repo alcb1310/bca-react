@@ -1,6 +1,5 @@
 import { createServerFn } from '@tanstack/react-start'
 import { getCookie } from '@tanstack/react-start/server'
-import { authStore } from '@/store/auth'
 import type { UserCreate, UserResponse } from '@/types/user'
 
 const URL = import.meta.env.VITE_BACKEND_SERVER
@@ -97,7 +96,7 @@ export const DeleteUser = createServerFn({ method: 'POST' })
 export const UpdateUser = createServerFn({ method: 'POST' })
 	.inputValidator((data: UserResponse) => data)
 	.handler(async ({ data }) => {
-		const token = authStore.state.token
+		const token = getCookie(cookieName)
 
 		const response = await fetch(`${URL}/users/${data.id}`, {
 			method: 'PUT',

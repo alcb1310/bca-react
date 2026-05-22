@@ -10,7 +10,6 @@ import {
 } from '@/components/ui/field'
 import { useAppForm } from '@/hooks/formHook'
 import { LoginMutation } from '@/queries/auth'
-import { authStore } from '@/store/auth'
 
 export const Route = createFileRoute('/login')({
 	component: RouteComponent,
@@ -32,13 +31,7 @@ function RouteComponent() {
 
 	const loginMutation = useMutation({
 		mutationFn: LoginMutation,
-		onSuccess: async (data) => {
-			authStore.setState((state) => ({
-				...state,
-				user: data.user,
-				token: data.token,
-			}))
-
+		onSuccess: () => {
 			navigate({ to: '/' })
 		},
 		onError: (error) => {
