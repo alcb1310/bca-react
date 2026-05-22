@@ -26,6 +26,24 @@ export async function GetAllProjects({
 	return response.json() as Promise<ProjectType[]>
 }
 
+export async function GetOneProject(id: string) {
+	const token = authStore.state.token
+
+	const response = await fetch(`${URL}/parametros/proyectos/${id}`, {
+		method: 'GET',
+		headers: {
+			'Content-Type': 'application/json',
+			Authorization: `Bearer ${token}`,
+		},
+	})
+	if (!response.ok) {
+		const data = await response.json()
+		throw new Error(data.error)
+	}
+
+	return response.json() as Promise<ProjectType>
+}
+
 export async function CreateProject({ data }: { data: ProjectType }) {
 	const token = authStore.state.token
 
