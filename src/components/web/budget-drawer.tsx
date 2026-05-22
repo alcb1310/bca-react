@@ -37,7 +37,7 @@ export function BudgetCreateDrawer() {
 	})
 	const { data: budgetItems } = useQuery({
 		queryKey: ['partidas'],
-		queryFn: () => GetAllPartidas({ accum: false }),
+		queryFn: () => GetAllPartidas({ data: { accum: false } }),
 	})
 
 	const useCreateBudgetMutation = useMutation({
@@ -275,7 +275,7 @@ export function BudgetUpdateDrawer({ budget }: BudgetUpdateDrawerProps) {
 	})
 	const { data: budgetItems } = useQuery({
 		queryKey: ['partidas'],
-		queryFn: () => GetAllPartidas({ accum: false }),
+		queryFn: () => GetAllPartidas({ data: { accum: false } }),
 	})
 
 	useEffect(() => {

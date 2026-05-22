@@ -53,7 +53,7 @@ export function CreateInvoiceDetailDrawer({
 	const [open, setOpen] = useState(false)
 	const { data: partidas } = useQuery({
 		queryKey: ['partidas', 'non-accum'],
-		queryFn: () => GetAllPartidas({ accum: false }),
+		queryFn: () => GetAllPartidas({ data: { accum: false } }),
 	})
 
 	const createInvoiceDetailMutation = useMutation({

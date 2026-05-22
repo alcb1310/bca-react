@@ -1,4 +1,5 @@
-import { authStore } from '@/store/auth'
+import { createServerFn } from '@tanstack/react-start'
+import { getCookie } from '@tanstack/react-start/server'
 import type {
 	BudgetItem,
 	BudgetItemResponse,
@@ -6,71 +7,75 @@ import type {
 } from '@/types/partidas'
 
 const URL = import.meta.env.VITE_BACKEND_SERVER
+const cookieName = 'BCA-TOKEN'
 
-export async function GetAllPartidas({
-	query,
-	accum,
-}: {
-	query?: string
-	accum?: boolean
-}) {
-	const token = authStore.state.token
+export const GetAllPartidas = createServerFn({ method: 'GET' })
+	.inputValidator((data: { query?: string; accum?: boolean }) => {
+		console.log('data', data)
+		return data
+	})
+	.handler(async ({ data: { query, accum } }) => {
+		const token = getCookie(cookieName)
 
-	const params = new URLSearchParams()
-	if (query) params.set('query', query)
-	if (accum !== undefined) {
-		params.set('accum', accum.toString())
-	}
+		const params = new URLSearchParams()
+		if (query) params.set('query', query)
+		if (accum !== undefined) {
+			params.set('accum', accum.toString())
+		}
 
-	const response = await fetch(`${URL}/parametros/partidas?${params}`, {
-		method: 'GET',
-		headers: {
-			'Content-Type': 'application/json',
-			Authorization: `Bearer ${token}`,
-		},
+		const response = await fetch(`${URL}/parametros/partidas?${params}`, {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: `Bearer ${token}`,
+			},
+		})
+
+		if (!response.ok) throw new Error('Network response was not ok')
+
+		return response.json() as Promise<BudgetItemResponse[]>
 	})
 
-	if (!response.ok) throw new Error('Network response was not ok')
+export const CreatePartida = createServerFn({ method: 'POST' })
+	.inputValidator((data: BudgetItem) => data)
+	.handler(async ({ data }) => {
+		const token = getCookie(cookieName)
 
-	return response.json() as Promise<BudgetItemResponse[]>
-}
+		const response = await fetch(`${URL}/parametros/partidas`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: `Bearer ${token}`,
+			},
+			body: JSON.stringify(data),
+		})
 
-export async function CreatePartida({ data }: { data: BudgetItem }) {
-	const token = authStore.state.token
+		if (!response.ok) {
+			const data = await response.json()
+			throw new Error(data.error)
+		}
 
-	const response = await fetch(`${URL}/parametros/partidas`, {
-		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json',
-			Authorization: `Bearer ${token}`,
-		},
-		body: JSON.stringify(data),
+		return
 	})
 
-	if (!response.ok) {
-		const data = await response.json()
-		throw new Error(data.error)
-	}
+export const UpdatePartida = createServerFn({ method: 'POST' })
+	.inputValidator((data: BudgetItemUpdate) => data)
+	.handler(async ({ data }) => {
+		const token = getCookie(cookieName)
 
-	return
-}
+		const response = await fetch(`${URL}/parametros/partidas/${data.id}`, {
+			method: 'PUT',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: `Bearer ${token}`,
+			},
+			body: JSON.stringify(data),
+		})
 
-export async function UpdatePartida({ data }: { data: BudgetItemUpdate }) {
-	const token = authStore.state.token
+		if (!response.ok) {
+			const data = await response.json()
+			throw new Error(data.error)
+		}
 
-	const response = await fetch(`${URL}/parametros/partidas/${data.id}`, {
-		method: 'PUT',
-		headers: {
-			'Content-Type': 'application/json',
-			Authorization: `Bearer ${token}`,
-		},
-		body: JSON.stringify(data),
+		return
 	})
-
-	if (!response.ok) {
-		const data = await response.json()
-		throw new Error(data.error)
-	}
-
-	return
-}

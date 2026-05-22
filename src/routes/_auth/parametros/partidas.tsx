@@ -19,7 +19,7 @@ export const Route = createFileRoute('/_auth/parametros/partidas')({
 	loader: ({ context: { queryClient } }) => {
 		queryClient.ensureQueryData({
 			queryKey: ['partidas'],
-			queryFn: () => GetAllPartidas({}),
+			queryFn: () => GetAllPartidas({ data: {} }),
 		})
 	},
 })
@@ -31,7 +31,7 @@ function RouteComponent() {
 
 	const { data, isLoading, isFetching } = useSuspenseQuery({
 		queryKey: ['partidas'],
-		queryFn: () => GetAllPartidas({ query: search }),
+		queryFn: () => GetAllPartidas({ data: { query: search } }),
 	})
 
 	const columns: ColumnDef<BudgetItemResponse>[] = [

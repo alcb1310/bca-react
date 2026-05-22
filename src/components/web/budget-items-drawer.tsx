@@ -40,7 +40,9 @@ export function PartidaCreateDrawer() {
 		queryKey: ['partidas', 'accum'],
 		queryFn: () =>
 			GetAllPartidas({
-				accum: true,
+				data: {
+					accum: true,
+				},
 			}),
 	})
 
