@@ -102,7 +102,9 @@ export function CreateInvoiceDetailDrawer({
 				cost: Number.parseFloat(data.value.cost.toString()),
 				total: Number.parseFloat(data.value.total.toString()),
 			}
-			createInvoiceDetailMutation.mutate({ id: invoice_id, data: newData })
+			createInvoiceDetailMutation.mutate({
+				data: { id: invoice_id, data: newData },
+			})
 		},
 	})
 
@@ -265,8 +267,10 @@ export function DeleteInvoiceDetailsDialog({
 					<AlertDialogAction
 						onClick={() => {
 							deleteInvoiceDetailMutation.mutate({
-								invoiceId: invoice_detail.id,
-								detailId: invoice_detail.budget_item_id,
+								data: {
+									invoiceId: invoice_detail.id,
+									detailId: invoice_detail.budget_item_id,
+								},
 							})
 						}}
 					>

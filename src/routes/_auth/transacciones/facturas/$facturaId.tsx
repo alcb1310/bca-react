@@ -44,7 +44,7 @@ export const Route = createFileRoute(
 			}),
 			queryClient.prefetchQuery({
 				queryKey: ['facturas-detalle'],
-				queryFn: () => GetAllInvoiceDetails(params.facturaId),
+				queryFn: () => GetAllInvoiceDetails({ data: { id: params.facturaId } }),
 			}),
 		])
 	},
@@ -86,7 +86,7 @@ function RouteComponent() {
 
 	const { data, isLoading } = useSuspenseQuery({
 		queryKey: ['facturas-detalle'],
-		queryFn: () => GetAllInvoiceDetails(facturaId),
+		queryFn: () => GetAllInvoiceDetails({ data: { id: facturaId } }),
 	})
 	const columns: ColumnDef<InvoiceDetailsResponseType>[] = [
 		{
