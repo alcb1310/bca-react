@@ -18,7 +18,7 @@ export const Route = createFileRoute('/_auth/parametros/proveedores')({
 	loader: ({ context: { queryClient } }) => {
 		queryClient.ensureQueryData({
 			queryKey: ['proveedores'],
-			queryFn: () => GetAllSuppliers({}),
+			queryFn: () => GetAllSuppliers({ data: {} }),
 		})
 	},
 })
@@ -30,7 +30,7 @@ function RouteComponent() {
 
 	const { data, isLoading, isFetching } = useSuspenseQuery({
 		queryKey: ['proveedores'],
-		queryFn: () => GetAllSuppliers({ search }),
+		queryFn: () => GetAllSuppliers({ data: { search } }),
 	})
 
 	const columns: ColumnDef<SupplierType>[] = [

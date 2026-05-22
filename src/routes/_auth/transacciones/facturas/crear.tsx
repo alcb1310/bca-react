@@ -25,7 +25,7 @@ export const Route = createFileRoute('/_auth/transacciones/facturas/crear')({
 
 		queryClient.ensureQueryData({
 			queryKey: ['proveedores'],
-			queryFn: () => GetAllSuppliers({}),
+			queryFn: () => GetAllSuppliers({ data: {} }),
 		})
 	},
 })
@@ -60,7 +60,7 @@ function RouteComponent() {
 	})
 	const { data: proveedores } = useSuspenseQuery({
 		queryKey: ['proveedores'],
-		queryFn: () => GetAllSuppliers({}),
+		queryFn: () => GetAllSuppliers({ data: {} }),
 	})
 
 	const form = useAppForm({

@@ -149,7 +149,7 @@ export function SupplierCreateDrawer() {
 								<SaveIcon size={10} />
 								Guardar
 							</Button>
-							<DrawerClose>
+							<DrawerClose asChild>
 								<Button type='button' variant='secondary'>
 									<CircleXIcon size={10} />
 									Cancelar
@@ -199,8 +199,10 @@ export function SupplierEditDrawer({ supplier }: EditSupplierDrawerProps) {
 			}
 
 			useUpdateSupplierMutation.mutate({
-				data: edited,
-				id: supplier.id as string,
+				data: {
+					data: edited,
+					id: supplier.id as string,
+				},
 			})
 		},
 	})
@@ -291,7 +293,7 @@ export function SupplierEditDrawer({ supplier }: EditSupplierDrawerProps) {
 								<SaveIcon size={10} />
 								Guardar
 							</Button>
-							<DrawerClose>
+							<DrawerClose asChild>
 								<Button type='button' variant='secondary'>
 									<CircleXIcon size={10} />
 									Cancelar

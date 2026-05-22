@@ -11,7 +11,6 @@ const cookieName = 'BCA-TOKEN'
 
 export const GetAllPartidas = createServerFn({ method: 'GET' })
 	.inputValidator((data: { query?: string; accum?: boolean }) => {
-		console.log('data', data)
 		return data
 	})
 	.handler(async ({ data: { query, accum } }) => {

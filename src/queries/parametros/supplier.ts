@@ -1,71 +1,73 @@
-import { authStore } from '@/store/auth'
+import { createServerFn } from '@tanstack/react-start'
+import { getCookie } from '@tanstack/react-start/server'
 import type { SupplierCreateType, SupplierType } from '@/types/supplier'
 
 const URL = import.meta.env.VITE_BACKEND_SERVER
+const cookieName = 'BCA-TOKEN'
 
-export async function GetAllSuppliers({ search }: { search?: string }) {
-	const token = authStore.state.token
+export const GetAllSuppliers = createServerFn({ method: 'GET' })
+	.inputValidator((data: { search?: string }) => data)
+	.handler(async ({ data: { search } }) => {
+		const token = getCookie(cookieName)
 
-	const params = new URLSearchParams()
-	if (search) params.append('query', search)
+		const params = new URLSearchParams()
+		if (search) params.append('query', search)
 
-	const response = await fetch(`${URL}/parametros/proveedores?${params}`, {
-		headers: {
-			'Content-Type': 'application/json',
-			Authorization: `Bearer ${token}`,
-		},
+		const response = await fetch(`${URL}/parametros/proveedores?${params}`, {
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: `Bearer ${token}`,
+			},
+		})
+
+		if (!response.ok) {
+			throw new Error('Network response was not ok')
+		}
+
+		return response.json() as Promise<SupplierType[]>
 	})
 
-	if (!response.ok) {
-		throw new Error('Network response was not ok')
-	}
+export const CreateSupplier = createServerFn({ method: 'POST' })
+	.inputValidator((data: SupplierCreateType) => data)
+	.handler(async ({ data }) => {
+		const token = getCookie(cookieName)
 
-	return response.json() as Promise<SupplierType[]>
-}
+		const response = await fetch(`${URL}/parametros/proveedores`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: `Bearer ${token}`,
+			},
+			body: JSON.stringify(data),
+		})
 
-export async function CreateSupplier({ data }: { data: SupplierCreateType }) {
-	const token = authStore.state.token
+		if (!response.ok) {
+			const data = await response.json()
 
-	const response = await fetch(`${URL}/parametros/proveedores`, {
-		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json',
-			Authorization: `Bearer ${token}`,
-		},
-		body: JSON.stringify(data),
+			throw new Error(data.error)
+		}
+
+		return
 	})
 
-	if (!response.ok) {
-		const data = await response.json()
+export const UpdateSupplier = createServerFn({ method: 'POST' })
+	.inputValidator((data: { data: SupplierCreateType; id: string }) => data)
+	.handler(async ({ data: { data, id } }) => {
+		const token = getCookie(cookieName)
 
-		throw new Error(data.error)
-	}
+		const response = await fetch(`${URL}/parametros/proveedores/${id}`, {
+			method: 'PUT',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: `Bearer ${token}`,
+			},
+			body: JSON.stringify(data),
+		})
 
-	return
-}
+		if (!response.ok) {
+			const data = await response.json()
 
-export async function UpdateSupplier({
-	data,
-	id,
-}: {
-	data: SupplierCreateType
-	id: string
-}) {
-	const token = authStore.state.token
-
-	const response = await fetch(`${URL}/parametros/proveedores/${id}`, {
-		method: 'PUT',
-		headers: {
-			'Content-Type': 'application/json',
-			Authorization: `Bearer ${token}`,
-		},
-		body: JSON.stringify(data),
+			throw new Error(data.error)
+		}
+		return
 	})
-
-	if (!response.ok) {
-		const data = await response.json()
-
-		throw new Error(data.error)
-	}
-	return
-}
