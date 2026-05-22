@@ -8,7 +8,10 @@ import { DataTable } from '@/components/ui/data-table'
 import { Input } from '@/components/ui/input'
 import { NativeSelect, NativeSelectOption } from '@/components/ui/native-select'
 import { Spinner } from '@/components/ui/spinner'
-import { BudgetCreateDrawer } from '@/components/web/budget-drawer'
+import {
+	BudgetCreateDrawer,
+	BudgetDeleteDrawer,
+} from '@/components/web/budget-drawer'
 import PageTitle from '@/components/web/pageTitle'
 import { GetAllProjects } from '@/queries/parametros/projects'
 import { GetAllBudgets } from '@/queries/transacciones/budget'
@@ -143,9 +146,7 @@ function RouteComponent() {
 				return (
 					<>
 						{!budget.budget_item.accumulate && (
-							<Button variant={'ghost'}>
-								<EditIcon size={10} className='text-yellow-600' />
-							</Button>
+							<BudgetDeleteDrawer budget={budget} />
 						)}
 					</>
 				)
