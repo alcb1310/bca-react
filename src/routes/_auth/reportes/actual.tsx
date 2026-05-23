@@ -11,9 +11,9 @@ import PageTitle from '@/components/web/pageTitle'
 import { useAppForm } from '@/hooks/formHook'
 import { GetAllProjects } from '@/queries/parametros/projects'
 import {
+	type ActualReportTypes,
 	actualExcelExport,
-	type ReportTypes,
-	reportSchema,
+	actualReportSchema,
 } from '@/queries/reportes/excel'
 import { GetAllLevels } from '@/queries/reports'
 import { GetAllBugetsByProjectAndLevel } from '@/queries/transacciones/budget'
@@ -39,9 +39,9 @@ function RouteComponent() {
 		defaultValues: {
 			project_id: '',
 			level: '',
-		} as ReportTypes,
+		} as ActualReportTypes,
 		validators: {
-			onSubmit: reportSchema,
+			onSubmit: actualReportSchema,
 		},
 		onSubmit: () => {
 			refetch()
