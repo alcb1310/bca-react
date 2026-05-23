@@ -4,11 +4,11 @@ import { CircleXIcon, SaveIcon } from 'lucide-react'
 import { toast } from 'sonner'
 import { Button, buttonVariants } from '@/components/ui/button'
 import { FieldGroup, FieldSet } from '@/components/ui/field'
+import { FormBackground } from '@/components/ui/form-background'
 import PageTitle from '@/components/web/pageTitle'
 import { useAppForm } from '@/hooks/formHook'
 import { CreateRubro } from '@/queries/parametros/rubros'
 import { type RubrosType, rubrosSchema } from '@/types/rubros'
-import { FormBackground } from '@/components/ui/form-background'
 
 export const Route = createFileRoute('/_auth/parametros/rubros/crear')({
 	component: RouteComponent,

@@ -10,6 +10,7 @@ import { toast } from 'sonner'
 import { Button, buttonVariants } from '@/components/ui/button'
 import { DataTable } from '@/components/ui/data-table'
 import { FieldGroup, FieldSet } from '@/components/ui/field'
+import { FormBackground } from '@/components/ui/form-background'
 import { Spinner } from '@/components/ui/spinner'
 import {
 	CreateInvoiceDetailDrawer,
@@ -23,7 +24,6 @@ import { GetOneInvoice, UpdateInvoice } from '@/queries/transacciones/invoice'
 import { GetAllInvoiceDetails } from '@/queries/transacciones/invoiceDetails'
 import { invoiceCreateSchema } from '@/types/invoice'
 import type { InvoiceDetailsResponseType } from '@/types/invoiceDetails'
-import { FormBackground } from '@/components/ui/form-background'
 
 export const Route = createFileRoute(
 	'/_auth/transacciones/facturas/$facturaId',

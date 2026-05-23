@@ -6,6 +6,7 @@ import { toast } from 'sonner'
 import { Button, buttonVariants } from '@/components/ui/button'
 import { DataTable } from '@/components/ui/data-table'
 import { FieldGroup, FieldSet } from '@/components/ui/field'
+import { FormBackground } from '@/components/ui/form-background'
 import { Spinner } from '@/components/ui/spinner'
 import {
 	ItemMaterialsCreateDrawer,
@@ -21,7 +22,6 @@ import type {
 	RubroMaterialType,
 } from '@/types/rubro-material'
 import { type RubrosType, rubrosSchema } from '@/types/rubros'
-import { FormBackground } from '@/components/ui/form-background'
 
 export const Route = createFileRoute('/_auth/parametros/rubros/$rubroId')({
 	component: RouteComponent,
