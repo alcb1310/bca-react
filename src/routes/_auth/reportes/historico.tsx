@@ -8,11 +8,17 @@ import PageTitle from '@/components/web/pageTitle'
 import { useAppForm } from '@/hooks/formHook'
 import { GetAllProjects } from '@/queries/parametros/projects'
 import { GetAllHistoric, GetAllLevels } from '@/queries/reports'
-import { type ReportTypes, reportSchema } from '@/queries/reportes/excel'
+import {
+	type ReportTypes,
+	reportSchema,
+	histroricExcelExport,
+} from '@/queries/reportes/excel'
 import { ColumnDef } from '@tanstack/react-table'
 import { BudgetResponseType } from '@/types/budget'
 import { ReportDataTable } from '@/components/ui/report-data-table'
 import { Spinner } from '@/components/ui/spinner'
+import { downloadExcelFile } from '@/utils/download'
+import { toast } from 'sonner'
 
 export const Route = createFileRoute('/_auth/reportes/historico')({
 	component: RouteComponent,
@@ -43,7 +49,7 @@ function RouteComponent() {
 		},
 	})
 
-	const { data, isLoading, isFetching, refetch } = useQuery({
+	const { data, isLoading, isFetching, refetch, isError, error } = useQuery({
 		queryKey: ['historico', form.state.values],
 		queryFn: () => GetAllHistoric({ data: form.state.values }),
 		enabled:
@@ -271,15 +277,15 @@ function RouteComponent() {
 									if (!form.state.values.project_id || !form.state.values.level)
 										return
 
-									// try {
-									// 	const b = await actualExcelExport({
-									// 		data: form.state.values,
-									// 	})
-									//
-									// 	downloadExcelFile(await b.blob(), 'reporte.xlsx')
-									// } catch (e) {
-									// 	console.error(e)
-									// }
+									try {
+										const b = await histroricExcelExport({
+											data: form.state.values,
+										})
+
+										downloadExcelFile(await b.blob(), 'reporte.xlsx')
+									} catch (e) {
+										console.error(e)
+									}
 								}}
 							>
 								<DownloadIcon size={16} />
@@ -290,7 +296,7 @@ function RouteComponent() {
 				</form>
 			</FormBackground>
 			{(isLoading || isFetching) && <Spinner />}
-
+			{isError && toast.error(error.message)}
 			{data && <ReportDataTable data={data} columns={columns} />}
 		</div>
 	)
