@@ -12,7 +12,7 @@ export const reportSchema = z.object({
 })
 export type ReportTypes = z.infer<typeof reportSchema>
 
-export const exportClick = createServerFn({ method: 'GET' })
+export const actualExcelExport = createServerFn({ method: 'GET' })
 	.inputValidator((data: ReportTypes) => data)
 	.handler(async ({ data }) => {
 		const { token, URL } = await getInformation()
