@@ -270,9 +270,13 @@ function RouteComponent() {
 								if (!form.state.values.project_id || !form.state.values.level)
 									return
 
-								const b = await actualExcelExport({ data: form.state.values })
+								try {
+									const b = await actualExcelExport({ data: form.state.values })
 
-								downloadExcelFile(await b.blob(), 'reporte.xlsx')
+									downloadExcelFile(await b.blob(), 'reporte.xlsx')
+								} catch (e) {
+									console.error(e)
+								}
 							}}
 						>
 							<DownloadIcon size={16} />

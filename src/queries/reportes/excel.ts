@@ -1,6 +1,8 @@
 import { createServerFn } from '@tanstack/react-start'
+import { getCookie } from '@tanstack/react-start/server'
 import z from 'zod'
-import { getInformation } from '@/utils/token'
+
+const URL = import.meta.env.VITE_BACKEND_SERVER
 
 export const reportSchema = z.object({
 	project_id: z
@@ -15,7 +17,8 @@ export type ReportTypes = z.infer<typeof reportSchema>
 export const actualExcelExport = createServerFn({ method: 'GET' })
 	.inputValidator((data: ReportTypes) => data)
 	.handler(async ({ data }) => {
-		const { token, URL } = await getInformation()
+		const token = getCookie('BCA-TOKEN')
+
 		const res = await fetch(
 			`${URL}/reportes/excel/actual?proyecto=${data.project_id}&nivel=${data.level}`,
 			{
