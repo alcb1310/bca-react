@@ -37,7 +37,7 @@ export const GetAllHistoric = createServerFn({ method: 'GET' })
 		const params = new URLSearchParams()
 		params.append('project_id', project_id)
 		params.append('level', level)
-		params.append('date', date)
+		params.append('date', new Date(date).toISOString())
 
 		const response = await fetch(`${URL}/reportes/historico?${params}`, {
 			method: 'GET',

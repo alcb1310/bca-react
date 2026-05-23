@@ -55,3 +55,31 @@ export const actualExcelExport = createServerFn({ method: 'GET' })
 			},
 		})
 	})
+
+export const histroricExcelExport = createServerFn({ method: 'GET' })
+	.inputValidator((data: ReportTypes) => data)
+	.handler(async ({ data }) => {
+		const token = getCookie('BCA-TOKEN')
+		const date = new Date(data.date).toISOString()
+
+		const res = await fetch(
+			`${URL}/reportes/excel/historico?proyecto=${data.project_id}&nivel=${data.level}&fecha=${date}`,
+			{
+				method: 'GET',
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			},
+		)
+
+		const blob = await res.blob()
+
+		return new Response(blob, {
+			status: 200,
+			headers: {
+				'Content-Type':
+					'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+				'Content-Disposition': 'attachment; filename="reporte.xlsx"',
+			},
+		})
+	})
