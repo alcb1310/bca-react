@@ -38,7 +38,7 @@ export const Route = createFileRoute('/_auth/transacciones/facturas/')({
 
 function RouteComponent() {
 	const queryClient = useQueryClient()
-	const { data, isLoading, error, isError } = useSuspenseQuery({
+	const { data, isLoading } = useSuspenseQuery({
 		queryKey: ['facturas'],
 		queryFn: () => GetAllInvoices(),
 	})
@@ -58,10 +58,6 @@ function RouteComponent() {
 			})
 		},
 	})
-
-	if (isError) {
-		return <div>{error.message}</div>
-	}
 
 	const columns: ColumnDef<InvoiceResponseType>[] = [
 		{
