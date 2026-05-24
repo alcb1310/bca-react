@@ -8,11 +8,11 @@ import {
 	ChartSplineIcon,
 	ChevronRight,
 	ClipboardClockIcon,
-	CreditCardIcon,
 	FolderKanbanIcon,
 	FolderOpenIcon,
 	LayoutListIcon,
 	type LucideProps,
+	ReceiptTextIcon,
 	ScaleIcon,
 	ShellIcon,
 	ShoppingBasketIcon,
@@ -83,7 +83,7 @@ const data: { navMain: NavData[]; userNav: UserData } = {
 				{
 					title: 'Facturas',
 					path: '/transacciones/facturas',
-					icon: CreditCardIcon,
+					icon: ReceiptTextIcon,
 				},
 				{
 					title: 'Cierre mensual',

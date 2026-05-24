@@ -49,12 +49,9 @@ export function NavUser({ user }: NavUserProps) {
 			<SidebarMenuItem>
 				<DropdownMenu>
 					<DropdownMenuTrigger asChild>
-						<SidebarMenuButton
-							size={'lg'}
-							className='data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground bg-primary text-primary-foreground/80'
-						>
+						<SidebarMenuButton className='data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground bg-primary text-primary-foreground/80'>
 							<div className='grid flex-1 text-left text-sm leading-tight'>
-								<span className='truncate text-lg font-medium'>
+								<span className='truncate text-xs font-medium'>
 									{data?.name}
 								</span>
 								<span className='truncate text-xs font-extralight'>
