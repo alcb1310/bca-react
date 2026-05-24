@@ -206,11 +206,31 @@ function RouteComponent() {
 				</form>
 			</FormBackground>
 			{(isLoading || isFetching) && <Spinner />}
-			{data && (
-				<ReportDataTable
-					data={data?.invoices ? data.invoices : []}
-					columns={columns}
-				/>
+			{data?.invoices.length && (
+				<div>
+					<p className='mb-3 text-xs font-bold'>
+						Total:{' '}
+						<span className='text-chart-4 font-semibold'>
+							{data.total.toLocaleString('es-EC', {
+								minimumFractionDigits: 2,
+								maximumFractionDigits: 2,
+							})}
+						</span>
+					</p>
+					<ReportDataTable
+						data={data?.invoices ? data.invoices : []}
+						columns={columns}
+					/>
+					<p className='mt-3 text-xs font-bold'>
+						Total:{' '}
+						<span className='text-chart-4 font-semibold'>
+							{data.total.toLocaleString('es-EC', {
+								minimumFractionDigits: 2,
+								maximumFractionDigits: 2,
+							})}
+						</span>
+					</p>
+				</div>
 			)}
 		</div>
 	)
