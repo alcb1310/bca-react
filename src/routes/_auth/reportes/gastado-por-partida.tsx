@@ -10,9 +10,14 @@ import { Spinner } from '@/components/ui/spinner'
 import PageTitle from '@/components/web/pageTitle'
 import { useAppForm } from '@/hooks/formHook'
 import { GetAllProjects } from '@/queries/parametros/projects'
-import { type ReportTypes, reportSchema } from '@/queries/reportes/excel'
+import {
+	type ReportTypes,
+	reportSchema,
+	spentExcelExport,
+} from '@/queries/reportes/excel'
 import { GetAllLevels, GetSpentReport } from '@/queries/reports'
 import type { Spent } from '@/types/reports'
+import { downloadExcelFile } from '@/utils/download'
 
 export const Route = createFileRoute('/_auth/reportes/gastado-por-partida')({
 	component: RouteComponent,
@@ -176,15 +181,18 @@ function RouteComponent() {
 									if (!form.state.values.project_id || !form.state.values.level)
 										return
 
-									// try {
-									// const b = await histroricExcelExport({
-									// 	data: form.state.values,
-									// })
-									//
-									// downloadExcelFile(await b.blob(), 'reporte.xlsx')
-									// } catch (e) {
-									// 	console.error(e)
-									// }
+									try {
+										const b = await spentExcelExport({
+											data: form.state.values,
+										})
+
+										downloadExcelFile(
+											await b.blob(),
+											'gastado=por=partida.xlsx',
+										)
+									} catch (e) {
+										console.error(e)
+									}
 								}}
 							>
 								<DownloadIcon size={16} />
