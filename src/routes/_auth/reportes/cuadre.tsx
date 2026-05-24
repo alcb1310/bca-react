@@ -206,7 +206,7 @@ function RouteComponent() {
 				</form>
 			</FormBackground>
 			{(isLoading || isFetching) && <Spinner />}
-			{data?.invoices.length && (
+			{data && data.invoices.length > 0 && (
 				<div>
 					<p className='mb-3 text-xs font-bold'>
 						Total:{' '}
