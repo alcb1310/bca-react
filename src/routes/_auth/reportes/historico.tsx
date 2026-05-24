@@ -2,7 +2,6 @@ import { useQuery, useSuspenseQueries } from '@tanstack/react-query'
 import { createFileRoute } from '@tanstack/react-router'
 import type { ColumnDef } from '@tanstack/react-table'
 import { DownloadIcon, PlayIcon } from 'lucide-react'
-import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 import { FieldGroup, FieldSet } from '@/components/ui/field'
 import { FormBackground } from '@/components/ui/form-background'
@@ -49,7 +48,7 @@ function RouteComponent() {
 		},
 	})
 
-	const { data, isLoading, isFetching, refetch, isError, error } = useQuery({
+	const { data, isLoading, isFetching, refetch } = useQuery({
 		queryKey: ['historico', form.state.values],
 		queryFn: () => GetAllHistoric({ data: form.state.values }),
 		enabled:

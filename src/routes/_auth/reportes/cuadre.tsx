@@ -2,7 +2,9 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { createFileRoute } from '@tanstack/react-router'
 import type { ColumnDef } from '@tanstack/react-table'
 import { DownloadIcon, PlayIcon } from 'lucide-react'
+import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
+import { Checkbox } from '@/components/ui/checkbox'
 import { FieldGroup, FieldSet } from '@/components/ui/field'
 import { FormBackground } from '@/components/ui/form-background'
 import { ReportDataTable } from '@/components/ui/report-data-table'
@@ -12,13 +14,11 @@ import { useAppForm } from '@/hooks/formHook'
 import { GetAllProjects } from '@/queries/parametros/projects'
 import {
 	type BalanceReportType,
-	balanceReportSchema,
 	balanceExcelExport,
+	balanceReportSchema,
 } from '@/queries/reportes/excel'
 import { GetBalanceReport, SetBalancedInvoice } from '@/queries/reports'
 import type { InvoiceResponseType } from '@/types/invoice'
-import { Checkbox } from '@/components/ui/checkbox'
-import { toast } from 'sonner'
 import { downloadExcelFile } from '@/utils/download'
 
 export const Route = createFileRoute('/_auth/reportes/cuadre')({
