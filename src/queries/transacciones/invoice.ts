@@ -18,6 +18,7 @@ export const GetAllInvoices = createServerFn({ method: 'GET' }).handler(
 		})
 
 		if (!response.ok) {
+			console.log(await response.json())
 			throw new Error('Network response was not ok')
 		}
 		console.log(response)
