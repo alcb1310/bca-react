@@ -25,6 +25,14 @@ export const reportSchema = z.object({
 })
 export type ReportTypes = z.infer<typeof reportSchema>
 
+export const balanceReportSchema = z.object({
+	project_id: z
+		.string({ message: 'Seleccione un proyecto' })
+		.uuid('Seleccione un proyecto'),
+	date: z.string().min(1, 'Seleccione una fecha'),
+})
+export type BalanceReportType = z.infer<typeof balanceReportSchema>
+
 export const actualExcelExport = createServerFn({ method: 'GET' })
 	.inputValidator((data: ActualReportTypes) => data)
 	.handler(async ({ data }) => {
