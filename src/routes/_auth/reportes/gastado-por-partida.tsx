@@ -18,6 +18,7 @@ import {
 import { GetAllLevels, GetSpentReport } from '@/queries/reports'
 import type { Spent } from '@/types/reports'
 import { downloadExcelFile } from '@/utils/download'
+import { SpentDetailsDrawer } from '@/components/web/spent-details-drawer'
 
 export const Route = createFileRoute('/_auth/reportes/gastado-por-partida')({
 	component: RouteComponent,
@@ -83,7 +84,13 @@ function RouteComponent() {
 		{
 			id: 'actions',
 			cell: ({ row }) => {
-				return <ViewIcon size={16} />
+				return (
+					<SpentDetailsDrawer
+						report={row.original}
+						project_id={form.state.values.project_id}
+						date={form.state.values.date}
+					/>
+				)
 			},
 		},
 	]
