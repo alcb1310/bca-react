@@ -13,11 +13,13 @@ import { GetAllProjects } from '@/queries/parametros/projects'
 import {
 	type BalanceReportType,
 	balanceReportSchema,
+	balanceExcelExport,
 } from '@/queries/reportes/excel'
 import { GetBalanceReport, SetBalancedInvoice } from '@/queries/reports'
 import type { InvoiceResponseType } from '@/types/invoice'
 import { Checkbox } from '@/components/ui/checkbox'
 import { toast } from 'sonner'
+import { downloadExcelFile } from '@/utils/download'
 
 export const Route = createFileRoute('/_auth/reportes/cuadre')({
 	component: RouteComponent,
@@ -184,6 +186,16 @@ function RouteComponent() {
 
 									if (!form.state.values.project_id || !form.state.values.date)
 										return
+
+									try {
+										const b = await balanceExcelExport({
+											data: form.state.values,
+										})
+
+										downloadExcelFile(await b.blob(), 'cuadre.xlsx')
+									} catch (e) {
+										console.error(e)
+									}
 								}}
 							>
 								<DownloadIcon size={16} />

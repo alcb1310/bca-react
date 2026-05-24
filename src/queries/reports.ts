@@ -61,9 +61,11 @@ export const GetBalanceReport = createServerFn({ method: 'GET' })
 	.handler(async ({ data: { project_id, date } }) => {
 		const token = getCookie(cookieName)
 
+		const dateVal = new Date(date).toISOString()
+
 		const params = new URLSearchParams()
 		params.append('project_id', project_id)
-		params.append('date', date)
+		params.append('date', dateVal)
 
 		const response = await fetch(`${URL}/reportes/cuadre?${params}`, {
 			method: 'GET',
