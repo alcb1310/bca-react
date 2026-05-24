@@ -1,24 +1,24 @@
 import { useQuery, useSuspenseQueries } from '@tanstack/react-query'
 import { createFileRoute } from '@tanstack/react-router'
-import { FieldGroup, FieldSet } from '@/components/ui/field'
-import { PlayIcon, DownloadIcon } from 'lucide-react'
+import type { ColumnDef } from '@tanstack/react-table'
+import { DownloadIcon, PlayIcon } from 'lucide-react'
+import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
+import { FieldGroup, FieldSet } from '@/components/ui/field'
 import { FormBackground } from '@/components/ui/form-background'
+import { ReportDataTable } from '@/components/ui/report-data-table'
+import { Spinner } from '@/components/ui/spinner'
 import PageTitle from '@/components/web/pageTitle'
 import { useAppForm } from '@/hooks/formHook'
 import { GetAllProjects } from '@/queries/parametros/projects'
-import { GetAllHistoric, GetAllLevels } from '@/queries/reports'
 import {
+	histroricExcelExport,
 	type ReportTypes,
 	reportSchema,
-	histroricExcelExport,
 } from '@/queries/reportes/excel'
-import { ColumnDef } from '@tanstack/react-table'
-import { BudgetResponseType } from '@/types/budget'
-import { ReportDataTable } from '@/components/ui/report-data-table'
-import { Spinner } from '@/components/ui/spinner'
+import { GetAllHistoric, GetAllLevels } from '@/queries/reports'
+import type { BudgetResponseType } from '@/types/budget'
 import { downloadExcelFile } from '@/utils/download'
-import { toast } from 'sonner'
 
 export const Route = createFileRoute('/_auth/reportes/historico')({
 	component: RouteComponent,
@@ -291,12 +291,11 @@ function RouteComponent() {
 								<DownloadIcon size={16} />
 								Exportar
 							</Button>
-						</div>{' '}
+						</div>
 					</FieldGroup>
 				</form>
 			</FormBackground>
 			{(isLoading || isFetching) && <Spinner />}
-			{isError && toast.error(error.message)}
 			{data && <ReportDataTable data={data} columns={columns} />}
 		</div>
 	)

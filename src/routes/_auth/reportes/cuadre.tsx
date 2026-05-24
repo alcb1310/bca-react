@@ -1,16 +1,23 @@
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { createFileRoute } from '@tanstack/react-router'
+import type { ColumnDef } from '@tanstack/react-table'
+import { DownloadIcon, PlayIcon } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { FieldGroup, FieldSet } from '@/components/ui/field'
 import { FormBackground } from '@/components/ui/form-background'
+import { ReportDataTable } from '@/components/ui/report-data-table'
+import { Spinner } from '@/components/ui/spinner'
 import PageTitle from '@/components/web/pageTitle'
 import { useAppForm } from '@/hooks/formHook'
 import { GetAllProjects } from '@/queries/parametros/projects'
 import {
-	balanceReportSchema,
 	type BalanceReportType,
+	balanceReportSchema,
 } from '@/queries/reportes/excel'
-import { useQuery } from '@tanstack/react-query'
-import { createFileRoute } from '@tanstack/react-router'
-import { DownloadIcon, PlayIcon } from 'lucide-react'
+import { GetBalanceReport, SetBalancedInvoice } from '@/queries/reports'
+import type { InvoiceResponseType } from '@/types/invoice'
+import { Checkbox } from '@/components/ui/checkbox'
+import { toast } from 'sonner'
 
 export const Route = createFileRoute('/_auth/reportes/cuadre')({
 	component: RouteComponent,
@@ -23,6 +30,7 @@ export const Route = createFileRoute('/_auth/reportes/cuadre')({
 })
 
 function RouteComponent() {
+	const queryClient = useQueryClient()
 	const form = useAppForm({
 		defaultValues: {
 			project_id: '',
@@ -32,9 +40,86 @@ function RouteComponent() {
 			onSubmit: balanceReportSchema,
 		},
 		onSubmit: () => {
-			// refetch()
+			refetch()
 		},
 	})
+
+	const setBalanceInvoice = useMutation({
+		mutationFn: SetBalancedInvoice,
+		onSuccess: () => {
+			queryClient.invalidateQueries({
+				queryKey: ['cuadre'],
+			})
+		},
+		onError: (error) => {
+			toast.error(error.message, {
+				position: 'top-center',
+				style: {
+					color: 'red',
+				},
+			})
+		},
+	})
+
+	async function handleClick(data: InvoiceResponseType) {
+		setBalanceInvoice.mutate({ data: { invoice_id: data.id } })
+	}
+
+	const { data, isLoading, isFetching, refetch } = useQuery({
+		queryKey: ['cuadre', form.state.values],
+		queryFn: () => GetBalanceReport({ data: form.state.values }),
+		enabled:
+			form.state.values.project_id !== '' && form.state.values.date !== '',
+	})
+
+	const columns: ColumnDef<InvoiceResponseType>[] = [
+		{
+			accessorKey: 'is_balanced',
+			header: '',
+			cell: ({ row }) => {
+				return (
+					<Checkbox
+						checked={row.original.is_balanced}
+						onCheckedChange={() => handleClick(row.original)}
+					/>
+				)
+			},
+		},
+		{
+			accessorKey: 'invoice_date',
+			header: 'Fecha',
+			cell: ({ row }) => {
+				const dt = new Date(row.original.invoice_date)
+				return dt.toLocaleDateString('es-EC', {
+					year: 'numeric',
+					month: '2-digit',
+					day: '2-digit',
+				})
+			},
+		},
+		{
+			accessorKey: 'supplier.name',
+			header: 'Proveedor',
+		},
+		{
+			accessorKey: 'invoice_number',
+			header: 'N° Factura',
+		},
+		{
+			accessorKey: 'invoice_total',
+			header: 'Total',
+			cell: ({ row }) => {
+				return (
+					<span className='block w-full text-right'>
+						{row.original.invoice_total.toLocaleString('es-EC', {
+							minimumFractionDigits: 2,
+							maximumFractionDigits: 2,
+						})}
+					</span>
+				)
+			},
+		},
+	]
 
 	const { data: proyects } = useQuery({
 		queryKey: ['proyectos', 'active'],
@@ -97,7 +182,7 @@ function RouteComponent() {
 									e.preventDefault()
 									e.stopPropagation()
 
-									if (!form.state.values.project_id || !form.state.values.level)
+									if (!form.state.values.project_id || !form.state.values.date)
 										return
 								}}
 							>
@@ -108,6 +193,13 @@ function RouteComponent() {
 					</FieldGroup>
 				</form>
 			</FormBackground>
+			{(isLoading || isFetching) && <Spinner />}
+			{data && (
+				<ReportDataTable
+					data={data?.invoices ? data.invoices : []}
+					columns={columns}
+				/>
+			)}
 		</div>
 	)
 }
