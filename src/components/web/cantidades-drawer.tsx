@@ -1,5 +1,5 @@
 import { useMutation, useQueries, useQueryClient } from '@tanstack/react-query'
-import { CircleXIcon, PlusIcon, SaveIcon } from 'lucide-react'
+import { CircleXIcon, EditIcon, PlusIcon, SaveIcon } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { toast } from 'sonner'
 import { useAppForm } from '@/hooks/formHook'
@@ -8,7 +8,10 @@ import { GetAllProjects } from '@/queries/parametros/projects'
 import { GetAllRubros } from '@/queries/parametros/rubros'
 import {
 	type QuantityCreateType,
+	type QuantityEditType,
+	type QuantityResponseType,
 	quantityCreateSchema,
+	quantityEditSchema,
 } from '@/types/cantidades'
 import { Button } from '../ui/button'
 import {
@@ -21,7 +24,12 @@ import {
 	DrawerTitle,
 	DrawerTrigger,
 } from '../ui/drawer'
-import { FieldGroup, FieldSet } from '../ui/field'
+import { FieldGroup, FieldLabel, FieldSet } from '../ui/field'
+import { Input } from '../ui/input'
+
+type CantidadesEditDrawerProps = {
+	cantidad: QuantityResponseType
+}
 
 export function CantidadesCreateDrawer() {
 	const queryClient = useQueryClient()
@@ -146,6 +154,85 @@ export function CantidadesCreateDrawer() {
 									/>
 								)}
 							</form.AppField>
+
+							<form.AppField name='quantity'>
+								{(field) => (
+									<field.TextField
+										name='quantity'
+										label='Cantidad'
+										placeholder='cantidad'
+									/>
+								)}
+							</form.AppField>
+						</FieldSet>
+					</FieldGroup>
+					<DrawerFooter>
+						<div className='flex justify-start items-center space-x-2'>
+							<Button type='submit'>
+								<SaveIcon size={10} />
+								Guardar
+							</Button>
+							<DrawerClose asChild>
+								<Button type='button' variant='secondary'>
+									<CircleXIcon size={10} />
+									Cancelar
+								</Button>
+							</DrawerClose>
+						</div>
+					</DrawerFooter>
+				</form>
+			</DrawerContent>
+		</Drawer>
+	)
+}
+
+export function CantidadesEditDrawer({ cantidad }: CantidadesEditDrawerProps) {
+	const form = useAppForm({
+		defaultValues: {
+			id: cantidad.id,
+			project_id: cantidad.project.id as string,
+			rubro_id: cantidad.rubro.id as string,
+			quantity: cantidad.quantity,
+		} as QuantityEditType,
+		validators: {
+			onSubmit: quantityEditSchema,
+		},
+		onSubmit: (data) => {
+			const newData = {
+				id: data.value.id,
+				project_id: data.value.project_id,
+				rubro_id: data.value.rubro_id,
+				quantity: Number.parseFloat(data.value.quantity.toString()),
+			}
+
+			console.log(newData)
+			// useUpdateCantidadesMutation.mutate({ data: newData })
+		},
+	})
+
+	return (
+		<Drawer direction='right'>
+			<DrawerTrigger>
+				<EditIcon size={16} className='cursor-pointer text-yellow-600' />
+			</DrawerTrigger>
+			<DrawerContent>
+				<form
+					onSubmit={(e) => {
+						e.preventDefault()
+						e.stopPropagation()
+						form.handleSubmit()
+					}}
+				>
+					<DrawerHeader>
+						<DrawerTitle>Editar Cantidad</DrawerTitle>
+					</DrawerHeader>
+					<FieldGroup className='my-2 px-4'>
+						<FieldSet>
+							<FieldLabel>Proyecto</FieldLabel>
+							<Input value={cantidad.project.name} disabled />
+
+							<FieldLabel>Rubro</FieldLabel>
+							<Input value={cantidad.rubro.name} disabled />
 
 							<form.AppField name='quantity'>
 								{(field) => (

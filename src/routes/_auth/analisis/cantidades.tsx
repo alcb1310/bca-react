@@ -4,7 +4,10 @@ import type { ColumnDef } from '@tanstack/react-table'
 import { DeleteIcon, EditIcon } from 'lucide-react'
 import { DataTable } from '@/components/ui/data-table'
 import { Spinner } from '@/components/ui/spinner'
-import { CantidadesCreateDrawer } from '@/components/web/cantidades-drawer'
+import {
+	CantidadesCreateDrawer,
+	CantidadesEditDrawer,
+} from '@/components/web/cantidades-drawer'
 import PageTitle from '@/components/web/pageTitle'
 import { GetAllCantidades } from '@/queries/analisis/cantidades'
 import type { QuantityResponseType } from '@/types/cantidades'
@@ -56,9 +59,10 @@ function RouteComponent() {
 		{
 			id: 'actions',
 			cell: ({ row }) => {
+				const data = row.original
 				return (
 					<div className='flex gap-2'>
-						<EditIcon size={16} className='cursor-pointer text-yellow-600' />
+						<CantidadesEditDrawer cantidad={data} />
 						<DeleteIcon size={16} className='cursor-pointer text-red-600' />
 					</div>
 				)
