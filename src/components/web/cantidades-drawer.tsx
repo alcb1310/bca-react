@@ -3,7 +3,7 @@ import { CircleXIcon, EditIcon, PlusIcon, SaveIcon } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { toast } from 'sonner'
 import { useAppForm } from '@/hooks/formHook'
-import { CreateCantidad } from '@/queries/analisis/cantidades'
+import { CreateCantidad, UpdateCantidad } from '@/queries/analisis/cantidades'
 import { GetAllProjects } from '@/queries/parametros/projects'
 import { GetAllRubros } from '@/queries/parametros/rubros'
 import {
@@ -187,6 +187,26 @@ export function CantidadesCreateDrawer() {
 }
 
 export function CantidadesEditDrawer({ cantidad }: CantidadesEditDrawerProps) {
+	const queryClient = useQueryClient()
+	const [open, setOpen] = useState(false)
+
+	const useUpdateCantidadesMutation = useMutation({
+		mutationFn: UpdateCantidad,
+		onSuccess: () => {
+			toast.success('Cantidad actualizada exitosamente')
+			setOpen(false)
+			queryClient.invalidateQueries({ queryKey: ['cantidades'] })
+		},
+		onError: (error) => {
+			toast.error(error.message, {
+				position: 'top-center',
+				style: {
+					color: 'red',
+				},
+			})
+		},
+	})
+
 	const form = useAppForm({
 		defaultValues: {
 			id: cantidad.id,
@@ -205,13 +225,18 @@ export function CantidadesEditDrawer({ cantidad }: CantidadesEditDrawerProps) {
 				quantity: Number.parseFloat(data.value.quantity.toString()),
 			}
 
-			console.log(newData)
-			// useUpdateCantidadesMutation.mutate({ data: newData })
+			useUpdateCantidadesMutation.mutate({ data: newData })
 		},
 	})
 
+	useEffect(() => {
+		if (open) {
+			form.reset()
+		}
+	}, [open, form.reset])
+
 	return (
-		<Drawer direction='right'>
+		<Drawer direction='right' open={open} onOpenChange={setOpen}>
 			<DrawerTrigger>
 				<EditIcon size={16} className='cursor-pointer text-yellow-600' />
 			</DrawerTrigger>
