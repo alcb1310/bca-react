@@ -1,9 +1,19 @@
 import { useMutation, useQueries, useQueryClient } from '@tanstack/react-query'
-import { CircleXIcon, EditIcon, PlusIcon, SaveIcon } from 'lucide-react'
+import {
+	CircleXIcon,
+	DeleteIcon,
+	EditIcon,
+	PlusIcon,
+	SaveIcon,
+} from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { toast } from 'sonner'
 import { useAppForm } from '@/hooks/formHook'
-import { CreateCantidad, UpdateCantidad } from '@/queries/analisis/cantidades'
+import {
+	CreateCantidad,
+	DeleteCantidad,
+	UpdateCantidad,
+} from '@/queries/analisis/cantidades'
 import { GetAllProjects } from '@/queries/parametros/projects'
 import { GetAllRubros } from '@/queries/parametros/rubros'
 import {
@@ -26,6 +36,18 @@ import {
 } from '../ui/drawer'
 import { FieldGroup, FieldLabel, FieldSet } from '../ui/field'
 import { Input } from '../ui/input'
+import {
+	AlertDialog,
+	AlertDialogAction,
+	AlertDialogCancel,
+	AlertDialogContent,
+	AlertDialogDescription,
+	AlertDialogFooter,
+	AlertDialogHeader,
+	AlertDialogMedia,
+	AlertDialogTitle,
+	AlertDialogTrigger,
+} from '../ui/alert-dialog'
 
 type CantidadesEditDrawerProps = {
 	cantidad: QuantityResponseType
@@ -287,5 +309,69 @@ export function CantidadesEditDrawer({ cantidad }: CantidadesEditDrawerProps) {
 				</form>
 			</DrawerContent>
 		</Drawer>
+	)
+}
+
+export function CantiadesDeleteDialog({ cantidad }: CantidadesEditDrawerProps) {
+	const queryClient = useQueryClient()
+	const useDeleteCantidadMutation = useMutation({
+		mutationFn: DeleteCantidad,
+		onSuccess: () => {
+			toast.success('Cantidad eliminada exitosamente')
+			queryClient.invalidateQueries({ queryKey: ['cantidades'] })
+		},
+		onError: (error) => {
+			toast.error(error.message, {
+				position: 'top-center',
+				style: {
+					color: 'red',
+				},
+			})
+		},
+	})
+
+	return (
+		<AlertDialog>
+			<AlertDialogTrigger>
+				<DeleteIcon size={16} className='cursor-pointer text-red-600' />
+			</AlertDialogTrigger>
+			<AlertDialogContent>
+				<AlertDialogHeader>
+					<AlertDialogMedia className='bg-white'>
+						<DeleteIcon size={16} className='bg-white text-red-600' />
+					</AlertDialogMedia>
+					<AlertDialogTitle className='text-red-600'>
+						Eliminar Cantidad
+					</AlertDialogTitle>
+					<AlertDialogDescription>
+						Esta seguro que desea eliminar la cantidad:
+						<ul className='my-3'>
+							<li className='flex justify-between'>
+								<span className='font-bold'>Proyecto</span>{' '}
+								{cantidad.project.name}
+							</li>
+							<li className='flex justify-between'>
+								<span className='font-bold'>Rubro</span> {cantidad.rubro.name}
+							</li>
+						</ul>
+						Esta accion no se puede deshacer
+					</AlertDialogDescription>
+				</AlertDialogHeader>
+				<AlertDialogFooter>
+					<AlertDialogCancel asChild>
+						<Button type='button' variant='outline'>
+							Cancelar
+						</Button>
+					</AlertDialogCancel>
+					<AlertDialogAction
+						onClick={() => {
+							useDeleteCantidadMutation.mutate({ data: { id: cantidad.id } })
+						}}
+					>
+						Eliminar
+					</AlertDialogAction>
+				</AlertDialogFooter>
+			</AlertDialogContent>
+		</AlertDialog>
 	)
 }

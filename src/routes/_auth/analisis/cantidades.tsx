@@ -5,6 +5,7 @@ import { DeleteIcon, EditIcon } from 'lucide-react'
 import { DataTable } from '@/components/ui/data-table'
 import { Spinner } from '@/components/ui/spinner'
 import {
+	CantiadesDeleteDialog,
 	CantidadesCreateDrawer,
 	CantidadesEditDrawer,
 } from '@/components/web/cantidades-drawer'
@@ -63,7 +64,7 @@ function RouteComponent() {
 				return (
 					<div className='flex gap-2'>
 						<CantidadesEditDrawer cantidad={data} />
-						<DeleteIcon size={16} className='cursor-pointer text-red-600' />
+						<CantiadesDeleteDialog cantidad={data} />
 					</div>
 				)
 			},
