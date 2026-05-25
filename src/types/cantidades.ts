@@ -22,3 +22,15 @@ export const quantityCreateSchema = z.object({
 })
 
 export type QuantityCreateType = z.infer<typeof quantityCreateSchema>
+
+export const quantityEditSchema = z.object({
+	id: z.string().uuid(),
+	project_id: z.string().uuid({ message: 'Seleccione un proyecto' }),
+	rubro_id: z.string().uuid({ message: 'Seleccione un rubro' }),
+	quantity: z.custom<number>((val) => {
+		const num = Number.parseFloat(val as string)
+		return !Number.isNaN(num) || val === ''
+	}, 'La cantidad  debe ser un número'),
+})
+
+export type QuantityEditType = z.infer<typeof quantityEditSchema>
