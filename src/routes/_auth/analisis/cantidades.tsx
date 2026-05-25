@@ -1,10 +1,10 @@
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { createFileRoute } from '@tanstack/react-router'
 import type { ColumnDef } from '@tanstack/react-table'
-import { EditIcon, PlusIcon } from 'lucide-react'
-import { Button } from '@/components/ui/button'
+import { DeleteIcon, EditIcon } from 'lucide-react'
 import { DataTable } from '@/components/ui/data-table'
 import { Spinner } from '@/components/ui/spinner'
+import { CantidadesCreateDrawer } from '@/components/web/cantidades-drawer'
 import PageTitle from '@/components/web/pageTitle'
 import { GetAllCantidades } from '@/queries/analisis/cantidades'
 import type { QuantityResponseType } from '@/types/cantidades'
@@ -56,7 +56,12 @@ function RouteComponent() {
 		{
 			id: 'actions',
 			cell: ({ row }) => {
-				return <EditIcon size={16} />
+				return (
+					<div className='flex gap-2'>
+						<EditIcon size={16} className='cursor-pointer text-yellow-600' />
+						<DeleteIcon size={16} className='cursor-pointer text-red-600' />
+					</div>
+				)
 			},
 		},
 	]
@@ -65,12 +70,7 @@ function RouteComponent() {
 		<div>
 			<PageTitle title='Cantidades' />
 
-			<div className='flex my-3 justify-start gap-4'>
-				<Button variant='default'>
-					<PlusIcon size={16} />
-					Crear Cantidad
-				</Button>
-			</div>
+			<CantidadesCreateDrawer />
 
 			{(isLoading || isFetching) && <Spinner />}
 			<DataTable columns={columns} data={data} />
