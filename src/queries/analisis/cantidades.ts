@@ -1,6 +1,9 @@
 import { createServerFn } from '@tanstack/react-start'
 import { getCookie } from '@tanstack/react-start/server'
-import type { QuantityResponseType } from '@/types/cantidades'
+import type {
+	QuantityCreateType,
+	QuantityResponseType,
+} from '@/types/cantidades'
 
 const URL = import.meta.env.VITE_BACKEND_SERVER
 const cookieName = 'BCA-TOKEN'
@@ -26,3 +29,25 @@ export const GetAllCantidades = createServerFn({ method: 'GET' }).handler(
 		return data
 	},
 )
+export const CreateCantiadad = createServerFn({ method: 'POST' })
+	.inputValidator((data: QuantityCreateType) => data)
+	.handler(async ({ data }) => {
+		const token = getCookie(cookieName)
+
+		const response = await fetch(`${URL}/analisis/cantidades`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: `Bearer ${token}`,
+			},
+			body: JSON.stringify(data),
+		})
+
+		if (!response.ok) {
+			const data = await response.json()
+
+			throw new Error(data.error)
+		}
+
+		return
+	})
