@@ -75,3 +75,25 @@ export const UpdateCantidad = createServerFn({ method: 'POST' })
 
 		return
 	})
+
+export const DeleteCantidad = createServerFn({ method: 'POST' })
+	.inputValidator((data: { id: string }) => data)
+	.handler(async ({ data }) => {
+		const token = getCookie(cookieName)
+
+		const response = await fetch(`${URL}/analisis/cantidades/${data.id}`, {
+			method: 'DELETE',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: `Bearer ${token}`,
+			},
+		})
+
+		if (!response.ok) {
+			const data = await response.json()
+
+			throw new Error(data.error)
+		}
+
+		return
+	})
