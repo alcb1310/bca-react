@@ -1,6 +1,9 @@
-import { useQueries } from '@tanstack/react-query'
+import { useMutation, useQueries, useQueryClient } from '@tanstack/react-query'
 import { CircleXIcon, PlusIcon, SaveIcon } from 'lucide-react'
+import { useEffect, useState } from 'react'
+import { toast } from 'sonner'
 import { useAppForm } from '@/hooks/formHook'
+import { CreateCantidad } from '@/queries/analisis/cantidades'
 import { GetAllProjects } from '@/queries/parametros/projects'
 import { GetAllRubros } from '@/queries/parametros/rubros'
 import {
@@ -21,6 +24,26 @@ import {
 import { FieldGroup, FieldSet } from '../ui/field'
 
 export function CantidadesCreateDrawer() {
+	const queryClient = useQueryClient()
+	const [open, setOpen] = useState(false)
+
+	const useCreateCantidadesMutation = useMutation({
+		mutationFn: CreateCantidad,
+		onSuccess: () => {
+			toast.success('Cantidad creada exitosamente')
+			setOpen(false)
+			queryClient.invalidateQueries({ queryKey: ['cantidades'] })
+		},
+		onError: (error) => {
+			toast.error(error.message, {
+				position: 'top-center',
+				style: {
+					color: 'red',
+				},
+			})
+		},
+	})
+
 	const form = useAppForm({
 		defaultValues: {
 			project_id: '',
@@ -31,7 +54,13 @@ export function CantidadesCreateDrawer() {
 			onSubmit: quantityCreateSchema,
 		},
 		onSubmit: (data) => {
-			console.log(data.value)
+			const newData = {
+				project_id: data.value.project_id,
+				rubro_id: data.value.rubro_id,
+				quantity: Number.parseFloat(data.value.quantity.toString()),
+			}
+
+			useCreateCantidadesMutation.mutate({ data: newData })
 		},
 	})
 
@@ -47,6 +76,12 @@ export function CantidadesCreateDrawer() {
 			},
 		],
 	})
+
+	useEffect(() => {
+		if (open) {
+			form.reset()
+		}
+	}, [open, form.reset])
 
 	const proyValues =
 		queries[0].data?.map((item) => ({
@@ -69,7 +104,7 @@ export function CantidadesCreateDrawer() {
 	})
 
 	return (
-		<Drawer direction='right'>
+		<Drawer direction='right' open={open} onOpenChange={setOpen}>
 			<DrawerTrigger asChild>
 				<Button variant='default' className='flex my-3 justify-start gap-4'>
 					<PlusIcon size={16} />

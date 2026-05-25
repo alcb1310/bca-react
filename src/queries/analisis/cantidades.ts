@@ -29,7 +29,7 @@ export const GetAllCantidades = createServerFn({ method: 'GET' }).handler(
 		return data
 	},
 )
-export const CreateCantiadad = createServerFn({ method: 'POST' })
+export const CreateCantidad = createServerFn({ method: 'POST' })
 	.inputValidator((data: QuantityCreateType) => data)
 	.handler(async ({ data }) => {
 		const token = getCookie(cookieName)
