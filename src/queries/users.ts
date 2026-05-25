@@ -1,121 +1,138 @@
-import { store } from '@/redux/store'
+import { createServerFn } from '@tanstack/react-start'
+import { getCookie } from '@tanstack/react-start/server'
 import type { UserCreate, UserResponse } from '@/types/user'
 
 const URL = import.meta.env.VITE_BACKEND_SERVER
+const cookieName = 'BCA-TOKEN'
 
-export async function Me() {
-    const state = store.getState()
+export const Me = createServerFn({ method: 'GET' }).handler(async () => {
+	const token = getCookie(cookieName)
 
-    const response = await fetch(`${URL}/users/me`, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${state.login.token}`,
-        },
-    })
+	const response = await fetch(`${URL}/users/me`, {
+		method: 'GET',
+		headers: {
+			'Content-Type': 'application/json',
+			Authorization: `Bearer ${token}`,
+		},
+	})
 
-    if (!response.ok) {
-        const data = await response.json()
-        throw new Error(data.error)
-    }
+	if (!response.ok) {
+		const data = await response.json()
+		throw new Error(data.error)
+	}
 
-    return (await response.json()) as UserResponse
-}
+	return (await response.json()) as UserResponse
+})
 
-export async function GetAllUsers() {
-    const state = store.getState()
+export const GetAllUsers = createServerFn({ method: 'GET' }).handler(
+	async () => {
+		const token = getCookie(cookieName)
 
-    const response = await fetch(`${URL}/users`, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${state.login.token}`,
-        },
-    })
+		const response = await fetch(`${URL}/users`, {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: `Bearer ${token}`,
+			},
+		})
 
-    if (!response.ok) {
-        const data = await response.json()
-        throw new Error(data.error)
-    }
+		if (!response.ok) {
+			const data = await response.json()
+			throw new Error(data.error)
+		}
 
-    return (await response.json()) as UserResponse[]
-}
+		return (await response.json()) as UserResponse[]
+	},
+)
 
-export async function CreateUser({ data }: { data: UserCreate }) {
-    const state = store.getState()
+export const CreateUser = createServerFn({ method: 'POST' })
+	.inputValidator((data: UserCreate) => data)
+	.handler(async ({ data }) => {
+		const token = getCookie(cookieName)
 
-    const response = await fetch(`${URL}/users`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${state.login.token}`,
-        },
-        body: JSON.stringify(data),
-    })
+		const response = await fetch(`${URL}/users`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: `Bearer ${token}`,
+			},
+			body: JSON.stringify(data),
+		})
 
-    if (!response.ok) {
-        const data = await response.json()
-        throw new Error(data.error)
-    }
+		if (!response.ok) {
+			const data = await response.json()
+			throw new Error(data.error)
+		}
 
-    return
-}
+		return
+	})
 
-export async function DeleteUser(id: string) {
-    const state = store.getState()
+export const DeleteUser = createServerFn({ method: 'POST' })
+	.inputValidator((data: { id: string }) => data)
+	.handler(async ({ data: { id } }) => {
+		const token = getCookie(cookieName)
+		console.log('DeleteUser', token)
 
-    const response = await fetch(`${URL}/users/${id}`, {
-        method: 'DELETE',
-        headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${state.login.token}`,
-        },
-    })
+		const response = await fetch(`${URL}/users/${id}`, {
+			method: 'DELETE',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: `Bearer ${token}`,
+			},
+		})
 
-    if (!response.ok) {
-        const data = await response.json()
-        throw new Error(data.error)
-    }
+		if (!response.ok) {
+			if (response.status === 403) {
+				throw new Error('No tienes permiso para realizar esta acción')
+			}
 
-    return
-}
+			const data = await response.json()
+			throw new Error(data.error)
+		}
 
-export async function UpdateUser({ data }: { data: UserResponse }) {
-    const state = store.getState()
+		return
+	})
 
-    const response = await fetch(`${URL}/users/${data.id}`, {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${state.login.token}`,
-        },
-        body: JSON.stringify(data),
-    })
+export const UpdateUser = createServerFn({ method: 'POST' })
+	.inputValidator((data: UserResponse) => data)
+	.handler(async ({ data }) => {
+		const token = getCookie(cookieName)
 
-    if (!response.ok) {
-        const data = await response.json()
-        throw new Error(data.error)
-    }
+		const response = await fetch(`${URL}/users/${data.id}`, {
+			method: 'PUT',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: `Bearer ${token}`,
+			},
+			body: JSON.stringify(data),
+		})
 
-    return
-}
+		if (!response.ok) {
+			const data = await response.json()
+			throw new Error(data.error)
+		}
 
-export async function UpdatePassword({ data }: { data: { password: string } }) {
-    const state = store.getState()
+		return
+	})
 
-    const response = await fetch(`${URL}/users/password`, {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${state.login.token}`,
-        },
-        body: JSON.stringify(data),
-    })
+export const UpdatePassword = createServerFn({ method: 'POST' })
+	.inputValidator((data: { password: string }) => data)
+	.handler(async ({ data }) => {
+		const token = getCookie(cookieName)
 
-    if (!response.ok) {
-        const data = await response.json()
-        throw new Error(data.error)
-    }
+		const response = await fetch(`${URL}/users`, {
+			method: 'PUT',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: `Bearer ${token}`,
+			},
+			body: JSON.stringify(data),
+		})
 
-    return
-}
+		if (!response.ok) {
+			const data = await response.json()
+			throw new Error(data.error)
+		}
+
+		return
+	})

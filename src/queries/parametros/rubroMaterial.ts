@@ -1,109 +1,107 @@
-import { store } from '@/redux/store'
+import { createServerFn } from '@tanstack/react-start'
+import { getCookie } from '@tanstack/react-start/server'
 import type {
-    RubroMaterialResponseTye,
-    RubroMaterialType,
+	RubroMaterialResponseTye,
+	RubroMaterialType,
 } from '@/types/rubro-material'
 
 const URL = import.meta.env.VITE_BACKEND_SERVER
+const cookieName = 'BCA-TOKEN'
 
-export async function GetAllRubrosMaterials(rubroId: string) {
-    const state = store.getState()
+export const GetAllRubrosMaterials = createServerFn({ method: 'GET' })
+	.inputValidator((data: { rubroId: string }) => data)
+	.handler(async ({ data: { rubroId } }) => {
+		const token = getCookie(cookieName)
 
-    const response = await fetch(
-        `${URL}/parametros/rubros/${rubroId}/materiales`,
-        {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${state.login.token}`,
-            },
-        },
-    )
+		const response = await fetch(
+			`${URL}/parametros/rubros/${rubroId}/materiales`,
+			{
+				method: 'GET',
+				headers: {
+					'Content-Type': 'application/json',
+					Authorization: `Bearer ${token}`,
+				},
+			},
+		)
 
-    if (!response.ok) {
-        const error = await response.json()
-        throw new Error(error)
-    }
+		if (!response.ok) {
+			const error = await response.json()
+			throw new Error(error)
+		}
 
-    return response.json() as Promise<RubroMaterialResponseTye[]>
-}
+		return response.json() as Promise<RubroMaterialResponseTye[]>
+	})
 
-export async function CreateRubroMaterial({
-    data,
-}: { data: RubroMaterialType }) {
-    const state = store.getState()
+export const CreateRubroMaterial = createServerFn({ method: 'POST' })
+	.inputValidator((data: RubroMaterialType) => data)
+	.handler(async ({ data }) => {
+		const token = getCookie(cookieName)
 
-    const response = await fetch(
-        `${URL}/parametros/rubros/${data.item_id}/materiales`,
-        {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${state.login.token}`,
-            },
-            body: JSON.stringify(data),
-        },
-    )
+		const response = await fetch(
+			`${URL}/parametros/rubros/${data.item_id}/materiales`,
+			{
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+					Authorization: `Bearer ${token}`,
+				},
+				body: JSON.stringify(data),
+			},
+		)
 
-    if (!response.ok) {
-        const error = await response.json()
-        throw new Error(error)
-    }
+		if (!response.ok) {
+			const error = await response.json()
+			throw new Error(error.error)
+		}
 
-    return
-}
+		return
+	})
 
-export async function UpdateRubroMaterial({
-    data,
-}: {
-    data: RubroMaterialType
-}) {
-    const state = store.getState()
+export const UpdateRubroMaterial = createServerFn({ method: 'POST' })
+	.inputValidator((data: RubroMaterialType) => data)
+	.handler(async ({ data }) => {
+		const token = getCookie(cookieName)
 
-    const response = await fetch(
-        `${URL}/parametros/rubros/${data.item_id}/materiales/${data.material_id}`,
-        {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${state.login.token}`,
-            },
-            body: JSON.stringify(data),
-        },
-    )
+		const response = await fetch(
+			`${URL}/parametros/rubros/${data.item_id}/materiales/${data.material_id}`,
+			{
+				method: 'PUT',
+				headers: {
+					'Content-Type': 'application/json',
+					Authorization: `Bearer ${token}`,
+				},
+				body: JSON.stringify(data),
+			},
+		)
 
-    if (!response.ok) {
-        const error = await response.json()
-        throw new Error(error)
-    }
+		if (!response.ok) {
+			const error = await response.json()
+			throw new Error(error)
+		}
 
-    return
-}
+		return
+	})
 
-export async function DeleteRubroMaterial({
-    rubroId,
-    materialId,
-}: {
-    rubroId: string
-    materialId: string
-}) {
-    const state = store.getState()
+export const DeleteRubroMaterial = createServerFn({ method: 'POST' })
+	.inputValidator((data: { rubroId: string; materialId: string }) => data)
+	.handler(async ({ data: { rubroId, materialId } }) => {
+		const token = getCookie(cookieName)
 
-    const response = await fetch(
-        `${URL}/parametros/rubros/${rubroId}/materiales/${materialId}`,
-        {
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${state.login.token}`,
-            },
-        },
-    )
+		const response = await fetch(
+			`${URL}/parametros/rubros/${rubroId}/materiales/${materialId}`,
+			{
+				method: 'DELETE',
+				headers: {
+					'Content-Type': 'application/json',
+					Authorization: `Bearer ${token}`,
+				},
+			},
+		)
 
-    if (!response.ok) {
-        const error = await response.json()
-        throw new Error(error)
-    }
+		if (!response.ok) {
+			const error = await response.json()
+			throw new Error(error)
+		}
 
-    return
-}
+		return
+	})

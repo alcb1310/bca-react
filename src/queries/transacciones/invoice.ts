@@ -1,105 +1,112 @@
-import { store } from '@/redux/store'
+import { createServerFn } from '@tanstack/react-start'
+import { getCookie } from '@tanstack/react-start/server'
 import type { InvoiceCreateType, InvoiceResponseType } from '@/types/invoice'
 
 const URL = import.meta.env.VITE_BACKEND_SERVER
+const cookieName = 'BCA-TOKEN'
 
-export async function GetAllInvoices() {
-    const state = store.getState()
-    const response = await fetch(`${URL}/transacciones/facturas`, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${state.login.token}`,
-        },
-    })
+export const GetAllInvoices = createServerFn({ method: 'GET' }).handler(
+	async () => {
+		const token = getCookie(cookieName)
 
-    if (!response.ok) {
-        throw new Error('Network response was not ok')
-    }
+		const response = await fetch(`${URL}/transacciones/facturas`, {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: `Bearer ${token}`,
+			},
+		})
 
-    return response.json() as Promise<InvoiceResponseType[]>
-}
+		if (!response.ok) {
+			console.log(await response.json())
+			throw new Error('Network response was not ok')
+		}
+		console.log(response)
 
-export async function CreateInvoice({ data }: { data: InvoiceCreateType }) {
-    const state = store.getState()
-    const response = await fetch(`${URL}/transacciones/facturas`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${state.login.token}`,
-        },
-        body: JSON.stringify(data),
-    })
+		return response.json() as Promise<InvoiceResponseType[]>
+	},
+)
 
-    if (!response.ok) {
-        const error = await response.json()
-        throw new Error(error.error)
-    }
+export const GetOneInvoice = createServerFn({ method: 'GET' })
+	.inputValidator((data: { id: string }) => data)
+	.handler(async ({ data: { id } }) => {
+		const token = getCookie(cookieName)
+		const response = await fetch(`${URL}/transacciones/facturas/${id}`, {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: `Bearer ${token}`,
+			},
+		})
 
-    return response.json() as Promise<InvoiceResponseType>
-}
+		if (!response.ok) {
+			throw new Error('Network response was not ok')
+		}
 
-export async function GetOneInvoice(id: string) {
-    if (id === 'crear') {
-        return {
-            id: '',
-            project_id: '',
-            supplier_id: '',
-            invoice_number: '',
-            invoice_date: new Date(),
-            invoice_total: 0,
-        } as InvoiceCreateType
-    }
+		return (await response.json()) as InvoiceCreateType
+	})
 
-    const state = store.getState()
-    const response = await fetch(`${URL}/transacciones/facturas/${id}`, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${state.login.token}`,
-        },
-    })
+export const CreateInvoice = createServerFn({ method: 'POST' })
+	.inputValidator((data: InvoiceCreateType) => data)
+	.handler(async ({ data }) => {
+		const token = getCookie(cookieName)
+		const response = await fetch(`${URL}/transacciones/facturas`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: `Bearer ${token}`,
+			},
+			body: JSON.stringify(data),
+		})
 
-    if (!response.ok) {
-        throw new Error('Network response was not ok')
-    }
+		if (!response.ok) {
+			const error = await response.json()
+			throw new Error(error.error)
+		}
 
-    return (await response.json()) as InvoiceCreateType
-}
+		return response.json() as Promise<InvoiceResponseType>
+	})
 
-export async function UpdateInvoice({ data }: { data: InvoiceCreateType }) {
-    const state = store.getState()
-    const response = await fetch(`${URL}/transacciones/facturas/${data.id}`, {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${state.login.token}`,
-        },
-        body: JSON.stringify(data),
-    })
+export const UpdateInvoice = createServerFn({ method: 'POST' })
+	.inputValidator((data: InvoiceCreateType) => data)
+	.handler(async ({ data }) => {
+		const token = getCookie(cookieName)
 
-    if (!response.ok) {
-        const error = await response.json()
-        throw new Error(error.error)
-    }
+		const invoice = { ...data, invoice_date: new Date(data.invoice_date) }
 
-    return
-}
+		const response = await fetch(`${URL}/transacciones/facturas/${data.id}`, {
+			method: 'PUT',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: `Bearer ${token}`,
+			},
+			body: JSON.stringify(invoice),
+		})
 
-export async function DeleteInvoice({ id }: { id: string }) {
-    const state = store.getState()
-    const response = await fetch(`${URL}/transacciones/facturas/${id}`, {
-        method: 'DELETE',
-        headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${state.login.token}`,
-        },
-    })
+		if (!response.ok) {
+			const error = await response.json()
+			throw new Error(error.error)
+		}
 
-    if (!response.ok) {
-        const error = await response.json()
-        throw new Error(error.error)
-    }
+		return
+	})
 
-    return
-}
+export const DeleteInvoice = createServerFn({ method: 'POST' })
+	.inputValidator((data: { id: string }) => data)
+	.handler(async ({ data: { id } }) => {
+		const token = getCookie(cookieName)
+		const response = await fetch(`${URL}/transacciones/facturas/${id}`, {
+			method: 'DELETE',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: `Bearer ${token}`,
+			},
+		})
+
+		if (!response.ok) {
+			const error = await response.json()
+			throw new Error(error.error)
+		}
+
+		return
+	})

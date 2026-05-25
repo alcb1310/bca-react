@@ -1,86 +1,96 @@
-import { store } from '@/redux/store'
+import { createServerFn } from '@tanstack/react-start'
+import { getCookie } from '@tanstack/react-start/server'
 import type { RubrosType } from '@/types/rubros'
 
 const URL = import.meta.env.VITE_BACKEND_SERVER
+const cookieName = 'BCA-TOKEN'
 
-export async function GetAllRubros() {
-    const state = store.getState()
+export const GetAllRubros = createServerFn({ method: 'GET' }).handler(
+	async () => {
+		const token = getCookie(cookieName)
 
-    const response = await fetch(`${URL}/parametros/rubros`, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${state.login.token}`,
-        },
-    })
+		const response = await fetch(`${URL}/parametros/rubros`, {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: `Bearer ${token}`,
+			},
+		})
 
-    if (!response.ok) {
-        const data = await response.json()
+		if (!response.ok) {
+			const data = await response.json()
 
-        throw new Error(data.error)
-    }
+			throw new Error(data.error)
+		}
 
-    return (await response.json()) as RubrosType[]
-}
+		return (await response.json()) as RubrosType[]
+	},
+)
 
-export async function GetOneRubro(id: string) {
-    const state = store.getState()
+export const GetOneRubro = createServerFn({ method: 'GET' })
+	.inputValidator((data: { id: string }) => data)
+	.handler(async ({ data: { id } }) => {
+		const token = getCookie(cookieName)
 
-    const response = await fetch(`${URL}/parametros/rubros/${id}`, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${state.login.token}`,
-        },
-    })
+		const response = await fetch(`${URL}/parametros/rubros/${id}`, {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: `Bearer ${token}`,
+			},
+		})
 
-    if (!response.ok) {
-        const data = await response.json()
+		if (!response.ok) {
+			const data = await response.json()
 
-        throw new Error(data.error)
-    }
+			throw new Error(data.error)
+		}
 
-    return (await response.json()) as RubrosType
-}
+		return (await response.json()) as RubrosType
+	})
 
-export async function CreateRubro({ data }: { data: RubrosType }) {
-    const state = store.getState()
+export const CreateRubro = createServerFn({ method: 'GET' })
+	.inputValidator((data: RubrosType) => data)
+	.handler(async ({ data }) => {
+		const token = getCookie(cookieName)
 
-    const response = await fetch(`${URL}/parametros/rubros`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${state.login.token}`,
-        },
-        body: JSON.stringify(data),
-    })
+		const response = await fetch(`${URL}/parametros/rubros`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: `Bearer ${token}`,
+			},
+			body: JSON.stringify(data),
+		})
 
-    if (!response.ok) {
-        const data = await response.json()
+		if (!response.ok) {
+			const data = await response.json()
 
-        throw new Error(data.error)
-    }
+			throw new Error(data.error)
+		}
 
-    return (await response.json()) as RubrosType
-}
+		return (await response.json()) as RubrosType
+	})
 
-export async function UpdateRubro({ data }: { data: RubrosType }) {
-    const state = store.getState()
+export const UpdateRubro = createServerFn({ method: 'GET' })
+	.inputValidator((data: RubrosType) => data)
+	.handler(async ({ data }) => {
+		const token = getCookie(cookieName)
 
-    const response = await fetch(`${URL}/parametros/rubros/${data.id}`, {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${state.login.token}`,
-        },
-        body: JSON.stringify(data),
-    })
+		const response = await fetch(`${URL}/parametros/rubros/${data.id}`, {
+			method: 'PUT',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: `Bearer ${token}`,
+			},
+			body: JSON.stringify(data),
+		})
 
-    if (!response.ok) {
-        const data = await response.json()
+		if (!response.ok) {
+			const data = await response.json()
 
-        throw new Error(data.error)
-    }
+			throw new Error(data.error)
+		}
 
-    return
-}
+		return
+	})

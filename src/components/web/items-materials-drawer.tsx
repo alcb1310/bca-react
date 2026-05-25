@@ -1,0 +1,353 @@
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import {
+	CircleXIcon,
+	DeleteIcon,
+	EditIcon,
+	PlusIcon,
+	SaveIcon,
+} from 'lucide-react'
+import { useEffect, useState } from 'react'
+import { toast } from 'sonner'
+import { useAppForm } from '@/hooks/formHook'
+import { GetAllMaterials } from '@/queries/parametros/materials'
+import {
+	CreateRubroMaterial,
+	DeleteRubroMaterial,
+	UpdateRubroMaterial,
+} from '@/queries/parametros/rubroMaterial'
+import {
+	type RubroMaterialType,
+	rubroMaterialSchema,
+} from '@/types/rubro-material'
+import {
+	AlertDialog,
+	AlertDialogAction,
+	AlertDialogCancel,
+	AlertDialogContent,
+	AlertDialogDescription,
+	AlertDialogFooter,
+	AlertDialogHeader,
+	AlertDialogMedia,
+	AlertDialogTitle,
+	AlertDialogTrigger,
+} from '../ui/alert-dialog'
+import { Button } from '../ui/button'
+import {
+	Drawer,
+	DrawerClose,
+	DrawerContent,
+	DrawerDescription,
+	DrawerFooter,
+	DrawerHeader,
+	DrawerTitle,
+	DrawerTrigger,
+} from '../ui/drawer'
+import { Field, FieldGroup, FieldLabel, FieldSet } from '../ui/field'
+import { Input } from '../ui/input'
+
+type ItemMaterialsCreateDrawerProps = {
+	item: string
+}
+
+type ItemMaterialsEditDrawerProps = {
+	material_name: string
+	material: RubroMaterialType
+}
+
+export function ItemMaterialsCreateDrawer({
+	item,
+}: ItemMaterialsCreateDrawerProps) {
+	const queryClient = useQueryClient()
+	const [open, setOpen] = useState(false)
+	const { data: material } = useQuery({
+		queryKey: ['materiales'],
+		queryFn: () => GetAllMaterials(),
+	})
+
+	const useCreateItemMaterialMutation = useMutation({
+		mutationFn: CreateRubroMaterial,
+		onSuccess: () => {
+			setOpen(false)
+			queryClient.invalidateQueries({ queryKey: ['rubros-material'] })
+			toast.success('Material agregado exitosamente')
+		},
+		onError: (error) => {
+			toast.error(error.message, {
+				position: 'top-center',
+				style: {
+					color: 'red',
+				},
+			})
+		},
+	})
+
+	const form = useAppForm({
+		defaultValues: {
+			item_id: item,
+			material_id: '',
+			quantity: 0,
+		} as RubroMaterialType,
+		validators: {
+			onSubmit: rubroMaterialSchema,
+		},
+		onSubmit: (data) => {
+			const newData = {
+				item_id: item,
+				material_id: data.value.material_id,
+				quantity: Number.parseFloat(data.value.quantity.toString()),
+			}
+
+			useCreateItemMaterialMutation.mutate({ data: newData })
+		},
+	})
+
+	useEffect(() => {
+		if (open) {
+			form.reset()
+		}
+	}, [open, form.reset])
+
+	const matValues =
+		material?.map((item) => ({
+			label: item.name,
+			value: item.id as string,
+		})) || []
+	matValues.unshift({
+		label: 'Seleccione un material',
+		value: '',
+	})
+
+	return (
+		<Drawer direction='right' open={open} onOpenChange={setOpen}>
+			<DrawerTrigger asChild>
+				<Button variant='detail' className='my-3'>
+					<PlusIcon size={16} />
+					Agregar Material
+				</Button>
+			</DrawerTrigger>
+			<DrawerContent>
+				<form
+					onSubmit={(e) => {
+						e.preventDefault()
+						e.stopPropagation()
+						form.handleSubmit()
+					}}
+				>
+					<DrawerHeader>
+						<DrawerTitle>Agregar Material</DrawerTitle>
+						<DrawerDescription>
+							Agrega un nuevo material que compone parte del rubro seleccionado
+						</DrawerDescription>
+					</DrawerHeader>
+					<FieldGroup className='my-2 px-4'>
+						<FieldSet>
+							<form.AppField name='material_id'>
+								{(field) => (
+									<field.SelectField
+										label='Material'
+										name='material_id'
+										options={matValues}
+									/>
+								)}
+							</form.AppField>
+
+							<form.AppField name='quantity'>
+								{(field) => (
+									<field.TextField
+										name='quantity'
+										label='Cantidad'
+										placeholder='0.00'
+										type='number'
+										step={0.01}
+									/>
+								)}
+							</form.AppField>
+						</FieldSet>
+					</FieldGroup>
+					<DrawerFooter>
+						<div className='flex justify-start items-center space-x-2'>
+							<Button type='submit'>
+								<SaveIcon size={10} />
+								Guardar
+							</Button>
+							<DrawerClose asChild>
+								<Button type='button' variant='secondary'>
+									<CircleXIcon size={10} />
+									Cancelar
+								</Button>
+							</DrawerClose>
+						</div>
+					</DrawerFooter>
+				</form>
+			</DrawerContent>
+		</Drawer>
+	)
+}
+
+export function ItemMaterialsEditDrawer({
+	material,
+	material_name,
+}: ItemMaterialsEditDrawerProps) {
+	const queryClient = useQueryClient()
+	const [open, setOpen] = useState(false)
+
+	const useEditItemMaterialMutation = useMutation({
+		mutationFn: UpdateRubroMaterial,
+		onSuccess: () => {
+			setOpen(false)
+			queryClient.invalidateQueries({ queryKey: ['rubros-material'] })
+			toast.success('Material actualizado exitosamente')
+		},
+		onError: (error) => {
+			toast.error(error.message, {
+				position: 'top-center',
+				style: {
+					color: 'red',
+				},
+			})
+		},
+	})
+
+	const form = useAppForm({
+		defaultValues: material,
+		validators: {
+			onSubmit: rubroMaterialSchema,
+		},
+		onSubmit: (data) => {
+			const newData = {
+				item_id: data.value.item_id,
+				material_id: data.value.material_id,
+				quantity: Number.parseFloat(data.value.quantity.toString()),
+			}
+
+			useEditItemMaterialMutation.mutate({ data: newData })
+		},
+	})
+
+	useEffect(() => {
+		if (open) {
+			form.reset()
+		}
+	}, [open, form.reset])
+	return (
+		<Drawer direction='right' open={open} onOpenChange={setOpen}>
+			<DrawerTrigger asChild>
+				<Button variant='ghost'>
+					<EditIcon size={10} className='text-yellow-600' />
+				</Button>
+			</DrawerTrigger>
+			<DrawerContent>
+				<form
+					onSubmit={(e) => {
+						e.preventDefault()
+						e.stopPropagation()
+						form.handleSubmit()
+					}}
+				>
+					<DrawerHeader>
+						<DrawerTitle>Agregar Material</DrawerTitle>
+						<DrawerDescription>
+							Agrega un nuevo material que compone parte del rubro seleccionado
+						</DrawerDescription>
+					</DrawerHeader>
+					<FieldGroup className='my-2 px-4'>
+						<FieldSet>
+							<Field>
+								<FieldLabel htmlFor={'name'}>Material</FieldLabel>
+								<Input name={'name'} value={material_name} disabled />
+							</Field>
+
+							<form.AppField name='quantity'>
+								{(field) => (
+									<field.TextField
+										name='quantity'
+										label='Cantidad'
+										placeholder='0.00'
+										type='number'
+										step={0.01}
+									/>
+								)}
+							</form.AppField>
+						</FieldSet>
+					</FieldGroup>
+					<DrawerFooter>
+						<div className='flex justify-start items-center space-x-2'>
+							<Button type='submit'>
+								<SaveIcon size={10} />
+								Guardar
+							</Button>
+							<DrawerClose asChild>
+								<Button type='button' variant='secondary'>
+									<CircleXIcon size={10} />
+									Cancelar
+								</Button>
+							</DrawerClose>
+						</div>
+					</DrawerFooter>
+				</form>
+			</DrawerContent>
+		</Drawer>
+	)
+}
+
+export function ItemMaterialsDeleteDialog({
+	material,
+	material_name,
+}: ItemMaterialsEditDrawerProps) {
+	const queryClient = useQueryClient()
+
+	const useDeleteItemMaterialMutation = useMutation({
+		mutationFn: DeleteRubroMaterial,
+		onSuccess: () => {
+			toast.success('Material eliminado exitosamente')
+			queryClient.invalidateQueries({ queryKey: ['rubros-material'] })
+		},
+		onError: (error) => {
+			toast.error(error.message, {
+				position: 'top-center',
+				style: {
+					color: 'red',
+				},
+			})
+		},
+	})
+	return (
+		<AlertDialog>
+			<AlertDialogTrigger asChild>
+				<Button variant='ghost'>
+					<DeleteIcon size={16} className='text-red-600' />
+				</Button>
+			</AlertDialogTrigger>
+			<AlertDialogContent>
+				<AlertDialogHeader>
+					<AlertDialogMedia className='bg-white'>
+						<DeleteIcon size={16} className='bg-white text-red-600' />
+					</AlertDialogMedia>
+					<AlertDialogTitle className='text-red-600'>
+						Eliminar Material
+					</AlertDialogTitle>
+					<AlertDialogDescription>
+						¿Estás seguro de eliminar el material{' '}
+						<span className='font-bold'>{material_name}</span>?. Esta acción no
+						se puede deshacer
+					</AlertDialogDescription>
+				</AlertDialogHeader>
+				<AlertDialogFooter>
+					<AlertDialogCancel>Cancelar</AlertDialogCancel>
+					<AlertDialogAction
+						onClick={() => {
+							useDeleteItemMaterialMutation.mutate({
+								data: {
+									rubroId: material.item_id,
+									materialId: material.material_id,
+								},
+							})
+						}}
+					>
+						Eliminar
+					</AlertDialogAction>
+				</AlertDialogFooter>
+			</AlertDialogContent>
+		</AlertDialog>
+	)
+}
