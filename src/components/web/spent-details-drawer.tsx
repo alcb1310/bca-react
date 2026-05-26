@@ -81,7 +81,7 @@ export function SpentDetailsDrawer({
 			<DrawerTrigger>
 				<ViewIcon size={16} />
 			</DrawerTrigger>
-			<DrawerContent>
+			<DrawerContent className='w-auto'>
 				<div className='no-scrollbar overflow-y-auto my-2 px-4'>
 					<DrawerHeader>
 						<DrawerTitle>Reporte de Gastos</DrawerTitle>
