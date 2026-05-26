@@ -82,11 +82,11 @@ export function SpentDetailsDrawer({
 				<ViewIcon size={16} />
 			</DrawerTrigger>
 			<DrawerContent>
-				<div>
+				<div className='no-scrollbar overflow-y-auto my-2 px-4'>
 					<DrawerHeader>
 						<DrawerTitle>Reporte de Gastos</DrawerTitle>
 					</DrawerHeader>
-					<div className='no-scrollbar overflow-y-auto my-2 px-4'>
+					<div>
 						{isLoading && <Spinner />}
 						<ReportDataTable columns={columns} data={data ? data : []} />
 					</div>
