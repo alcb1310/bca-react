@@ -5,6 +5,7 @@ import type {
 	QuantityEditType,
 	QuantityResponseType,
 } from '@/types/cantidades'
+import z from 'zod'
 
 const URL = import.meta.env.VITE_BACKEND_SERVER
 const cookieName = 'BCA-TOKEN'
@@ -97,3 +98,42 @@ export const DeleteCantidad = createServerFn({ method: 'POST' })
 
 		return
 	})
+
+export const GetAnalisis = createServerFn({ method: 'GET' })
+	.inputValidator((data: { id: string }) => data)
+	.handler(async ({ data }) => {
+		const token = getCookie(cookieName)
+
+		const response = await fetch(`${URL}/analisis/${data.id}`, {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: `Bearer ${token}`,
+			},
+		})
+
+		if (!response.ok) {
+			throw new Error('Network response was not ok')
+		}
+
+		const info = (await response.json()) as AnalisisType[]
+
+		return info
+	})
+
+const analisysDataSchema = z.object({
+	project_name: z.string(),
+	category_name: z.string(),
+	material_name: z.string(),
+	unit: z.string(),
+	quantity: z.number(),
+})
+
+export type AnalisysDataType = z.infer<typeof analisysDataSchema>
+
+const analisysSchema = z.object({
+	key: z.string(),
+	data: z.array(analisysDataSchema),
+})
+
+export type AnalisisType = z.infer<typeof analisysSchema>
