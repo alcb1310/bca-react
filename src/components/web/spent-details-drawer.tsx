@@ -2,6 +2,7 @@ import { ViewIcon } from 'lucide-react'
 import {
 	Drawer,
 	DrawerContent,
+	DrawerDescription,
 	DrawerFooter,
 	DrawerHeader,
 	DrawerTitle,
@@ -85,6 +86,16 @@ export function SpentDetailsDrawer({
 				<div className='no-scrollbar overflow-y-auto my-2 px-4'>
 					<DrawerHeader>
 						<DrawerTitle>Reporte de Gastos</DrawerTitle>
+						<DrawerDescription>
+							<div className='flex gap-4'>
+								<p className='font-bold'>Codigo:</p>
+								<p>{report.budget_item.code}</p>
+							</div>
+							<div className='flex gap-2'>
+								<p className='font-bold'>Partida:</p>
+								<p>{report.budget_item.name}</p>
+							</div>
+						</DrawerDescription>
 					</DrawerHeader>
 					<div>
 						{isLoading && <Spinner />}
