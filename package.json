@@ -9,6 +9,13 @@
         "lint": "biome check",
         "start": "node .output/server/index.mjs"
     },
+    "devEngines": {
+		"packageManager": {
+			"name": "pnpm",
+			"version": "11.3.0",
+			"onFail": "download"
+		}
+	},
     "dependencies": {
         "@fontsource-variable/jetbrains-mono": "^5.2.8",
         "@tailwindcss/vite": "^4.3.0",
