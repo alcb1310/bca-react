@@ -1,0 +1,7 @@
+[build]
+
+[build.variables]
+RAILPACK_NO_SPA = "1"
+
+[deploy]
+startCommand = "node .output/server/index.mjs"
