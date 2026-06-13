@@ -1,6 +1,6 @@
 {
     "name": "bca-react",
-    "keywords": [ ],
+    "keywords": [],
     "private": true,
     "version": "0.0.0",
     "type": "module",
@@ -9,12 +9,12 @@
         "build": "vite build"
     },
     "devEngines": {
-		"packageManager": {
-			"name": "pnpm",
-			"version": "11.3.0",
-			"onFail": "download"
-		}
-	},
+        "packageManager": {
+            "name": "pnpm",
+            "version": "11.3.0",
+            "onFail": "download"
+        }
+    },
     "dependencies": {
         "@fontsource-variable/jetbrains-mono": "^5.2.8",
         "@tailwindcss/vite": "^4.3.0",
